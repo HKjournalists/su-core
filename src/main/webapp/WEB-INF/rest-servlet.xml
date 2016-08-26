@@ -1,0 +1,102 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+    		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+    		http://www.springframework.org/schema/oxm
+			http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+    		http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<context:component-scan
+		base-package="com.gettec.fsnip.fsn.web.controller,com.lhfs.fsn.web.controller,com.tzapp.fsn.web.controller,com.tzquery.fsn.web.controller" />
+
+	<mvc:resources location="/resource/" mapping="/resource/**" />
+	<mvc:annotation-driven /> <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"></bean> 
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"></bean> 
+	<!-- <bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+
+				<bean
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+				<bean
+					class="org.springframework.http.converter.ByteArrayHttpMessageConverter"></bean>
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter"></bean>
+				<bean
+					class="org.springframework.http.converter.ResourceHttpMessageConverter"></bean>
+				<bean
+					class="org.springframework.http.converter.xml.SourceHttpMessageConverter"></bean>
+				<bean
+					class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"></bean>
+				<bean
+					class="org.springframework.http.converter.BufferedImageHttpMessageConverter"></bean>
+				<bean
+					class="org.springframework.http.converter.FormHttpMessageConverter"></bean>
+			</list>
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<bean class="com.gettec.fsnip.fsn.web.JournalInterceptor" />
+			</list>
+		</property>
+	</bean> -->
+
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="ignoreAcceptHeader" value="false"></property>
+		<property name="defaultContentType" value="application/json"></property>
+		<!-- support: /user.json => application/json -->
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json"></entry>
+				<entry key="xml" value="application/xml"></entry>
+			</map>
+		</property>
+		<!-- support: /user/1?format=json -->
+		<property name="favorParameter" value="false"></property>
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+				<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+					<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property> 
+					<property name="prefix" value="/views/"></property> <property name="suffix" 
+					value=".jsp"></property> </bean> -->
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"></bean>
+				<!-- <bean class="org.springframework.web.servlet.view.xml.MarshallingView"> 
+					<property name="marshaller"> <ref bean="jaxbMarshaller"/> </property> </bean> -->
+			</list>
+		</property>
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10400000" />
+	</bean>
+
+	<!-- If a new representation package is created, add it to "contextPath" -->
+	<!-- <oxm:jaxb2-marshaller id="jaxbMarshaller" contextPath="com.gettec.fsnip.fsn.model.test"/> -->
+	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+		one of the properties available; the maximum file size in bytes <property 
+		name="maxUploadSize" value="640000" /> </bean> <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" 
+		/> <property name="prefix" value="/WEB-INF/jsp/" /> <property name="suffix" 
+		value=".jsp" /> </bean> <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"> 
+		<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" 
+		/> </bean> <bean class="org.springframework.web.servlet.view.tiles2.TilesViewResolver" 
+		/> <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer"> 
+		<property name="definitions"> <list> <value>/WEB-INF/tiles.xml</value> </list> 
+		</property> </bean> -->
+</beans>

@@ -1,0 +1,73 @@
+﻿/********** 2013年11月18日  ***************/ 
+
+由于新增：门户网用户登录及注册，产品评论，门户网页index.html页面的信息推荐
+数据库添加四张表：SQL文件
+/trunk/fsn_cloud/sql/portal/fsn_comment_20131118.sql
+/trunk/fsn_cloud/sql/portal/fsn_display_20131118.sql
+/trunk/fsn_cloud/sql/portal/fsn_display_uri_20131118.sql
+/trunk/fsn_cloud/sql/portal/fsn_user_20131118.sql
+
+
+/********** 2013年11月20日  ***************/
+
+ 新增表1：certification,存放认证的基础信息；
+ 新增表2：product_certification,存放具体产品获得的、通过的认证
+/trunk/fsn_cloud/sql/portal/20131120_certification.sql 
+/trunk/fsn_cloud/sql/portal/20131120_product_certification.sql
+
+/********** 2013年11月21日  ***************/
+最新数据库
+/trunk/fsn_cloud/sql/portal/fsn_cloud_20131121.sql
+
+/********** 2013年11月26日  ***************/
+添加字段
+/trunk/fsn_cloud/sql/portal/20131126_product_category.sql
+
+/********** 2013年11月27日  ***************/
+由于在查询过程中总是遇到各种编码不匹配、乱码等问题；
+现将数据库所有的表和字段的编码设置为utf8_unicode_ci.
+/trunk/fsn_cloud/sql/portal/20131127_fsn_cloud.sql
+
+/********** 2013年11月29日  ***************/
+添加测试数据
+/trunk/fsn_cloud/sql/portal/20131129_fsn_cloud.sql
+
+/********** 2013年12月2日  ***************/
+插入测试数据
+/trunk/fsn_cloud/sql/portal/20131129_product_DML.sql
+
+/********** 2013年12月3日  ***************/
+修改认证图片路径
+/trunk/fsn_cloud/sql/portal/20131129_certification_DML.sql
+/********** 2013年12月10日  ***************/
+添加现阶段展示使用数据库与空数据库
+/trunk/fsn_cloud/sql/portal/fsn_cloud20131210_clean.sql
+/trunk/fsn_cloud/sql/portal/fsn_cloud20131210_pro.sql
+
+/********** 2013年12月18日  ***************/
+调整存放图片路径字段的长度
+/trunk/fsn_cloud/sql/portal/20131218_fsn_cloud_DDL.sql
+
+
+/********** 2013年12月31日  ***************/
+首页显示内容配置，配置表
+/trunk/fsn_cloud/sql/portal/20131231_fsn_display_news.sql
+/trunk/fsn_cloud/sql/portal/20131231_fsn_display_uri.sql
+/trunk/fsn_cloud/sql/portal/20131231_fsn_display.sql
+认证图片路径变更
+/trunk/fsn_cloud/sql/portal/20131231_certification_DDL.sql
+
+
+--------------------2015-11-20 9:26-------------------
+#Author: wugouqing
+#Description: 1.更改 test_property表的 tech_indicator字段长度为500
+#Files: 2 files
+#Files Name:1. sql/portal/20151120_test_property_tech_indicator_DML.sql
+--------------------------------------------------------------------------------------------------------------
+
+--------------------2015-11-20 9:26-------------------
+#Author: wugouqing
+#Description:新增 sample_business_brand(抽样商标)、sample_product(抽样产品)、sample_product_instance(抽样产品实例)、sample_test_property(抽样产品不合格项目)、sample_test_result(抽样产品报告)
+#Files: 1 files
+#Files Name:1. sql/portal/20151124_sample.sql
+--------------------------------------------------------------------------------------------------------------

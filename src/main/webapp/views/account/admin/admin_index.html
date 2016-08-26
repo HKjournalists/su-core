@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>食品安全营养信息平台  - ERP</title>
+<link rel="stylesheet" href="../../../resource/css/account/admin/css.css" />
+<link rel="stylesheet" href="../../../resource/css/grid.css" />
+<link href="../../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../../resource/css/style.less" />
+<script src="../../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../../resource/kendoui/js/kendo.web.min.js"></script>
+<script src="../../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../../resource/js/fsn.i18n.js"></script>
+<script src="../../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../../resource/js/jquery.cookie.js"></script>
+<script src="../../../resource/js/fsn.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var fsn = window.fsn = window.fsn || {};
+		var HTTPPREFIX = fsn.getHttpPrefix();
+		$.ajax({
+			url:HTTPPREFIX + "/tzAccount/fdamsDate",
+			type:"GET",
+			dataType: "json",
+			async:false,
+			success:function(returnValue){
+				if(returnValue.result.success){
+					/* 供应商主体备案信息  */
+					$("#total1_t1").html(returnValue.data.total1.t1);
+					$("#total1_t2").html(returnValue.data.total1.t2);
+					$("#total1_t3").html(returnValue.data.total1.t3);
+					/* 食品条码备案信息  */
+					$("#total2_t1").html(returnValue.data.total2.t1);
+					$("#total2_t2").html(returnValue.data.total2.t2);
+					/* 食品检测报告备案信息  */
+					$("#total3_t1").html(returnValue.data.total3.t1);
+					$("#total3_t2").html(returnValue.data.total3.t2);
+					$("#total3_t3").html(returnValue.data.total3.t3);
+					$("#total3_t4").html(returnValue.data.total3.t4);
+					/* 收到台账信息  */
+					$("#total4_t1").html(returnValue.data.total4.t1);
+				}
+			}
+		});
+	})
+</script>
+</head>
+<body>
+	<div class="index_main_body">
+    <div class="main_text">
+        <!--1 !-->
+        <div class="main_content01">
+            <p class="title"><span class="img"></span>企业注册信息</p>
+            <div class="con_block1">
+                <p class="text02"></p>
+                <p class="text01"><span class="t1">本周数据</span><span class="t2">Data this week</span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_1.gif"></p>
+                <p class="text04"><span class="f" id="total1_t1" style="line-height: 70px;">0</span><span>条</span></p>
+            </div>
+            <div class="mar_left con_block1">
+                <p class="text02"></p>
+                <p class="text01_1"><span class="t1">总数据（已审核）</span><span class="t2">According to the total  review </span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_2.gif"></p>
+                <p class="text04"><span class="f" id="total1_t2" style="line-height: 70px;">0</span><span>条</span></p>
+            </div>
+            <div class="mar_left con_block1">
+                <p class="text02"></p>
+                <p class="text01_2"><span class="t1">待审核</span><span class="t2">To audit</span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_3.gif"></p>
+                <p class="text04"><span class="f" id="total1_t3" style="line-height: 70px;">0</span><span>条</span></p>
+            </div>
+            <div class="mar_left con_block1">
+                <p class="text02"></p>
+                <p class="text01_3"><span class="t1">退回</span><span class="t2">Back to the</span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_4.gif"></p>
+                <p class="text04"><span class="f" id="total1_t4" style="line-height: 70px;">0</span><span>条</span></p>
+            </div>
+        </div>
+        <!--1 end!-->
+        <!--2 !-->
+        <div class="main_content01">
+            <p class="title2"><span class="img"></span>食品条码备案信息</p>
+            <div class="con_block1">
+                <p class="text02"></p>
+                <p class="text01"><span class="t1">本周数据</span><span class="t2">Data this week</span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_1.gif"></p>
+                <p class="text04"><span class="f" id="total2_t1" style="line-height: 70px;">0</span><span>条</span></p>
+            </div>
+            <div class="mar_left con_block1">
+                <p class="text02"></p>
+                <p class="text01_1"><span class="t1">总数据（已审核）</span><span class="t2">According to the total  review </span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_2.gif"></p>
+                <p class="text04"><span class="f" id="total2_t2" style="line-height: 70px;">0</span><span>条</span></p>
+            </div>
+            <div class="mar_left con_block1">
+                <p class="text02"></p>
+                <p class="text01_2"><span class="t1">待审核</span><span class="t2">To audit</span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_3.gif"></p>
+                <p class="text04"><span class="f" id="total2_t3" style="line-height: 70px;">0</span><span>条</span></p>
+            </div>
+            <div class="mar_left con_block1">
+                <p class="text02"></p>
+                <p class="text01_3"><span class="t1">退回</span><span class="t2">Back to the</span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_4.gif"></p>
+                <p class="text04"><span class="f" id="total2_t4" style="line-height: 70px;">0</span><span>条</span></p>
+            </div>
+        </div>
+        <!--2 end!-->
+        <!--3 !-->
+        <div class="main_content01">
+            <p class="title3"><span class="img"></span>食品检测报告备案信息</p>
+            <div class="con_block1">
+                <p class="text02"></p>
+                <p class="text01"><span class="t1">本周数据</span><span class="t2">Data this week</span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_1.gif"></p>
+                <p class="text04"><span class="f" id="total3_t1" style="line-height: 85px;">0</span><span>条</span></p>
+            </div>
+            <div class="mar_left con_block1">
+                <p class="text02"></p>
+                <p class="text01_1"><span class="t1">总数据（已审核）</span><span class="t2">According to the total  review </span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_2.gif"></p>
+                <p class="text04"><span class="f" id="total3_t2" style="line-height: 85px;">0</span><span>条</span></p>
+            </div>
+            <div class="mar_left con_block1">
+                <p class="text02"></p>
+                <p class="text01_2"><span class="t1">待审核</span><span class="t2">To audit</span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_3.gif"></p>
+                <p class="text04"><span class="f" id="total3_t3" style="line-height: 85px;">0</span><span>条</span></p>
+            </div>
+            <div class="mar_left con_block1" style="margin-bottom: 100px;">
+                <p class="text02"></p>
+                <p class="text01_3"><span class="t1">退回</span><span class="t2">Back to the</span></p>
+                <p class="text03"><img src="../../../resource/img/account/admin/tt_4.gif"></p>
+                <p class="text04"><span class="f" id="total3_t4" style="line-height: 85px;">0</span><span>条</span></p>
+            </div>
+        </div>
+        <!--3 end!-->
+        <!--4 !-->
+		<!-- <div class="main_content01" style="margin-bottom: 80px;display: none">
+            <p class="title4"><span class="img"></span>收到台账信息</p>
+            <div class="A_separate" style="background-color: #92DC00;border:2px dashed #fff;">
+                <p class="text01"><span class="f">待确认台账</span><span>To confirm the parameter</span></p>
+                <p class="text02"><span class="f" id="total4_t1">0</span><span>条</span></p>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+</body>
+</html>

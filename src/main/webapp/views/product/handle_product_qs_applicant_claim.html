@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource/css/reset.css"/>
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+<link rel="stylesheet" href="../../resource/css/notification.css" />
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/js/jquery.cookie.js"></script>
+<script src="../../resource_new/js/fsn.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource/kendoui/js/zh/kendo.web.min.js"></script>
+<script src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource/js/util.js"></script> 
+<script src="../../resource_new/js/upload/lims.upload.js"></script>
+<script src="../../resource/js/product/handle_product_qs_applicant_claim.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	
+	</script>
+<style type="text/css">
+td{white-space:nowrap;}
+
+/* 弹出框 的操作按钮呈现浮动状态，内容部分可以根据内容大小自定义调整大小 */
+#float_banner {
+    background: none repeat scroll 0 0 #ffffff;
+    border: 1px none;
+    bottom: 0;
+    height: 40px;
+    margin-top: 10px;
+    text-align: center;
+    width: 98%;
+}
+#content {
+    font-size: 16px;
+    height: 320px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+}
+	
+</style>
+</head>
+<body id="home">
+<div class="fixfooter">
+	<div class="fullview" id="status_bar">
+		<div class="container">
+			<div class="row">
+				<div class="column12">
+					<span class="page_title">当前位置：处理生产许可证认领申请</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container clearfix" id="content_container">
+		<div id="main" class="row">
+			<div class="column12 last">
+				<div style="margin-top:30px;">
+					<div style="text-align: left;">
+						<strong>qs号待审核认领申请</strong>
+					</div>
+    				<div id="qs_applicant_claim_not_process_grid"></div>
+    				<br>
+    				
+    				<div style="text-align: left;">
+						<strong>qs号已退回申请</strong>
+					</div>
+    				<div id="qs_applicant_claim_back_grid"></div>
+    				<br>
+    				
+    				<div style="text-align: left;">
+						<strong>qs号审核通过申请</strong>
+					</div>
+    				<div id="qs_applicant_claim_pass_grid"></div>
+  			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+	<!-- 处理申请弹出框 Start -->
+	<div id="process_qs_applicant_window">
+		<div id="content">
+			<div style="margin: 10px 0px 5px 5px">
+				<fieldset class="_previewFieldset"> 
+    			<legend><span>生产许可证信息</span></legend> 
+    			<div class="div-tr"> 
+     				<div class="div-td">
+     					<div class="div-td-name">
+       						<label for="qsNo">证书编号：</label>
+      					</div> 
+      					<div class="div-td-value"> 
+       						<label id="qsNo"></label>
+      					</div> 
+     				</div> 
+     				<div class="div-td"> 
+     					 <div class="div-td-name">
+       						<label for="busunitName">生产企业：</label>
+     					 </div> 
+      					<div class="div-td-value">
+       						<label id="busunitName"></label>
+      					</div> 
+     				</div> 
+    			</div> 
+    			<div class="div-tr"> 
+     				<div class="div-td"> 
+      					<div class="div-td-name">
+       						<label >产品名称：</label>
+      					</div> 
+      					<div class="div-td-value"> 
+       						<label id="productName"></label> 
+      					</div> 
+    			 	</div> 
+     				<div class="div-td"> 
+      					<div class="div-td-name">
+       						<label for="orgCode">有效期限：</label>
+      					</div> 
+      					<label id="qsStartTime"></label> 至 
+      					<label id="qsEndTime"></label> 
+     				</div> 
+    			</div> 
+    			<div class="div-tr"> 
+     				<div class="div-td"> 
+      					<div class="div-td-name">
+       						<label for="accommodation">住所：</label>
+      					</div> 
+      					<div class="div-td-value"> 
+       						<label id="accommodation_mainAddr" ></label> 
+       						<label>街道地址:</label> 
+       						<label id="accommodation_streetAddress"></label> 
+      					</div> 
+     				</div> 
+     				<div class="div-td"> 
+      					<div class="div-td-name">
+       						<label for="qsBusinessAddress">生产地址：</label>
+      					</div> 
+      					<div class="div-td-value"> 
+       						<label id="qs_mainAddr"></label> 
+       						<label>街道地址:</label> 
+       						<label id="qs_streetAddress"></label> 
+      					</div> 
+     				</div> 
+    			</div> 
+    			<div class="div-tr"> 
+     				<div class="div-td"> 
+      					<div class="div-td-name">
+       						<label for="checkType">检验方式：</label>
+      					</div> 
+      					<div class="div-td-value">
+       						<label id="checkType"></label>
+      					</div> 
+     				</div> 
+    			</div> 
+   				</fieldset> 
+   				<div class="div-tr"> 
+    				<div class="div-td"> 
+     					<div id="logListView"> 
+      						<div id="qsAttachmentsListView"></div> 
+     					</div>
+    				</div> 
+   				</div>
+   				<div id="back_msg_div" style="color:red;"></div>
+			</div>
+		</div>
+		
+		<div id="float_banner">
+			<button class="k-button" onclick="return fsn.portal.operate('pass')">
+				<span class="k-icon k-update"></span>通过
+			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="k-button" onclick="return fsn.portal.operate('notpass')">
+				<span class="k-icon k-cancel"></span>退回
+			</button>
+		</div>
+	</div>
+	<script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+			&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.file_name #</a>
+    </script> 
+	<!-- 处理申请弹出框 End -->
+	
+	<!-- 退回原因提示框 Start -->
+	<div id="send_back_warn_window">
+		<div style="text-align:left;font-size:18px;color:#000000">
+			<input type="checkbox" name="send_back_msg" value="生产许可证图片不清晰"/>生产许可证图片不清晰
+			<br>
+			<input type="checkbox" name="send_back_msg" value="生产许可证图片与录入的信息不相符"/>生产许可证图片与录入的信息不相符
+			<br><br>
+			<textarea class="k-textbox" cols="30" id="send_back_msg_other" placeholder="其他原因" style="width: 100%"></textarea>
+		</div>
+		<div style="text-align: center;margin-top:38px" >
+			<button class="k-button" id="send_back_yes_btn">
+				<span class="k-icon k-update"></span>确定
+			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="k-button" id="send_back_no_btn">
+				<span class="k-icon k-cancel"></span>取消
+			</button>
+		</div>
+	</div>
+	<!-- 退回原因提示框 End -->
+	
+	<!-- 消息提示框 Start -->
+	<span id="RETURN_MES" style="display:none;"></span> 
+  	<script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource/img/error-icon.png" style="margin-top: 5px;" />
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+    </script> 
+  	<script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success" >
+                    <img src="../../resource/img/error-icon.png" style="display: in line-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+	</script>
+	<!-- 消息提示框 End -->
+</body>
+</html>

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台</title>
+<link rel="stylesheet" href="../../../resource/css/reset.css"/>
+<link rel="stylesheet" href="../../../resource/css/text.css" />
+<link rel="stylesheet" href="../../../resource/css/grid.css" />
+<link href="../../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../../resource/css/style.less" />
+<link rel="stylesheet" href="../../../resource/css/notification.css" />
+<script src="../../../resource/js/less.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../../resource/kendoui/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../../resource/kendoui/js/kendo.web.min.js"></script>
+<script type="text/javascript" src="../../../resource/js/headerFooterTemplate.js"></script>
+<script type="text/javascript" src="../../../resource/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../../resource/js/fsn.js"></script>
+<script type="text/javascript" src="../../../resource/js/language/system_zh-cn.js"></script>
+<script src="../../../resource/js/filter.js"></script>
+<script type="text/javascript" src="../../../resource/js/util.js"></script>
+<script type="text/javascript" src="../../../resource/js/model.js"></script>
+<!-- TestResult -->
+<script type="text/javascript" src="../../../resource/js/language/test_zh-cn.js"></script>
+<script type="text/javascript" src="../../../resource/js/account/admin/admin_test-result-manage-haspub.js"></script>
+
+
+</head>
+<body>
+	<div class="container" id="content_container">
+		<div class="container">
+			<div class="row">
+				<div class="column12">
+					<span class="page_title" style="color: #0f941a;font-size: 16px;">企业发布报告列表</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div style="margin-top: 20px;margin-bottom: 20px;">
+				<div style="text-align: center;margin-bottom: 20px;margin-top: 15px;font-size: 16px;">
+					<label>样品名称：</label><input type="text" id="number" class="k-textbox div-input-value"  />&nbsp;&nbsp;&nbsp;
+					<label>样品批次 ：</label><input type="text" id="licOrName" class="k-textbox div-input-value" />&nbsp;&nbsp;
+				    <a onclick="return fsn.purchase.check()"  class="k-button"><span class="k-icon k-filter"></span>查询</a> &nbsp;&nbsp;
+				</div>
+			</div>
+			<div class="content top ui-widget">
+		 		<div id="Purchase_Grid" style="margin-bottom: 50px;"></div>
+			</div>
+		 <div style="text-align: right;margin-top: -30px;">
+            <a onclick="return fsn.purchase.goBack()" class="k-button"><span class="k-icon k-update"></span>返回</a>&nbsp;&nbsp;
+        </div>
+		</div>
+	</div>			
+</body>
+</html>

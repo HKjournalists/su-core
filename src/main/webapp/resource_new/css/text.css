@@ -1,0 +1,55 @@
+/* =============================================================================
+   Titan Framework - inspired from http://960.gs
+   Learn more ~ http://titanthemes.com/
+
+   Licensed under GPL and MIT.
+   ========================================================================== */
+
+/* =============================================================================
+   Basic HTML
+   ========================================================================== */
+
+body { font: 16px/1.5em; }
+pre, code { font-family: 'DejaVu Sans Mono', Menlo, Consolas, monospace; }
+hr { border: 0 #ccc solid; border-top-width: 1px; clear: both; height: 0; }
+
+/* =============================================================================
+   Headings
+   ========================================================================== */
+h1 { font-size: 36px; }
+h2 { font-size: 24px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
+
+/* =============================================================================
+   Spacing
+   ========================================================================== */
+ol { list-style: decimal; }
+ul { list-style: none; }
+li { margin-left: 0px; display: inline;}
+p, dl, hr, h1, h2, h3, h4, h5, h6, ol, ul, pre, address, fieldset, figure {
+  margin-bottom: 10px;
+}
+table {
+	margin-bottom: 0px;
+}
+.red{color:#ff0000;}
+select.sel_default,select.k-textbox{
+	padding: 2px .3em;
+	height: 2.12em;
+	line-height: 1.6em;
+	text-indent: 2px\9;
+	color: #787878;
+	outline: 0;
+	border: 1px solid #dadada;
+	box-sizing: border-box;
+}
+select.sel_default{
+	margin-right:5px;
+}
+select.sel_default:hover,select.k-textbox:hover{
+	border-color: #8ebc00;
+}
+.necessary{color:#ff0000;}

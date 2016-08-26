@@ -1,0 +1,2 @@
+ALTER TABLE `t_meta_contact_info`
+MODIFY COLUMN `ID`  bigint(20) NOT NULL AUTO_INCREMENT FIRST ;

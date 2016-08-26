@@ -1,0 +1,22 @@
+<div class="backTop"><a href="#top"><img src=""/></a></div>
+<div class="footer-info">
+	<div class="copyright"><span>Copyright@2014 食品安全与营养（贵州）信息科技有限公司.All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮编：550002 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话：0851-2203286&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;传真：2203286-8010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱：sales@fsnip.com
+<br>地址：贵阳国家高新技术开发区长岭南路贵州产业技术发展研究院大厦12层 </span></div>
+</div>
+<script>
+(function($){
+	// 加载图片
+	$(".backTop, .footer-info").find("img").attr("src","/fsn-core/resource_new/img/portal/invis.gif");
+	
+	var newscript = fsn.portal.loadFile({
+		fileName:"/fsn-core/resource_new/js/portal/jquery.scrollUpTop.js", 
+		fileType: "script",
+		fileId:"scrolluptop-script"
+	});
+	
+	// 然后就委托返回顶部事件
+	$.scrollUp({
+		backTopDom : $(".backTop a")
+	});
+})(jQuery);
+</script>

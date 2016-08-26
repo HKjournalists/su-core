@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台 V1.</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource_new/css/reset.css" />
+<link rel="stylesheet" href="../../resource_new/css/text.css" />
+<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+<link href="../../resource_new/kendoui/styles/kendo.common.min.css"rel="stylesheet" />
+<link href="../../resource_new/kendoui/styles/kendo.default.min.css"rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+<link rel="stylesheet" href="../../resource_new/css/pushMessage.css" />
+<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+<script src="../../resource_new/kendoui/js/jquery.min.js"></script>
+<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource_new/js/headerFooterTemplate.js"></script>
+<script src="../../resource_new/js/jquery.cookie.js"></script>
+<script src="../../resource_new/js/fsn.js"></script>
+<script src="../../resource_new/js/lims.js"></script>
+<script src="../../resource_new/js/lims.i18n.js"></script>
+<script src="../../resource_new/js/util.js"></script>
+<script src="../../resource_new/js/filter.js"></script>
+<script src="../../resource_new/js/market/data_entry_zh_cn.js"></script>
+<script src="../../resource_new/js/portal/lufylegend.min.js"></script>
+<script>
+	$(document).ready(function() {
+		 $("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		}); 
+	});
+</script>
+<style>
+span.crosshair {
+	cursor:crosshair;
+}
+span.help {
+	cursor:help;
+}
+span.wait {
+	cursor:wait;
+}
+</style>
+</head>
+<body>
+	<div id="legend"></div>
+    <script type="text/javascript"> 
+     	var hotWords = new Array();
+     	$.ajax({
+			url: "/fsn-core/service/bigdata",
+    		type:"GET",
+    		dataType: "json",
+    		async:false,
+            contentType: "application/json; charset=utf-8",
+			success:function(returnVal){
+				hotWords = returnVal.result;
+			},
+		});
+     	init(30, "legend", 1600, 500, main);
+     	function main(){
+     		if(hotWords.length > 0){
+     			//var link0 = new LLink("product_by_hotword.html&nutriname="+hotWords[0].wordName,hotWords[0].wordName,"LLink","red","italic sans-serif",45);
+     			var link0 = new LLink("product_by_hotword.html?nutriname="+hotWords[0].wordName,hotWords[0].wordName,"LLink","red","italic sans-serif",45);
+     			link0.x = 600;
+         		link0.y = 140;
+         		addChild(link0);
+     		}
+     		if(hotWords.length > 1){
+     			var link1 = new LLink("product_by_hotword.html?nutriname="+hotWords[1].wordName,hotWords[1].wordName,"LLink","#33A735","italic sans-serif",38);
+         		link1.x = 525;
+         		link1.y = 205;
+         		addChild(link1);
+     		}
+     		if(hotWords.length > 2){
+     			var link2 = new LLink("product_by_hotword.html?nutriname="+hotWords[2].wordName,hotWords[2].wordName,"LLink","#4C549F","italic sans-serif",30);
+         		link2.x = 785;
+         		link2.y = 195;
+         		addChild(link2);
+     		}
+
+     		if(hotWords.length > 3){
+     			var link3 = new LLink("product_by_hotword.html?nutriname="+hotWords[3].wordName,hotWords[3].wordName,"LLink","#3277B5","italic sans-serif",27);
+         		link3.x = 540;
+         		link3.y = 102;
+         		addChild(link3);
+     		}
+     		if(hotWords.length > 4){
+     			var link4 = new LLink("product_by_hotword.html?nutriname="+hotWords[4].wordName,hotWords[4].wordName,"LLink","#E9643B","italic sans-serif",22);
+         		link4.x = 730;
+         		link4.y = 104;
+         		addChild(link4);
+     		}
+
+     		if(hotWords.length > 5){
+     			var link5 = new LLink("product_by_hotword.html?nutriname="+hotWords[5].wordName,hotWords[5].wordName,"LLink","#62265C","italic sans-serif",19);
+         		link5.x = 820;
+         		link5.y = 150;
+         		addChild(link5);
+     		}
+     		if(hotWords.length > 6){
+     			var link6 = new LLink("product_by_hotword.html?nutriname="+hotWords[6].wordName,hotWords[6].wordName,"LLink","#B36B00","italic sans-serif",18);
+         		link6.x = 800;
+         		link6.y = 245;
+         		addChild(link6);
+     		}
+     		if(hotWords.length > 7){
+     			var link7 = new LLink("product_by_hotword.html?nutriname="+hotWords[7].wordName,hotWords[7].wordName,"LLink","#783546","italic sans-serif",17);
+         		link7.x = 690;
+         		link7.y = 280;
+         		addChild(link7);
+     		}
+     		//if(hotWords.length > 8){
+     			//var link8 = new LLink("product_by_hotword.html&nutriname="+hotWords[8].wordName,hotWords[8].wordName,"LLink","#B79C07","italic sans-serif",16);
+     			var link8 = new LLink("product_by_hotword.html?nutriname=反式脂肪酸1", "反式脂肪酸1", "LLink", "#B79C07", "italic sans-serif", 16);
+     			link8.x = 557;
+     			link8.y = 268;
+     			addChild(link8);
+     		//}
+     		//if(hotWords.length > 9){
+     			//var link9 = new LLink("product_by_hotword.html&nutriname="+hotWords[9].wordName,hotWords[9].wordName,"LLink","#B79C07","italic sans-serif",15);
+     			var link9 = new LLink("product_by_hotword.html?nutriname=碳水化合物", "碳水化合物", "LLink", "#058795", "italic sans-serif", 15);
+     			link9.x = 720;
+     			link9.y = 315;
+     			addChild(link9);
+     		//}
+     		//if(hotWords.length > 10){
+     			//var link10 = new LLink("product_by_hotword.html&nutriname="+hotWords[10].wordName,hotWords[10].wordName,"LLink","#B79C07","italic sans-serif",14);
+     			var link10 = new LLink("product_by_hotword.html?nutriname=纤维素", "纤维素", "LLink", "#87B11D", "italic sans-serif", 14);
+     			link10.x = 635;
+     			link10.y = 310;
+     			addChild(link10);
+     		//}
+     		//if(hotWords.length > 11){
+     			//var link11 = new LLink("product_by_hotword.html&nutriname="+hotWords[11].wordName,hotWords[11].wordName,"LLink","#B79C07","italic sans-serif",13);
+     			var link11 = new LLink("product_by_hotword.html?nutriname=膳食纤维", "膳食纤维", "LLink", "#C61A1A", "italic sans-serif", 13);
+     			link11.x = 530;
+     			link11.y = 305;
+     			addChild(link11);
+     		//}
+     		//if(hotWords.length > 12){
+     			//var link12 = new LLink("product_by_hotword.html&nutriname="+hotWords[12].wordName,hotWords[12].wordName,"LLink","#B79C07","italic sans-serif",12);
+     			var link12 = new LLink("product_by_hotword.html?nutriname=维生素c", "维生素c", "LLink", "#009933", "italic sans-serif", 12);
+     			link12.x = 810;
+     			link12.y = 343;
+     			addChild(link12);
+     		//}
+     		//if(hotWords.length > 13){
+     			//var link13 = new LLink("product_by_hotword.html&nutriname="+hotWords[13].wordName,hotWords[13].wordName,"LLink","#B79C07","italic sans-serif",11);
+     			var link13 = new LLink("product_by_hotword.html?nutriname=反式脂肪酸", "反式脂肪酸", "LLink", "#018FCF", "italic sans-serif", 11);
+     			link13.x = 570;
+     			link13.y = 337;
+     			addChild(link13);
+     		//}
+     		//if(hotWords.length > 14){
+     			//var link14 = new LLink("product_by_hotword.html&nutriname="+hotWords[14].wordName,hotWords[14].wordName,"LLink","#B79C07","italic sans-serif",10);
+     			var link14 = new LLink("product_by_hotword.html?nutriname=饱和脂肪", "饱和脂肪", "LLink", "#660099", "italic sans-serif", 10);
+     			link14.x = 850;
+     			link14.y = 307;
+     			addChild(link14);
+     		//}
+     	}
+	 	LStage._linkList = new Array();
+	 	LStage._isAddLinkEvent = false;
+	 	LStage._addLinkEvent = function(event){
+	 		for(var i in LStage._linkList){
+	 			o = LStage._linkList[i];
+	 			if(event.offsetX < parseInt(o.x) + parseInt(o.getWidth()) && event.offsetY < parseInt(o.y) + parseInt(o.getHeight()) + parseInt(Math.floor(o.text.size * 0.4)) && event.offsetX > parseInt(o.x) && event.offsetY > parseInt(o.y)){
+	 				document.body.style.cursor = "pointer";
+	 				return;
+	 			}else{
+	 				document.body.style.cursor = "default";
+	 			}
+	 		}
+	 	}
+	 	function LLink(url,text,type,color,font,size){
+	 		var self = this;
+	 		base(self,LSprite,[]);
+	 		self.type = "LLink";
+	 		self.url = url;
+	 		self.openType = type || "blank";
+	 		self.x = 0;
+	 		self.y = 0;
+	 		self.text = new LTextField();
+	 		self.text.color = color || "blue";
+	 		self.text.font = font || "urf-8";
+	 		self.text.size = size || 12;
+	 		self.text.x = 0;
+	 		self.text.y = 0;
+	 		self.text.text = text || url;
+	 		self.addChild(self.text);
+	 		self.back = new LSprite();
+	 		self.back.graphics.drawRect(0,"transparent",[0,0,self.text.getWidth(),self.text.getHeight()],true,"transparent");
+	 		self.addChild(self.back);
+	 		LStage._linkList.push(self);
+	 		self.addEventListener(LMouseEvent.MOUSE_DOWN,self._jump);
+	 		if(LStage._isAddLinkEvent == false){
+	 			LEvent.addEventListener(LGlobal.object,LMouseEvent.MOUSE_MOVE,LStage._addLinkEvent);
+	 			LStage._isAddLinkEvent = true;
+	 		}
+	 	}
+	 	LLink.prototype._jump = function(event,self){
+	 		var openType = "_" + self.openType;
+	 		window.open(self.url, openType);
+	 	}
+    </script>
+</body>
+</html>

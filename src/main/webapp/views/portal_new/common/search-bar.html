@@ -1,0 +1,66 @@
+<div id="head-start">
+	<div id="logo">
+		<img src="/fsn-core/resource_new/img/LOGO.png" title="回到首页" alt="回到首页" />
+		<!-- <div class="url-introduce">
+			食品安全与营养网
+	    	<h4 class="url-address">Food Safety And Nutrition</h4>
+	    </div> -->
+	</div>
+	<!-- <div id="sbar">
+		<input id="sinput" type="text" /><div><div id="sbutton" ><span>搜索</span></div></div>
+	</div>
+	<div id="barcode-2d">
+		<div class="att-font-div"><h1>扫 一 扫</h1></div>
+		<div class="barcode-2d-cont">
+			<div id="qrcodeTable"></div>
+			<img alt="" src="/fsn-core/resource_new/img/portal/logo10.png" style="width: 10px; height: 10px; position: absolute; top:29px; right: 29px;"/>
+		</div>
+	</div> -->
+	<!-- <script>
+	(function(){
+		var portal = fsn.portal = fsn.portal || {};
+		var searchbar = portal.searchbar = portal.searchbar || {};
+		
+		// 二维码的内容,项目请求路径
+		searchbar.qrurl = (function(){
+			var _qrurl = (
+					(window.location.protocol?window.location.protocol:"http:")
+					+"//"
+					+window.location.hostname
+					+window.location.port
+					+(window.location.port==""?"":portal.CONTEXT_PATH)
+				);
+			return _qrurl;
+		})();
+		
+		// 刻画二维码：有与浏览器像素解析差别，在Chrome中使用画布，其他浏览器使用table
+		searchbar.writeQRToDom = function(url, dom){
+			if(portal.Sys.Chrome){
+				$(dom).qrcode({width:56,height:56,correctLevel:0,text:url}).css("padding-bottom","0");
+			}else{
+				$(dom).qrcode({width:56,height:56,correctLevel:0,render:"table",text:url});
+			}
+		};
+	})();
+	
+	// 模块初始化
+	(function(){
+		var _thisNameSpace = this;
+		// logo图标点击返回首页事件
+		$("#logo>img").click(function(){window.location.href = _thisNameSpace.CONTEXT_PATH;});
+		// 查找值
+		$("#sinput").val(decodeURIComponent(_thisNameSpace.getSearchParam(window.location.search, "keyword")));
+		// 查找按钮事件
+		$("#sbutton").on("click", function(){
+			window.location.href = _thisNameSpace.CONTEXT_PATH+"/ui/portal/product-searchResult?keyword="+($("#sinput").val());
+		});
+		// 回车查找
+		$("#sinput").on("keydown",function(event){
+			_thisNameSpace.keyDown(event, $("#sbutton"));
+		});
+		// 刻画二维码
+		_thisNameSpace.searchbar.writeQRToDom(_thisNameSpace.searchbar.qrurl, $('#qrcodeTable'));
+	}).call(fsn.portal);
+	</script> -->
+</div>
+<div id="head-end"></div>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10" />
+<title>食品安全营养信息平台 V1.</title>
+<link rel="stylesheet" href="../../resource/css/reset.css" />
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource/kendoui/styles/kendo.default.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+<link rel="stylesheet" href="../../resource/css/notification.css" />
+<link rel="stylesheet" href="../../resource/css/immediateguide.css" />
+<link rel="stylesheet" href="../../resource/css/index_guid.css" />
+<link rel="stylesheet" type="text/css" href="../../resource/css/sales/chainMapStyle.css" />
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource/js/jquery.cookie.js"></script>
+<script src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/fsn.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource/js/lims.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource/js/sales/util/chainMap/raphael.js"></script>
+<script src="../../resource/js/sales/util/chainMap/chinamapPath.js"></script>
+<script src="../../resource/js/sales/util/chainMap/init_china_map.js"></script>
+<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script src="../../resource/js/language/sales/sales_branch_zh_cn.js"></script>
+<script src="../../resource/js/upload/lims.upload.js"></script>
+<script src="../../resource/js/sales/util/salesKendoUtil.js"></script>
+<script src="../../resource/js/sales/sales_branch_list_manager.js"></script>
+<!-- 百度地图 API的引用 -->
+<script type="text/javascript"  src="http://api.map.baidu.com/api?v=2.0&ak=7GQOEACCbLsmRMTrGUCRlz02"></script>
+<script>
+    $(document).ready(function(){
+        $("fieldset input").focus(function(){
+            $(this).parent().prev("label").hide();
+        });
+        $("fieldset input").blur(function(){
+            if ($(this).val().trim().length < 1) {
+                $(this).parent().prev("label").show();
+            }
+        });
+        $(".hideBusName").hide();
+    });
+</script>
+<style type="text/css">
+.demo{width:760px; height:500px; margin:30px auto 0 auto; font-size:14px;}
+.demo p{line-height:30px}
+/* 提示自定义 */
+.stateTip, #StateTip{display:none; position:absolute; padding:8px; background:#fff; border:2px solid #2385B1; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; font-size:12px; font-family:Tahoma; color:#333;}
+
+.regionList{margin-top:15px;overflow: hidden;}
+.regionList ul{margin-right:5px; display:inline;}
+.regionList ul li{ height:24px; margin-left:10px; padding:0 0px; border:1px solid #fff; line-height:24px;float:left;width:100px;}
+.regionList ul li.select{border:1px solid #D3D3D3; background:#FFF1BF}
+
+.mapInfo i{ display:inline-block; width:15px; height:15px; margin-top:5px; line-height:15px; font-style:normal; background:#aeaeae; color:#fff; font-size:11px; font-family: Tahoma; -webkit-border-radius:15px; border-radius:15px; text-align:center}
+.mapInfo i.active{background:#E27F21;}
+.mapInfo span{ padding:0 5px 0 3px;}
+.mapInfo b{ font-weight:normal; color:#2770B5}
+#messageLabel{margin:10px;font-size: 15px;}
+span.necessary{color: red;}
+html span.v_hide{display:none;}
+html #page_footer{padding-top:10px;}
+html #page_footer span.container{font-size: 13px;color:#0f941a;margin-top:3px;}
+html #page_footer span.container a{color:#0f941a;}
+html .k-window{font-size:16px;}
+html .k-window .div-td-name{font-size:16px;}
+html .v_msg{font-size:12px;}
+.mr10{margin-right: 10px;}
+.name_sty{ font-weight: bolder;color: #008000;margin-top: 5px;font-size:15px;}
+#branch_field .div-tr{padding-bottom: 0px;}
+</style>
+</head>
+<body>
+<div class="fixfooter">
+    <div class="container" id="content_container">
+        <div class="row">
+            <div class="column12 last">
+				<div class="column12">
+					<span class="page_title">当前位置：销售信息管理 &raquo;销售网点管理</span>
+				</div>
+			 <div style="margin-bottom:10px;margin-top:30px;"><h4>&raquo;销售网点</h4></div>
+		     <div id="salesBranchGrid"></div>
+		     <div style="margin-top:50px;"></div>
+		     <div style="margin-bottom:10px;"><h4>&raquo;推荐购买方式</h4></div>
+		     <div id="recommendBuyGrid"></div>
+            </div>
+        </div>
+    </div>
+</div>1
+
+<!-- 新增推荐购买方式窗口 -->
+<div id="ADD_RECOMMENDBUY_WIN">
+		<div class="div-tr" style="text-align: center;font-size: 15px;margin-top:10px;margin-left:120px;width:320px;">
+			<div class="div-tr">
+				<div class="div-td-name" style="width:105px;"><span data-fsn-text="RecommendBuy Name"></span><span class="necessary">*</span></div>
+				<div class="div-td-value"><input id="recommendBuyName" class="k-textbox" 
+					style="height:30px;width:200px;" placeholder="例如:京东旗舰店/电话订购"/>
+					<span id="v_buyname_span" class="k-widget k-tooltip-validation v_hide">
+					<span class="k-icon k-warning"> </span><span class="v_msg"></span></span>
+				</div>
+			</div>
+			<div class="div-tr">
+				<div class="div-td-name" style="width:105px;"><span data-fsn-text="RecommendBuy Way"></span><span class="necessary">*</span></div>
+				<div class="div-td-value"><input id="recommendBuyWay" class="k-textbox" 
+					style="height:30px;width:200px;" placeholder="网址/电话"/>
+					<span id="v_buyway_span" class="k-widget k-tooltip-validation v_hide">
+					<span class="k-icon k-warning"> </span><span class="v_msg"></span></span>	
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div class="div-tr" style="color:red;font-size: 15px;margin-left:124px;width:400px;">
+		     <span>提示：</span><br/>
+		     <span style="margin-left:10px;">&nbsp;&nbsp;&nbsp;购买方式和途径的填写。请尽可能规范和准确，谢谢!</span>
+		</div>
+		<div style="text-align: center;margin-top:160px;">
+			<button id="reBuyAdd_yes_btn" class="k-button"><span class="k-icon k-update"></span><span data-fsn-text="OK"></span></button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <button id="reBuyAdd_no_btn" class="k-button"><span class="k-icon k-cancel"></span><span data-fsn-text="Cancel"></span></button>&nbsp;&nbsp;
+		</div>
+</div>
+
+<!-- 查看地图窗口 -->
+<div id="viewBranchMapWindow">
+	<div id="chainMap"></div>
+	<div id="viewDetailMap" style="display:none;"></div>
+	<div id="branch_field" style="position:relative;top:-500px;left:640px;width:280px;display:none;float:left:"></div>
+	<div style="margin:10px auto;width:80px;">
+			<button id="viewMapBack_btn" class="k-button" style="display: none;">
+			   <span class="k-icon k-update"></span><span data-fsn-text="Back"></span>
+			</button> &nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+</div>
+
+<!-- 页面提示窗口 -->
+<div id="messageWindow">
+	<div style="margin:0 auto;width:140px"><label id="messageLabel"></label></div>
+</div>
+
+<!-- 删除资源的 模板 -->          
+<script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+    &nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+    <button class="k-button" onclick="return lims.root.removeRes(#=attachments.id#,'#=attachments.fileName#')">
+     <span class="k-icon k-cancel"></span>删除</button><br><br>
+</script>
+<!-- gird toobar 模板 -->
+<script type="text/x-kendo-template" id="toolbar_template_branch">
+	<button class="k-button"  onclick="return branch.addBranch();"><span class="k-icon k-add" >
+	  </span><span data-fsn-text="Add">新增</span>
+   </button>&nbsp;&nbsp;
+	<button class="k-button"  onclick="return branch.openViewMapWindow();"><span class="k-icon k-i-search" >
+	  </span><span data-fsn-text="Add">查看地图</span>
+    </button>&nbsp;&nbsp;
+</script>
+<script type="text/x-kendo-template" id="toolbar_template_rWay">
+	<button class="k-button"  onclick="return branch.openAddRecommendWin();"><span class="k-icon k-add" >
+	  </span><span data-fsn-text="Add">新增</span>
+   </button>&nbsp;&nbsp;
+</script>
+
+<!-- 删除提示信息框 -->
+<div id="CONFIRM_COMMON_WIN">
+		<div id="listView">
+			<div id="CONFIRM_MSG" style="text-align: center;"></div>
+			<br/>
+			<div style="text-align: right;">
+				<button id="confirm_yes_btn"><span class="k-icon k-update"></span><label data-fsn-text="OK"></label></button> &nbsp;&nbsp;&nbsp;&nbsp;
+			    <button id="confirm_no_btn"><span class="k-icon k-cancel"></span><label data-fsn-text="Cancel"></label></button>&nbsp;&nbsp;
+			</div>
+		</div>
+</div>
+
+<!-- 页面提示信息框 -->
+<span id="RETURN_MES" style="display:none;"></span>
+<script id="errorTemplate" type="text/x-kendo-template">
+  <div class="wrong-pass">
+     <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+     <br/>
+     <img src="../../resource/img/error-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+</script>
+<script id="successTemplate" type="text/x-kendo-template">
+  <div class="upload-success">
+  <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+  <br/>
+  <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+</script>
+</body>
+</html>

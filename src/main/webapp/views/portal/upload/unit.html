@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>食品安全营养信息平台</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=10">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<!--[if IE]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="../../../resource/css/reset.css"/>
+	<link rel="stylesheet" href="../../../resource/css/text.css" />
+	<link rel="stylesheet" href="../../../resource/css/grid.css" />
+	<link href="../../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+	<link href="../../../resource/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+	<link rel="stylesheet/less" type="text/css" href="../../../resource/kendoui/styles/kendo.metro.less" />
+	<link rel="stylesheet/less" type="text/css" href="../../../resource/css/style.less" />
+	<script src="../../../resource/js/less.js" type="text/javascript"></script>
+	<script src="../../../resource/kendoui/js/jquery.min.js"></script>
+	<script src="../../../resource/kendoui/js/kendo.web.min.js"></script>
+	<script src="../../../resource/My97DatePicker/WdatePicker.js"></script>
+	<script src="../../../resource/js/jquery.cookie.js"></script>
+	<script src="../../../resource/js/portal/common.js"></script>
+	<script src="../../../resource/js/upload/lims.js"></script>
+	<script src="../../../resource/js/util.js"></script>
+	<script src="../../../resource/js/upload/lims.i18n.js"></script>
+	<script src="../../../resource/js/upload/lims.upload.js"></script>
+	<script src="../../../resource/js/portal/upload-unit.js"></script>
+	<script src="../../../resource/js/portal/jquery.form.js"></script>
+	
+	<style>
+	.fixfooter {padding-bottom: 60px;}
+	.upload-img-preview {max-width: 800px; max-height: 800px; border: none; display: none; clear: both; float: left;}
+	.upload-img-name {float: left; line-height: 35px; clear: right;}
+	.k-select .k-i-calendar {top: 20%; left: 20%;}
+	
+	.div-tr, .div-tr div {float: left;}
+	#product-nutri-grid .k-toolbar{float: none;}
+	.div-tr {width: 100%; padding-bottom: 10px;}
+	.div-td {width: 50%; line-height: 30px;}
+	.div-td-full {width: 100%;}
+	.div-td textarea {max-width: 440px; min-width: 200px;}
+	.div-td-add {padding-right: 4px; width: 86%;}
+	.div-td-full .div-td-value {width: 86%;}
+	.div-td-full .div-td-value .div-td-half, .div-td-value .div-td-half form {width: 50%;}
+	.div-td-full select {height: 32px;}
+	.div-td-full form {width: 50%; float: left;}
+	.div-td-name {width: 80px;}
+	#expirationDate-num {width: 130px;}
+	#expirationDate-unit {width: 60px; height: 32px;}
+	
+	.upload-img-preview {max-width: 800px; max-height: 800px; border: none; display: none; clear: both; float: left;}
+	.upload-img-name {float: left; line-height: 35px; clear: right;}
+	</style>
+</head>
+<body id="home">
+	<!-- 顶部导航 -->
+	<div id="hd">
+		<script>$("#hd").load("header.html")</script>
+	</div>
+	
+	<div class="fixfooter">
+		<div class="fullview" id="status_bar">
+			<div class="container">
+				<div class="row">
+					<div class="column12">
+						<span class="page_title">数据管理：产品</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container clearfix">
+			<div class="column12">
+				<table>
+					<tr><td>企业名称</td><td>：</td><td>
+						<input type="hidden" id="id" name="id" value=""/>
+						<input type="hidden" id="qsNo" name="qsNo" value=""/>
+						<input type="text" id="name" name="name" class="k-textbox" value=""/>
+					</td></tr>
+					
+					<tr><td>企业地址</td><td>：</td><td><input type="text" id="address" name="address" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>生产地址</td><td>：</td><td><input type="text" id="address2" name="address2" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>企业LOGO</td><td>：</td><td>
+						<div class="div-td-half">
+							<form id="logoForm" method="post" enctype="multipart/form-data">
+								<input type="file" id="logo" name="myimg" class="k-textbox" value=""/>
+							</form>
+							<span class="upload-img-name">图片名称：<em>请选择图片</em></span>
+							<img class="upload-img-preview" alt="图片" src="" />
+						</div>
+					</td></tr>
+					
+					<tr><td>官方网址</td><td>：</td><td><input type="text" id="website" name="website" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>企业类型</td><td>：</td>
+						<td><input id="type" type="hidden" data-bind="value: unit.dependency.id, events: { change: change }" />
+								<input id="typeDropdown" style="width: 200px" />
+						</td>
+					</tr>
+					
+					<tr style="display: none;"><td>企业Category</td><td>：</td>
+						<td><select id="category" name="category" class="k-textbox">
+							<option value="0">请选择</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select></td>
+					</tr>
+					<!--  
+					<tr><td>企业注册号</td><td>：</td>
+						<td><input type="text" id="licenseNo" name="licenseNo" class="k-textbox" value=""/></td>
+					</tr>
+					
+					<tr><td>联系方式</td><td>：</td><td><input type="text" id="contact" name="contact" class="k-textbox" value=""/></td></tr>
+					-->
+					<tr><td>备注</td><td>：</td><td><input type="text" id="note" name="note" class="k-textbox" value=""/></td></tr>
+					</table>
+					<!-- 企业信息 -->
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="org-code">组织机构代码：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="org-code" name="org-code" class="k-textbox" maxlength="100">
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="person-in-charge">法定代表人(负责人)：</label></div>
+							<div class="div-td-value"><input type="text" id="person-in-charge" name="person-in-charge" class="k-textbox" maxlength="10" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="id-card-no">身份证号：</label></div>
+							<div class="div-td-value"><input type="text" id="id-card-no" name="id-card-no" class="k-textbox" maxlength="20" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="reg-fund">注册资金：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="reg-fund" name="reg-fund" class="k-textbox" maxlength="15" />万元
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="economic-nature">经济性质：</label></div>
+							<div class="div-td-value"><input type="text" id="economic-nature" name="economic-nature" class="k-textbox" maxlength="50" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td-full">
+							<div class="div-td-name"><label for="business-scope">经营范围：</label></div>
+							<div class="div-td-value">
+								<input id="business-scope" name="business-scope" class="k-textbox" maxlength="50" />
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="postal-code">邮政编码：</label></div>
+							<div class="div-td-value"><input type="text" id="postal-code" name="postal-code" class="k-textbox" maxlength="10" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="contact">联系人：</label></div>
+							<div class="div-td-value"><input type="text" id="contact" name="contact" class="k-textbox" maxlength="10" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="telephone">联系电话：</label></div>
+							<div class="div-td-value"><input type="text" id="telephone" name="telephone" class="k-textbox" maxlength="20" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="mobile">手机：</label></div>
+							<div class="div-td-value"><input type="text" id="mobile" name="mobile" class="k-textbox" maxlength="15" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="tester">检验员(信息员)/手机：</label></div>
+							<div class="div-td-value"><input type="text" id="tester" name="tester" class="k-textbox" maxlength="20" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="area">所属区域：</label></div>
+							<div class="div-td-value"><select id="area" name="area" class="k-textbox"></select></div>
+						</div>
+					</div>
+					<!-- 相关证照 -->
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="license-no">营业执照注册号：</label></div>
+							<div class="div-td-value"><input type="text" id="license-no" name="license-no" class="k-textbox" maxlength="50" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="license-unit">发证单位：</label></div>
+							<div class="div-td-value"><input type="text" id="license-unit" name="license-unit" class="k-textbox" maxlength="50" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="license-begin">发证日期：</label></div>
+							<div class="div-td-value"><input type="text" id="license-begin" name="license-begin" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="license-end">有效期至：</label></div>
+							<div class="div-td-value"><input type="text" id="license-end" name="license-end" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="export-hygiene-no">出口食品卫生注册证号：</label></div>
+							<div class="div-td-value"><input type="text" id="export-hygiene-no" name="export-hygiene-no" class="k-textbox" maxlength="50" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="export-hygiene-range">登记范围：</label></div>
+							<div class="div-td-value"><input type="text" id="export-hygiene-range" name="export-hygiene-range" class="k-textbox" maxlength="50" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="export-hygiene-start">发证日期：</label></div>
+							<div class="div-td-value"><input type="text" id="export-hygiene-start" name="export-hygiene-start" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="export-hygiene-end">有效期至：</label></div>
+							<div class="div-td-value"><input type="text" id="export-hygiene-end" name="export-hygiene-end" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="iso9001-cert">ISO9001认证：</label></div>
+							<div class="div-td-value">
+								<input type="radio" name="iso9001-cert" value="1">是
+								<input type="radio" name="iso9001-cert" value="0">否
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="iso9001-unit">发证单位：</label></div>
+							<div class="div-td-value"><input type="text" id="iso9001-unit" name="iso9001-unit" class="k-textbox" maxlength="50" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="iso9001-start">发证日期：</label></div>
+							<div class="div-td-value"><input type="text" id="iso9001-start" name="iso9001-start" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="iso9001-end">有效期至：</label></div>
+							<div class="div-td-value"><input type="text" id="iso9001-end" name="iso9001-end" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="iso14000-cert">ISO14000认证：</label></div>
+							<div class="div-td-value">
+								<input type="radio" name="iso14000-cert" value="1">是
+								<input type="radio" name="iso14000-cert" value="0">否
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="iso14000-unit">发证单位：</label></div>
+							<div class="div-td-value"><input type="text" id="iso14000-unit" name="iso14000-unit" class="k-textbox" maxlength="50" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="iso14000-begin">发证日期：</label></div>
+							<div class="div-td-value"><input type="text" id="iso14000-begin" name="iso14000-begin" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="iso14000-end">有效期至：</label></div>
+							<div class="div-td-value"><input type="text" id="iso14000-end" name="iso14000-end" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="haccp-cert">NACCP认证：</label></div>
+							<div class="div-td-value">
+								<input type="radio" name="haccp-cert" value="1">是
+								<input type="radio" name="haccp-cert" value="0">否
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="haccp-unit">发证单位：</label></div>
+							<div class="div-td-value"><input type="text" id="haccp-unit" name="haccp-unit" class="k-textbox" maxlength="50" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="haccp-begin">发证日期：</label></div>
+							<div class="div-td-value"><input type="text" id="haccp-begin" name="haccp-begin" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="haccp-end">有效期至：</label></div>
+							<div class="div-td-value"><input type="text" id="haccp-end" name="haccp-end" class="k-textbox" onfocus="WdatePicker()" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="other-cert">其它认证名称：</label></div>
+							<div class="div-td-value"><input type="text" id="other-cert" name="other-cert" class="k-textbox" maxlength="50" /></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="other-unit">发证单位：</label></div>
+							<div class="div-td-value"><input type="text" id="other-unit" name="other-unit" class="k-textbox" maxlength="50" /></div>
+						</div>
+					</div>
+					<!-- 规格信息 -->
+					<div class="div-tr">
+						<div class="div-td-full">
+							<div class="div-td-name"><label for="enterprise-scale">企业规模：</label></div>
+							<div class="div-td-value">
+								<select id="enterprise-scale" name="enterprise-scale" class="k-textbox"></select>
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="total-population">企业总人数：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="total-population" name="total-population" class="k-textbox" maxlength="10">
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="tech-population">专业技术人员数：</label></div>
+							<div class="div-td-value"><input type="text" id="tech-population" name="tech-population" class="k-textbox" maxlength="10" /></div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="floor-space">占地面积：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="floor-space" name="floor-space" class="k-textbox" maxlength="16">万平方米
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="structure-area">建筑面积：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="structure-area" name="structure-area" class="k-textbox" maxlength="16" />万平方米
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="fixed-assets">固定资产(现值)：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="fixed-assets" name="fixed-assets" class="k-textbox" maxlength="16">万元
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="circulating-fund">流动资金：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="circulating-fund" name="circulating-fund" class="k-textbox" maxlength="16" />万元
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="annual-total-output-value">年总产值：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="annual-total-output-value" name="annual-total-output-value" class="k-textbox" maxlength="16">万元
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="annual-sales">年销售额：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="annual-sales" name="annual-sales" class="k-textbox" maxlength="16" />万元
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label for="annual-tax">年缴税金额：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="annual-tax" name="annual-tax" class="k-textbox" maxlength="16">万元
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label for="annual-profit">年利润：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="annual-profit" name="annual-profit" class="k-textbox" maxlength="16" />万元
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td-full">根据国家《统计上大中小型企业划分办法(暂行)》(国统字[2003]17号)，工业企业规模划分标准为：</div>
+					</div>
+					<div class="div-tr">
+						<table border="0" width="100%">
+							<thead>
+								<tr>
+									<th width="20">指标</th>
+									<th width="20">单位</th>
+									<th width="20">大型</th>
+									<th width="20">中型</th>
+									<th width="20">小型</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>从业人数</td>
+									<td>人</td>
+									<td>2000以上</td>
+									<td>300-2000</td>
+									<td>300以下</td>
+								</tr>
+								<tr>
+									<td>销售额</td>
+									<td>万元</td>
+									<td>30000以上</td>
+									<td>3000-30000</td>
+									<td>3000以下</td>
+								</tr>
+								<tr>
+									<td>资产总额</td>
+									<td>万元</td>
+									<td>40000</td>
+									<td>4000-40000</td>
+									<td>4000以下</td>
+								</tr>
+								<tr>
+									<td colspan="5">大型和中型企业必须同时满足所列各项条件的下限指标，否则下划一档</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<button class="k-button"><span class="k-icon k-i-refresh"></span><span class="ui-button-text" data-fsn-text="Refresh">刷新</span></button>
+							<button class="k-button"><span class="k-icon k-save"></span><span class="ui-button-text" data-fsn-text="Save">保存</span></button>
+							<button class="k-button"><span class="k-icon k-update"></span><span class="ui-button-text" data-fsn-text="Update">提交</span></button>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td-full">
+							提示：1.填写完数据后点击“保存”按钮进行信息保存，确认信息无误后点击“提交”按钮将数据提交给相关单位审核；
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td-full">
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.数据提交后不能再进行修改，若相关单位审核数据后未通过，信息将被退回重新填写。
+						</div>
+					</div>
+				<div id="msg_success" class="msg success"  style="margin-left: 0px; padding-top: 2%;">
+					<!-- Some messages response from Server! -->
+				</div>
+				</div>
+			
+		</div>
+		
+	</div>
+	
+	<div id="ft">
+		<footer id="page_footer" class="fullview">
+			<span class="container">Copyright@2013 GuiZhou Gettec information Technology Co., Ltd.  All Rights Reserved</span>
+		</footer>
+	</div>
+</body>
+</html>

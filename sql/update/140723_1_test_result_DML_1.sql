@@ -1,0 +1,1 @@
+UPDATE test_result SET mk_db_flag='0' WHERE mk_db_flag='';

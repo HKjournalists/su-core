@@ -1,0 +1,1 @@
+         INSERT  INTO licenceno_format(format_name,format_type,format_value,format_length)VALUE('格式：SCxxxxxxxxxxxxxx','-','SC',14)

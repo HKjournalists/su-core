@@ -1,0 +1,77 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xsi:schemaLocation="
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd"  >
+
+    <!-- Doing so automatically registers all Spring standard post-processors for annotation-based configuration -->
+	<!-- 自动注册所有符合Spring基于注解的配置的处理器（隐式注册了多个对注释进行解析处理的处理器 ） -->
+	<context:annotation-config/>
+	<task:annotation-driven/><!-- 定时任务 -->
+	<!-- 事务配置 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="locations">
+            <list>  
+                <value>classpath:META-INF/dataSource.properties</value> 
+            </list>
+        </property>  
+    </bean>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${driverClassName}" />
+	    <property name="jdbcUrl" value="${url}" />
+	    <property name="user" value="${username}" />
+	    <property name="password" value="${password}" />
+	    <!-- C3P0 Connection Pool -->
+	    <property name="minPoolSize" value="5" />
+	    <property name="maxPoolSize" value="100" />
+	    <property name="initialPoolSize" value="12" />
+	    <property name="checkoutTimeout" value="3000"/>
+	    <property name="maxIdleTime" value="200" />
+	    <property name="acquireIncrement" value="5" />
+		<property name="maxStatements" value="0" /> 
+	    <property name="idleConnectionTestPeriod" value="100" />
+	    <property name="testConnectionOnCheckin" value="true" />
+	</bean>
+	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="emf" />
+	</bean>
+	<!-- send email 发送邮件 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">  
+        <property name="host" value="smtp.exmail.qq.com" />   
+        <property name="port" value="25" />   
+        <property name="username" value="10000@fsnip.com" />
+        <property name="password" value="fsnip2014" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.timeout">25000</prop>
+            </props>
+        </property>
+    </bean>
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">  
+     	<property name="resourceLoaderPath" value="WEB-INF/emailTemplate/"></property>  
+    </bean>
+    <!-- send email end -->
+	<bean id="springUtil" class="com.gettec.fsnip.fsn.util.SpringUtil" />
+	<!-- Scan service beans 启动自动扫描 -->
+	<context:component-scan base-package="com.gettec.fsnip.fsn.model,com.gettec.fsnip.fsn.dao,
+		com.gettec.fsnip.fsn.service,com.lhfs.fsn.model,com.lhfs.fsn.dao,com.lhfs.fsn.service,
+		com.gettec.fsnip.fsn.util,com.gettec.fsnip.fsn.api,com.tzapp.fsn.service,
+		com.tzapp.fsn.dao,com.gettec.fsnip.fsn.cron,com.tzquery.fsn.service,com.tzquery.fsn.dao"/>
+</beans>

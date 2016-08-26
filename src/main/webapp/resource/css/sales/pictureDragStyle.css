@@ -1,0 +1,32 @@
+  .content{width:101%;min-height:280px;}
+  .content .left{float:left;margin-left:0px;}
+  .mo{height:auto;border:1px solid #CCC;margin:5px;background:#FFF;float:left;}
+  .mo img{max-width: 195px; height: 120px; padding: 5px;cursor: move;margin: 0 auto;display: block;}
+  .dragging {
+    FILTER: progid:DXImageTransform.Microsoft.Alpha(opacity=60); opacity: 0.6; moz-opacity: 0.6
+  }
+  
+a.ico_close_circle:hover {
+background-position: -32px 0;
+}
+
+a.ico_close_circle {
+position: relative;
+top: -158px;
+right: -190px;
+display: none;
+width: 20px;
+height: 22px;
+overflow: hidden;
+z-index: 55;
+padding: 0;
+background: url("../../../resource/img/close_icon.png") no-repeat scroll 0 0;
+text-indent: -9999px;
+cursor: pointer;
+}
+.mo .name_span{position: relative;top:0px;width:185px;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block; }
+
+.con_b{border:1px solid green;width:100%;min-height:300px;display: none;}
+.mt5{margin-top:5px;}
+.mb30{margin-bottom:30px;}
+.div_btn_sty{display: none;margin:10px;}

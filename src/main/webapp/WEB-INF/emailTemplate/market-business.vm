@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="GBK">  
+<head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>   
+    </head>  
+    <body>  
+        <h5>  
+           	尊敬的用户您好：  
+        </h5>  
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;欢迎您公司${businessName}加入 食品安全与营养云平台的交易市场平台。
+        </h5>    
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;您已经入驻到 ${marketName} 交易市场。</a> 
+        </h5>    
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;登录地址为：<a href="${fsnUrl}">${fsnUrl}</a> 
+        </h5>    
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;感谢您的关注和支持！  
+        </h5>    
+  
+--------------------------------------------------------------------  
+        <h5>     
+            请勿直接回复本邮件，如有任何疑问，联系食品安全与营养（贵州）信息科技有限公司
+        </h5>    
+    </body>  
+</html>

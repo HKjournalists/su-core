@@ -1,0 +1,14 @@
+navcolor:#00a878
+menucurrent:#006b4c
+submenu-fontcolor:#e6f3f0;
+parmenu-font-color:#ffffff;
+
+rightbar:#05bf73
+current-posfontcolor:#3d3d3d
+bordercolor:#cad5e0;
+select-bgcolor:#00a878
+
+tr:nth(even)#e0f6ed
+tr:nth-child(odd):#fff
+
+imgbgcolor:#7d7d7d  60*78

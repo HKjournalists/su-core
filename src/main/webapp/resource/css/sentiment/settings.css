@@ -1,0 +1,60 @@
+@CHARSET "UTF-8";
+
+#main-content {
+	width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+}
+
+#backBtn {
+	float: right;
+}
+
+.topic_label {
+	width: 45%;
+	text-align: center;
+}
+
+#cfg_form1>table {
+	width: 100%;
+}
+
+.topbtn {
+	margin-bottom: 20px;
+}
+
+#orgName {
+	position: absolute;
+	z-index: 999;
+	max-width: 80px;
+	border: 0;
+	margin-top: 1px;
+	margin-left: 1px;
+	padding: 0px;
+}
+
+#website-grid{
+	display: inline-block;
+	height: 550px;
+}
+
+/* #tabstrip h2 {
+	font-weight: lighter;
+	font-size: 5em;
+	line-height: 1;
+	padding: 0 0 0 30px;
+	margin: 0;
+}
+
+#tabstrip h2 span {
+	background: none;
+	padding-left: 5px;
+	font-size: .3em;
+	vertical-align: top;
+}
+
+#tabstrip p {
+	margin: 0;
+	padding: 0;
+} */

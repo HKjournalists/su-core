@@ -1,0 +1,1 @@
+update tz_business_account_info SET real_num = product_num 

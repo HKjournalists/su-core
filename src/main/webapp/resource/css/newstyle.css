@@ -1,0 +1,136 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	min-width:1424px;
+	margin:0 auto;
+}
+.topbg{
+	background: url(../img/index/topbg.jpg) repeat-y center;
+	background-size:100% 100%;
+}
+.heitop{
+	height:142px;
+}
+.wicont{
+	width:1424px;
+}
+.wicon{
+	width:1005px;
+}
+.w1100{
+	width:1100px;
+}
+.homemenubar li{
+	float:left;
+	display:inline-block;
+	display:inline \9;
+	zoom:1;
+}
+/*contain area*/
+.bgrecnew{
+	background:url(../img/index/recnewbg.jpg) repeat-x;
+	border:1px solid #dedede;
+	border-bottom:1px solid #d3d3d3;
+	border-radius:5px;
+}
+.recbtn{
+	background-color:#e96700;
+	border:1px solid #b85904;
+	border-top:1px solid #eb7b20;
+	box-shadow:2px 2px 2px #eb7b20;
+	border-radius:3px;
+	padding:5px 13px;
+}
+.bord-rwhite{
+	margin-top:1px;
+	border-right:1px solid #fff;
+}
+.bord-ldf{
+	margin-top:1px;
+	border-left:1px solid #dfdfdf;
+}
+.bgslide{
+	background-color:#f7f9fb;
+}
+.posfirstli{
+	left:200px;
+}
+.bgcolornews{
+	background-color:#f9f9f9;
+}
+.newsarea > li{
+	margin-top:10px;
+	width:340px;
+	height:420px;
+	display:inline-block;
+	float:left;
+}
+.bglistarea{
+	background:url(../img/index/newdesp1.jpg) no-repeat right top ;
+}
+.newlists li{
+	width:100%;
+	height:22px;
+}
+.newlists a{
+	display:inline-block;
+	float:left;
+	width:180px;
+	height:22px;
+	text-align:left;
+	line-height:22px;
+	color:#000;
+	font-family:"黑体";
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.newlists a:hover{
+	color:#4a9700;
+}
+.newlists div{
+	display:inline-block;
+	float:left;
+	width:100px;
+	text-align:right;
+	height:22px;
+	line-height:22px;
+	color:#000;
+	font-family:"黑体";
+}
+.bgfootertop{
+	height:22px;
+	background:url(../img/index/bgfooter.jpg) repeat-x left top;
+}
+.wicontall{
+	width:100%;
+	min-width:1424px;
+}
+.bgmap{
+	background:#539400 url(../img/index/map.png) no-repeat center top;
+}
+.bgfooterfooter{
+	background:#f77800 url(../img/index/footerorg.jpg) repeat-x left top; 
+}
+.bgtips{
+	background:url(../img/index/oursence.png) no-repeat center;
+}
+#main_conent div,#main_conent p{
+	line-height: 2em;
+	color:#000;
+	font-size:medium;
+	font-family:'宋体';
+}
+#main_conent a{
+	color:rgba(53, 68, 236, 1);
+}
+#main_conent a:hover{
+	color:rgba(27, 13, 252, 1);
+	text-decoration: underline;
+}
+.eslip{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+}

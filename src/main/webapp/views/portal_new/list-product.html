@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource_new/css/reset.css"/>
+<link rel="stylesheet" href="../../resource_new/css/text.css" />
+<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+<link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource_new/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+<link rel="stylesheet" href="../../resource_new/css/notification.css" />
+  <link rel="stylesheet" href="../../resource_new/css/manngerUI.css" /> 
+<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+<script src="../../resource_new/kendoui/js/jquery.min.js"></script>
+<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource_new/js/jquery.cookie.js"></script>
+<script src="../../resource_new/js/portal/common.js"></script>
+<script src="../../resource_new/js/fsn.js"></script>
+<script src="../../resource_new/js/headerFooterTemplate.js"></script>
+<script src="../../resource_new/js/upload/lims.js"></script>
+<script src="../../resource_new/js/util.js"></script>
+<script src="../../resource_new/js/fsn.i18n.js"></script>
+<script src="../../resource_new/js/upload/lims.upload.js"></script>
+<script src="../../resource_new/js/upload/list.js"></script>
+<script src="../../resource_new/js/filter.js"></script>
+<script src="../../resource_new/js/language/product_up_zh-cn.js"></script>
+<script src="../../resource_new/js/upload/list_product.js"></script>
+<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	
+	</script>
+<style type="text/css">
+	td{white-space:nowrap;}
+</style>
+</head>
+<body id="home">
+
+              <div class="fixfooter wi800 fl mt20"> 
+     <div class="fullview page_title mt50 wper100 ml20" id="status_bar">
+          
+              当前位置：我的产品 >>产品管理
+         
+      </div>
+   
+   
+   <div class="wper100 mt40 " id="content_container"> 
+   		<div class="row ml20" id="main">
+    		<div class=" wper100 last">
+				<script id="toolbar_template" type="text/x-kendo-template">
+					<a class="k-button k-button-icontext k-grid-add" href="/fsn-core/views/portal/product.html" >
+					<span class="k-icon k-add"></span>新增</a>
+				</script>
+				<div id="product-contain" class="top ui-widget" style="margin-top: 40px;">
+		            <div id='product' class='grid' style="margin-top: 5px; height: 100%;">
+		            </div>
+				</div>
+				<div id="msg_success" class="msg success function_row" style="margin-top: 10px;">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="CONFIRM_COMMON_WIN" style="display:none;">
+			<div id="listView">
+				<div id="CONFIRM_MSG" style="text-align: center;">
+				</div>
+				<br/>
+				<div style="text-align: right;">
+					<button id="confirm_yes_btn"><span class="k-icon k-update"></span><label data-fsn-text="OK"></label></button> &nbsp;&nbsp;&nbsp;&nbsp;
+					<button id="confirm_no_btn"><span class="k-icon k-cancel"></span><label data-fsn-text="Cancel"></label></button>&nbsp;&nbsp;
+				</div>
+				<div id="msg_success" class="msg success function_row" style="margin-top: 10px;"></div>
+			</div>
+	</div>
+	<div class="push"></div>
+</div>
+<span id="RETURN_MES" style="display:none;"></span> 
+  <script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../resource_new/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource_new/img/error-icon.png" style="margin-top: 5px;" />
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+    </script> 
+  <script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success" >
+                    <img src="../../resource_new/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource_new/img/success-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+	</script>  
+</body>
+</html>

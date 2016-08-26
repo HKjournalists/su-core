@@ -1,0 +1,30 @@
+/*Qr code*/
+#barcode-2d {right: 0px;}
+#barcode-2d>div{float: left;}
+#barcode-2d div.att-font-div {
+	width: 28px; 
+	padding: 14px 0;
+	background-image: url("../../img/portal/index_tool.png");
+	background-position: 6px -16px;}
+#barcode-2d div.att-font-div h1{width: 1em; font-size: 14px;letter-spacing: 14px; line-height: 14px;}
+#barcode-2d>.barcode-2d-cont{
+	width: 65px;
+	border: 2px solid #008000; 
+	border-radius: 5px; 
+	-moz-border-radius:5px; 
+	-webkit-border-radius: 5px;
+}
+*+html #barcode-2d>.barcode-2d-cont{
+	width: 65px;
+	border: 2px solid #008000; 
+	border-radius: 5px; 
+	-moz-border-radius:5px; 
+	-webkit-border-radius: 5px;
+}
+#qrcodeTable {
+	padding: 2px;
+	border: 2px solid #008000; 
+	border-radius: 4px; 
+	-moz-border-radius:4px; 
+	-webkit-border-radius: 4px;
+}

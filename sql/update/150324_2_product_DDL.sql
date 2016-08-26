@@ -1,0 +1,1 @@
+﻿ALTER TABLE `product` ADD COLUMN `nutri_label` varchar(255) DEFAULT NULL AFTER `UNIT_ID`;

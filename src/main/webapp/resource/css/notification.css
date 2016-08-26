@@ -1,0 +1,87 @@
+.k-notification {
+	border: 0;
+}
+ 
+ /* Error template */
+.k-notification-error.k-group {
+	background: rgba(100%,0%,0%,.7);
+	color: #ffffff;
+	border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    folat:left;
+}
+.wrong-pass {
+    width: 300px;
+    min-height:100px;
+	height: auto;
+	padding: 0 30px;
+	line-height: 0px;
+}
+.wrong-pass h3 {
+	folat:left ;
+	font-size: 1em;
+	font-weight: normal;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 20px;
+	margin-bottom:20px;
+}
+.wrong-pass img {
+	margin-top:30px;
+	folat:left ;
+	display: inline-block;
+	margin-right: 10px;
+	text-align:center;
+}
+
+/* Success template */
+.k-notification-upload-success.k-group {
+	background: rgba(0%,60%,0%,.7);
+	color: #ffffff;
+	border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    folat:left;
+}
+.upload-success {
+	width: 300px;
+	min-height:100px;
+	height: auto;
+	padding: 0 30px;
+	line-height: 0px;
+}
+.upload-success h3 {
+	folat:left ;
+	font-size: 1em;
+	font-weight: normal;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 20px;
+	margin-bottom:20px;
+}
+.upload-success img {
+	margin-top:30px;
+	folat:left ;
+	display: inline-block;
+	margin-right: 10px;
+	text-align:center;
+}
+
+/* 弹出框 的操作按钮呈现浮动状态，内容部分可以根据内容大小自定义调整大小 */
+#float_banner {
+    background: none repeat scroll 0 0 #ffffff;
+    border: 1px none;
+    bottom: 0;
+    height: 46px;
+    margin-top: 10px;
+    text-align: center;
+    width: 98%;
+}
+#content {
+    font-size: 16px;
+    height: 345px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+}

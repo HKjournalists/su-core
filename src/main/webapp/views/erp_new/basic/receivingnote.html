@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>食品安全营养信息平台  - ERP</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../../resource_new/css/reset.css"/>
+<link rel="stylesheet" href="../../../resource_new/css/text.css" />
+<link rel="stylesheet" href="../../../resource_new/css/grid.css" />
+<link href="../../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../../resource_new/kendoui/styles/kendo.rtl.min.css">
+<link rel="stylesheet" href="../../../resource_new/kendoui/styles/kendo.default.min.css">
+<link rel="stylesheet" href="../../../resource_new/kendoui/styles/kendo.dataviz.min.css">
+<link rel="stylesheet" href="../../../resource_new/kendoui/styles/kendo.dataviz.default.min.css">
+<link rel="stylesheet" href="../../../resource_new/kendoui/styles/kendo.mobile.all.min.css">
+<link rel="stylesheet/less" type="text/css" href="../../../resource_new/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../../resource_new/css/style.less" />
+<link rel="stylesheet" href="../../../resource_new/css/notification.css" />
+ 	<script src="../../../resource_new/kendoui/js/jquery.min.js"></script>
+ 	<script src="../../../resource_new/kendoui/js/kendo.all.min.js"></script>
+    <script src="../../../resource_new/kendoui/js/kendo.web.min.js"></script>
+	<script src="../../../resource_new/js/headerFooterTemplate.js"></script>
+	<script src="../../../resource_new/js/fsn.i18n.js"></script>
+	<script src="../../../resource_new/js/less.js" type="text/javascript"></script>
+	<script src="../../../resource_new/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+	<script src="../../../resource_new/js/jquery.cookie.js"></script>
+    <script src="../../../resource_new/js/filter.js"></script>
+    <script src="../../../resource_new/js/fsn.js"></script>
+	<script src="../../../resource_new/js/erp/kendo_widget.js"></script>
+	<script src="../../../resource_new/js/util.js"></script>
+	<script src="../../../resource_new/js/erp/common.js"></script>
+	<script src="../../../resource_new/js/erp/receivingnote.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	</script>
+	<style type="text/css">
+		td{
+			white-space: nowrap;
+		}
+	</style>
+</head>
+<body>
+ 
+<div class="fixfooter">
+	<div class="fullview" id="status_bar">
+		<div class="container">
+			<div class="row">
+				<div class="column12">
+					<span id="page_title" class="page_title"  data-lims-text=""></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container clearfix" id="content_container">
+		<div id="main" class="row">
+				<div class="content top ui-widget">
+				
+				</div>
+				
+				<div id="Simple_Grid">
+				</div>
+				<div id="PromptWindow" style="display: none">
+						<div align="center"><label>确定删除吗？</label></div>
+						<div style="padding-top: 20px" align="center">
+							<button id="confirmWindow" class="k-button"><span class="k-icon k-update"></span>确定</button>
+							<button id="cancelWindow" class="k-button"><span class="k-icon k-delete"></span>取消</button>
+						</div>
+				</div>
+				<div id="OPERATION_WIN" style="display:none">
+					<div>
+						<label id="label_no" for="no">num</label><font color="red">*</font>
+						<input type="text" id="no" name="no" required validationMessage="不能为空" data-bind="value:no">
+  					
+  						<label style="padding-left: 78px" id="label_source" for="source">来源</label>
+						<input type="text" id="source" class="k-input k-textbox" name="source" value="手动输入" readonly="readonly">
+					</div>
+					<div style="padding-top: 5px">
+						<label id="label_provider" for="type">供应商</label><font color="red">*</font>
+						<input type="text" id="provider" name="provider" required validationMessage="不能为空" data-bind="value:provider">
+						
+						<label style="padding-left: 110px" id="label_receive_no" for="receive_no">来源单号</label><font color="red">*</font>
+						<input type="text" id="receive_no" name="receive_no" data-bind="value:receive_no">
+					</div>
+					
+					<div style="padding-top: 5px">
+						<label  id="label_contactman" for="contactman">联系人</label><font color="red">*</font>
+						<input type="text" id="contactman" name="contactman" required validationMessage="不能为空">
+						
+						<label style="padding-left: 110px" id="label_caddress" for="caddress">联系人地址</label><font color="red">*</font>
+						<input type="text" class="k-input k-textbox" id="caddress" name="caddress" data-bind="value:caddress" readonly="readonly">
+					</div>
+					
+					<div style="padding-top: 5px">
+						<label id="label_contacttel" for="contacttel">联系人电话</label><font color="red">*</font>
+						<input type="text" class="k-input k-textbox" id="contacttel" name="contacttel" data-bind="value:contacttel" readonly="readonly">
+					
+						<label style="padding-left: 80px" id="label_ctime" for="ctime">收货单创建时间</label><font color="red">*</font>
+						<input type="text" id="ctime" name="ctime" data-bind="value:ctime">
+					</div>
+					
+					<div style="padding-top: 5px">
+						<label id="label_checkman" for="checkman">检收员</label><font color="red">*</font>
+						<input type="text" class="k-input k-textbox" id="checkman" name="checkman" required validationMessage="不能为空" data-bind="value:checkman">
+					
+						<label style="padding-left: 110px" id="lable_p_date" for="p_date">预计收货日</label>
+						<input type="text" id="p_date" name="p_date" data-bind="value:p_date">
+					</div>
+					<!--  现在不显示，以后可能需要，暂时留着
+					<div style="padding-top: 5px">
+						<label id="label_pricec" for="pricec">价格条件</label>
+						<input type="text" class="k-input k-textbox" id="pricec" name="pricec" data-bind="value:pricec">
+  					
+  						<label id="label_payc" for="payc">付款条件</label>
+						<input type="text" class="k-input k-textbox" id="payc" name="payc" data-bind="value:payc">
+					</div>
+					-->
+					<div style="padding-top: 5px">
+						<label id="label_ppay" for="ppay">预付款</label><font color="red">*</font>
+						<input type="text" id="ppay" maxlength="9" name="ppay" required validationMessage="不能为空" data-bind="value:ppay">
+					
+						<label style="padding-left: 110px" id="label_fpay" for="fpay">实付金额</label>
+						<input type="text" id="fpay" maxlength="9" name="fpay" data-bind="value:fpay">
+					</div>
+					
+					<div style="padding-top: 5px">
+						<label id="label_totalp" for="totalp">总金额</label>
+						<input type="text" class="k-input k-textbox" id="totalp" name="totalp" data-bind="value:totalp" readonly="readonly">
+						
+						<label style="padding-left: 120px" id="lable_base_remarks" for="base_remarks">备注</label>
+						<input type="text" class="k-input k-textbox" id="base_remarks" name="base_remarks" data-bind="value:base_remarks">
+					</div>
+					
+					<div style="padding-top: 5px">
+						
+					</div>
+					
+					<div id="CONTACT_INFO_GRID" style="padding-top: 10px">
+					</div>
+					
+					<script id="CONTACT_DETAIL" type="text/x-kendo-template">
+                	<div style="float:left;">
+                    	<button id="add_" class="k-button"><span class="k-icon k-add"></span>新建商品收货信息</button>
+    					<button id="update_" class="k-button"><span class="k-icon k-update"></span>编辑商品收货信息</button>
+    					<button id="delete_" class="k-button"><span class="k-icon k-delete"></span>删除商品收货信息</button>
+                	</div>
+					<div style="float:right; padding-right:10px;">商品列表</div>
+    				</script>
+    				
+    				<div style="padding:5px 0px 0px 5px;">
+							<span>友情提示 : 编辑完以上信息后请按确认!</span>
+					</div>
+    				
+					<div style="padding-top: 10px;" data-container-for="button" class="k-edit-field">
+							<button id="confirm" class="k-button"><span class="k-icon k-update"></span>确定</button>
+							<button id="cancel" class="k-button"><span class="k-icon k-delete"></span>取消</button>
+					</div>
+				</div>
+				
+				<script id="toolbar_template" type="text/x-kendo-template">
+                	<div style="float:left;">
+                    	<button id="add" class="k-button"><span class="k-icon k-add"></span>新增</button>
+    					<button id="update" class="k-button"><span class="k-icon k-update"></span>编辑</button>
+    					<button id="delete" class="k-button"><span class="k-icon k-delete"></span>删除</button>
+                	</div>
+    			</script>
+    			<div id="CONTACT_INFO_WIN" style="display:none">
+					
+					<div style="padding-top: 10px">
+						<label id="label_cid" for="cid">产品名称</label><font color="red">*</font>
+						<input type="text" id="cid" name="cid" data-bind="value:cid" >
+						
+						<label style="padding-left: 63px" id="label_spec" for="spec">产品规格</label><font color="red">*</font>
+						<input type="text" id="spec" class="k-input k-textbox" name="spec" data-bind="value:spec" readonly="readonly" >
+					</div>
+					
+					<div style="padding-top: 10px">
+						<label id="label_ismode" for="ismode">样品否</label><font color="red">*</font>
+						<input type="radio" id="ismode" name="ismode" data-bind="value:ismode" value="true">是
+						<input type="radio" id="ismode1" name="ismode" data-bind="value:ismode" checked="checked" value="false">否
+  					 
+  						<label style="padding-left: 196px" id="label_ishasreporter" for="ishasreporter">是否有质检报告</label><font color="red">*</font>
+						<input type="radio" id="ishasreporter" name="ishasreporter" data-bind="value:ishasreporter" checked="checked" value="true">是
+						<input type="radio" id="ishasreporter" name="ishasreporter" data-bind="value:ishasreporter" value="false">否
+					</div>
+					
+					<div style="padding-top: 10px">
+						<label id="label_rnum" for="rnum">收货数量</label><font color="red">*</font>
+						<input type="text" class="k-input k-textbox" id="rnum" name="rnum" data-bind="value:rnum" readonly="readonly">
+  					
+  						<label style="padding-left: 60px" id="label_unit" for="unit">单位</label><font color="red">*</font>
+						<input type="text" class="k-input k-textbox" id="unit" name="unit" readonly = "readonly" data-bind="value:unit">
+					</div>
+					
+					<div style="padding-top: 10px;display: none">
+						<!--  <label id="label_fnum" for="fnum">实数收量</label><font color="red">*</font>
+						<input type="text" class="k-input k-textbox" id="fnum" name="fnum" data-bind="value:fnum">
+  						-->
+  						<label id="label_cnum" for="cnum">验退数量</label>
+						<input type="text" id="cnum" name="cnum" data-bind="value:cnum">
+					
+						<label style="padding-left: 70px" id="label_cmoney" for="cmoney">验退金额</label>
+						<input type="text" id="cmoney" name="cmoney" data-bind="value:cmoney">
+						
+						<label id="label_ccnum" for="ccnum">验换数量</label>
+						<input type="text" id="ccnum" name="ccnum" data-bind="value:ccnum">
+					</div>
+					
+					<div style="padding-top: 10px">
+  					<!--现在不显示，以后可能需要，暂时留着  
+  						<label id="label_isdis" for="isdis">折扣否</label>
+  						<input type="radio" id="isdis" name="isdis" data-bind="value:isdis" checked="checked" value="true">是
+						<input type="radio" id="isdis" name="isdis" data-bind="value:isdis" value="false">否
+					-->
+						<label id="label_m_type" for="m_type">币种</label><font color="red">*</font>
+						<input type="text" class="k-input k-textbox" id="m_type" name="m_type" disabled=true value="RMB" data-bind="value:m_type" onclick="if(this.value=='RMB') this.value='';">
+						
+						<label style="padding-left: 90px" id="label_isreport" for="isreport">是否需要质检报告</label><font color="red">*</font>
+						<input type="radio" id="isreport" name="isreport" data-bind="value:isreport" value="true" checked="checked">是
+						<input type="radio" id="isreport1" name="isreport" data-bind="value:isreport" value="false">否	
+					
+					</div>
+					<!--现在不显示，以后可能需要，暂时留着  
+					<div style="padding-top: 10px">
+						<label id="label_disman" for="disman">折扣范围</label>
+						<input type="text" class="k-input k-textbox" id="disman" name="disman" data-bind="value:disman">
+  					
+  						<label id="label_disrate" for="disrate">折扣率</label>
+						<input type="text" class="k-input k-textbox" id="disrate" name="disrate" data-bind="value:disrate">
+					</div>
+					-->
+					<div style="padding-top: 10px">
+						<label id="label_singerprice" for="singerprice">单价</label><font color="red">*</font>
+						<input type="text" class="k-input k-textbox" id="singerprice" name="singerprice" data-bind="value:singerprice" readonly="readonly">
+						
+						<label style="padding-left: 92px" id="label_batch" for="ccnum">批次</label><font color="red">*</font>
+						<input type="text" class="k-input k-textbox" id="batch" name="batch" data-bind="value:batch" readonly="readonly">
+					</div>
+					<!--现在不显示，以后可能需要，暂时留着  
+					<div style="padding-top: 10px">
+					
+						<label id="label_dbmoney" for="dbmoney">折/返现金额</label>
+						<input type="text" class="k-input k-textbox" id="dbmoney" name="dbmoney" data-bind="value:dbmoney">
+  					
+					</div>
+					-->
+					<div style="padding-top: 10px">
+						<label id="lable_p_remarks" for="p_remarks">备注</label>
+						<input type="text" class="k-input k-textbox" id="p_remarks" name="p_remarks" data-bind="value:p_remarks">
+  					
+  						<label style="padding-left: 100px" id="label_saddress" for="cemail">仓库地址</label><font color="red">*</font>
+						<input type="text" id="saddress" name="saddress" data-bind="value:saddress">
+					</div>
+					
+					<div data-container-for="button" class="k-edit-field" style="padding-top: 15px">
+							<button id="confirm_" class="k-button"><span class="k-icon k-update"></span>保存</button>
+							<button id="cancel_" class="k-button"><span class="k-icon k-delete"></span>关闭</button>
+					</div>
+				</div>
+					<!-- 查看详细信息界面 -->
+				<div id="RECEIVING_DETAIL_INFO" style="display:none">
+					<table>
+						<tr height="30px">
+							<td width="350px">
+								<label style="color: #000;letter-spacing: 5px" id="detail_label_num_name">收货单号</label>
+								<label style="padding-left: 42px" id="detail_label_num_content"></label></td>
+							<td>
+								<label style="color: #000;letter-spacing: 46px" id="detail_label_source_name">来源</label>
+  								<label style="padding-left: 17px" id="detail_label_source_content"></label>
+							</td>
+						</tr>
+						<tr height="30px">
+							<td width="350px">
+								<label style="color: #000;letter-spacing: 15px" id="detail_label_provider_name">供应商</label>
+								<label style="padding-left: 30px" id="detail_label_provider_content"></label>
+							</td>
+							<td>
+								<label style="color: #000;letter-spacing: 5px" id="detail_label_receive_no_name">来源单号</label>
+								<label style="padding-left: 60px" id="detail_label_receive_no_content"></label>
+							</td>
+						</tr>
+						<tr height="30px">
+							<td width="350px">
+								<label style="color: #000;letter-spacing: 15px" id="detail_label_contactman_name">联系人</label>
+								<label style="padding-left: 30px"  id="detail_label_contactman_content"></label>
+							</td>
+							<td>
+								<label style="color: #000" id="detail_label_caddress_name">联系人地址</label>
+								<label style="padding-left: 63px" id="detail_label_caddress_content"></label>
+							</td>
+						</tr>
+						<tr height="30px">
+							<td width="350px">
+								<label style="color: #000" id="detail_label_contacttel_name" >联系人电话</label>
+								<label style="padding-left: 42px" id="detail_label_contacttel_content" ></label>
+							</td>
+							<td>
+								<label style="color: #000" id="detail_label_ctime_name">收货单创建时间</label>
+								<label style="padding-left: 30px" id="detail_label_ctime_content"></label>
+							</td>
+						</tr>
+						<tr height="30px">
+							<td width="350px">
+								<label style="color: #000;letter-spacing: 15px" id="detail_label_checkman_name">检收员</label>
+								<label style="padding-left: 30px" id="detail_label_checkman_content"></label>
+							</td>
+							<td>
+								<label style="color: #000" id="detail_lable_p_date_name">预计收获日</label>
+								<label style="padding-left: 63px" id="detail_lable_p_date_content"></label>
+							</td>
+						</tr>
+						<tr height="30px">
+							<td width="350px">
+								<label style="color: #000;letter-spacing: 15px" id="detail_label_ppay_name">预付款</label>
+								<label style="padding-left: 30px" id="detail_label_ppay_content"></label>
+							</td>
+							<td>
+								<label style="color: #000;letter-spacing: 5px" id="detail_label_fpay_name">实付金额</label>
+								<label style="padding-left: 60px" id="detail_label_fpay_content"></label>
+							</td>
+						</tr>
+						<tr height="30px">
+							<td width="350px">
+								<label style="color: #000;letter-spacing: 15px" id="detail_label_totalp_name">总金额</label>
+								<label style="padding-left: 30px" id="detail_label_totalp_content"></label>
+							</td>
+							<td>
+								<label style="color: #000;letter-spacing: 46px" id="detail_lable_base_remarks_name">备注</label>
+								<label style="padding-left: 17px" id="detail_lable_base_remarks_content"></label>
+							</td>
+						</tr>
+						<tr height="50px">
+							<td width="350px">
+								<label style="color: #000;letter-spacing: 46px" id="detail_label_state_name">状态</label>
+								<label style="padding-left: 0px" id="detail_label_state_content"></label>
+							</td>
+						</tr>
+					</table>
+					<div>
+					<div id="RECEIVING_INFO_GRID" style="padding-top: 10px">
+					</div>
+					
+					<script id="PRODUCT_DETAIL" type="text/x-kendo-template">
+						<div style="float:left; padding-right:10px;">商品详细信息</div>
+    				</script>
+				</div>
+		</div>
+		</div>
+	</div>
+</div>
+
+<!-- Notification -->
+<span id="RETURN_MES" style="display:none;"></span>
+    <script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../../resource_new/img/error-icon.png" />
+                    <h3 style="width:240px;">#= message #</h3>
+                </div>
+    </script>
+    <script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success">
+                    <img src="../../../resource_new/img/success-icon.png" />
+                    <h3 style="width:240px;">#= message #</h3>
+                </div>
+	</script>
+</body>
+</html>

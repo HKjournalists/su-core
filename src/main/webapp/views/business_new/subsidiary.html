@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+	<title>食品安全营养信息平台</title>
+	<!--[if IE]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="../../resource_new/css/reset.css"/>
+	<link rel="stylesheet" href="../../resource_new/css/text.css" />
+	<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+	<link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+	<link href="../../resource_new/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+	<link rel="stylesheet" href="../../resource_new/css/portal/jquery.suggest.css" />
+	<link rel="stylesheet" href="../../resource_new/css/notification.css" />
+    <link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
+	<link href="../../resource_new/css/city/cityLayout.css" rel="stylesheet"/>
+	<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+	<script src="../../resource_new/kendoui/js/jquery.min.js"></script>
+	<script src="../../resource_new/js/jquery-1.8.0.min.js"></script>
+	<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
+	<script type="text/javascript" src="../../resource_new/js/headerFooterTemplate.js"></script>
+	<script type="text/javascript" src="../../resource_new/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="../../resource_new/js/fsn.js"></script>
+	<script src="../../resource_new/js/lims.js"></script>
+	<script src="../../resource_new/js/portal/common.js"></script>
+	<script src="../../resource_new/js/upload/lims.js"></script>
+	<script src="../../resource_new/js/util.js"></script>
+	<script src="../../resource_new/js/upload/lims.i18n.js"></script>
+	<script src="../../resource_new/js/upload/lims.upload.js"></script>
+	<script src="../../resource_new/js/business/subsidiary.js"></script>
+	<script src="../../resource_new/js/portal/jquery.form.js"></script>
+	<style>
+	.fixfooter {padding-bottom: 60px;}
+	.k-select .k-i-calendar {top: 20%; left: 20%;}
+	
+	.div-tr, .div-tr div {float: left;}
+	#product-nutri-grid .k-toolbar{float: none;}
+	.div-tr {width: 100%; padding-bottom: 10px;}
+	.div-td {width: 50%; line-height: 30px;}
+	.div-td-full {width: 100%;}
+	.div-td textarea {max-width: 440px; min-width: 200px;}
+	.div-td-add {padding-right: 4px; width: 86%;}
+	.div-td-full .div-td-value {width: 86%;}
+	.div-td-full .div-td-value .div-td-half, .div-td-value .div-td-half form {width: 50%;}
+	.div-td-full select {height: 32px;}
+	.div-td-full form {width: 50%; float: left;}
+	.div-td-name {width: 120px;}
+	#expirationDate-num {width: 130px;}
+	.msg {font-size: 14px; color: #f00;}
+
+	.upload-img-preview {max-width: 800px; max-height: 800px; border: none; display: none; clear: both; float: left;}
+	.upload-img-name {float: left; line-height: 35px; clear: right;}
+	
+	.column12 fieldset {
+		border:none;
+		font-family: Verdana, 'Microsoft YaHei', sans-serif;
+		font-size: 15px;
+		color: #0f941a;
+	}
+	</style>
+	<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	
+    </script>
+</head>
+<body>
+	<!-- 顶部导航 -->	
+	<!--<div class="fixfooter">
+		<div class="fullview" id="status_bar">
+			<div class="container">
+				<div class="row">
+					<div class="column12">
+						<span class="page_title">当前位置：我的企业&raquo;旗下企业&raquo;新增/修改</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div class="container clearfix">
+			<div class="column12">-->
+            <div class="fixfooter wi800 fl mt20"> 
+               <div class="fullview page_title mt50 wper100 ml20" id="status_bar">
+                        当前位置：我的检测 >> 旗下企业 >> 新增/修改
+                </div>
+             
+             <div class="wper100 mt15" > 
+                  <div class="row ml20">
+                      <div class=" wper100 last ">
+			<!-- <ul id="panelbar">
+            	<li class="k-state-active">
+                    <span class="k-link k-state-selected">产品信息</span> -->
+                    <div class="borderfieldset border-radius4">
+					<div class="header border-radiustop4"><span>新增/修改</span></div>
+                    <div class="ml20">
+            		<fieldset class="_previewFieldset">
+						<div class="div-tr">
+							<div class="div-td">
+								<div class="div-td-name"><label for="name">旗下企业名称：</label></div>
+								<div class="div-td-value">
+									<input type="hidden" id="id" value="">
+									<input type="text" id="name" name="name" class="my-textbox">
+									 <span id="verificationName" class="msg"></span>
+								</div>
+							</div>
+						</div>
+						<div class="div-tr">
+							<div class="div-td">
+								<div class="div-td-name"><label for="address">旗下企业地址：</label></div>
+								<div class="div-td-value">
+									<input id="address" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:140px;"
+										class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2"/>
+									<label>街道地址:</label>
+									<input id="streetAddress" class="my-textbox" style="width:139px;"/>
+								</div>
+									<span id="addressMsg" class="msg"></span>
+							</div>
+						</div>
+						<div class="div-tr">
+							<div class="div-td">
+								<div class="div-td-name"><label for="format">营业执照号：</label></div>
+								<div class="div-td-value">
+									<input type="text" id="licenseNo" name="licenseNo" class="my-textbox">
+									<span id="licMsg" class="msg"></span>
+								</div>
+							</div>
+						</div>
+						<div class="div-tr">
+							<div class="div-td">
+								<button class="k-button inputbtn" id="save"><span class="k-icon k-save"></span><span class="ui-button-text" data-fsn-text="Save">保存</span></button>
+								<button class="k-button inputbtn" id="reset"><span class="k-icon k-cancel"></span><span class="ui-button-text" data-fsn-text="Reset">清空</span></button>
+							</div>
+						</div>
+                        
+					</fieldset>	
+                   </div>
+                  </div>
+                </div>
+			<!-- 	</li>
+			</ul> -->
+				<!-- <table>
+					<tr><td>企业名称</td><td>：</td><td>
+						<input type="hidden" id="id" name="id" value=""/>
+						<input type="hidden" id="qsNo" name="qsNo" value=""/>
+						<input type="text" id="name" name="name" class="k-textbox" value=""/>
+					</td></tr>
+					
+					<tr><td>企业地址1</td><td>：</td><td><input type="text" id="address" name="address" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>企业地址2</td><td>：</td><td><input type="text" id="address2" name="address2" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>企业LOGO</td><td>：</td><td>
+						<div class="div-td-half">
+							<form id="logoForm" method="post" enctype="multipart/form-data">
+								<input type="file" id="logo" name="myimg" class="k-textbox" value=""/>
+							</form>
+							<span class="upload-img-name">图片名称：<em>请选择图片</em></span>
+							<img class="upload-img-preview" alt="图片" src="" />
+						</div>
+					</td></tr>
+					
+					<tr><td>官方网址</td><td>：</td><td><input type="text" id="website" name="website" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>企业类型</td><td>：</td>
+						<td><input id="type" type="hidden" data-bind="value: unit.dependency.id, events: { change: change }" />
+								<input id="typeDropdown" style="width: 200px" />
+						</td>
+					</tr>
+					
+					<tr style="display: none;"><td>企业Category</td><td>：</td>
+						<td><select id="category" name="category" class="k-textbox">
+							<option value="0">请选择</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select></td>
+					</tr>
+					
+					<tr><td>企业注册号</td><td>：</td>
+						<td><input type="text" id="licenseNo" name="licenseNo" class="k-textbox" value=""/></td>
+					</tr>
+					
+					<tr><td>联系方式</td><td>：</td><td><input type="text" id="contact" name="contact" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>备注</td><td>：</td><td><input type="text" id="note" name="note" class="k-textbox" value=""/></td></tr>
+					<tr><td>&nbsp;&nbsp;</td></tr>
+					<tr>
+						<td>
+							<button class="k-button"><span class="k-icon k-save"></span><span class="ui-button-text" data-fsn-text="Save">保存</span></button>
+						</td>
+						<td>&nbsp;&nbsp;</td>
+						<td>
+							<button class="k-button"><span class="k-icon k-cancel"></span><span class="ui-button-text" data-fsn-text="Reset">清空</span></button>
+						</td>
+					</tr>
+					</table> -->
+				<div id="msg_success" class="msg success"  style="margin-left: 0px; padding-top: 2%;">
+					<!-- Some messages response from Server! -->
+				</div>
+				</div>
+			
+		</div>
+		<div id="k_window">
+		<span id="winMsg"></span>
+		</div>
+		<span id="RETURN_MES" style="display:none;"></span>
+        <script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../resource_new/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource_new/img/error-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+    </script>
+    <script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success">
+                     <img src="../../resource_new/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource_new/img/success-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+	</script>
+	</div>
+	<!--弹出省省市-->
+    <!-- 弹出地名选择控件 -->
+    <div class="provinceCityAll" style="z-index: 100010;">
+	  <div class="tabs clearfix">
+	    <ul class="">
+	      <li><a href="javascript:" class="current" tb="hotCityAll">热门城市</a></li>
+	      <li><a href="javascript:" tb="provinceAll">省份</a></li>
+	      <li><a href="javascript:" tb="cityAll" id="cityAll">城市</a></li>
+	      <li><a href="javascript:" tb="countyAll" id="countyAll">区县</a></li>
+	    </ul>
+	  </div>
+	  <div class="con">
+	    <div class="hotCityAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul></ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	    <div class="provinceAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul></ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	    <div class="cityAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul></ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	    <div class="countyAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul>
+	        </ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	  </div>
+	</div>
+</body>
+	<script src="../../resource_new/js/city/citypublic.js"></script>
+</html>

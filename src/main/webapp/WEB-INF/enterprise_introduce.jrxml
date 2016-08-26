@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="原子荧光光谱分析原始记录" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" >
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="263"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="New Dataset 1" >
+		<queryString language="xPath">
+			<![CDATA[/企业电子资料/产品信息/表体/项目]]>
+		</queryString>
+		<field name="图片" class="java.lang.String">
+			<fieldDescription><![CDATA[图片]]></fieldDescription>
+		</field>
+		<field name="产品名称" class="java.lang.String">
+			<fieldDescription><![CDATA[产品名称]]></fieldDescription>
+		</field>
+		<field name="规格" class="java.lang.String">
+			<fieldDescription><![CDATA[规格]]></fieldDescription>
+		</field>
+		<field name="产品介绍" class="java.lang.String">
+			<fieldDescription><![CDATA[产品介绍]]></fieldDescription>
+		</field>
+		<field name="产品展示" class="java.lang.String">
+			<fieldDescription><![CDATA[/企业电子资料/产品信息/表头/产品展示]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="dataset1" >
+		<queryString language="xPath">
+			<![CDATA[/企业电子资料/销售案例信息/表体/项目]]>
+		</queryString>
+		<field name="图片" class="java.lang.String">
+			<fieldDescription><![CDATA[图片]]></fieldDescription>
+		</field>
+		<field name="案例名称" class="java.lang.String">
+			<fieldDescription><![CDATA[案例名称]]></fieldDescription>
+		</field>
+		<field name="案例介绍" class="java.lang.String">
+			<fieldDescription><![CDATA[案例介绍]]></fieldDescription>
+		</field>
+		<field name="销售案例" class="java.lang.String">
+			<fieldDescription><![CDATA[/企业电子资料/销售案例信息/表头/销售案例]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="New Dataset 2" >
+		<queryString language="xPath">
+			<![CDATA[/企业电子资料/销售网点信息/表体/项目]]>
+		</queryString>
+		<field name="销售网点名称" class="java.lang.String">
+			<fieldDescription><![CDATA[销售网点名称]]></fieldDescription>
+		</field>
+		<field name="地址" class="java.lang.String">
+			<fieldDescription><![CDATA[地址]]></fieldDescription>
+		</field>
+		<field name="联系电话" class="java.lang.String">
+			<fieldDescription><![CDATA[联系电话]]></fieldDescription>
+		</field>
+		<field name="销售网点" class="java.lang.String">
+			<fieldDescription><![CDATA[/企业电子资料/销售网点信息/表头/销售网点]]></fieldDescription>
+		</field>
+	</subDataset>
+	<queryString language="xPath">
+		<![CDATA[/]]>
+	</queryString>
+	<field name="企业名称" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业情况介绍/表头/企业名称]]></fieldDescription>
+	</field>
+	<field name="企业名称背景" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业情况介绍/表头/企业名称背景]]></fieldDescription>
+	</field>
+	<field name="企业宣传照" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业情况介绍/表头/企业宣传照]]></fieldDescription>
+	</field>
+	<field name="企业LOGO" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业情况介绍/表头/企业LOGO]]></fieldDescription>
+	</field>
+	<field name="企业资质" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表头/企业资质]]></fieldDescription>
+	</field>
+	<field name="企业资质背景" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表头/企业资质背景]]></fieldDescription>
+	</field>
+	<field name="企业认证" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表头/企业认证]]></fieldDescription>
+	</field>
+	<field name="企业认证背景" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表头/企业认证背景]]></fieldDescription>
+	</field>
+	<field name="名称1" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/名称1]]></fieldDescription>
+	</field>
+	<field name="图片1" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/图片1]]></fieldDescription>
+	</field>
+	<field name="名称2" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/名称2]]></fieldDescription>
+	</field>
+	<field name="图片2" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/图片2]]></fieldDescription>
+	</field>
+	<field name="名称3" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/名称3]]></fieldDescription>
+	</field>
+	<field name="图片3" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/图片3]]></fieldDescription>
+	</field>
+	<field name="名称4" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/名称4]]></fieldDescription>
+	</field>
+	<field name="图片4" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/图片4]]></fieldDescription>
+	</field>
+	<field name="名称5" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/名称5]]></fieldDescription>
+	</field>
+	<field name="图片5" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/图片5]]></fieldDescription>
+	</field>
+	<field name="名称6" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/名称6]]></fieldDescription>
+	</field>
+	<field name="图片6" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/图片6]]></fieldDescription>
+	</field>
+	<field name="名称7" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/名称7]]></fieldDescription>
+	</field>
+	<field name="图片7" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/图片7]]></fieldDescription>
+	</field>
+	<field name="名称8" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/名称8]]></fieldDescription>
+	</field>
+	<field name="图片8" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业认证信息/表体/图片8]]></fieldDescription>
+	</field>
+	<field name="企业风采背景" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表头/企业风采背景]]></fieldDescription>
+	</field>
+	<field name="企业风采" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表头/企业风采]]></fieldDescription>
+	</field>
+	<field name="名称12" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/名称1]]></fieldDescription>
+	</field>
+	<field name="图片12" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/图片1]]></fieldDescription>
+	</field>
+	<field name="名称22" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/名称2]]></fieldDescription>
+	</field>
+	<field name="图片22" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/图片2]]></fieldDescription>
+	</field>
+	<field name="名称32" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/名称3]]></fieldDescription>
+	</field>
+	<field name="图片32" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/图片3]]></fieldDescription>
+	</field>
+	<field name="名称42" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/名称4]]></fieldDescription>
+	</field>
+	<field name="图片42" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/图片4]]></fieldDescription>
+	</field>
+	<field name="名称52" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/名称5]]></fieldDescription>
+	</field>
+	<field name="图片52" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/图片5]]></fieldDescription>
+	</field>
+	<field name="名称62" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/名称6]]></fieldDescription>
+	</field>
+	<field name="图片62" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/图片6]]></fieldDescription>
+	</field>
+	<field name="名称72" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/名称7]]></fieldDescription>
+	</field>
+	<field name="图片72" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/图片7]]></fieldDescription>
+	</field>
+	<field name="名称82" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/名称8]]></fieldDescription>
+	</field>
+	<field name="图片82" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业掠影信息/表体/图片8]]></fieldDescription>
+	</field>
+	<field name="产品展示背景" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/产品信息/表头/产品展示背景]]></fieldDescription>
+	</field>
+	<field name="产品展示" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/产品信息/表头/产品展示]]></fieldDescription>
+	</field>
+	<field name="销售案例背景" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/销售案例信息/表头/销售案例背景]]></fieldDescription>
+	</field>
+	<field name="销售案例" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/销售案例信息/表头/销售案例]]></fieldDescription>
+	</field>
+	<field name="公司标题背景" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/贵州食品安全与营养/公司标题背景]]></fieldDescription>
+	</field>
+	<field name="示范企业" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/贵州食品安全与营养/示范企业]]></fieldDescription>
+	</field>
+	<field name="公司二维码" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/贵州食品安全与营养/公司二维码]]></fieldDescription>
+	</field>
+	<field name="企业简介" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/企业情况介绍/表头/企业简介]]></fieldDescription>
+	</field>
+	<field name="产品展示2" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/产品信息/表头/产品展示]]></fieldDescription>
+	</field>
+	<field name="销售案例2" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/销售案例信息/表头/销售案例]]></fieldDescription>
+	</field>
+	<field name="销售网点" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/销售网点信息/表头/销售网点]]></fieldDescription>
+	</field>
+	<field name="案例名称" class="java.lang.String">
+		<fieldDescription><![CDATA[/企业电子资料/销售案例信息/表体/项目/案例名称]]></fieldDescription>
+	</field>
+	<background>
+		<band height="802" splitType="Stretch">
+			<image>
+				<reportElement  x="-19" y="0" width="296" height="183"/>
+				<imageExpression><![CDATA[$F{企业名称背景}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement  x="277" y="0" width="297" height="183"/>
+				<imageExpression><![CDATA[$F{企业名称背景}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="752">
+			<textField>
+				<reportElement  x="21" y="326" width="513" height="393"/>
+				<textElement>
+					<font fontName="宋体" size="14" pdfFontName="SimSun.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{企业简介}==null) ? " ":$F{企业简介})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement  mode="Transparent" x="21" y="8" width="512" height="48" forecolor="#FFFFFF" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="宋体" size="18" isBold="true" pdfFontName="SimSun.ttf" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{企业名称}==null) ? " ":$F{企业名称})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement  x="21" y="294" width="233" height="32"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="20" isBold="true" pdfFontName="SimSun.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[公司基本情况]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement  x="21" y="64" width="513" height="195"/>
+				<imageExpression><![CDATA[$F{企业宣传照}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="50">
+			<textField>
+				<reportElement  x="480" y="25" width="64" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="16" isBold="true" pdfFontName="SimSun.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($V{PAGE_NUMBER}<10) ? "P0" +$V{PAGE_NUMBER}:"P0" +$V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

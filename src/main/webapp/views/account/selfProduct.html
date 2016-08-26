@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>食品安全营养信息平台  - ERP</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource/css/reset.css"/>
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+<link rel="stylesheet" href="../../resource/css/notification.css" />
+ 	<script src="../../resource/kendoui/js/jquery.min.js"></script>
+    <script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+	<script src="../../resource/js/headerFooterTemplate.js"></script>
+	<script src="../../resource/js/fsn.i18n.js"></script>
+	<script src="../../resource/js/less.js" type="text/javascript"></script>
+	<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+	<script src="../../resource/js/jquery.cookie.js"></script>
+    <script src="../../resource/js/filter.js"></script>
+    <script src="../../resource/js/fsn.js"></script>
+	<script src="../../resource/js/erp/kendo_widget.js"></script>
+	<script src="../../resource/js/util.js"></script>
+	<script src="../../resource/js/erp/common.js"></script>
+	<script src="../../resource/js/erp/st.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	</script>
+	<style type="text/css">
+		td{
+			white-space: nowrap;
+		}
+	</style>
+</head>
+<body>
+ 
+<div class="fixfooter">
+	<div class="fullview" id="status_bar">
+		<div class="container">
+			<div class="row">
+				<div class="column12">
+					<span id="page_title" class="page_title"  data-lims-text=""></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container clearfix" id="content_container">
+		<div id="main" class="row">
+				<div class="content top ui-widget">
+				
+				</div>
+				
+				<div id="Simple_Grid">
+				</div>
+				<div id="PromptWindow" style="display: none">
+						<div align="center"><label>确定删除吗？</label></div>
+						<div style="padding-top: 20px" align="center">
+							<button id="confirmWindow" class="k-button"><span class="k-icon k-update"></span>确定</button>
+							<button id="cancelWindow" class="k-button"><span class="k-icon k-delete"></span>取消</button>
+						</div>
+				</div>
+				<div id="PromptWindowConfirm" style="display: none">
+						<div align="center"><label><font color="red">警告！</font>数据一旦更改,可能会对之前的数据造成影响<br>确认是否更改？</label></div>
+						<div style="padding-top: 20px" align="center">
+							<button id="confirmWindowSave" class="k-button"><span class="k-icon k-update"></span>确定</button>
+							<button id="cancelWindowCon" class="k-button"><span class="k-icon k-delete"></span>取消</button>
+						</div>
+				</div>
+				<div id="OPERATION_WIN" style="display:none">
+					<!--<div class="k-edit-label"><label id="label_id" for="id">ID</label></div>
+					<div data-container-for="id" class="k-edit-field">
+							<input type="text" class="k-input k-textbox" id="id" name="id" data-bind="value:id" disabled>
+					</div>-->
+
+  					<div class="k-edit-label"><label id="label_name" for="name">Name</label><font color="red">*</font></div>
+					<div data-container-for="name" class="k-edit-field">
+							<input type="text" class="k-input k-textbox" id="name" name="name" required validationMessage="不能为空" data-bind="value:name">
+					</div>
+					
+					<div data-container-for="button" class="k-edit-field">
+							<button id="confirm" class="k-button"><span class="k-icon k-update"></span>确定</button>
+							<button id="cancel" class="k-button"><span class="k-icon k-delete"></span>取消</button>
+					</div>
+				</div>
+				
+				<script id="toolbar_template" type="text/x-kendo-template">
+                	<div style="float:left;">
+                    	<button id="add" class="k-button"><span class="k-icon k-add"></span>新增</button>
+    					<button id="update" class="k-button"><span class="k-icon k-update"></span>编辑</button>
+    					<button id="delete" class="k-button"><span class="k-icon k-delete"></span>删除</button>
+                	
+					</div>
+    			</script>
+    			
+		</div>
+	</div>
+</div>
+
+<!-- Notification -->
+<span id="RETURN_MES" style="display:none;"></span>
+    <script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../resource/img/error-icon.png" />
+                    <h3 style="width:240px;">#= message #</h3>
+                </div>
+    </script>
+    <script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success">
+                    <img src="../../resource/img/success-icon.png" />
+                    <h3 style="width:240px;">#= message #</h3>
+                </div>
+	</script>
+</body>
+</html>

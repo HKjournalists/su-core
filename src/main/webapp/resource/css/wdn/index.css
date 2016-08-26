@@ -1,0 +1,108 @@
+.wdn-k-state-hover, .wdn-k-state-hover:hover, .k-splitbar-horizontal-hover:hover, .k-splitbar-vertical-hover:hover, .k-list > .k-state-hover, .k-marquee, .k-pager-wrap .k-link:hover, .k-dropdown .k-state-focused, .k-imagebrowser-dropzone {
+    color: #ffffff;
+    background-color: #5dbd3a;
+    border-color: #5dbd3a;
+}
+.product-container {
+      width: 260px;
+      margin: 0 auto;
+      border-radius: 10px;
+      background: #f6f8f7;
+
+      .name {
+        border-bottom: 1px solid @gray-light;
+        font-size: 20px;
+        padding: 2px;
+      }
+      .interest {
+        color: #1da427;
+        font-size: 70px;
+        font-weight: bold;
+        padding: 0px;
+        margin-bottom: -30px;
+
+        .percent {
+          font-size: 31px;
+        }
+      }
+      .intro {
+        padding: 5px;
+      }
+      .strong {
+        padding: 3px;
+        font-size: 17px;
+        color: @white;
+        background: #326c84;
+        border-radius: 0 0 10px 10px;
+      }
+    }
+
+/* Tooltip */
+.k-widget.k-tooltip {
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    background-clip: padding-box;
+    background-color: #fff;
+    color: #05740f;
+}
+.k-widget.k-tooltip-validation {
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    background-clip: padding-box;
+    background-color: #fff;
+    color: #05740f;
+}
+
+.k-callout-n {
+    border-bottom-color: #fff;
+}
+.k-callout-n {
+    border-bottom-color: #fff;
+}
+.k-callout-s {
+    border-top-color: #fff;
+}
+.k-callout-s {
+    border-top-color: #fff;
+}
+
+.btn-orderBtn .badge {
+    color: #fff;
+    background-color: #F70707;
+}
+
+/*����span*/
+.super_span{width:30px;height:30px;line-height:30px;background:red;display: block;position:absolute;color:#fff;border-radius:50px;
+                text-align:center;font-size:16px;font-weight: bold;}
+/*�������span*/
+
+.title {
+    color: #1472d0;
+    font-size: 18px;
+    padding-top: 8px;
+}
+
+.content {
+    color: #5F5F5F;
+}
+
+.apply-btn {
+    border:1px solid #E4E4E4;
+    background-color: #F5F5F5;
+    margin-left: 25px;
+    margin-right: 25px;
+    height: 25px;
+    padding-top: 5px;
+    padding-left: 20px;
+}
+.disableHref{
+    cursor:default;
+    color:#E5E0E0;
+    text-decoration:none;
+}

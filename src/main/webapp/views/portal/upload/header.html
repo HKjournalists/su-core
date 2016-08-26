@@ -1,0 +1,165 @@
+<div class="fullview" id="header">
+    <div class="container">
+        <div class="row">
+            <div class="column6" id="site_information">
+                <span id="logo">
+                    <img src="../../../resource/img/logo_60.png" alt="食品安全营养信息平台">
+                </span>
+                <h1 id="site_title">
+                    食品安全营养信息平台
+                    <br>
+                    <span id="site_title_en">
+                        Food Safety Nutrition Information Platform
+                    </span>
+                </h1>
+            </div>
+            <div class="column6" id="nav_search_bar">
+                <form action="/search.html" method="get">
+                    <fieldset>
+                        <legend>
+                            搜索：
+                        </legend>
+                        <label style="display: block;" id="label_query" for="query">
+                            关键字
+                        </label>
+                        <div class="input">
+                            <input class="input_query noFocus" name="query" id="query" value="" title="搜索"
+                            type="">
+                        </div>
+                        <div class="input_button">
+                            <input value="搜索" type="submit">
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div id="menu">
+            <script>
+                $(document).ready(function() {
+                    $("#menu_list,#usr_menu").kendoMenu({
+                        animation: {
+                            open: {
+                                effects: "fadeIn"
+                            }
+                        }
+                    });
+                });
+            </script>
+            <style>
+                #menu_list li { min-width: 100px; }
+            </style>
+            <div class="row">
+                <div id="menu_bar" class="column12 last">
+                    <ul role="menubar" tabindex="0" data-role="menu" class="k-widget k-reset k-header k-menu k-menu-horizontal"
+                    id="menu_list">
+                        <li role="menuitem" class="menu_item menu_item_first k-item k-state-default k-first">
+                            <a href="/fsn-core/ui/portal/upload/upload" class="menu_link  k-link">
+                               	 首页
+                            </a>
+                        </li>
+                        <li tabindex="0" data-role="menu" role="menubar" class="menu_item k-item k-state-default k-widget k-reset k-header k-menu k-menu-horizontal"
+                        id="usr_menu">
+                            <a class="k-link" href="javascript:void(0)">
+                                	您好:
+                                <span id="menu_loginUser">
+                                    demo
+                                </span>
+                                <span class="k-icon k-i-arrow-s">
+                                </span>
+                            </a>
+                            <ul aria-hidden="true" role="menu" class="k-group">
+                                <li role="menuitem" class="k-item k-state-default k-first">
+                                    <a class="k-link" id="menu_profile" href="javascript:void(0)">
+                                        	我的账户
+                                    </a>
+                                </li>
+                                <li role="menuitem" class="k-item k-state-default">
+                                    <a class="k-link" id="menu_setting" href="javascript:void(0)">
+                                        	设置
+                                    </a>
+                                </li>
+                                <li role="menuitem" class="k-item k-state-default k-last">
+                                    <a class="k-link" id="menu_logout" href="javascript:void(0)">
+                                        	登出
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li style="z-index: auto;" class="k-item k-state-default menu_item" role="menuitem"
+                        aria-haspopup="true">
+                            <a class="k-link" href="#">
+                               	 数据信息
+                                <span class="k-icon k-i-arrow-s">
+                                </span>
+                            </a>
+                            <div style="width: 100px; height: 58px; margin-left: 0px; padding-left: 0px; padding-right: 0px; padding-bottom: 0px; overflow: hidden; display: none; position: absolute; z-index: 10002; top: 50px; left: 0px;"
+                            class="k-animation-container">
+                                <ul aria-hidden="true" data-role="popup" class="k-group k-popup k-reset"
+                                style="display: none; font-family: Verdana,Microsoft YaHei,sans-serif; font-size: 16px; font-stretch: normal; font-style: normal; font-weight: 400; line-height: 21px; opacity: 1; position: absolute;"
+                                role="menu">
+                                    <li class="k-item k-state-default k-last k-first" role="menuitem">
+                                        <a class="k-link" href="/fsn-core/ui/portal/upload/list-unit">
+                                        	    企业
+                                        </a>
+                                    </li>
+                                    <li class="k-item k-state-default k-last k-first" role="menuitem">
+                                        <a class="k-link" href="/fsn-core/ui/portal/upload/list-brand">
+                                    	        品牌
+                                        </a>
+                                    </li>
+                                    <li class="k-item k-state-default k-last k-first" role="menuitem">
+                                        <a class="k-link" href="/fsn-core/ui/portal/upload/list-product">
+                                           	 产品
+                                        </a>
+                                    </li>
+                                    <li class="k-item k-state-default k-last k-first" role="menuitem">
+                                        <a class="k-link" href="/fsn-core/ui/portal/upload/list-nutrition">
+                                           	营养元素
+                                        </a>
+                                    </li>
+                                    <li class="k-item k-state-default k-last k-first" role="menuitem">
+                                        <a class="k-link" href="/fsn-core/ui/portal/upload/list-certification">
+                                           	认证信息
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li style="z-index: auto;" class="k-item k-state-default menu_item" role="menuitem"
+			                        aria-haspopup="true">
+			                            <a class="k-link" href="#">
+			                               	 企业设备材料
+			                                <span class="k-icon k-i-arrow-s">
+			                                </span>
+			                            </a>
+			                            <div style="width: 100px; height: 58px; margin-left: 0px; padding-left: 0px; padding-right: 0px; padding-bottom: 0px; overflow: hidden; display: none; position: absolute; z-index: 10002; top: 50px; left: 0px;"
+			                            class="k-animation-container">
+			                                <ul aria-hidden="true" data-role="popup" class="k-group k-popup k-reset"
+			                                style="display: none; font-family: Verdana,Microsoft YaHei,sans-serif; font-size: 16px; font-stretch: normal; font-style: normal; font-weight: 400; line-height: 21px; opacity: 1; position: absolute;"
+			                                role="menu">
+			                                    <li class="k-item k-state-default k-last k-first" role="menuitem">
+			                                        <a class="k-link" href="/fsn-core/ui/portal/upload/business-material">
+			                                        	    原材料和包装材料
+			                                        </a>
+			                                    </li>
+			                                    <li class="k-item k-state-default k-last k-first" role="menuitem">
+			                                        <a class="k-link" href="/fsn-core/ui/portal/upload/business-testequipment">
+			                                    	        主要检测仪器设备
+			                                        </a>
+			                                    </li>
+			                                    <li class="k-item k-state-default k-last k-first" role="menuitem">
+			                                        <a class="k-link" href="/fsn-core/ui/portal/upload/business-manuequipment">
+			                                           	 生产设备设施
+			                                        </a>
+			                                    </li>
+			                                </ul>
+			                            </div>
+			                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">
+    </div>
+</div>

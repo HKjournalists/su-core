@@ -1,0 +1,2 @@
+ALTER TABLE `t_test_temp_report`
+ADD COLUMN `SAM_PLACE`  varchar(100) NULL AFTER `ORGANIZATION`;

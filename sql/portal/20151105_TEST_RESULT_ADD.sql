@@ -1,0 +1,1 @@
+ALTER TABLE `test_result` ADD COLUMN `back_count` TINYINT(20) DEFAULT 0 COMMENT '退回次数';

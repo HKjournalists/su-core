@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>食品安全营养信息平台  - ERP</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../../resource/css/reset.css"/>
+<link rel="stylesheet" href="../../../resource/css/text.css" />
+<link rel="stylesheet" href="../../../resource/css/grid.css" />
+<link href="../../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../../resource/css/style.less" />
+<link rel="stylesheet" href="../../../resource/css/notification.css" />
+ 	<script src="../../../resource/kendoui/js/jquery.min.js"></script>
+    <script src="../../../resource/kendoui/js/kendo.web.min.js"></script>
+	<script src="../../../resource/js/headerFooterTemplate.js"></script>
+    <script src="../../../resource/js/fsn.i18n.js"></script>
+	<script src="../../../resource/js/less.js" type="text/javascript"></script>
+	<script src="../../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+	<script src="../../../resource/js/jquery.cookie.js"></script>
+    <script src="../../../resource/js/filter.js"></script>
+    <script src="../../../resource/js/fsn.js"></script>
+	<script src="../../../resource/js/erp/kendo_widget.js"></script>
+	<script src="../../../resource/js/util.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+		var log_ds = new kendo.data.DataSource({
+			transport: {
+				read : {
+	                type : "GET",
+					url : function(options){
+	                	if(options.filter){
+	                		var configure = filter.configure(options.filter);
+	                 		return fsn.getHttpPrefix() + "/erp/storagelog/reglist/" + options.page + "/" + options.pageSize + "/"+configure;;
+	                	};
+	                	return fsn.getHttpPrefix() + "/erp/storagelog/list";
+					},
+	                dataType : "json",
+	                contentType : "application/json"
+	            },
+	        },
+	        schema: {
+	        	model: {
+	        		 fields: {
+	                 	count:{type:"number"},
+	                 }
+	            },
+	        	data : function(data) {
+	                return data.result.listOfModel;  
+	            },
+	            total : function(data) {
+	               return  data.result.count;//总条数
+	            }  
+	        },
+	        batch : true,
+	        page:1,
+	        pageSize : 10, //每页显示个数
+	        serverPaging : true,
+	        serverFiltering : true,
+	        serverSorting : true
+		});
+		var columns = [
+		               {field: "logTime", title: "记录时间",template:'#= (new Date(logTime)).format("YYYY-MM-dd hh:mm:ss") #',width:200, filterable: false},
+		               {field: "businessType", title: "变动类型"},
+		               {field: "merchandiseName", title: "商品名称", template: "<strong>#: merchandiseName # </strong>"},
+		               {field: "batch_number", title: "批次"},
+		               {field: "count", title: "变动数量", template: "<strong>#: count # </strong>"},
+		               {field: "storage_1", title: "入库仓库",template:'#=storage_1=="N/A"?"无":storage_1#'},
+		               {field: "storage_2", title: "出库仓库",template:'#=storage_2=="N/A"?"无":storage_2#'},
+		               {field: "userName", title: "操作人"},
+		               ];
+		$("#Simple_Grid").kendoGrid({
+			dataSource: log_ds,
+			filterable: {
+				extra: false,
+				messages: {
+					info: "显示需要项目:",
+					and: "并且",
+					or: "或者",
+					filter: "过滤",
+					clear: "清空"
+				},
+			 	operators: {
+			      string: {
+			    	  contains: "包含",
+			    	  doesnotcontain: "不包含",
+			    	  startswith: "以开头",
+			    	  endswith: "以结尾",
+			    	  eq: "等于",
+			    	  neq: "不等于"
+			      },
+			      number: {
+			    	  	eq: "等于",
+			    		neq: "不等于",
+			    		gte: "大于或等于",
+			    		gt:  "大于",
+			    		lte: "小于或等于",
+			    		lt:  "小于",
+			      }
+			    }
+				    }, 
+			height: 450,
+	        width: "auto",
+	        sortable: true,
+	        selectable: true,
+	        resizable: false,
+	        pageable: {
+	            refresh: true,
+	            pageSizes: [10, 20, 100],
+	            messages: fsn.gridPageMessage(),
+	        },
+			toolbar : [ {
+					template : kendo.template($("#toolbar_template").html())
+				} ],
+	        columns: columns
+		});
+// 		$('#search').kendoSearchBox({
+// 				change : function(e) {
+// 					var keywords=e.sender.options.value;
+// 			    	if(keywords.trim()!=""){
+// 			    		$("#Simple_Grid").data("kendoGrid").setDataSource(initStandard(keywords));
+// 			    	    $("#Simple_Grid").data("kendoGrid").refresh();
+// 			    	}else{
+// 			    		$("#Simple_Grid").data("kendoGrid").setDataSource(log_ds);
+// 			    		$("#Simple_Grid").data("kendoGrid").refresh();
+// 			    	}
+// 				}
+// 			});
+			
+			initStandard = function(keywords){
+				var ds = new kendo.data.DataSource({
+			transport: {
+				read : {
+	                type : "GET",
+	                url : function(options){
+						return fsn.getHttpPrefix() + "/storagelog/search?keywords="+keywords;
+					},
+	                dataType : "json",
+	                contentType : "application/json"
+	            },
+	        },
+	        schema: {
+	        	/* model: {
+	        		 fields: {
+	                 	id:{type:"number"},
+	                 	name:{type:"string"}
+	                 }
+	            }, */
+	        	data : function(data) {
+	                return data.result.listOfModel;  
+	            },
+	            total : function(data) {
+	               return  data.result.count;//总条数
+	            }  
+	        },
+	        batch : true,
+	        page:1,
+	        pageSize : 10, //每页显示个数
+	        serverPaging : true,
+	        serverFiltering : true,
+	        serverSorting : true
+		});
+				//ds.read();
+				return ds;
+			}
+	});
+	</script>
+	<style type="text/css">
+		td{
+			white-space: nowrap;
+		}
+	</style>
+</head>
+<body>
+ 
+<div class="fixfooter">
+	<div class="fullview" id="status_bar">
+		<div class="container">
+			<div class="row">
+				<div class="column12">
+					<span id="page_title" class="page_title"  data-lims-text="">首页 > 仓库管理 > 库存变动日志</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container clearfix" id="content_container">
+		<div id="main" class="row">
+				<div class="content top ui-widget">
+				
+				</div>
+				
+				<div id="Simple_Grid">
+					<script id="toolbar_template" type="text/x-kendo-template">
+    			</script>
+				</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

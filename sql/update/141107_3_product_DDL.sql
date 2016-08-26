@@ -1,0 +1,11 @@
+
+ALTER TABLE `product` DROP FOREIGN KEY `product_fk1`;
+ALTER TABLE `product` DROP FOREIGN KEY `product_fk2`;
+
+
+
+ALTER TABLE `product`
+DROP COLUMN `first_storage_id`,
+DROP COLUMN `TYPE_ID`,
+DROP COLUMN `SAFE_NUMBER`,
+DROP COLUMN `INSPECTION_REPORT`;

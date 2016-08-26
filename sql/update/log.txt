@@ -1,0 +1,1218 @@
+/trunk/fsn_cloud/sql/update/130702_fsn_cloud_ddl.sql
+/trunk/fsn_cloud/sql/update/130706_fsn_cloud_ddl.sql
+/trunk/fsn_cloud/sql/update/130716_fsn_cloud_ddl.sql
+/trunk/fsn_cloud/sql/update/130717_test_property_ddl.sql
+/trunk/fsn_cloud/sql/update/130717_fda_ddl.sql
+/trunk/fsn_cloud/sql/update/130717_fk_ddl.sql
+/trunk/fsn_cloud/sql/update/130721_product_poll_ddl.sql
+/trunk/fsn_cloud/sql/update/130721_test_cycle_ddl.sql
+/trunk/fsn_cloud/sql/update/130721_message_ddl.sql
+/trunk/fsn_cloud/sql/update/130722_test_result_ddl.sql
+/trunk/fsn_cloud/sql/update/130728_test_ddl.sql
+/trunk/fsn_cloud/sql/update/130804_test_case_ddl.sql
+/trunk/fsn_cloud/sql/update/130808_product_ddl.sql
+/trunk/fsn_cloud/sql/update/130809_message_ddl.sql
+/trunk/fsn_cloud/sql/update/130810_fda_test_ddl.sql
+/trunk/fsn_cloud/sql/update/130903_test_ddl.sql
+/trunk/fsn_cloud/sql/update/130929_test_DML.sql
+/trunk/fsn_cloud/sql/update/131006_test_plan_DDL.sql
+/trunk/fsn_cloud/sql/update/131030user_fda_testlab.sql
+/trunk/fsn_cloud/sql/update/131114user_fda_lab.sql
+/trunk/fsn_cloud/sql/update/131219_test_result_DDL_3.sql
+/trunk/fsn_cloud/sql/update/131220fda_testlab.sql
+/trunk/fsn_cloud/sql/update/basic_pinyin.sql
+/trunk/fsn_cloud/sql/update/hzpy.sql
+/trunk/fsn_cloud/sql/update/131226_testresult_ddl.sql
+/trunk/fsn_cloud/sql/update/131226_product_instance_ddl.sql
+/trunk/fsn_cloud/sql/update/140225_testResult_ddl.sql   新增发布时间和接收时间两个字段
+/trunk/fsn_cloud/sql/update/140225_product_ddl.sql     新增工商食品类别字段
+
+--------------------2014-06-12-12:00-------------------
+#Author: Hui Zhang
+#Description: 将快捷版迁移到fsn（一）
+#Files: 12 files
+#Files Name: sql/update/140612_1_t_test_temp_busunit.sql
+             sql/update/140612_2_t_test_temp_item.sql
+             sql/update/140612_3_t_test_temp_product.sql
+             sql/update/140612_4_t_test_temp_report.sql
+             sql/update/140612_5_UC_Test_Result_DDL_1.sql
+             sql/update/140612_6_UC_Product_DDL_1.sql
+             sql/update/140612_7_UC_test_result_DDL_1.sql
+             sql/update/140612_8_t_test_resource.sql
+             sql/update/140612_9_t_test_report_to_resource.sql
+             sql/update/140612_10_t_test_product_to_resource.sql
+             sql/update/140612_11_t_test_template.sql
+             sql/update/140612_12_t_sys_resource_type.sq
+-------------------------------------------------
+
+--------------------2014-06-12-17:30-------------------
+#Author: Hui Zhang
+#Description: 将快捷版迁移到fsn(二)
+#Files: 3 files
+#Files Name: sql/update/140612_13_UC_t_test_template_DDL_1.sql
+             sql/update/140612_14_UC_t_test_template_DDL_1.sql
+             sql/update/140613_1_UC_product_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-06-20-16:41-------------------
+#Author: Hui Zhang
+#Description: 生产企业增加orgnization字段
+#Files: 1 files
+#Files Name: sql/update/140620_1_UC_business_unit_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-06-26-13:31-------------------
+#Author: Hui Zhang
+#Description: [产品管理]
+#Files: 8 files
+#Files Name: sql/update/140623_1_UC_business_brand_DDL_1.sql
+	     sql/update/140623_2_UC_product_DDL_1.sql
+	     sql/update/140624_1_UC_nutri_rpt_DDL_1.sql
+	     sql/update/140624_2_UC_nutri_rpt_DML_8.sql
+	     sql/update/140625_1_UC_nutri_rpt_DDL_1.sql
+	     sql/update/140625_2_UC_product_certification_DDL_2.sql
+	     sql/update/140625_3_UC_product_certification_DDL_1.sql
+	     sql/update/140625_4_UC_product_certification_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-06-26-13:31-------------------
+#Author: XianZhen Long
+#Description: [企业用户注册]
+#Files: 4 files
+#Files Name: sql/update/140625_30_business_unit_DDL_1.sql
+	     sql/update/140627_31_enterprise_registe.sql
+	     sql/update/140627_32_t_business_license_to_resource.sql
+	     sql/update/140627_33_t_enterpriseRegiste_to_resource.sql
+	     
+-------------------------------------------------
+
+--------------------2014-06-30-9:30-------------------
+#Author: Hui Zhang
+#Description: [品牌管理]
+#Files: 1 files
+#Files Name: sql/update/14030_1_brand_to_resource_DDL_1.sql
+	     
+-------------------------------------------------
+
+--------------------2014-06-30-17:37-------------------
+#Author: Hui Zhang
+#Description: [原材料管理]
+#Files: 1 files
+#Files Name: sql/update/14030_1_material_DDL.sql
+	     
+-------------------------------------------------
+
+--------------------2014-07-03-11:55-------------------
+#Author: Hui Zhang
+#Description: [购买原材料]
+#Files: 1 files
+#Files Name: sql/update/140703_1_material_store_1_DDL.sql
+	     
+-------------------------------------------------
+
+
+--------------------2014-07-03-------------------
+#Author: XianZhen Long
+#Description: [销售管理]
+#Files: 2 files
+#Files Name: sql/update/140703_2_t_buss_area.sql
+	     sql/update/140703_3_product_sales.sql 
+-------------------------------------------------
+
+--------------------2014-07-07-15:17-------------------
+#Author: Hui Zhang
+#Description: [子企业产品绑定qs号]
+#Files: 1 files
+#Files Name: sql/update/140707_1_product_to_businessUnit.sql
+-------------------------------------------------
+
+--------------------2014-07-08-16:48-------------------
+#Author: Hui Zhang
+#Description: [子企业产品绑定qs号]
+#Files: 1 files
+#Files Name: sql/update/140708_1_product_to_businessUnit_DDL.sql
+-------------------------------------------------
+
+--------------------2014-07-09-10:57-------------------
+#Author: XianZhen Long
+#Description: [删除没用的表和字段]
+#Files: 2 files
+#Files Name: sql/update/140709_dorp_table.sql
+             sql/update/140709_dorp_column.sql    
+-------------------------------------------------
+
+--------------------2014-07-09-10:57-------------------
+#Author: XianZhen Long
+#Description: [修复多删的字段]
+#Files: 1 files
+#Files Name: sql/update/140709_business_unit_DDL.sql 
+-------------------------------------------------
+
+--------------------2014-07-09-18:20-------------------
+#Author: Hui Zhang
+#Description: [报告暂存]
+#Files: 1 files
+#Files Name: sql/update/140709_1_t_test_temp_busunit_DDL.sql 
+-------------------------------------------------
+
+
+--------------------2014-07-10-10:02-------------------
+#Author: XianZhen Long
+#Description: [销售新增销售时间字段]
+#Files: 1 files
+#Files Name: sql/update/140710_product_sales_DDL.sql
+-------------------------------------------------
+
+--------------------2014-07-10-09:29-------------------
+#Author: XianZhen Long
+#Description: [修改字段企业类型为varchar]
+#Files: 1 files
+#Files Name: sql/update/140715_busineUnit_DDL.sql 
+-------------------------------------------------
+
+--------------------2014-07-15-12:05-------------------
+#Author: Hui Zhang
+#Description: [增加报告签名字段]
+#Files: 1 files
+#Files Name: sql/update/140710_test_result_DDL_1.sql 
+-------------------------------------------------
+
+--------------------2014-07-16-11:45-------------------
+#Author: Xin Tang
+#Description: [更新默认报告为未发布状态]
+#Files: 1 files
+#Files Name: sql/update/140716_test_result_DDL_2.sql
+-------------------------------------------------
+
+--------------------2014-07-21-15:29-------------------
+#Author: Hui Zhang
+#Description: test_result增加发布人员名称、组织机构名称
+#Files: 1 files
+#Files Name: sql/update/140721_1_test_result_DDL_1.sql
+	     sql/update/140721_2_test_result_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-07-23-11:29-------------------
+#Author: Hui Zhang
+#Description: test_result 当mk_db_flag为空时，设置为0
+#Files: 1 files
+#Files Name: sql/update/140723_1_test_result_DML_1.sql
+             sql/update/140723_2_test_result_DML_1.sql
+-------------------------------------------------
+
+--------------------2014-07-31-15:38-------------------
+#Author: Hui Zhang
+#Description: 首页展示（新页面）
+#Files: 1 files
+#Files Name: sql/update/140731_1_fsn_display_new.sql
+             sql/update/140731_2_fsn_display_new_type.sql
+  	     sql/update/140731_3_fsn_display_uri.sql
+	     sql/update/140731_4_fsn_display.sql
+-------------------------------------------------
+
+
+--------------------2014-08-06-09:29-------------------
+#Author: XianZhen Long
+#Description: [新增产品访问量统计表]
+#Files: 1 files
+#Files Name: sql/update/140806_product_visit_statistics.sql
+-------------------------------------------------
+
+--------------------2014-08-08-09:29-------------------
+#Author: XianZhen Long
+#Description: [企业表新增注册时间字段]
+#Files: 1 files
+#Files Name: sql/update/140808_business_unit_DDL.sql
+-------------------------------------------------
+
+--------------------2014-08-13-12:29-------------------
+#Author: XianZhen Long
+#Description: [企业注册表新增注册时间字段]
+#Files: 1 files
+#Files Name: sql/update/140813_enterprise_registe_DDL.sql 
+-------------------------------------------------
+
+--------------------2014-08-15-11:53-------------------
+#Author: Hui Zhang
+#Description: [t_test_template表新增用户名称字段]
+#Files: 1 files
+#Files Name: sql/update/140815_t_test_template_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-08-15-11:53-------------------
+#Author: Hui Zhang
+#Description: [t_test_temp_item表各项增大长度]
+#Files: 1 files
+#Files Name: sql/update/140815_t_test_temp_item_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-08-21-17:56-------------------
+#Author: Hui Zhang
+#Description: [product表增加别名]
+#Files: 1 files
+#Files Name: sql/update/140821_product_DDL_1.sql     
+-------------------------------------------------
+
+--------------------2014-08-22-18:04-------------------
+#Author: Hui Zhang
+#Description: [product表增加pdf中的包装方式字段]
+#Files: 1 files
+#Files Name: sql/update/140822_1_product_DDL_1.sql     
+-------------------------------------------------
+
+--------------------2014-08-26-15:50-------------------
+#Author: Hui Zhang
+#Description: [t_test_temp_report表增加抽样地点字段]
+#Files: 1 files
+#Files Name: sql/update/140826_1_t_test_temp_report_DDL_1.sql  
+-------------------------------------------------
+
+--------------------2014-08-27-12:29-------------------
+#Author: XianZhen Long
+#Description: [检测结果表新增政府抽检报告完整报告pdf路径字段]
+#Files: 1 files
+#Files Name: sql/update/140827_1_test_result_DDL.sql	     
+-------------------------------------------------
+
+--------------------2014-08-28-14:50-------------------
+#Author: Hui Zhang
+#Description: 大数据：热词搜索
+#Files: 1 files
+#Files Name: sql/update/140828_1_dictionary.sql
+			 sql/update/140828_2_foodclasses.sql
+			 sql/update/140828_3_news.sql
+			 sql/update/140828_4_newsfoodclass.sql
+			 sql/update/140828_5_newsvar.sql
+			 sql/update/140828_6_newswordcount.sql
+			 sql/update/140828_7_weibo.sql
+			 sql/update/140828_8_weibofoodclass.sql
+			 sql/update/140828_9_weibovar.sql
+			 sql/update/140828_10_weibowordcount.sql
+-------------------------------------------------
+
+--------------------2014-09-09-14:30-------------------
+#Author: Xin Tang
+#Description: 企业用户表新增licenseNo和organizationNo字段
+#Files: 1 files
+#Files Name: sql/update/140909_enterprise_registe_DDL.sql
+-------------------------------------------------------
+
+--------------------2014-09-10-09:35-------------------
+#Author: Hui Zhang
+#Description: 增加营业执照信息表、组织机构代码信息表
+#Files: 1 files
+#Files Name: sql/update/140910_1_license_info_DDL.sql
+			 sql/update/140910_2_organizing_institution_DDL.sql
+			 sql/update/140910_3_licenseNo_DDL.sql
+-------------------------------------------------
+
+--------------------2014-09-10-16:40-------------------
+#Author: Hui Zhang
+#Description: 增加流通许可证图片与企业的关系表
+#Files: 1 files
+#Files Name: sql/update/140910_5_t_business_distribution_to_resource_DDL.sql
+-------------------------------------------------
+
+--------------------2014-09-11-16:40-------------------
+#Author: Xin Tang
+#Description: 分别给business_unit、organization_institution、enterprise_registe三个表增加
+地址别名otherAddres字段。
+#Files: 3 files
+#Files Name: sql/update/140911_1_business_unit_DDL.sql
+             sql/update/140911_2_organization_institution_DDL.sql
+             sql/update/140911_3_enterprise_registe_DDL.sql
+-------------------------------------------------
+
+--------------------2014-09-11-16:42-------------------
+#Author: Hui Zhang
+#Description: 同步business_unit与organizing_institution的数据
+#Files: 1 files
+#Files Name: sql/update/140911_4_org_code_DDL.sql
+-------------------------------------------------
+
+--------------------2014-09-12-10:01-------------------
+#Author: Hui Zhang
+#Description: 删除template中多余的记录。
+#Files: 1 files
+#Files Name: sql/update/140912_1_updateTemplate_DML.sql
+-------------------------------------------------
+
+--------------------2014-09-12-10:11-------------------
+#Author: Xin Tang
+#Description: 在license_info表中新增地址别名other_address字段
+#Files: 1 files
+#Files Name: sql/update/140912_2_license_info_DDL.sql
+-------------------------------------------------
+
+--------------------2014-09-12-11:55-------------------
+#Author: Xin Tang
+#Description: 在cirulation_permit_info表中新增地址别名other_address字段
+#Files: 1 files
+#Files Name: sql/update/140912_3_cirulation_permit_info_DDL.sql
+-------------------------------------------------
+
+--------------------2014-09-16-18:45-------------------
+#Author: Hui Zhang
+#Description: 同步business_unit与circulation_permit_info的数据
+#Files: 1 files
+#Files Name: sql/update/140916_1_ldisNo_DDL.sql
+-------------------------------------------------
+
+--------------------2014-09-23-10:40-------------------
+#Author: Hui Zhang
+#Description: 完善企业信息管理界面： 增加生产许可证信息、logo
+#Files: 1 files
+#Files Name: sql/update/140922_1_production_license_info_DDL.sql
+             sql/update/140922_2_production_license_info_DML.sql
+			 sql/update/140923_1_t_business_productionlicense_to_resource_DDL.sql
+			 sql/update/140923_2_t_business_logo_to_resource_DDL.sql
+-------------------------------------------------
+
+--------------------2014-09-24-10:11-------------------
+#Author: Hui Zhang
+#Description: 删除多余的产品实例
+#Files: 1 files
+#Files Name: sql/update/140923_3_deleteSample_DML.sql
+-------------------------------------------------
+
+--------------------2014-09-25-19:39-------------------
+#Author: Hui Zhang
+#Description: 在test_result中增加parentOrgnization字段
+              在busunit中增加hot_flag字段
+			  批量导入logo图片
+#Files: 1 files
+#Files Name: sql/update/140925_1_test_result_DDL.sql
+			 sql/update/140925_2_business_unit_DDL.sql
+			 sql/update/140925_3_business_unit_DML.sql
+			 sql/update/140925_4_batchAddBusLogo_DML.sql
+			 sql/update/140925_5_setReportParentOrg_DML.sql
+-------------------------------------------------
+
+--------------------2014-09-28-11:21-------------------
+#Author: Hui Zhang
+#Description: 仁怀市白酒生产企业登记册
+#Files: 1 files
+#Files Name: sql/update/140927_1_liquor_sales_license_DDL.sql
+			 sql/update/140927_2_producing_department_DDL.sql
+			 sql/update/140927_3_tax_register_cert_DDL.sql
+			 sql/update/140928_1_business_unit_DDL.sql
+			 sql/update/140928_2_busunit_template_DDL.sql
+			 sql/update/140928_3_fields_DDL.sql
+			 sql/update/140928_4_fields_value_DDL.sql
+ 			 sql/update/140928_5_business_unit_DDL.sql
+-------------------------------------------------
+
+--------------------2014-09-28-11:21-------------------
+#Author: xianzhen long
+#Description: 仁怀市白酒生产企业登记册
+#Files: 3 files
+#Files Name: 	sql/update/140928_6_license_info_DDL.sql
+		sql/update/140928_7_producing_department_DDL.sql
+		sql/update/140928_8_organizing_institution_DDL.sql	
+-------------------------------------------------
+
+--------------------2014-09-29-11:21-------------------
+#Author: xianzhen long
+#Description: 仁怀市白酒生产企业登记册
+#Files: 3 files
+#Files Name: 	sql/update/140929_1_producing_department_DDL.sql	
+-------------------------------------------------
+
+--------------------2014-10-11-15:42-------------------
+#Author: Xin Tang
+#Description: 仁怀市白酒生产企业登记册:添加生产车间资源、税务登记证、销售许可证的资源关系表，
+              在t_test_resource表中添加uploadDate字段。
+#Files: 5 files
+#Files Name: 	sql/update/141010_1_producing_department_to_resource_DML.sql
+		sql/update/141010_2_business_pdf_to_resource_DML.sql
+		sql/update/141010_3_t_test_resource_DDL.sql
+		sql/update/141011_1_liquor_sales_license_to_resource_DML.sql
+		sql/update/141011_2_tax_register_cert_to_resource_DML.sql
+-------------------------------------------------
+
+--------------------2014-10-11-17:00-------------------
+#Author: Liang Zhou
+#Description: erp整合到fsn，所有需要的数据库迁移。
+#Files: 8 files
+#Files Name: 	sql/update/141011_3_erp_DDL_1.sql
+		sql/update/141011_4_business_unit_DDL_1.sql
+		sql/update/141011_5_product_DDL_1.sql
+		sql/update/141011_6_t_meta_merchandise_info_instance_DDL_1.sql
+		sql/update/141011_7_t_meta_out_goods_info_DDL_1.sql
+		sql/update/141011_8_t_meta_out_of_bill_DDL_1.sql
+		sql/update/141011_9_t_meta_purchaseorder_info_DDL_1.sql
+		sql/update/141011_10_t_meta_receivingnote_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-10-13-15:00-------------------
+#Author: Liang Zhou
+#Description: erp整合到fsn，删除仓库暂时不要字段。
+#Files: 1 files
+#Files Name: 	141013_1_t_meta_storage_info_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-10-13-16:30-------------------
+#Author: Liang Zhou
+#Description: erp整合到fsn，删除出货单不需要的字段。
+#Files: 2 files
+#Files Name: 	
+		sql/update/141013_2_t_meta_out_of_bill_DDL_1.sql
+		sql/update/141013_3_t_meta_out_goods_info_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-10-14-10:30-------------------
+#Author: Liang Zhou
+#Description: erp整合到fsn，删除收货单不需要的字段。
+#Files: 2 files
+#Files Name: 	
+		sql/update/141014_1_t_meta_receivingnote_DDL_1.sql
+		sql/update/141014_2_t_meta_purchaseorder_info_DDL_1.sql
+-------------------------------------------------
+
+--------------------2014-10-15-10:30-------------------
+#Author: guowu chen
+#Description: erp整合到fsn，删除客户类型、供应商类型表，新建一张类型type共用表。
+#Files: 3 files
+#Files Name: 	
+		sql/update/141015_1_BusinessUnit.sql
+		sql/update/141015_2_t_meta_cuProvideType.sql
+		sql/update/141015_3_BusinessUnit.sql
+
+-------------------------------------------------
+
+--------------------2014-10-16-10:33-------------------
+#Author: Liang Zhou
+#Description: 添加企业对客户，企业对供应商关系表。
+						删除不需要的字段。
+#Files: 3 files
+#Files Name: 	
+		sql/update/141016_1_business_unit_1_DDL.sql
+		sql/update/141016_2_t_meta_enterprise_to_customer_DML.sql
+		sql/update/141016_3_t_meta_enterprise_to_provider_DML.sql
+-------------------------------------------------
+
+--------------------2014-10-16-10:58-------------------
+#Author: guowu chen
+#Description: 修改organization。
+#Files: 1 files
+#Files Name:  
+		sql/update/141016_1_business_unit_DDL.sql
+
+-------------------------------------------------
+
+
+--------------------2014-10-17-10:28-------------------
+#Author: Liang Zhou
+#Description: 删除product单位unit字段(varchar类型)
+#Files: 1 files
+#Files Name:  
+		sql/update/141017_1_product_DDL.sql
+
+-------------------------------------------------
+
+--------------------2014-10-17-15:28-------------------
+#Author: Liang Zhou
+#Description: 删除 表t_meta_unit organization字段
+#Files: 1 files
+#Files Name:  
+		sql/update/141017_2_t_meta_unit_DDL.sql
+
+-------------------------------------------------
+
+--------------------2014-10-17-17:28-------------------
+#Author: GuoWu Chen
+#Description: 给表t_meta_contact_info增加organization
+#Files: 1 files
+#Files Name:  
+		sql/update/141017_3_ContactInfo_ddl.sql
+
+-------------------------------------------------
+
+--------------------2014-10-20-18:10-------------------
+#Author: ChenXiaolin
+#Description: 
+#		把表business_unit中的qs_No迁移到product_to_businessunit表中。
+#		把product_id和business_id插入到表product_to_business中。
+#		删除表business_unit中的qs_no字段。
+#		此脚本解决在表product_to_businessunit中把QS_NO的外键关联到表production_license_info中的qs_nO时不会出错
+#Files: 4 files
+#Files Name:  
+		sql/update/141020_1_add_qs_procedure.sql
+		sql/update/141020_2_add_productId_procedure.sql
+		sql/update/141020_3_business_unit_DDL.sql
+		sql/update/141020_4_insert_qsNO_procedure.sql
+		sql/update/141020_5_product_to_business_DDL_1.sql
+-------------------------------------------------------
+
+-------------------------------------------------------
+
+--------------------2014-10-21 09:13-------------------
+#Author: TangXin
+#Description: 1、企业注册时添加telephone字段.
+	      2、在business_unit添加wda_back_flag和wda_back_msg字段.
+              3、在fields表中新增：otherProductCapacityNum和nongxiangStockNum 值.
+              
+#Files: 3 files
+#Files Name: 	
+		sql/update/141021_1_enterprise_registe_DDL.sql
+		sql/update/141021_2_business_unit_DDL.sql
+		sql/update/141021_3_fields_DDL.sql
+
+-------------------------------------------------------
+
+
+--------------------2014-10-21 09:13-------------------
+#Author: Liang Zhou
+#Description: 1、迁移product表的单位脚本. 并且修改脚本执行顺序
+              
+#Files: 1 files
+#Files Name: 	
+		sql/update/141017_1_moveProductUnit.sql
+
+注意事项：
+1. 如果执行141017_1_moveProductUnit.sql出错，是因为先执行141017_2_product_DDL.sql这个脚本把需要迁移数据的字段删除了。
+   解决方法：先执行141017_1_moveProductUnit.sql，然后再执行141017_2_product_DDL.sql。
+-------------------------------------------------------
+
+--------------------2014-10-21 10:37-------------------
+#Author: HUI Zhang
+#Description: 
+              
+#Files: 1 files
+#Files Name: 	
+		sql/update/141020_5_product_to_business_DDL_1
+
+注意事项：
+1. 如果执行20141020_4_product_to_business_DDL_1.sql出错，是因为product_to_businessunit中不是所有qs_no的值在
+        production_license_info中都有一条记录对应。
+-------------------------------------------------------
+
+--------------------2014-10-22 14:37-------------------
+#Author: Liang Zhou
+#Description: 
+        修改t_meta_unit的id为bigint类型
+#Files: 1 files
+#Files Name: 	
+		sql/update/141022_1_t_meta_unit_update_id_DML.sql
+---------------------------------------------------------
+
+--------------------2014-10-23 17:40-------------------
+#Author: Hui Zhang
+#Description: 
+        test_result中interceptionPdfPath和fullPdfPath规范化
+#Files: 2 files
+#Files Name: 	
+		sql/update/141023_1_procedure_interceptionPdfPath.sql
+		sql/update/141023_2_procedure_fullPdfPath.sql
+---------------------------------------------------------
+
+--------------------2014-10-24 16:20-------------------
+#Author: GuoWu Chen
+#Description: 
+        添加客户、供应商及其类型的关联表
+#Files: 2 files
+#Files Name: 	
+		sql/update/141024_1_business_type_DDL.sql
+		sql/update/141024_2_businessUnit_DDL.sql
+---------------------------------------------------------
+
+--------------------2014-10-24 17:20-------------------
+#Author: XianZhen Long
+#Description: 
+        添加企业和生产许可证关联表、生产许可证与图片资源关系表
+        生产许可证数据迁移
+#Files: 2 files
+#Files Name: 	
+		sql/update/141024_3_businessunit_to_prolicinfo.sql
+		sql/update/141024_4_productionlicenseinfo_to_resource.sql
+		sql/update/141024_5_procedure_insertBusIdAndQs.sql
+---------------------------------------------------------
+
+--------------------2014-10-27 9:20-------------------
+#Author: TangXin
+#Description: 在license_info表中增加成立时间 establish_time 字段，提供仁怀系统使用。
+            备注：该脚本已于10月22日在产品环境执行过。
+#Files: 1 files
+#Files Name:sql/update/141027_1_license_info_DDL.sql
+------------------------------------------------------
+
+--------------------2014-10-27 9:20-------------------
+#Author: TangXin
+#Description: 迁移企业其他认证信息数据，包括新建 business_certification_to_product 和
+              business_certification 表，以及数据迁移等操作。
+
+#Files: 6 files
+#Files Name:sql/update/141027_2_business_certi_to_product_DML.sql
+            sql/update/141027_3_product_certification_DDL.sql
+            sql/update/141027_4_create_business_certification_DMl.sql
+            sql/update/141027_5_moveProductUnit.sql
+            sql/update/141027_6_moveProCertToBusCert.sql
+            sql/update/141027_7_moveBusCertIdAndProIdToBusProCert.sql
+---------------------------------------------------------
+
+--------------------2014-10-31 17:35-------------------
+#Author: HaoYuanBin
+#Description: ERP产品实例表关联product表ID，修改类型及长度
+
+#Files: 1 files
+#Files Name:sql/update/141031_1_t_meta_merchandise_info_instance_DDL.sql
+            
+---------------------------------------------------------
+
+--------------------2014-10-31 17:35-------------------
+#Author: HaoYuanBin
+#Description: t_meta_business_diy_type增加联合主键
+
+#Files: 1 files
+#Files Name:sql/update/141101_1_t_meta_business_diy_type_DDL_1.sql
+            
+---------------------------------------------------------
+
+--------------------2014-11-01 16:35-------------------
+#Author: HaoYuanBin
+#Description: t_meta_introduce_product创建引进产品表
+
+#Files: 1 files
+#Files Name:sql/update/141101_2_t_meta_introduce_product_DDL_1.sql
+            
+---------------------------------------------------------
+
+--------------------2014-11-03 10:35-------------------
+#Author: HaoYuanBin
+#Description: t_meta_introduce_product设置ID为自增长
+
+#Files: 1 files
+#Files Name:sql/update/141103_1_t_meta_introduce_product_DDL.sql
+            
+---------------------------------------------------------
+
+--------------------2014-11-03 11:07-------------------
+#Author: HaoYuanBin
+#Description: t_meta_introduce_product外键关联错误
+
+#Files: 1 files
+#Files Name:sql/update/141103_2_t_meta_introduce_product_DDL.sql
+            
+---------------------------------------------------------
+
+--------------------2014-11-04 10:45-------------------
+#Author: ChenXiaolin
+#Description: 设置表test_result中mk_db_flag字段为0，解决在加载检测报告时不显示数据。
+
+#Files: 1 files
+#Files Name:sql/update/141104_1_update_mk_db_flag_DML.sql
+            
+---------------------------------------------------------
+
+--------------------2014-11-05 11:30-------------------
+#Author: ChenGuoWu
+#Description: 客户、供应商联系人，以及自定义类型表
+
+#Files: 2 files
+#Files Name:sql/update/141105_1_contact_info_DDL.sql
+            sql/update/141105_2_t_meta_business_diy_type_DDL.sql
+      
+---------------------------------------------------------
+
+--------------------2014-11-05 11:30-------------------
+#Author: ZhouLiang
+#Description: 商品出库，调拨，入库保存商品信息表取消联合主键，添加id自动增长为主键。
+
+#Files: 1 files
+#Files Name:sql/update/141105_3_t_buss_business_to_merchandises_DML.sql
+      
+---------------------------------------------------------
+
+
+--------------------2014-11-07 14:55-------------------
+#Author: HaoYuanBin
+#Description: 新增初始化产品表t_meta_initialize_product、修改产品实例表外键
+		去除产品表4个字段
+#Files: 3 files
+#Files Name:sql/update/141107_1_t_meta_initialize_product_DDL.sql
+#Files Name:sql/update/141107_2_t_meta_merchandise_info_instance_DDL.sql
+#Files Name:sql/update/141107_3_product_DDL.sql   
+---------------------------------------------------------
+
+--------------------2014-11-07 16:18-------------------
+#Author: TangXin
+#Description: 删除表 t_meta_introduce_product
+#Files: 1 files
+#Files Name:sql/update/141107_4_drop_t_meta_introduce_product_DDL.sql
+---------------------------------------------------------
+
+--------------------2014-11-11 09:30-------------------
+#Author: TangXin
+#Description: 新增保存lims企业的表和字段
+#Files: 2 files
+#Files Name:sql/update/141111_1_business_unit_extands_DML.sql
+	    sql/update/141111_2_business_unit_DDL.sql
+---------------------------------------------------------
+
+--------------------2014-11-18 12:09-------------------
+#Author: HaoYuanBin
+#Description: 删除产品引进创建表及删除
+#Files: 4 files
+#Files Name:sql/update/141101_2_t_meta_introduce_product_DDL_1.sql
+	    sql/update/141103_1_t_meta_introduce_product_DDL.sql
+	    sql/update/141103_2_t_meta_introduce_product_DDL.sql
+    	    sql/update/141107_4_drop_t_meta_introduce_product_DDL.sql
+---------------------------------------------------------
+--------------------2014-11-18 14:29-------------------
+#Author: HaoYuanBin
+#Description: 设置t_meta_initialize_product数据库引擎为InnoDB
+#Files: 1 files
+#Files Name:sql/update/141107_1_t_meta_initialize_product_DDL.sql
+---------------------------------------------------------
+
+--------------------2014-11-24 14:10-------------------
+#Author: HaoYuanBin
+#Description: 收货单商品表添加是否有质检报告字段、商品库存添加预支出数量、设置初始值为0
+#Files: 2 files
+#Files Name:sql/update/141124_1_t_meta_purchaseorder_info_DDL.sql
+#Files Name:sql/update/141124_2_t_buss_merchandise_storage_info_DDL.sql
+#Files Name:sql/update/141124_3_t_buss_merchandise_storage_info_DML.sql
+---------------------------------------------------------
+
+--------------------2014-11-27 17:40-------------------
+#Author: TangXin
+#Description: 完善流通企业信息新增fdams需要的字段,新增基础表，迁移永辉大润发超市产品数据。
+#Files: 7 files
+#Files Name:sql/update/141127_1_moveMarketProduct_DML.sql
+#Files Name:sql/update/141127_2_sys_area_DDL.sql
+#Files Name:sql/update/141127_3_sys_dict_DDL.sql
+#Files Name:sql/update/141127_4_sys_office_DDL.sql
+#Files Name:sql/update/141127_5_business_unit_DDL.sql
+#Files Name:sql/update/141127_6_bus_to_sysDict_DDL.sql
+#Files Name:sql/update/141127_7_circulation_permit_info_DDL.sql
+---------------------------------------------------------
+
+--------------------2014-11-28 10:50-------------------
+#Author: Hui Zhang
+#Description: 增加品牌类型
+#Files: 2 files
+#Files Name:sql/update/141128_1_brand_category_DDL.sql
+			sql/update/141128_2_business_brand_DDL.sql
+			sql/update/141128_3_business_brand_DDL.sql
+---------------------------------------------------------
+
+--------------------2014-12-02 09:20-------------------
+#Author: TangXin
+#Description: business_unit 新增 sign_flag 字段，回复原有企业类型。
+#Files: 2 files
+#Files Name:sql/update/141201_1_business_unit_DDL.sql
+#Files Name:sql/update/141201_2_updateBusinessType_DML.sql
+--------------------------------------------------------
+
+--------------------2014-12-04 13:20-------------------
+#Author: TangXin
+#Description: test_result 新增 end_date 字段,报告有效期至
+#Files: 1 files
+#Files Name:sql/update/141204_1_test_result_DDL.sql
+--------------------------------------------------------
+
+--------------------2014-12-09 10:20-------------------
+#Author: Huangyong
+#Description: business_unit 新增 about 字段（企业简介）和website字段（企业官网）
+#Files: 1 files
+#Files Name:sql/update/141209_1_business_unit_DDL.sql
+--------------------------------------------------------
+
+--------------------2014-12-15 11:13-------------------
+#Author: Huangyong
+#Description: 新增business_market（交易市场表）、business_market_to_business（交易市场商户表）
+#Files: 2 files
+#Files Name:sql/update/141215_1_business_market_DDL.sql
+#Files Name:sql/update/141215_2_business_market_to_business_DDL.sql
+--------------------------------------------------------
+
+--------------------2014-12-15 12:10-------------------
+#Author: TangXin
+#Description: 新增表t_liutong_to_produce（流通企业—生产企业关系表）、
+		    t_liutong_produce_qs（流通企业—QS信息表）、
+		    t_liutong_field_value（组织机构—营业执照共用表）、
+		    t_liutong_field_to_resource（证照附件—资源关系表）
+#Files: 4 files
+#Files Name:sql/update/141215_3_t_liutong_to_produce_DDL.sql
+#Files Name:sql/update/141215_4_t_liutong_produce_qs_DDL.sql
+#Files Name:sql/update/141215_5_t_liutong_field_value_DDL.sql
+#Files Name:sql/update/141215_6_t_liutong_field_to_resource_DDL.sql
+--------------------------------------------------------
+
+--------------------2014-12-15 12:10-------------------
+#Author: ZhangHui
+#Description: 删除test_result中mk_publish_flag、back_flag、mk_publish_time
+#Files: 4 files
+#Files Name:sql/update/141216_1_test_result_DDL_3.sql
+--------------------------------------------------------
+
+
+--------------------2014-12-17 12:10-------------------
+#Author: ZhangHui
+#Description: 交易市场business_market添加上传标志字段、business_market_to_business表结构重新设计
+#Files: 2 files
+#Files Name:sql/update/141217_1_business_market_DDL.sql
+#Files Name:sql/update/141215_2_business_market_to_business_DDL.sql
+--------------------------------------------------------
+
+--------------------2015-01-14 12:10-------------------
+#Author: HuangYong
+#Description: 在product表中对organization字段添加索引、在test_result表中对organization字段添加索引
+#Files: 2 files
+#Files Name:sql/update/150114_1_product_ddl.sql
+#Files Name:sql/update/150114_2_test_result_ddl.sql
+--------------------------------------------------------
+
+--------------------2015-01-22 14:35-------------------
+#Author: TangXin
+#Description: 1:在product表中新增“package_flag”字段；
+              2:创建product_area 产品区域表；
+              3:创建t_std_kms_label 产品标签表；
+              4:创建qrcode_product_info 二维码产品信息表；
+#Files: 4 files
+#Files Name:sql/update/150122_1_product_DDL.sql
+            sql/update/150122_2_product_area_DDL.sql
+            sql/update/150122_3_t_std_kms_label_DDL.sql
+            sql/update/150122_4_qrcode_product_info_DDL.sql
+--------------------------------------------------------
+
+
+--------------------2015-01-22 15:51-------------------
+#Author: HaoYuanBin
+#Description: 1:创建三级分类和执行标准表product_category_info
+              2:表product改变分类外键和执行标准外键
+              3:表t_meta_out_goods_info改变分类外键
+              
+#Files: 3 files
+#Files Name:sql/update/150122_5_product_category_info_DDL.sql
+            sql/update/150122_6_product_DDL.sql
+            sql/update/150122_7_t_meta_out_goods_info_DDL.sql
+--------------------------------------------------------
+
+--------------------2015-01-28 20:51-------------------
+#Author: HaoYuanBin
+#Description: 1:创建product_to_regularity执行标准可多选
+              2:表t_test_temp_product添加二级分类字段和一级分类code字段，原分类字段存三级分类名称
+              3:表t_meta_out_goods_info改变分类外键
+              
+#Files: 2 files
+#Files Name:sql/update/150128_1_product_to_regularity_DDL.sql
+            sql/update/150128_2_t_test_temp_product_DDL.sql
+--------------------------------------------------------
+
+--------------------2015-01-30 12:51-------------------
+#Author: HuangYong
+#Description: 1:创建licenceno_format   qs 号录入规则表
+              2:表production_license_info添加 qs 号录入规则外键qsformat_id字段
+              3:表t_test_temp_busunit 添加 qs 号录入规则 id字段
+              4:表hat_province 添加省的简称short_prov字段
+              
+#Files: 4 files
+#Files Name:sql/update/150130_1_licenceno_format_DDL.sql
+            sql/update/150130_2_production_license_info_DDL.sql
+            sql/update/150130_3_t_test_temp_busunit_DDL.sql
+            sql/update/150130_4_hat_province_DDL.sql
+--------------------------------------------------------
+
+--------------------2015-03-04 10:00-------------------
+#Author: HuangYong
+#Description:1.更新product表中的category字段
+			 2.更新product_category_info表的编码格式
+			 
+#Files: 2 files
+#Files Name:sql/update/150304_1_product_DML.sql
+            sql/update/150304_2_product_category_info_DDL.sql
+--------------------------------------------------------
+
+--------------------2015-03-24 16:25--------------------
+#Author: TangXin
+#Description:删除不再使用的表 product_certification；
+#Files: 1 files
+#Files Name:sql/update/150324_1_product_cert_DDL.sql
+--------------------------------------------------------
+
+--------------------2015-03-24 16:30-------------------
+#Author: ChenXiaolin
+#Description:1.添加product表中的nutri_label字段	 
+#Files: 1 files
+#Files Name:sql/update/150324_2_product_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-03-25 10:00-------------------
+#Author: HuangYong
+#Description:1:创建update_report表用于记录portal申请更新报告的信息
+			 
+#Files: 1 files
+#Files Name:sql/update/150325_1_update_report_DDL.sql
+--------------------------------------------------------
+
+--------------------2015-03-26 16:25--------------------
+#Author: ZhaWanNeng
+#Description:1.添加risk_assessment表
+			 2.添加risk_to_property表
+			 3.添加product表中的riskIndex,riskIndex_Date,risk_succeed,test_property_name,risk_failure字段
+#Files: 3 files
+#Files Name:sql/update/150326_1_risk_assessment_DDL.sql
+			sql/update/150326_2_risk_to_property_DDL.sql
+			sql/update/150326_3_product_DDL.sql
+--------------------------------------------------------
+
+--------------------2015-03-27 11:04-------------------
+#Author: TangXin
+#Description:1.添加product表中的nutri_status字段	 
+#Files: 1 files
+#Files Name:sql/update/150327_1_product_DDL.sql
+-------------------------------------------------------
+
+
+--------------------2015-04-3 11:15--------------------
+#Author: ZhaWanNeng
+#Description: 1.添加product表中的id,product_id,userId,add_date,productName,productImg字段
+#Files: 1 files
+#Files Name:sql/update/150403_1_store_product_DDL.sql
+--------------------------------------------------------
+
+--------------------2015-04-02 16:00-------------------
+#Author: TangXin
+#Description:1.修改t_test_temp_product表中的pro_date字段为string类型	 
+#Files: 1 files
+#Files Name:sql/update/150402_1_t_test_temp_product_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-04-08 15:00-------------------
+#Author: ZhaWanNeng
+#Description:1.删除risk_to_property表中的property_id外键	 
+#Files: 1 files
+#Files Name:sql/update/150408_1_risk_to_property_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-04-11 15:00-------------------
+#Author: ZhangHui
+#Description: 新增t_meta_from_to_business销往企业表	 
+#Files: 1 files
+#Files Name:sql/update/150408_1_t_meta_from_to_business_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-04-12 11:44-------------------
+#Author: ZhangHui
+#Description: t_meta_from_to_business增加索引
+#Files: 1 files
+#Files Name:sql/update/150412_1_t_meta_from_to_business_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-04-14 14:00-------------------
+#Author: ZhaWanNeng
+#Description: 创建business_teaunit(茶叶云表)
+#Files: 1 files
+#Files Name:sql/update/150414_1_business_teaunit_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-04-14 14:02-------------------
+#Author: ZhangHui
+#Description: t_meta_initialize_product增加del字段
+#Files: 1 files
+#Files Name:sql/update/150414_2_t_meta_initialize_product_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-04-16 14:10-------------------
+#Author: tangxin
+#Description: 修改企业（business_unit）简介字段长度为2000
+#Files: 1 files
+#Files Name:sql/update/150416_1_update_business_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-04-27 14:00-------------------
+#Author: ZhangHui
+#Description: 泊银样品检测报告数据表
+#Files: 7 files
+#Files Name:sql/update/150427_1_product_category_info_DDL.sql
+            sql/update/150427_2_receive_bus_key_config_DDL.sql
+			sql/update/150427_3_receive_specimendata_DDL.sql
+			sql/update/150427_4_receive_test_property_DDL.sql
+			sql/update/150427_5_receive_test_result_DDL.sql
+			sql/update/150427_6_business_unit_DDL.sql
+			sql/update/150427_7_receive_test_result_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-04-28 13:30-------------------
+#Author: ZhangHui
+#Description: 修改泊银样品检测报告数据表
+#Files: 1 files
+#Files Name:sql/update/150428_1_receive_test_result_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-04-28 18:17-------------------
+#Author: ZhangHui
+#Description: 修改泊银样品检测报告数据表-增加创建时间字段
+#Files: 1 files
+#Files Name:sql/update/150428_2_receive_test_result_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-05-05 15:17-------------------
+#Author: Longxianzhen
+#Description: 带结构化报告处理者表
+#Files: 1 files
+#Files Name:sql/update/150505_1_test_result_handler.sql
+-------------------------------------------------------
+
+--------------------2015-05-06 14:17-------------------
+#Author: Longxianzhen
+#Description: 新增引进产品组织机构可以修改的表
+#Files: 1 files
+#Files Name:sql/update/150506_1_lead_product_org.sql
+-------------------------------------------------------
+
+--------------------2015-05-06 14:17-------------------
+#Author: Longxianzhen
+#Description: 新增记录报告流转日志表
+#Files: 1 files
+#Files Name:sql/update/150506_2_report_flow_log.sql
+-------------------------------------------------------
+
+--------------------2015-05-06 19:36-------------------
+#Author: ZhangHui
+#Description: test_result_handler中status类型改为int
+#Files: 1 files
+#Files Name:sql/update/150506_1_test_result_handler.sql
+-------------------------------------------------------
+
+--------------------2015-05-06 19:36-------------------
+#Author: ZhangHui
+#Description: product中package_flag和nutri_status的默认值为0
+#Files: 1 files
+#Files Name:sql/update/150509_1_product_DML.sql
+-------------------------------------------------------
+
+--------------------2015-05-25 10:49-------------------
+#Author: tangxin
+#Description: 创建 销售系统 数据表 结构
+#Files: 1 files
+#Files Name:sql/update/150525_1_create_sales_sys_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-05-27 14:58-------------------
+#Author: LongXianZhen
+#Description: 创建 进口食品相关 数据表 结构
+#Files: 1 files
+#Files Name:sql/update/150527_1_imported_product_correlation.sql
+-------------------------------------------------------
+
+--------------------2015-05-28 16:58-------------------
+#Author: LongXianZhen
+#Description: 新增进口食品报告与卫生证书pdf资源关系表
+#Files: 1 files
+#Files Name:sql/update/150528_1_sanitary_cert_pdf_to_resource.sql
+-------------------------------------------------------
+
+--------------------2015-06-04 11:00-------------------
+#Author: LongXianZhen
+#Description: 产品和企业操作日志表
+#Files: 1 files
+#Files Name:sql/update/150604_1_product_business_unit_log.sql
+-------------------------------------------------------
+
+--------------------2015-06-11 11:00-------------------
+#Author: HuangYong
+#Description: 修改台帐系统中的所有表的日期类型改为String
+#Files: 1 files
+#Files Name:sql/update/150611_update_tz_alltable_date_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-05-29 16:26-------------------
+#Author: ZhangHui
+#Description: 生产许可证主键改为自增长id
+#Files: 7 files
+#Files Name:sql/update/150514_1_businessunit_to_prolicinfo_DDL.sql
+			sql/update/150525_1_DDL.sql
+			sql/update/150525_2_businessunit_to_prolicinfo_DML.sql
+			sql/update/150525_3_product_to_prolicinfo_DML.sql
+			sql/update/150525_4_productionlicenseinfo_to_resource_DML.sql
+			sql/update/150525_5_t_liutong_produce_qs_DML.sql
+			sql/update/150525_6_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-06-01 16:55-------------------
+#Author: ZhangHui
+#Description: qs号认领申请相关表
+#Files: 3 files
+#Files Name:sql/update/150529_1_prolicinfo_qs_applicant_claim_DDL.sql
+			sql/update/150529_2_production_license_info_applicant_claim_backup_DDL.sql
+			sql/update/150529_3_resource_of_prolicinfo_qs_applicant_claim_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-06-03 18:29-------------------
+#Author: ZhangHui
+#Description: 企业-产品-qs号 关系表中 删除barcode字段，增加bind自段，处理数据后，删除barcode字段
+#Files: 1 files
+#Files Name:sql/update/150603_1_product_to_businessunit_DDL.sql
+			sql/update/150603_2_product_to_businessunit_DML.sql
+			sql/update/150603_3_product_to_businessunit_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-06-17 9:23-------------------
+#Author: ZhangHui
+#Description: 1. product_to_businessunit 中增加effect字段
+			  2. product_instance 中增加qs_no字段
+			  3. test_result 中增加create_user、create_time、del字段
+#Files: 1 files
+#Files Name:sql/update/150615_1_product_to_businessunit.sql
+			sql/update/150616_1_product_instance.sql
+			sql/update/150616_2_test_result.sql
+			sql/update/150617_1_product_instance_DML.sql
+			sql/update/150617_2_test_result_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-06-18 17:53-------------------
+#Author: ZhangHui
+#Description: 1. test_result 中将mk_db_flag的值迁移到dbflag(mk_db_flag此字段过期，最好不再使用)
+#Files: 1 files
+#Files Name:sql/update/150618_1_test_result_DML.sql
+-------------------------------------------------------
+
+--------------------2015-06-26 13:43-------------------
+#Author: ZhangHui
+#Description: 1. 将所有商超审核通过的报告的组织机构替换为创建它的经销商的组织机构
+			  2. 删除test_result_handle中的completion_time字段
+#Files: 2 files
+#Files Name:sql/update/150626_1_test_result_DML.sql
+			sql/update/150626_2_test_result_handle_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-07-01 13:43-------------------
+#Author: HuangYong
+#Description: 1. 台帐库存主表中新增有无报告字段
+#Files: 1 files
+#Files Name:sql/update/150630_1_tz_stack_DDL.sql
+-------------------------------------------------------‘
+
+--------------------2015-07-07 11:00-------------------
+#Author: TangXin
+#Description: 1.提供爱特购系统调用产品信息API的密钥
+#Files: 1 files
+#Files Name:sql/update/150630_2_insert_atgoo_appkey_DML.sql
+-------------------------------------------------------
+
+--------------------2015-07-07 11:16-------------------
+#Author: ZhangHui
+#Description: 1. 更改businessunit_to_prolicinfo的默认值
+#Files: 1 files
+#Files Name:sql/update/150707_1_businessunit_to_prolicinfo_DDL.sql
+-------------------------------------------------------
+
+--------------------2015-07-08 11:16-------------------
+#Author: HuangYong
+#Description: 1. 150708_1_tz_intake_log_DDL.sql创建商品入库日志记录
+			  2. 150708_1_tz_stock_DDL.sql 商品库存中添加标示是否是商品入库产生的记录
+#Files: 2 files
+#Files Name:1. sql/update/150708_1_tz_intake_log_DDL.sql
+			1. sql/update/150708_1_tz_stock_DDL.sql
+--------------------------------------------------------------------------------------------------------------
+
+--------------------2015-10-08 11:16-------------------
+#Author: HuangYong
+#Description: 1. 151008_1_addColumn_accout_out_DDL.sql 台帐退货管理中添加收货单Id列
+			  2. 151008_1_update_tz_business_account_info_DML.sql 收货详情中将历史数据中的实际收货量等于发货量
+#Files: 2 files
+#Files Name:1. sql/update/151008_1_addColumn_accout_out_DDL.sql
+			1. sql/update/151008_1_update_tz_business_account_info_DML.sql
+--------------------------------------------------------------------------------------------------------------

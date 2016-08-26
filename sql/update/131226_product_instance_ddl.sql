@@ -1,0 +1,2 @@
+ALTER TABLE `product_instance` ADD COLUMN `producer_id` BIGINT(20) DEFAULT NULL;
+ALTER TABLE `product_instance` ADD CONSTRAINT `fk_product_instance_producer` FOREIGN KEY (`producer_id`) REFERENCES `business_unit` (`id`);

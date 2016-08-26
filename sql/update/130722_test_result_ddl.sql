@@ -1,0 +1,1 @@
+ALTER TABLE `test_result`  CHANGE COLUMN `pass` `pass` TINYINT(1) NULL DEFAULT NULL;

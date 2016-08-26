@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+ <head> 
+  <title>食品安全营养信息平台</title> 
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+  <meta http-equiv="X-UA-Compatible" content="IE=10" /> 
+  <link rel="stylesheet" href="../../resource_new/css/reset.css" /> 
+  <link rel="stylesheet" href="../../resource_new/css/text.css" /> 
+  <link rel="stylesheet" href="../../resource_new/css/grid.css" /> 
+  <link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" /> 
+  <link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" /> 
+  <link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" /> 
+  <link rel="stylesheet" href="../../resource_new/css/notification.css" /> 
+  <link rel="stylesheet" href="../../resource_new/css/index_guid.css" /> 
+  <link rel="stylesheet" href="../../resource_new/css/manngerUI.css" /> 
+  <link href="../../resource_new/css/city/cityLayout.css" rel="stylesheet" /> 
+  <script src="../../resource_new/js/less.js" type="text/javascript"></script> 
+  <script src="../../resource_new/js/jquery-1.8.0.min.js"></script> 
+  <script src="../../resource_new/kendoui/js/kendo.web.min.js"></script> 
+  <script src="../../resource_new/js/jquery.cookie.js"></script> 
+  <script src="../../resource_new/js/portal/common.js"></script> 
+  <script src="../../resource_new/js/lims.i18n.js"></script> 
+  <script src="../../resource_new/js/fsn.js"></script> 
+  <script src="../../resource_new/js/lims.js"></script> 
+  <script src="../../resource_new/js/headerFooterTemplate.js"></script> 
+  <script src="../../resource_new/js/portal/jquery.form.js"></script> 
+  <script src="../../resource_new/js/upload/lims.js"></script> 
+  <script src="../../resource_new/js/util.js"></script> 
+  <script src="../../resource_new/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script> 
+  <script src="../../resource_new/js/language/list_product_addQs_zh-cn.js"></script> 
+  <script src="../../resource_new/js/market/data_entry_zh_cn.js"></script> 
+  <script src="../../resource_new/js/language/unit_up_zh-cn.js"></script> 
+  <script src="../../resource_new/js/business/unit-common.js"></script> 
+  <script src="../../resource_new/js/business/unit-produce.js"></script> 
+  <script src="../../resource_new/js/guid/unit_guid.js"></script> 
+  <script src="../../resource_new/js/portal/unit-productnew.js"></script>
+  <script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	
+</script> 
+  <style>
+    .div-tr, .div-tr div {float: left;}
+	.div-tr {width: 100%; padding-bottom: 10px;}
+	.div-td {width: 50%; line-height: 30px;}
+	.div-td-full {width: 100%;}
+	.div-td textarea {width:440px; height:80px; max-width: 440px; min-width: 200px;}
+	.div-td-add {padding-right: 4px; width: 86%;}
+	.div-td-value input {width: 370px;}
+	.div-td-name {width: 150px;}
+	.necessary{color:#f00}
+	.k-upload-button {
+    	width: 200px;
+  	}
+  	
+  	.header{
+   	 	font-size: 15px;
+    	font-weight: bold;
+    	color:white;
+    	height:30px;
+    	width:100%;
+    	padding-left:20px;
+    	background:#05bf73;
+  	} 
+  	.k-grid-header .k-header {
+  		color: #47B139;
+    	font-weight: bold;
+  		background: none repeat scroll 0 0 #F5F5F5;
+  	}
+    ._previewFieldset legend span{
+      	font-size: 1.2em;
+      	font-weight: bolder;
+      	letter-spacing: 5px;
+      }
+      ._previewFieldset {
+        color: #05bf73;
+    }
+</style> 
+ </head> 
+ <body id="home"> 
+  <div class="fixfooter wi800 fl mt20"> 
+     <div class="fullview page_title mt50 wper100 ml20" id="status_bar">
+          
+              当前位置：我的企业 >> 基本信息
+         
+      </div>
+   
+   
+   <div class="wper100 mt15"> 
+   		<div class="row ml20">
+    		<div class=" wper100 last ">
+            <div id="Switch_A" class="none" >
+                <div class="w532 tc mgncenter  bgtime  h16">
+                      <div class="in-block fl bgtimecurrent "></div>
+                      <div class="in-block fl bgtimecurrent "></div>
+                      <div class="in-block fl bgtimecurrent "></div>
+                 </div>
+                 <div class=" w600 tc mgncenter  fyahei colorae fontbld fl4 h30 mt10">
+                      <div class="in-block fl tc  w180 clrgreen">填写企业基本信息</div>
+                      <div class=" in-block fl tl w120 ">填写证件信息</div>
+                      <div class=" in-block fl tc w120 ">填写准刻证信息</div>
+                      <div class=" in-block fl tc w160 ">填写企业其他信息</div>
+                 </div>
+            	<div class="borderfieldset border-radius4">
+                	<div class="header border-radiustop4">
+      					企业基本信息
+     				</div>
+                    <fieldset  class="_previewFieldset "> 
+                    <div >
+                    <ul class="ml20 basicinfo">
+                        <li class="cb">
+                            <span class="w120 in-block tr"><span class='red_xing'>*</span><label for="name">企业名称：</label></span>
+                            <span>
+                            	<input type="hidden" id="id" name="id" value="" /> 
+         						<input type="text" id="name" name="name" class="my-textbox" required validationmessage="不能为空" />
+                                <span id="isExist" class="red_xing"></span>
+                            </span>
+                        </li>
+                        
+                        <li>
+                            <span class="w120 in-block tr"><span class='red_xing'>*</span><label for="address">企业地址：</label></span>
+                            <span ><input id="bus_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:150px;" class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationmessage="不能为空" /> </span>
+                            
+                        </li>
+                        <li>
+                            <span class="w120 in-block tr"><label >街道地址:</label></span>
+                            <span><input id="bus_streetAddress" class="my-textbox" style="width:139px;" required validationmessage="不能为空" /></span>
+                        </li>
+                        <li>
+                            <span class="w120 in-block tr"><span class='red_xing'>*</span><label  for="personInCharge">法定代表人：</label></span>
+                            <span>
+                            	<input type="text" id="personInCharge" name="personInCharge" class="my-textbox" required validationmessage="不能为空" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="w120 in-block tr"><span class='red_xing'>*</span><label  for="email">邮箱：</label></span>
+                            <span><input type="text" id="email" name="email" class="my-textbox" required validationmessage="不能为空" /> </span>
+                        </li>
+                        
+                        <li>
+                            <span class="w120 in-block tr"><label for="contact">联系人：</label></span>
+                            <span><input type="text" id="contact" name="contact" class="my-textbox" /></span>
+                        </li>
+                        <li>
+                            <span class="w120 in-block tr"><label for="postalCode">邮政编码：</label></span>
+                            <span><input type="text" id="postalCode" name="postalCode" class="my-textbox" /> </span>
+                        </li>
+                        <li>
+                            <span class="w120 in-block tr"><label for="telephone">联系电话：</label></span>
+                            <span><input type="text" id="telephone" name="telephone" class="my-textbox" /></span>
+                        </li>
+                        <li>
+                            <span class="w120 in-block tr"><label for="fax">传真：</label></span>
+                            <span><input type="text" id="fax" name="fax" class="my-textbox" /></span>
+                        </li>
+                        <li>
+                            <span class="w120 in-block tr"><label for="subjectType">主体类型：</label></span>
+                            <span><input type="text" id="subjectType" class="my-textbox" /></span>
+                        </li>
+                        <li>
+                            <span class="w120 in-block tr">
+                            	<label for="personInCharge">企业官网：</label>
+                            	<span  class="red_xing"></span>
+                            </span>
+                            <span><input type="text" id="website" name="official_website" class="my-textbox" /></span>
+                        </li>
+                  </ul>
+                  </div>
+                  <div class="cb"></div>
+                  <div class=" ml20">
+                  	<div style="height:200px; margin-top:10px;">
+                       
+                           <div style="height:100px;" class=" fl w120 tindent20"> <label for="name">企业简介：</label></div>
+                            <textarea id="product_about" name="product_about" class="my-textbox" style="width:500px;height:150px;" placeholder="请限制在500字以内"></textarea> 
+                    </div>
+                  </div>
+                  <div class="mt10">
+                  	<div>
+                    	<div class=" fl w120 tindent20"> <label for="name">企业logo：</label></div>
+                    	<div id="upload_logo_div" class="in-block"> 
+         				<!-- <input type="file" id="upload_logo_files"/> --> 
+        				</div> 
+                        
+                    </div>
+                    <div>
+                    	<div class=" fl w120 h16 tindent20"></div>
+                    	<div>
+                        	<span id="proFileMsgLogo" style="font-size: 12px;" class="color6"> 
+                         	 建议不超过1M,支持png,bmp,jpeg,jpg格式 
+                    		</span>
+                        </div>
+                    </div>
+                    
+                    
+                  </div>
+                  <div class="cb"></div>
+                  </fieldset>
+                </div>
+                <div class="pb100 tr w532 fr">
+                	  <button class="k-button inputbtn fr" id="nextstep1"><span class="k-icon"></span><span class="ui-button-text">下一步</span></button>
+                      <button class="k-button inputbtn fr" id="save"><span class="k-icon k-save"></span><span class="ui-button-text">保存</span></button>
+                </div>
+                
+          </div>
+          <div id="Switch_B"  >
+                <div class="w532 tc mgncenter  bgtime  h16">
+                      <div class="in-block fl bgtimecurrent pos1"></div>
+                      <div class="in-block fl bgtimecurrent "></div>
+                      <div class="in-block fl bgtimecurrent "></div>
+                 </div>
+                 <div class=" w600 tc mgncenter  fyahei colorae fontbld fl4 h30 mt10">
+                      <div class="in-block fl tc  w180 clrgreen">填写企业基本信息</div>
+                      <div class=" in-block fl tl w120 clrgreen">填写证件信息</div>
+                      <div class=" in-block fl tc w120 ">填写准刻证信息</div>
+                      <div class=" in-block fl tc w160 ">填写企业其他信息</div>
+                 </div>
+            	<div class="borderfieldset border-radius4">
+                	<div class="header border-radiustop4">
+      					企业基本信息
+     				</div>
+                    <fieldset  class="_previewFieldset "> 
+                    <div >
+                    <ul class="ml20 basicinfo1">
+                        <li class="oddli">
+                            <span class=" w160 in-block tr"><span class='red_xing'>*</span><label for="licenseNo">营业执照注册号：</label></span>
+                            <span>
+         						<input type="text" id="licenseNo" name="licenseNo" class="my-textbox" required validationmessage="不能为空" />
+                                <span id="isLicenseNo" class="red_xing"></span>
+                            </span>
+                        </li>
+                        <li class="evenli">
+                        	<span class=" in-block tr"><label for="businessAddress">经营场所(企业地址)：</label></span>
+                            <span><input id="bus_streetAddress" class="my-textbox" style="width:139px;" required validationmessage="不能为空" /></span>
+                            <span class=" in-block tr"><label>街道地址:</label></span>
+                            <span><input id="bus_streetAddress" class="my-textbox" style="width:139px;" required validationmessage="不能为空" /></span>
+                        </li>
+                        <li class="oddli">
+                            <span class="w160 in-block tr"><span class='red_xing'>*</span><label for="licenseName">经营主体名称：</label></span>
+                            <span ><input  type="text" autocomplete="off" class="my-textbox" id="licenseName" validationmessage="不能为空"/> </span>
+                            
+                        </li>
+                        <li class="evenli">
+                            <span class=" in-block tr"><span class='red_xing'>*</span><label  for="licenseTime">有效期限：</label></span>
+                            <span>
+                            	<input type="text" id="licenseStartTime" placeholder="例如:2014-01-01" required validationmessage="不能为空" /> 
+         						<input type="hidden" id="test_time_format" value="" style="display:none;" /> 至 
+         						<input type="text" id="licenseEndTime" placeholder="例如:2014-01-01" required validationmessage="不能为空" /> 
+                            </span>
+                        </li>
+                        <li  class="oddli">
+                             <span class="w160 in-block tr"><span class='red_xing'>*</span><label  for="legalName">法人代表(负责人)：</label></span>
+                            <span>
+                            	<input type="text"  id="legalName" class="my-textbox" required validationmessage="不能为空" />
+                            </span>
+                        </li>
+                       <li class="evenli">
+                            <span class="w120 in-block tr"><label for="toleranceRange">许可范围：</label></span>
+                            <span><input type="text"id="toleranceRange" class="my-textbox" /></span>
+                        </li>
+                         <!--<li  class="oddli">
+                            <span class="w120 in-block tr"><label for="postalCode">邮政编码：</label></span>
+                            <span><input type="text" id="postalCode" name="postalCode" class="my-textbox" /> </span>
+                        </li>
+                        <li class="evenli">
+                            <span class="w120 in-block tr"><label for="telephone">联系电话：</label></span>
+                            <span><input type="text" id="telephone" name="telephone" class="my-textbox" /></span>
+                        </li>
+                        <li class="oddli">
+                            <span class="w120 in-block tr"><label for="fax">传真：</label></span>
+                            <span><input type="text" id="fax" name="fax" class="my-textbox" /></span>
+                        </li>
+                        <li class="evenli">
+                            <span class="w120 in-block tr"><label for="subjectType">主体类型：</label></span>
+                            <span><input type="text" id="subjectType" class="my-textbox" /></span>
+                        </li>
+                        <li class="oddli">
+                            <span class="w120 in-block tr">
+                            	<label for="personInCharge">企业官网：</label>
+                            	<span  class="red_xing"></span>
+                            </span>
+                            <span><input type="text" id="website" name="official_website" class="my-textbox" /></span>
+                        </li>-->
+                  </ul>
+                  </div>
+                  <!--<div class="cb"></div>
+                  <div class=" ml20">
+                  	<div style="height:200px; margin-top:10px;">
+                       
+                           <div style="height:100px;" class=" fl w120 tindent20"> <label for="name">企业简介：</label></div>
+                            <textarea id="product_about" name="product_about" class="my-textbox" style="width:500px;height:150px;" placeholder="请限制在500字以内"></textarea> 
+                    </div>
+                  </div>
+                  <div class="mt10">
+                  	<div>
+                    	<div class=" fl w120 tindent20"> <label for="name">企业logo：</label></div>
+                    	<div id="upload_logo_div" class="in-block"> 
+        				</div> 
+                        
+                    </div>
+                    <div>
+                    	<div class=" fl w120 h16 tindent20"></div>
+                    	<div>
+                        	<span id="proFileMsgLogo" style="font-size: 12px;" class="color6"> 
+                         	 建议不超过1M,支持png,bmp,jpeg,jpg格式 
+                    		</span>
+                        </div>
+                    </div>
+                    
+                    
+                  </div>
+                  <div class="cb"></div>-->
+                  </fieldset>
+                </div>
+                <div class="pb100 tr w532 fr">
+                	  <a class="k-button inputbtn fr" id="nextstep1"><span class="k-icon"></span><span class="ui-button-text">下一步</span></a>
+                      <a class="k-button inputbtn fr" id="save"><span class="k-icon k-save"></span><span class="ui-button-text">保存</span></a>
+                </div>
+                
+          </div>
+                
+                 
+<!--     			<div class="header">
+      				<span>企业Logo</span>
+     			</div> 
+     			<fieldset> 
+      			<div class="div-tr"> 
+       				<div class="div-td"> 
+        				<div class="div-td-name">
+         					<label for="name">企业简介：</label>
+         					<font class="necessary"></font>
+        				</div> 
+        				<div class="div-td-value"> 
+         					<textarea id="product_about" name="product_about" class="k-textbox" style=" width:370px" placeholder="请限制在500字以内"></textarea> 
+        				</div> 
+       				</div> 
+       				<div class="div-td"> 
+        				<div class="div-td-name">
+         					<label for="personInCharge">企业官网：</label>
+         					<font class="necessary"></font>
+        				</div> 
+        				<div class="div-td-value"> 
+         					<input type="text" id="website" name="official_website" class="k-textbox" /> 
+        				</div> 
+       				</div> 
+      			</div> 
+      			<div class="div-tr"> 
+       				<div class="div-td"> 
+        				<label id="proFileMsgLogo" style="font-size: 12px;color:red;"> 
+                                (注意:为保证更流畅的体验，建议每次上传照片不超过1M！ 可支持文件格式：png .bmp .jpeg .jpg ) 
+                        </label> 
+       				</div> 
+      			</div> 
+      			<div class="div-tr"> 
+       				<div class="div-td"> 
+        				<div id="upload_logo_div"> 
+         				 //<input type="file" id="upload_logo_files"/>  
+        				</div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div id="logoListView"> 
+         <div id="logoAttachmentsListView"></div> 
+        </div> 
+       </div> 
+      </div> 
+     </fieldset> 
+     <div class="header">
+      <span>企业基本信息</span>
+     </div> 
+     <fieldset> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="name">企业名称：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="hidden" id="id" name="id" value="" /> 
+         <input type="text" id="name" name="name" class="k-textbox" value="" required validationmessage="不能为空" /> 
+         <span id="isExist" class="necessary"></span> 
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="personInCharge">法定代表人：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="personInCharge" name="personInCharge" class="k-textbox" required validationmessage="不能为空" /> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="address">企业地址：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input id="bus_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:150px;" class="k-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationmessage="不能为空" /> 
+         <label>街道地址:</label> 
+         <input id="bus_streetAddress" class="k-textbox" style="width:139px;" required validationmessage="不能为空" /> 
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="email">邮箱：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="email" name="email" class="k-textbox" required validationmessage="不能为空" /> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="contact">联系人：</label>
+        </div> 
+        <div class="div-td-value">
+         <input type="text" id="contact" name="contact" class="k-textbox" />
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="postalCode">邮政编码：</label>
+        </div> 
+        <div class="div-td-value">
+         <input type="text" id="postalCode" name="postalCode" class="k-textbox" /> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="telephone">联系电话：</label>
+        </div> 
+        <div class="div-td-value">
+         <input type="text" id="telephone" name="telephone" class="k-textbox" /> 
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="fax">传真：</label>
+        </div> 
+        <div class="div-td-value">
+         <input type="text" id="fax" name="fax" class="k-textbox" />
+        </div> 
+       </div> 
+      </div> 
+     </fieldset> 
+     <div class="header">
+      营业执照信息
+     </div> 
+     <fieldset> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="licenseNo">营业执照注册号：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="licenseNo" name="licenseNo" class="k-textbox" /> 
+         <span id="isLicenseNo" class="necessary"></span> 
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="licenseName">经营主体名称：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="licenseName" class="k-textbox" required validationmessage="不能为空" /> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="legalName">法人代表(负责人)：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="legalName" class="k-textbox" required validationmessage="不能为空" /> 
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="licenseTime">有效期限：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="licenseStartTime" placeholder="例如:2014-01-01" required validationmessage="不能为空" /> 
+         <input type="hidden" id="test_time_format" value="" style="display:none;" /> 至 
+         <input type="text" id="licenseEndTime" placeholder="例如:2014-01-01" required validationmessage="不能为空" /> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="registrationTime">注册时间：</label>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="registrationTime" placeholder="例如:2014-01-01" /> 
+         <input type="hidden" id="registrationTime_format" value="" style="display:none;" /> 
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="issuingAuthority">发照机关：</label>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="issuingAuthority" class="k-textbox" /> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="subjectType">主体类型：</label>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="subjectType" class="k-textbox" /> 
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="businessAddress">经营场所(企业地址)：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input id="license_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:150px;" class="k-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationmessage="不能为空" /> 
+         <label>街道地址:</label> 
+         <input id="license_streetAddress" class="k-textbox" style="width:139px;" required validationmessage="不能为空" /> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="toleranceRange">许可范围：</label>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="toleranceRange" class="k-textbox" /> 
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="registeredCapital">注册资金：</label>
+        </div> 
+        <div class="div-td-value"> 
+         <input type="text" id="registeredCapital" class="k-textbox" /> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <label id="proFileMsgLicense" style="font-size: 12px;color:red;"> (注意:为保证更流畅的体验，建议每次上传照片不超过1M！ 可支持文件格式：png .bmp .jpeg .jpg ) </label> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div id="upload_license_div"> 
+//          <input type="file" id="upload_license_files"/>  
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div id="logListView"> 
+         <button id="btn_clearLicenseFiles" class="k-button" style="display: flex;"><span data-fsn-text="empty"></span></button> 
+         <div id="licenseAttachmentsListView"></div> 
+        </div> 
+       </div> 
+      </div> 
+     </fieldset> 
+     <div class="header">
+      组织机构代码证件
+     </div> 
+     <fieldset> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="orgCode">组织机构代码：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value">
+         <input type="text" id="orgCode" name="orgCode" class="k-textbox" required validationmessage="不能为空" />
+        </div> 
+        <span id="isLicenseNo" class="necessary"></span> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="orgCode">有效期限：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <input type="text" id="orgStartTime" placeholder="例如:2014-01-01" required validationmessage="不能为空" /> 至 
+        <input type="text" id="orgEndTime" placeholder="例如:2014-01-01" required validationmessage="不能为空" /> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="orgName">组织机构名称：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value">
+         <input type="text" id="orgName" class="k-textbox" required validationmessage="不能为空" />
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="unitsAwarded">颁发单位：</label>
+        </div> 
+        <div class="div-td-value">
+         <input type="text" id="unitsAwarded" class="k-textbox" />
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="orgType">组织机构类型：</label>
+        </div> 
+        <div class="div-td-value">
+         <input type="text" id="orgType" class="k-textbox" />
+        </div> 
+       </div> 
+       <div class="div-td"> 
+        <div class="div-td-name">
+         <label for="orgAddress">组织机构地址：</label>
+         <font class="necessary">*</font>
+        </div> 
+        <div class="div-td-value"> 
+         <input id="org_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:150px;" class="k-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationmessage="不能为空" /> 
+         <label>街道地址:</label> 
+         <input id="org_streetAddress" class="k-textbox" style="width:139px;" required validationmessage="不能为空" /> 
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <label id="proFileMsgOrg" style="font-size: 12px;color:red;"> (注意:为保证更流畅的体验，建议每次上传照片不超过1M！ 可支持文件格式：png .bmp .jpeg .jpg ) </label> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div id="upload_org_div"> 
+//          <input type="file" id="upload_orgnization_files"/>  
+        </div> 
+       </div> 
+      </div> 
+      <div class="div-tr"> 
+       <div class="div-td"> 
+        <div id="logListView"> 
+         <button id="btn_clearOrgFiles" class="k-button" style="display: flex;"><span data-fsn-text="empty"></span></button> 
+         <div id="orgAttachmentsListView"></div> 
+        </div> 
+       </div> 
+      </div> 
+     </fieldset> 
+     <div class="header">
+      生产许可证信息
+     </div> 
+     <fieldset> 
+      <script id="toolbar_template" type="text/x-kendo-template">
+              				<button id="addProLic" class="k-button">
+             				<span class="k-icon k-add"></span>添加</button>
+            			</script> 
+      <div id="productionLic" class="grid"></div> 
+     </fieldset> 
+//      其他认证信息  
+     <div class="header">
+      <span data-fsn-text="Authentication information"></span>
+     </div> 
+     <fieldset> 
+      <div> 
+       <div class="div-td div-td-full"> 
+        <div class="div-td-value"> 
+         <div> 
+          <label id="certFileMsg" style="font-size: 12px;color:red;"> <span data-fsn-text="(note: In order to ensure a smooth experience, it is recommended that each upload photos not more than 1 m! Can support the file format, PNG, BMP, jpeg)"></span> </label> 
+          <label id="hideMsg" style="display:none"></label> 
+         </div> 
+         <div id="upload_certification_div"></div> 
+        </div> 
+        <div> 
+         <div id="certification-grid"></div> 
+        </div> 
+       </div> 
+      </div> 
+     </fieldset> 
+     <div class="div-tr" style="margin-bottom:50px;"> 
+      <div class="div-td"> 
+       <button class="k-button" id="save"><span class="k-icon k-save"></span><span class="ui-button-text">保存</span></button>
+//        <button class="k-button"><span class="k-icon k-update"></span><span class="ui-button-text" data-fsn-text="Upload">提交</span></button>  
+      </div> 
+     </div> 
+     <div id="msg_success" class="msg success" style="margin-left: 0px; padding-top: 2%;"></div> 
+     <script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+						&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+						<button class="k-button" onclick="return fsn.business_unit.removeRes(#=attachments.id#)">
+        				<span class="k-icon k-cancel"></span>删除</button><br><br>
+    				</script> 
+     <script type="text/x-kendo-template" id="toolbar_template_cert">
+              			<button class="k-button" onclick="return fsn.addCert()">
+             			<span class="k-icon k-add" ></span><span data-fsn-text="Add">添加</span></button>
+   				 	</script> 
+     <div id="k_window"> 
+      <span id="winMsg"></span> 
+     </div>
+     <span id="RETURN_MES" style="display:none;"></span> 
+     <script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../resource_new/img/error-icon.png" />
+                    <h3 style="width:240px;">#= message #</h3>
+                </div>
+    </script> 
+     <script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success">
+                    <img src="../../resource_new/img/success-icon.png" />
+                    <h3 style="width:240px;">#= message #</h3>
+                </div>
+	</script> 
+    </div> 
+   </div> 
+   </div>
+  </div> 
+   页面引导 start 
+  <div style="position:fixed;right:-2em;bottom:50px;width:150px;"> 
+   <div onclick="return fsn.startForwMeStep();">
+    <img src="http://qa.fsnrec.com/portal/guid/unit/unit_newintroduce.png" />
+   </div> 
+  </div> 
+  <div id="followMeDiv"></div> 
+  <div class="stepContent" style="top:80px;"> 
+   <div id="followMeStep" style="display:none;"> 
+    <a name="stp1"></a> 
+    <img id="imgs" class="noneStyle" /> 
+    <div style="position:relative;top:-2.7em;left:16.2em;width:73px;height:29px;"> 
+     <a class="noneStyle" href="javascript:void(0);" onclick="return fsn.backStep();" title="上一页"> 
+      <div style="width:35px;height:29px;color:red;"></div> </a> 
+    </div> 
+    <div style="position:relative;top:-4.5em;left:19em;width:73px;height:29px;"> 
+     <a class="noneStyle" href="javascript:void(0);" onclick="return fsn.nextStep();" title="下一页"> 
+      <div style="width:35px;height:29px;color:red;"></div> </a> 
+    </div> 
+    <div style="position:relative;top:-6.4em;left:21.8em;width:25px;height:20px;"> 
+     <a class="noneStyle" href="javascript:void(0);" onclick="return fsn.cancelStep();" title="关闭引导"> 
+      <div style="width:35px;height:29px;color:red;"></div> </a> 
+    </div> 
+   </div> 
+  </div> 
+  <!-- 页面引导 end--> 
+  <!--弹出省省市--> 
+  <!-- 弹出地名选择控件 --> 
+  <div class="provinceCityAll" style="z-index: 100010;"> 
+   <div class="tabs clearfix"> 
+    <ul class=""> 
+     <li><a href="javascript:" class="current" tb="hotCityAll">热门城市</a></li> 
+     <li><a href="javascript:" tb="provinceAll">省份</a></li> 
+     <li><a href="javascript:" tb="cityAll" id="cityAll">城市</a></li> 
+     <li><a href="javascript:" tb="countyAll" id="countyAll">区县</a></li> 
+    </ul> 
+   </div> 
+   <div class="con"> 
+    <div class="hotCityAll invis"> 
+     <div class="pre">
+      <a></a>
+     </div> 
+     <div class="list"> 
+      <ul></ul> 
+     </div> 
+     <div class="next">
+      <a class="can"></a>
+     </div> 
+    </div> 
+    <div class="provinceAll invis"> 
+     <div class="pre">
+      <a></a>
+     </div> 
+     <div class="list"> 
+      <ul></ul> 
+     </div> 
+     <div class="next">
+      <a class="can"></a>
+     </div> 
+    </div> 
+    <div class="cityAll invis"> 
+     <div class="pre">
+      <a></a>
+     </div> 
+     <div class="list"> 
+      <ul></ul> 
+     </div> 
+     <div class="next">
+      <a class="can"></a>
+     </div> 
+    </div> 
+    <div class="countyAll invis"> 
+     <div class="pre">
+      <a></a>
+     </div> 
+     <div class="list"> 
+      <ul> 
+      </ul> 
+     </div> 
+     <div class="next">
+      <a class="can"></a>
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+<!--  <div id="addProLicWindow"> 
+   <fieldset class="_previewFieldset"> 
+   <div class="div-tr"> 
+    <div class="div-td-name">
+     <label for="qsNo">证书类型：</label>
+     <font class="necessary">*</font>
+    </div> 
+    <input id="qsFname" type="text" style="width:370px;" /> 
+   </div> 
+    <legend><span>生产许可证信息</span></legend> 
+    <label id="qs_msg"><font class="necessary">该证书编号不能被修改,请先解绑后再试</font></label> 
+    <div class="div-tr"> 
+     <div class="div-td"> 
+      <div class="div-td-name">
+       <label for="qsNo">证书编号：</label>
+       <font class="necessary">*</font>
+      </div> 
+      <div class="div-td-value"> 
+       <label id="showQsFormat">QS</label> 
+       <input type="text" id="qsNo" class="k-textbox" style="width:320px;" onkeydown="fsn.business_unit.formatQsNo(this,this.value)" />
+      </div> 
+      <span id="isLicenseNo" class="necessary"></span> 
+     </div> 
+     <div class="div-td"> 
+      <div class="div-td-name">
+       <label for="busunitName">生产企业名称：</label>
+       <font class="necessary">*</font>
+      </div> 
+      <div class="div-td-value">
+       <input type="text" id="busunitName" class="k-textbox" />
+      </div> 
+      <span id="isLicenseNo" class="necessary"></span> 
+     </div> 
+    </div> 
+    <div class="div-tr"> 
+     <div class="div-td"> 
+      <div class="div-td-name">
+       <label >产品名称：</label>
+       <font class="necessary">*</font>
+      </div> 
+      <div class="div-td-value"> 
+       <input type="text" id="productName" style="width:370px" /> 
+      </div> 
+      <span id="isLicenseNo" class="necessary"></span> 
+     </div> 
+     <div class="div-td"> 
+      <div class="div-td-name">
+       <label for="orgCode">有效期限：</label>
+       <font class="necessary">*</font>
+      </div> 
+      <input type="text" id="qsStartTime" placeholder="例如:2014-01-01" /> 至 
+      <input type="text" id="qsEndTime" placeholder="例如:2014-01-01" /> 
+     </div> 
+    </div> 
+    <div class="div-tr"> 
+     <div class="div-td"> 
+      <div class="div-td-name">
+       <label for="accommodation">住所：</label>
+      </div> 
+      <div class="div-td-value"> 
+       <input id="accommodation_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:150px;" class="k-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" /> 
+       <label>街道地址:</label> 
+       <input id="accommodation_streetAddress" class="k-textbox" style="width:139px;" /> 
+      </div> 
+     </div> 
+     <div class="div-td"> 
+      <div class="div-td-name">
+       <label for="qsBusinessAddress">生产地址：</label>
+       <font class="necessary">*</font>
+      </div> 
+      <div class="div-td-value"> 
+       <input id="qs_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:150px;" class="k-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" /> 
+       <label>街道地址:</label> 
+       <input id="qs_streetAddress" class="k-textbox" style="width:139px;" /> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="div-tr"> 
+     <div class="div-td"> 
+      <div class="div-td-name">
+       <label for="checkType">检验方式：</label>
+      </div> 
+      <div class="div-td-value">
+       <input type="text" id="checkType" class="k-textbox" />
+      </div> 
+     </div> 
+    </div> 
+    <div class="div-tr"> 
+     <div class="div-td"> 
+      <div class="div-td-value"> 
+       <label id="proFileMsgQs" style="font-size: 12px;color:red;"> (注意:为保证更流畅的体验，建议每次上传照片不超过1M！ 可支持文件格式：png .bmp .jpeg .jpg ) </label> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="div-tr"> 
+     <div class="div-td"> 
+      <div id="upload_qs_div"> 
+//        <input type="file" id="upload_qs_files"/>  
+      </div> 
+     </div> 
+    </div> 
+   </fieldset> 
+   <div class="div-tr"> 
+    <div class="div-td"> 
+     <div id="logListView"> 
+      <button id="btn_clearQsFiles" class="k-button" style="display: flex;"><span data-fsn-text="empty"></span></button> 
+      <div id="qsAttachmentsListView"></div> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="div_tr" style="text-align: right;"> 
+    <div class="div-td">
+     &nbsp;&nbsp;&nbsp;&nbsp;
+    </div> 
+    <div class="div-td">
+     <button class="k-button" id="saveProLic"><span class="k-icon k-save"></span><span class="ui-button-text">确定</span></button>
+    </div> 
+   </div> 
+-->   <!--删除提示框--> 
+   <div id="PromptWindow" style="display: none"> 
+    <div align="center">
+     <label>确定删除吗？删除后点击保存才能生效！</label>
+    </div> 
+    <div style="padding-top: 20px" align="center"> 
+     <button id="confirmWindow" class="k-button"><span class="k-icon k-update"></span>确定</button> 
+     <button id="cancelWindow" class="k-button"><span class="k-icon k-delete"></span>取消</button> 
+    </div> 
+    <!--提示保存后才能生效--> 
+    <div id="wordWindow" style="display: none"> 
+     <div align="center">
+      <label>更新内容，需点击保存之后才生效！</label>
+     </div> 
+     <div style="padding-top: 20px" align="center"> 
+      <button id="sureWindow" class="k-button"><span class="k-icon k-update"></span>确定</button> 
+     </div> 
+    </div> 
+   </div>  
+   <script src="../../resource_new/js/city/citypublic.js"></script> 
+  </div>
+ </body>
+</html>

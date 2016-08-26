@@ -1,0 +1,83 @@
+@IMPORT url("common.css");
+#top-nav {
+	z-index: 10000;
+	height: 29px;
+	border-bottom: 1px solid #eee;
+	background: #f5f5f5;
+}
+#navbar {
+	z-index: 10002;
+	position: relative;
+	width: 1024px;
+	height: 29px;
+	margin: 0px auto;
+	padding: 0px 6px;
+	line-height: 30px;
+}
+
+ul.navbar-download-app,ul.navbar-download-app li, ul.navbar-l, ul.navbar-l li,ul.navbar-l li>div,ul.navbar-l li>div a, ul.navbar-l li>div span {
+	float: left;
+}
+ul.navbar-download-app,ul.navbar-download-app .phone-icon{
+	float: left;
+	margin-left:10px;
+}
+.phone-icon{
+	width:18px;
+	height:18px;
+	margin-top:5px;
+}
+ul.navbar-l li>div, ul.navbar-download-app li>div{margin: 0px 10px;}
+
+ul li a,ul li span {
+	display: inline;
+}
+ul.navbar-download-app li>div {cursor: pointer;margin-left: 4px;}
+#navbar .navbar-r {
+	float: right;
+}
+.navbar-r .nav-col {
+	float: left; border-width: 0px 1px; border-style: solid; border-color: #f5f5f5;
+}
+ul.navbar-r>li {float:left; cursor: pointer;}
+.navbar-r >li.hover {
+	border-width: 0px 1px;
+	border-style: solid;
+	border-color: #c9c9c9 !important;
+	background-color: #fff;
+}
+.navbar-r div.nav-sub-bar {
+	display: block;
+	height: 30px;
+}
+.navbar-r div.nav-sub-bar div.favorite-img,.navbar-r div.nav-sub-bar div.help-img,.navbar-r div.nav-sub-bar div.navigation-img{
+	float: left;
+	width: 14px;
+	height: 24px;
+	margin-left: 10px;
+}
+.navbar-r div.nav-sub-bar div.favorite-img{background: url(../../img/portal/index_tool.png) no-repeat -130px -35px;}
+.navbar-r div.nav-sub-bar div.help-img{background: url(../../img/portal/index_tool.png) no-repeat -130px -35px;}
+.navbar-r div.nav-sub-bar div.navigation-img{background: url(../../img/portal/index_tool.png) no-repeat -102px -35px;}
+.navbar-r div.nav-sub-bar span{
+	float: left; padding: 0px 10px;
+}
+.navbar-r .nav-drop .hover {
+	display: block;
+}
+.navbar-r .nav-drop .navdrop {position: relative;display: none;}
+.navbar-r .nav-drop .navdrop .navpanel {
+	z-index: -1;
+	position: absolute;
+	display: block;
+	left: -1px;
+	top: 0px;
+	width: 94px;
+	margin-top: -1px;
+	padding: 5px 0px;
+	border-width: 1px;
+	border-style: solid;f
+	border-color: #c9c9c9;
+	background-color: #fff;
+}
+.navbar-r .nav-drop .navdrop .navpanel a {display: block; margin:auto; text-align: center;}

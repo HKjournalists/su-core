@@ -1,0 +1,1 @@
+alter table test_property modify column tech_indicator varchar(500);

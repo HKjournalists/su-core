@@ -1,0 +1,5 @@
+/trunk/fsn_cloud/sql/init/fsn_cloud_ddl.sql
+
+/********** 2014年01月06日  ***************/ 
+
+数据库初始化脚本

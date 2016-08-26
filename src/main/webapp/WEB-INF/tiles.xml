@@ -1,0 +1,33 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	<definition name="baselayout" template="/WEB-INF/views/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/header.jsp"/>
+		<put-attribute name="body" value=""/>
+		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+	</definition>
+	
+	<definition name="login" template="/WEB-INF/views/login.jsp"/>
+	<definition name="home" template="/WEB-INF/views/home.jsp"/>
+
+	<!-- Fields -->
+	<definition name="fields/add" extends="baselayout">
+		<put-attribute name="body" value="/WEB-INF/views/field/add.jsp"/>
+	</definition>
+	<definition name="fields/update" extends="baselayout">
+		<put-attribute name="body" value="/WEB-INF/views/field/update.jsp"/>
+	</definition>	
+	<definition name="fields/management" extends="baselayout">
+		<put-attribute name="body" value="/WEB-INF/views/field/management.jsp"/>
+	</definition>
+	
+	<!-- Template -->	
+	<definition name="template/add" extends="baselayout">
+		<put-attribute name="body" value="/WEB-INF/views/template/add.jsp"/>
+	</definition>
+	<definition name="template/update" extends="baselayout">
+		<put-attribute name="body" value="/WEB-INF/views/template/update.jsp"/>
+	</definition>
+	<definition name="template/management" extends="baselayout">
+		<put-attribute name="body" value="/WEB-INF/views/template/management.jsp"/>
+	</definition>
+</tiles-definitions>

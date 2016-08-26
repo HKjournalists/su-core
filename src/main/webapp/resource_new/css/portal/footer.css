@@ -1,0 +1,38 @@
+/* footer-info */
+#footer {float: left; width: 100%; overflow: hidden; text-align: center; border-top: 3px solid #008000; margin: 40px 0 20px 0;}
+#footer .backTop {margin: 0 auto; height: 20px; }
+#footer .backTop img {width: 100px; height: 20px; background: url(../../img/portal/footer.png) -12px -18px;}
+#footer .footer-info {width: 1024px; margin: 0 auto;}
+#footer .footer-info>div {width: 100%; margin: 10px 0; padding: 10px 0;}
+.ft-info-grid .grid-row {float: left; width: 12.5%;}
+.ft-info-grid .grid-row li {height: 30px;line-height: 30px;text-align: left; padding-left: 44px;}
+.ft-info-grid .grid-row .grid-list{padding-left:12px;}
+.ft-info-grid .grid-title span {line-height: 100%;color:#AA4544;}
+.ft-info-grid .grid-title img{width: 22px; height: 22px; vertical-align: middle; padding-right: 10px;}
+#portal-nav-guide .grid-title img{background: url(../../img/portal/footer.png) -16px -46px;}
+#portal-nav-delivery .grid-title img{background:url(../../img/portal/footer.png) -56px -46px;}
+#portal-nav-pay .grid-title img{background:url(../../img/portal/footer.png) -90px -46px;}
+#portal-nav-service .grid-title img{background:url(../../img/portal/footer.png) -125px -46px;}
+#portal-nav-website .grid-title img{background:url(../../img/portal/footer.png) -158px -46px;}
+#portal-nav-csp  img{background:url(../../img/portal/footer.png) -194px 0px;width:90px;height:85px;}
+#portal-nav-csp{width:30%;padding-left:60px;}
+#portal-nav-csp .grid-title{float:left;padding-top:10px;}
+#portal-nav-csp .grid-list{margin-left:60px;color:#706C6B;}
+#portal-nav-csp .grid-list span{font-size:20px;font-weight:bold;color:#706C6B;line-height:20px;}
+#portal-nav-csp .grid-list li{font-size:30px;;font-family:Agency;}
+.ft-middle-grid {clear:both;}
+.ft-middle-grid .grid-row {float: left; width: 12.5%; padding:40px 0;}
+.ft-middle-grid .grid-row li{font-size:12px;color:#107E11;}
+.ft-middle-grid .grid-row img{width:60px;height:70px;}
+#portal-nav-choice{margin-left:180px;}
+#portal-nav-choice  img{background:url(../../img/portal/footer.png) 0 -88px;}
+#portal-nav-nutri  img{background:url(../../img/portal/footer.png) -55px -88px;}
+#portal-nav-secure  img{background:url(../../img/portal/footer.png) -109px -88px;}
+#portal-nav-serv  img{background:url(../../img/portal/footer.png) -165px -88px;}
+#portal-nav-return  img{background:url(../../img/portal/footer.png) -238px -88px;}
+#footer .friendship {clear:both;}
+#footer .friendship ul{padding-left:188px;}
+#footer .friendship li{float:left;border-right:1px solid #555555;padding:0 10px;}
+#footer .friendship .last{border:0px;}
+#footer .copyright { padding: 10px 0;}
+#footer .copyright span{font-size: 12px; line-height: 15px;}

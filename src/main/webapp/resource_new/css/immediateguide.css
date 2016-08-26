@@ -1,0 +1,134 @@
+/* ��ܰ��ʾ */
+  #immediate-guide-trigger {
+    bottom: 60%;
+    cursor: pointer;
+    position: fixed;
+    right: 0;
+    z-index: 10001;
+  }
+  #daojishi{
+  	bottom: 46%;
+    cursor: pointer;
+    position: fixed;
+    right: 0;
+    z-index: 10001;
+    color:red;
+    font-size: 15px;
+    background-color: #F1EDED;
+    border-color: #E9891A;
+    border-style: solid;
+    border-width: 1px;
+  }
+  #immediate-guide-trigger a {
+    background: url("../img/warm_prompt_1.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    height: 120px;
+    width: 46px;
+  }
+  body #immediate-guide-trigger a {
+  }
+  #immediate-guide-trigger a:hover {
+    background: url("../img/warm_prompt_2.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    cursor: pointer;
+  }
+  body #immediate-guide-trigger a:hover {
+  }
+  #immediate-guide-trigger a:focus {
+    outline: medium none;
+  }
+  #immediate-guide-trigger {
+  }
+  #skin-box-bd {
+    background-color: #F1EDED;
+    border-color: #E9891A;
+    border-style: solid;
+    border-width: 1px;
+    display: none;
+    right: 28px;
+    position: fixed;
+    width: 188px;
+    height: 130px;
+    font-size: 15px;
+    font-weight: bold;
+    color:#05bf73;
+    padding:5px;
+  }
+  #skin-box-bd {
+    bottom: auto;
+    bottom: 60%;
+  }
+  
+  /* ���ذ�ť  */
+  .goTab {
+    bottom: 56px;
+    position: fixed;
+    right: 10px;
+    bottom:110px;
+    z-index: 999;
+  }
+  .goTab ul {
+    margin: 0;
+  }
+  .goTab li {
+    font-size: 14px;
+    height: 45px;
+    line-height: 45px;
+    list-style: none outside none;
+    margin-bottom: 4px;
+    position: relative;
+    width: 45px;
+  }
+  .goTab li a {
+    background-color: #C0C0C0;
+    color: #FFFFFF !important;
+    cursor: pointer;
+    height: 45px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: none;
+    top: 0;
+    transition: background-color 0.3s linear 0s;
+    width: 45px;
+  }
+  .goTab li a:hover {
+    background-color: #989898;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  .goTab li b {
+    background: url("http://qa.fsnrec.com/portal/indeximg/newVersion/v2_0_0img/goTab.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    height: 23px;
+    position: absolute;
+    right: 13px;
+    top: 11px;
+    width: 19px;
+  }
+  .goTab li span {
+    color: #FFFFFF;
+    position: absolute;
+    right: 32px;
+    width: 60px;
+    font-size: 1.1em;
+  }
+  .goTab .gTop b {
+    background-position: 0 0;
+  }
+  .goTab .gPrev b {
+    background-position: 0 -24px;
+  }
+  .goTab .gNext b {
+    background-position: 0 -48px;
+  }
+  .goTab .gSuggest {
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 0;
+  }
+  .goTab .gSuggest a {
+    height: 39px;
+    padding-top: 6px;
+  }

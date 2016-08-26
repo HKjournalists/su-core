@@ -1,0 +1,129 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>舆情监控</title>
+
+<link rel="stylesheet" href="../../resource/css/reset.css"/>
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link rel="stylesheet" href="../../resource/css/sentiment/detail.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+<script type="text/javascript" src="../../resource/js/language/settings_zh-cn.js"></script>
+<script type="text/javascript" src="../../resource/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../resource/js/fsn.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script type="text/javascript" src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/util.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource/js/sentiment/articleDetail.js"></script>
+	<script type="text/javascript">
+	
+		$(function(){
+			var detail = {};
+	        $("fieldset input").focus(function(){
+	            $(this).parent().prev("label").hide();
+	        });
+	        $("fieldset input").blur(function(){
+	            if ($(this).val().trim().length < 1) {
+	                $(this).parent().prev("label").show();
+	            }
+	        });
+	        $(".hideBusName").hide();
+		});
+	</script>    
+    
+  </head>
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+     <div class="android-content mdl-layout__content">
+      <a name="top"></a>
+        <div><!-- class="android-be-together-section" -->
+        	<div class="panel-wrap">
+            <!-- responsive panel, collapsed on small screens -->
+            <button id="confirm_no_btn1"><span class="k-icon k-cancel"></span><label data-lims-text="Cancel"></label></button>&nbsp;&nbsp;
+            <div id="main-content">
+                <div id="blogs" class="widget1">
+                    <div style="padding: 10px 10px;" align="center">
+                    		<div id="article_top">
+                    			<div id="article_title"></div>
+                    		</div>
+                    		<div id="article-center">
+                    			<div id="article-content">
+                    				
+                    			</div>
+                    		</div>
+                    		
+                    </div>
+                    
+                </div>
+                <div id="article-content-left">
+                 	<a id="source-btn" class="k-button k-button-icontext k-grid-add" href="javascript:void(0)">
+						<span>查看原文</span>
+					</a>
+                	<input type="hidden" id="article-source-url">
+                	
+                	<div id="article-times">
+                		<div class="article-left-record">
+                			<label>原始发布时间:</label>
+                			<div id="original-publish-time"></div>
+                		</div>
+                		<div class="article-left-record">
+                			<label>采集时间:</label>
+                			<div id="create-time"></div>
+                		</div>
+                	</div>
+                	
+                	<div id="article-info">
+                		<div class="article-left-record">
+                			<label>搜索词:</label>
+                			<div id="article-search-words"></div>
+                		</div>
+                		<div class="article-left-record">
+                			<label>核心词:</label>
+                			<div id="article-focus-words"></div>
+                		</div>
+                		<div class="article-left-record">
+                			<label>作者(ID):</label>
+                			<div id="author"></div>
+                		</div>
+                		<div class="article-left-record">
+                			<label>查看数:</label>
+                			<div id="article-views"></div>
+                			<label>回复数:</label>
+                			<div id="article-reply"></div>
+                		</div>
+                		<div class="article-left-record">
+                			<label>来源:</label>
+                			<div id="article-source"></div>
+                		</div>
+                		<div class="article-left-record">
+                			<label>来源网站:</label>
+                			<div id="article-source-website"></div>
+                		</div>
+                		<div class="article-left-record">
+                			<label>媒体类型:</label>
+                			<div id="media-type"></div>
+                		</div>
+                		<div class="article-left-record">
+                			<label>网站级别:</label>
+                			<div id="website-important-level"></div>
+                		</div>
+                	</div>
+                </div>
+            </div>
+           
+        </div>
+        </div>
+        
+      </div>
+    </div>
+  </body>
+</html>

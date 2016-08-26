@@ -1,0 +1,41 @@
+/* search-bar */
+#head-start { margin: 0 auto; position: relative;margin-top: 10px; height: 75px; width: 1024px;}
+#head-start>div{position: absolute;top: 0px;}
+#sbar {right: 200px; padding-top:20px;}
+#sbar input[type=text] {
+	float: left;
+	height: 20px; 
+	width: 380px; 
+	padding: 2px 4px;
+	border: 1px solid #a0a0a0; 
+	border-radius: 5px; 
+	-moz-border-radius:5px; 
+	-webkit-border-radius: 5px;
+}
+#sbar input[type=text]+div {
+	float: left; 
+	margin-left: 10px;
+}
+#sbar input[type=text]+div>div{
+	position: relative;
+	height: 27px;
+	width: 67px;
+	border: 0;
+	background: url(../../img/portal/index_tool.png);
+	background-repeat: no-repeat;
+	background-position: -182px -39px;
+	cursor: pointer;
+}
+#sbutton>span{
+	position: absolute;
+	right: 10px;
+	color: #fff;
+	font-size: 15px;
+	line-height: 25px;
+}
+input[type=button]{
+	height: 27px;
+	width: 67px;
+	border: 0;
+	background: none;
+}

@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="GBK">  
+<head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>   
+    </head>  
+    <body>  
+        <h5>  
+             尊敬的会员：  
+        </h5>  
+        <h5>     
+            您已成功注册食品安全与营养平台。  
+        </h5>    
+        <h5>     
+            您的账户是：${user.userName}，请您通过下面的链接，完成您的帐户注册确认：  
+        </h5>    
+            <a href="${domain}">${domain}</a>  
+        <h5>     
+            系统将自动跟踪并确认您的帐户。  
+        </h5>    
+        <h5>     
+            感谢您的关注和支持！  
+        </h5>    
+  
+--------------------------------------------------------------------  
+        <h5>     
+            请勿直接回复本邮件，如有任何疑问，联系食品安全与营养（贵州）信息科技有限公司
+        </h5>    
+    </body>  
+</html>

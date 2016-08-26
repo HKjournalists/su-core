@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+	<title>食品安全营养信息平台</title>
+	<!--[if IE]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="../../../resource/css/reset.css"/>
+	<link rel="stylesheet" href="../../../resource/css/text.css" />
+	<link rel="stylesheet" href="../../../resource/css/grid.css" />
+	<link href="../../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+	<link href="../../../resource/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+	<link rel="stylesheet/less" type="text/css" href="../../../resource/kendoui/styles/kendo.metro.less" />
+	<link rel="stylesheet/less" type="text/css" href="../../../resource/css/style.less" />
+	<link rel="stylesheet" href="../../../resource/css/notification.css" />
+	<link rel="stylesheet" href="../../../resource/css/portal/jquery.suggest.css" />
+	<script src="../../../resource/js/less.js" type="text/javascript"></script>
+	<script src="../../../resource/kendoui/js/jquery.min.js"></script>
+	<script src="../../../resource/kendoui/js/kendo.web.min.js"></script>
+	<script type="text/javascript" src="../../../resource/js/headerFooterTemplate.js"></script>
+	<script type="text/javascript" src="../../../resource/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="../../../resource/js/fsn.js"></script>
+	<script src="../../../resource/js/lims.js"></script>
+	<script src="../../../resource/js/portal/common.js"></script>
+	<script src="../../../resource/js/upload/lims.js"></script>
+	<script src="../../../resource/js/util.js"></script>
+	<!-- <script src="../../../resource/js/upload/lims.i18n.js"></script> -->
+	<script type="text/javascript" src="../../../resource/js/language/system_zh-cn.js"></script>
+	<script src="../../../resource/js/upload/lims.upload.js"></script>
+	<script src="../../../resource/js/account/admin/admin_enRegiste.js"></script>
+	<script src="../../../resource/js/portal/jquery.form.js"></script>
+	
+	<style>
+	.fixfooter {padding-bottom: 60px;}
+	.div-tr, .div-tr div {float: left;}
+	#product-nutri-grid .k-toolbar{float: none;}
+	.div-tr {width: 100%; padding-bottom: 10px;}
+	.div-td {width: 50%; line-height: 30px;}
+	.div-td textarea {max-width: 440px; min-width: 200px;}
+	.div-td-full .div-td-half form {width: 50%;}
+	.div-td-full select {height: 32px;}
+	.div-td-full form {width: 50%; float: left;}
+	.div-td-name {width: 150px;}
+	.k-textbox {width: 400px;}
+	.column12 fieldset {
+		border:none;
+		font-family: Verdana, 'Microsoft YaHei', sans-serif;
+		font-size: 15px;
+		color: #0f941a;
+	}
+	</style>
+	<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	
+    </script>
+</head>
+<body>
+	<!-- 顶部导航 -->	
+	<div class="fixfooter">
+		<div class="fullview" id="status_bar">
+			<div class="container">
+				<div class="row">
+					<div class="column12">
+						<span class="page_title">企业详细信息</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div class="container clearfix">
+			<div class="column12">
+				<fieldset>
+
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label>企业名称：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="bName" name="bName" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label>营业执照号：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="bLicNo" name="bLicNo" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+					</div>
+
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label>法定代表人(负责人)：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="personInCharge" name="personInCharge" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label>组织机构代码：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="orgNo" name="orgNo" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+					</div>
+
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label>企业类型：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="bType" name="bType" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label>企业地址：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="bAddr" name="bAddr" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label>注册时间：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="regDate" name="regDate" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label>企业邮箱：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="bMail" name="bMail" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+					</div>
+
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label>联系人：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="linkMan" name="linkMan" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label>联系电话：</label></div>
+							<div class="div-td-value">
+								<input type="text" id="linkTel" name="linkTel" class="k-textbox" disabled="disabled">
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name"><label>组织机构代码证：</label></div>
+							<div class="div-td-value"><div id="orgImage"></div></div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name"><label>营业执照证：</label></div>
+							<div class="div-td-value"><div id="licImage"></div></div>
+						</div>
+					</div>
+				</fieldset>
+				<div class="div-tr">
+					<button class="k-button" id="back" value=""><span class="k-icon k-save"></span><span class="ui-button-text">返回</span></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

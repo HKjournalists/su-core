@@ -1,0 +1,2 @@
+ALTER TABLE `t_test_template`
+ADD COLUMN `USER_NAME`  varchar(20) NOT NULL AFTER `ORG_ID`;
