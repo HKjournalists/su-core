@@ -1,0 +1,75 @@
+/*
+For LIMS with GLP UI design
+version: alpha 0.1
+created by Frank.X
+*/
+
+/* Gird
+-------------------------------------------------------------- */
+/*Use IE box model*/
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box}
+body{font-size:1em;line-height:1.6875em}
+img{max-width:100%;height:auto;display:block;margin-left:auto;margin-right:auto}
+.fullview{width:100%;max-width:100%}
+.row{width:100%;}
+.row .row{width:auto;margin:0 -20px}
+
+.column1{width:8.33%}
+.column2{width:16.66%}
+.column3{width:25%}
+.column4{width:33.33%}
+.column5{width:41.66%}
+.column6{width:50%}
+.column7{width:58.33%}
+.column8{width:66.66%}
+.column9{width:75%}
+.column10{width:83.33%}
+.column11{width:91.66%}
+.column12{width:100%}
+.column1,.column2,.column3,.column4,.column5,.column6,.column7,.column8,.column9,.column10,.column11,.column12{float:left;margin-left:20px;position:relative}
+.column13{float:left;width:50%}
+.column14{float:right;width:50%}
+.space1{margin-left:8.33%}
+.space2{margin-left:16.66%}
+.space3{margin-left:25%}
+.space4{margin-left:33.33%}
+.space5{margin-left:41.66%}
+.space6{margin-left:50%}
+.space7{margin-left:58.33%}
+.space8{margin-left:66.66%}
+.space9{margin-left:75%}
+.space10{margin-left:83.33%}
+.space11{margin-left:91.66%}
+.last{float:right!important}
+
+/* for 960 Screens
+-------------------------------------------------------------- */
+@media only screen and (max-width:960px){
+.row .row .column1,.row .row .column2,.row .row .column3,.row .row .column4,.row .row .column5,.row .row .column6,.row .row .column7,.row .row .column8,.row .row .column9,.row .row .column10,.row .row .column11,.row .row .column12{width:100%;margin-bottom:10px}
+.row .row > div:last-child{margin-bottom:0 !important}
+}
+
+/* for iphone and other tablets
+-------------------------------------------------------------- */
+@media handheld, only screen and (max-width: 768px), only screen and (max-device-width: 768px) and (orientation:portrait){
+body{font-size:0.9em}
+.row{margin-bottom:10px!important}
+.column1,.column2,.column3,.column4,.column5,.column6,.column7,.column8,.column9,.column10,.column11,.column12{width:100%;margin-right:0;margin-left:0;margin-bottom:10px}
+}
+
+.div-tr, .div-tr div {float: left;}
+	#product-nutri-grid .k-toolbar{float: none;}
+	.div-tr {width: 100%; padding-bottom: 10px;}
+	.div-td {width: 50%; line-height: 30px;}
+	.div-td-full {width: 100%;}
+	.div-td textarea {max-width: 440px; min-width: 200px;}
+	.div-td-add {padding-right: 4px; width: 86%;}
+	.div-td-full .div-td-value {width: 86%;}
+	.div-td-full .div-td-value .div-td-half, .div-td-value .div-td-half form {width: 50%;}
+	.div-td-full select {height: 32px;}
+	.div-td-full form {width: 50%; float: left;}
+	.div-td-name {width: 90px;}
+	#expirationDate-num {width: 130px;}
+	#expirationDate-unit {width: 60px; }
+.searchTab{width:100%;}
+.searchTab tr{height:35px;}

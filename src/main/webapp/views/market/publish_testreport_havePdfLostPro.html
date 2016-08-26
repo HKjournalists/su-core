@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台 V1.</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource/css/reset.css" />
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css"rel="stylesheet" />
+<link href="../../resource/kendoui/styles/kendo.default.min.css"rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/jquery.cookie.js"></script>
+<script src="../../resource/js/lims.js"></script>
+<script src="../../resource/js/lims.i18n.js"></script>
+<script src="../../resource/js/util.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource/js/market/data_entry_zh_cn.js"></script>
+<script src="../../resource/js/market/publish_testreport_havePdfLostPro.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$.get("../../menu.html", function(data) {
+			$("#menu").html(data);
+		});
+
+		 $("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		}); 
+	});
+</script>
+<style>
+  #testItem_grid span.k-input{
+  	font-size:14px;
+  }
+</style>
+</head>
+<body>
+<div class="fixfooter">
+ <div class="container" id="content_container">
+ <div id="main" class="row">
+   <div class="column12 last">
+    <div style="width:100%;margin-left: auto;margin-right: auto;margin-top: 30px;">
+   	  <div >
+   	  	<div style="width:100%;margin-left: auto;margin-right: auto;margin-top: 30px;">
+             <script id="toolbar_template" type="text/x-kendo-template">
+ 				<button id="report_publish_btn" class="k-button" onclick="return lims.root.publishToFSN()">
+				<span class="k-icon k-add"></span>发布</button>&nbsp;&nbsp;&nbsp;
+                <button id="btn_addRemark" class="k-button" onclick="return lims.root.editTips()">
+       		 	<span class="k-icon k-add"></span>修改提示消息</button>&nbsp;&nbsp;
+   	  		</script>
+   	  	</div>
+		<div style="text-align: left;">
+		  <strong>以下报告均为只含pdf，缺失产品图片的报告。（发布后会用一张临时图片代替产品）</strong>
+		</div>
+		<div id="tabstrip">
+   	  		 <ul>
+                  <li class="k-state-active">LIMS2.0</li>
+                  <!-- <li>工商Date</li> -->
+             </ul>
+    		<div id="report_Lims2_grid"></div>
+    		<div id="report_gongshang_grid"></div>
+    	</div>
+		<div id="ts_msg"></div>
+  		<div id="msg_success"></div>
+	</div>
+	</div>
+  </div>
+  <div id="viewWindow">
+  <div id="test_report_info">
+  <fieldset class="_previewFieldset" >
+   <legend><span data-lims-text="View Product"></span></legend>
+  <table id="food_info_table">
+	 <tr>
+		<td><label data-lims-text="Bar code"></label></td>
+		<td><input id="barcodeId" class=k-textbox type="text" readonly="readonly"/>   
+		</td>
+		<td data-lims-text="food_Name"></td>
+		<td><input id="foodName" class="k-textbox" type="text" readonly="readonly"/></td>
+	  </tr>
+	  <tr>
+		<td><label data-lims-text="Specification"></label></td>
+		<td><input id="specification" class="k-textbox" type="text" readonly="readonly"/></td>
+		<td><label data-lims-text="Model No"></label></td>
+		<td><input id="foodinfo_model_no" class="k-textbox" type="text" readonly="readonly"></td>
+	  </tr>
+	  <tr>
+		<td><label data-lims-text="Brand"></label></td>
+		<td><input id="foodinfo_brand" class="k-textbox" type="text" readonly="readonly"/></td>
+		<td><label data-lims-text="Standard"></label></td>
+		<td><input id="foodinfo_standard" class="k-textbox" type="text" readonly="readonly"></td>
+	  </tr>
+	<tr>
+		<td><label data-lims-text="Expiratio"></label></td>
+		<td><input id="foodinfo_expiratio" class="k-textbox" type="text" readonly="readonly"/></td>
+		<td><label data-lims-text="Expir Day"></label></td>
+		<td><input id="foodinfo_expirday" class="k-textbox" type="text" readonly="readonly"></td>
+	</tr>
+	<tr>
+	   <td><label data-lims-text="Category"></label></td>
+		<td><input id="foodinfo_category" class="k-textbox" type="text" readonly='readonly'>
+		</td>
+		<td><label data-lims-text="Unit"></label></td>
+		<td><input id="foodinfo_minunit" class="k-textbox" type="text" readonly="readonly"></td>
+	</tr>
+	<tr>
+	  <td><label data-lims-text='foodInfo_address'></label></td>
+	  <td><input id="foodInfo_ads" class="k-textbox" type="text" readonly="readonly"/></td>
+	  <td><label data-lims-text='foodInfo_Status'></label></td>
+	  <td><input id="foodInfo_Status" class='k-textbox' type="text" readonly="readonly"/></td>
+	</tr>
+  </table>
+  <div id="proAtt_tr">产品资源:<div id="proAttachments"></div></div>
+  </fieldset>
+  
+  <fieldset class="_previewFieldset" >
+   <legend><span data-lims-text="View Busunit"></span></legend>
+  <div id="bui_div">
+	<table id="bui_table">
+	<tr>
+		<td><label data-lims-text="QS No"></label></td>
+		<td><input type="text" id="bus_qsNo" class="k-textbox" /></td>
+		<td><label data-lims-text="License No"></label></td>
+		<td><input type="text" id="bus_licenseNo" class="k-textbox" /></td>
+	</tr>
+	<tr>
+		<td><label data-lims-text="business_Name"></label></td>
+		<td><input type="text" id="bus_name" class="k-textbox" readonly="readonly"/></td>
+		<td><label data-lims-text="Address"></label></td>
+		<td><input type="text" id="bus_address" class="k-textbox" /></td>
+    </tr>
+	</table>
+</div></fieldset>
+  
+  <fieldset class="_previewFieldset" >
+   <legend><span data-lims-text="View Testee"></span></legend>
+   <div id="testee_info">
+	<table>
+		<tr>
+			<td><label data-lims-text="Regist No"></label></td>
+			<td><input type="text" id="ti_regist_no" class="k-textbox" readonly="readonly"/>
+			</td>
+			<td><label data-lims-text="Company"></label></td>
+			<td><input type="text" id="ti_company" class="k-textbox" readonly="readonly"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="testee_Name"></label></td>
+			<td><input type="text" id="ti_name" class="k-textbox" readonly="readonly"/></td>
+			<td><label data-lims-text="ID Card"></label></td>
+			<td><input type="text" id="ti_idcard" class="k-textbox" readonly="readonly"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="Tel"></label></td>
+			<td><input type="text" id="ti_tel" class="k-textbox" readonly="readonly"/></td>
+			<td><label data-lims-text="testee_Address"></label></td>
+			<td><input type="text" id="ti_address" class="k-textbox" readonly="readonly"/></td>
+		</tr>
+	</table>
+	</div></fieldset>
+  
+   <fieldset class="_previewFieldset" >
+   <legend><span data-lims-text="View Report"></span></legend>
+	<table id="testReport">
+		<tr>
+			<td><label data-lims-text="ReportNo"></label></td>
+			<td><input type="text" id="tri_reportNo" class="k-textbox" readonly="readonly"/></td>
+			<td><label data-lims-text="Testee"></label></td>
+			<td><input type="text" id="tri_testee" class="k-textbox" readonly="readonly"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="Test Org"></label></td>
+			<td><input type="text" id="tri_testOrg" class="k-textbox" readonly="readonly"/></td>
+			<td><label data-lims-text="Test Type"></label></td>
+			<td><input type="text" id="tri_testType" class="k-textbox" readonly="readonly"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="Conclusio"></label></td>
+			<td><input type="text" id="tri_conclusion" class="k-textbox" readonly="readonly"/></td>
+			<td><label data-lims-text="Test place"></label></td>
+			<td><input type="text" id="tri_testPlace" class="k-textbox" readonly="readonly"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="Prod Date"></label></td>
+			<td><input type="text" id="tri_proDate" class="k-textbox" readonly="readonly"/></td>
+			<td><label data-lims-text="Test Date"></label></td>
+			<td><input type="text" id="tri_testDate" class="k-textbox" readonly="readonly"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="Batch"></label></td>
+			<td colspan="3"><input type="text" id="tri_batchNo" class="k-textbox" style="width: 100%" readonly="readonly"/></td>
+		</tr>
+		<tr>
+		<td><label data-lims-text="sampleAddress"></label></td><td><input type="text" class="k-textbox" id="sampleAds" readonly="readonly"/></td>
+		<td><label data-lims-text="sampleCounts"></label></td><td><input type="text" class="k-textbox" id="sampleCons" readonly="readonly"/></td>
+		</tr>
+		<tr>
+		<td><label data-lims-text="judgeStandard"></label></td><td colspan="3"><textarea rows="2" cols="60" id="judgeStandard" class="k-textbox" style="width:100%" readonly="readonly"></textarea></td>
+		</tr>
+		<tr>
+		<td><label data-lims-text="testResultDescribe"></label></td><td colspan="3"><textarea rows="2" cols="30" id="testResultDescribe" class="k-textbox" style="width:100%" readonly="readonly"></textarea></td>
+		</tr>
+		<tr>
+		<td><label data-lims-text="remarks"></label></td><td colspan="3"><textarea rows="2" cols="30" id="remarks" class="k-textbox" style="width:100%" readonly="readonly"></textarea></td>
+		</tr>
+	</table>
+	<div id="repAtt_tr">报告资源:<div id="repAttachments"></div></div>
+	<br>
+	<div id="testItem_grid"></div></fieldset>
+  </div>
+  </div>
+   <script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+	<a href="\#" onclick="javascript:lims.download(#= attachments.id #);">
+	#= attachments.fileName #</a>&nbsp;,&nbsp;
+	<!--<a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-cancel"></span></a> &nbsp;&nbsp;-->
+	</script>
+   <div id="toPublishWindow">
+  		<label id="publishStatus" style="font-size: 16px"></label>
+   </div>
+   <div id="addRemarkWin">
+    <label data-lims-text="remarkText"></label><br>
+    <textarea rows="3" cols="30" id="remarkText" class="k-textbox" style="width:100%"></textarea>
+    <div style="text-align: right;">
+		<button class="k-button" id="btn_addY"><span class="k-icon k-update"></span>确定</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		<button class="k-button" id="btn_addN"><span class="k-icon k-cancel"></span>取消</button>&nbsp;&nbsp;
+	 </div>
+  </div>
+   <div id="tsWin"></div>
+  <div class="push"></div>	
+</div>
+</div>
+</div>
+</body>
+</html>

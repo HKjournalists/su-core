@@ -1,0 +1,1 @@
+UPDATE certification SET imgurl = REPLACE(imgurl, '/20/', '/128/');

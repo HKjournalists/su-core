@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="GBK">  
+<head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>   
+    </head>  
+    <body>  
+        <h5>  
+             ${userName} 您好：  
+        </h5>  
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;您公司${organizationName}因 
+        </h5>    
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;${reason}
+        </h5>
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;原因，资料审核没有通过，请重新提交相关资料信息。
+        </h5>    
+  
+--------------------------------------------------------------------  
+        <h5>     
+            请勿直接回复本邮件，如有任何疑问，联系食品安全与营养（贵州）信息科技有限公司
+        </h5>    
+    </body>  
+</html>

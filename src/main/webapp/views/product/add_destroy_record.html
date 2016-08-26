@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>处理记录添加/编辑</title>
+<!--[if IE]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+<link rel="stylesheet" href="../../resource/css/reset.css" />
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css"
+	rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css"
+	href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css"
+	href="../../resource/css/style.less" />
+<link rel="stylesheet" href="../../resource/css/notification.css" />
+<link rel="stylesheet" href="../../resource/css/artdialog/ui-dialog.css" />
+<!--以下新增-->
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+<script
+	src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script type="text/javascript"
+	src="../../resource/js/headerFooterTemplate.js"></script>
+<script type="text/javascript" src="../../resource/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../resource/js/fsn.js"></script>
+<script src="../../resource/js/business/unit-common.js"></script>
+<script src="../../resource/js/portal/common.js"></script>
+<script src="../../resource/js/lims.js"></script>
+<script src="../../resource/js/upload/lims.js"></script>
+<script src="../../resource/js/util.js"></script>
+<script src="../../resource/js/upload/lims.i18n.js"></script>
+<script src="../../resource_new/js/report/upload_resource.js"></script>
+<script src="../../resource/js/dialog-min.js"></script>
+<script src="../../resource/js/product/add_destroy_record.js"></script>
+<style type="text/css">
+.fixfooter {
+	padding-bottom: 60px;
+}
+
+.k-textbox .k-icon {
+	top: 20%;
+	left: 20%;
+}
+
+.upload-img-preview {
+	max-width: 800px;
+	max-height: 800px;
+	border: none;
+	display: none;
+	clear: both;
+	float: left;
+}
+
+.upload-img-name {
+	float: left;
+	line-height: 35px;
+}
+</style>
+<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	
+</script>
+
+<style type="text/css">
+table {
+	line-height: 40px;
+	letter-spacing: 1px;
+}
+
+.red_xing {
+	color: red;
+	text-align: center;
+	margin-left: 3px;
+}
+
+.k-upload-button {
+	direction: ltr;
+	overflow: hidden !important;
+	position: relative;
+	width: 130px;
+}
+
+.header {
+	font-size: 15px;
+	font-weight: bold;
+	color: white;
+	height: 30px;
+	width: 100%;
+	padding-left: 20px;
+	background: #80de40;
+}
+td{
+font-size: 14px;
+color:#0f941a;
+}
+</style>
+</head>
+<body>
+	<!-- 顶部导航 -->
+	<div class="fixfooter">
+		<div class="fullview" id="status_bar">
+			<div class="container">
+				<div class="row">
+					<div class="column12">
+						<span class="page_title">当前位置：处理记录&raquo;新增</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<form action="#" id="form-validate">
+		<div class="container clearfix">
+			<div class="column12">
+				<div class="header">
+					<span>问题产品处理记录</span>
+				</div>
+				<table>
+					<tr><td>产品条形码：<span class='red_xing'>*</span></td>
+						<td><input id="barcode" class="k-textbox" type="text"
+							style="width: 250px" name="barcode" ></td>
+						<td align="left"><label>产品名称</label> <span class='red_xing'>*</span>：</td>
+						<td ><input id="name" class="k-textbox" type="text"
+							style="width: 250px" name="name"  disabled="true"></td>
+					</tr>
+					<tr>
+						<td>批次<span class='red_xing'>*</span>：</td>
+						<td><input id="batch" class="k-textbox" type="text"
+							style="width: 250px" name="batch"></td>
+						<td>处理数量：<span class='red_xing'>*</span></td>
+						<td><input id="number" class="k-textbox" type="text"
+							style="width: 250px" name="number"></td>
+					</tr>
+					<tr>
+						
+						<td>问题描述<span class='red_xing'>*</span>：</td>
+						<td><select id="problem_describe"style="width: 250px;"></select></td>
+						<td>处理时间<span class='red_xing'>*</span>：</td>
+						<td><input id="process_time" style="width: 250px;"type="text" value="" placeholder="例如20160801"   /></td>
+					</tr>
+					<tr>
+						<td>处理方式<span class='red_xing'>*</span>：</td>
+						<td><input id="process_mode" class="k-textbox" type="text"
+							style="width: 250px" name="process_mode" value="销毁"  disabled="true"></td>
+						<td>处理证明<span class='red_xing'>*</span>：</td>
+						<td><input id=upload-other-img type='file' />
+							<div id="repAttachmentsListView" data-role="listview"
+								class="k-widget k-listview" role="listbox" style="display:none;">
+								&nbsp;&nbsp;
+								<p><a
+									href="#"
+									target="_blank"
+									role="option" >查看处理证明</a>
+								<button class="k-button"
+									onclick="return root.removeRes()">
+									<span class="k-icon k-cancel">删除</span>
+								</button>
+								</p>
+							</div> <label id="repFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
+						</td>
+					</tr>
+					
+				</table>
+				<div style="margin-top: 10px;">
+					<button id="save" class="k-button">
+						<span class="k-icon k-save"></span><span>保存</span>
+					</button>
+				</div>
+				<!-- 保存状态窗口 -->
+				<div id="k_window">
+					<span id="winMsg"></span>
+				</div>
+				<span id="RETURN_MES" style="display: none;"></span>
+				<script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource/img/error-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+    </script>
+				<script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success">
+                     <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+	</script>
+			</div>
+		</div>
+		</form>
+	</div>
+</body>
+</html>

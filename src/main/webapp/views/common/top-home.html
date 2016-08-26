@@ -1,0 +1,98 @@
+<div class="wicon mgn_center">
+    <div class="in-block fl w300 h120 mt30" id="logo1">
+        <a class="w300 h120 in-block"  href="/fsn-core/">
+            <img class="noneborder" src="/fsn-core/resource/img/index/logo_1.png"/>
+        </a>
+    </div>
+    <div class="in-block fr w450 h120 colorfff mt30">
+        <div class="w tr" id="no-login">
+            <a id="login" class="fl4 fonthei pdlf8 in-block" onclick="gosso()">
+                企业门户登录
+            </a>
+        </div>
+        <div class="w tr none fl4 fonthei" id="loginstation">欢迎您:
+            <div id="user" class="fl4 fonthei pdlf8 in-block"></div>
+        </div> 
+        <div class="w tr fl4 fonthei" id="out"></div> 
+        <div class="w mt50 fonthei fl4">
+            <ul class="homemenubar fr">
+                <li>
+                    <a id ="gofsn" class="in-block pdlf5" onclick="gofsnCore()">企业门户</a>|
+                </li>
+                <li>
+                    <a class="in-block pdlf5" target="_blank" href="http://www.fsnip.com">大众门户</a>|
+                </li>
+                <li>
+                    <a class="in-block pdlf5" target="_blank" href="http://community.fsnip.com">技术社区</a>|
+                </li>
+                <li>
+                    <a class="in-block pdlf5" target="_blank" href="http://lims.fsnip.com">LIMS 系统</a>|
+                </li>
+                <li>
+                    <a class="in-block pdlf5" target="_blank" href="http://exam.fsnip.com">考试系统</a>|
+                </li>
+                <!--<li>
+                    <a class="in-block pdlf5 ">二维码扫描</a>|
+                </li>-->
+                <li>
+                    <a class="in-block pdlf5" href="/fsn-core/register.html" >在线注册</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+ </div>
+<script type="text/javascript">
+function gosso(){
+    var s=location.href;
+    if(location.pathname=="/fsn-core/register.html"){
+		s="/fsn-core"	
+	}
+	$("#login").attr("href","/fsn-core/home1.html");
+    /*
+		window.top.location.href = "http://" +hostname ;
+*/
+}
+
+function gofsnCore(){
+    var s=location.href;
+    if(location.pathname=="/fsn-core/register.html"){
+		s="/fsn-core"	
+	}
+    $("#gofsn").attr("href","/fsn-core/home1.html");
+}
+
+function loginOut(){
+    var httpPrefix = "";
+	switch(this.hostname){
+	case "enterprise.fsnip.com"://PROD
+	case "stgenterprise.fsnip.com"://STG
+	case "qaenterprise.fsnip.com"://QA
+		httpPrefix = "/fsn-core/logout";
+		break;
+	default://DEV
+		httpPrefix = "/fsn-core/logout";
+		break;
+	}
+	console.log("LIMS Logout Prefix:" + httpPrefix);
+    window.location = httpPrefix;
+}
+
+function askUser(){
+	$.ajax({
+		url:"/fsn-core/service/user/menubar",
+		async:false, 
+		type:'GET',
+		success:function(data){
+			if(data.loginUser != null && data.loginUser != ''){
+				$("#user").html(data.loginUser);
+                $("#out").html('<a ><span id="quit_out" style="color:#228B22;font-weight:bold;" onclick="loginOut()">安全退出</span></a>');
+				$("#loginstation").removeClass("none");
+				$("#no-login").addClass("none");
+			} 
+		}
+	}) ;
+}
+$(function(){
+	askUser();
+})
+</script>

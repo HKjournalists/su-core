@@ -1,0 +1,1 @@
+UPDATE test_result SET publish_flag='3' WHERE publish_flag IS NULL;

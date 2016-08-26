@@ -1,0 +1,1 @@
+UPDATE product_certification SET enddate='2014-06-17 09:59:46';

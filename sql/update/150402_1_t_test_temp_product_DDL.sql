@@ -1,0 +1,2 @@
+ALTER TABLE `t_test_temp_product`
+MODIFY COLUMN `PRO_DATE`  varchar(20) NULL DEFAULT NULL AFTER `STANDARD`;

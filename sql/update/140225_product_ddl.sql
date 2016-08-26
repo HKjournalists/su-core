@@ -1,0 +1,1 @@
+ALTER TABLE `product` ADD COLUMN `ICB_category` varchar(255) DEFAULT NULL AFTER `category`;

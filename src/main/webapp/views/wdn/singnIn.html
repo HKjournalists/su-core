@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource/bootstrap/css/bootstrap.css"/>
+<link rel="stylesheet" href="../../resource/css/reset.css"/>
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.all.min.js"></script>
+<script src="../../resource/bootstrap/js/bootstrap.js"></script>
+
+<script src="../../resource/js/language/unit_up_zh-cn.js"></script>
+<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script type="text/javascript" src="../../resource/js/headerFooterTemplate.js"></script>
+<script type="text/javascript" src="../../resource/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../resource/js/fsn.js"></script>
+<script src="../../resource/js/upload/lims.js"></script>
+<script src="../../resource/js/util.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource/js/upload/lims.i18n.js"></script>
+<style type="text/css">
+	td{white-space:nowrap;}
+	td {text-align: right;} 
+td{border:solid #006400; border-width:0px 1px 1px 0px;}
+table{border:solid #006400; border-width:1px 0px 0px 1px;}
+</style>
+<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	
+</script>
+</head>
+<body>
+		<div class="container clearfix" id="content_container">
+			<div class="k-pager-wrap">
+				<h3 class="ui-stepName" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请详细填写您的个人资料（后加<font style="color: red;">*</font>的为必填项）</h3>
+				<table   style="width: 90%;letter-spacing: 2px; line-height: 30px; font-size: 17px; color: #666666; font-family: cursive; margin-left: 55px">
+					<tr>
+						<td style="width: 30%; ">读者姓名：</td>
+						<td  style="text-align:left;"><input id="realName" style="width:200px;height:28px" required="required" ></input>
+						<font style="color: red;">*</font></td>
+					</tr>
+					<tr>
+						<td>读者登录名：</td>
+						<td  style="text-align:left;">
+						<input id="username" style="width:200px;height:28px" required="required"></input>
+						<font style="color: red;">*</font><font>（请用字符a-z,A-Z,0-9组成登录名，14字符为限） </font>
+						</td>
+					</tr>
+					<tr>
+						<td>密码：</td>
+						<td  style="text-align:left;">
+						<input id="password" style="width:200px;height:28px" required="required"></input>
+						<font style="color: red;">*</font><font>（请用字符,20字符为限） </font>
+						</td>
+					</tr>
+					<tr>
+						<td>确认密码：</td>
+						<td  style="text-align:left;">
+						<input id="password2" style="width:200px;height:28px" required="required"></input>
+						<font style="color: red;">*</font><font>（请用字符,20字符为限） </font>
+						</td>
+					</tr>
+					<tr>
+						<td>读者性别：</td>
+						<td  style="text-align:left;">
+						<select  onchange="changeshow(this.value)"  name="sex">
+			            <option value="0">男</option><option value="1">女</option>
+			            </select>
+						</td>
+					</tr>
+<!-- 					<tr> -->
+<!-- 						<td>读者类型：</td> -->
+<!-- 						<td><label id="ent_website_label"></label></td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td>读者所属省科院：</td> -->
+<!-- 						<td><div style="width: 100%"><p id="ent_introduce_p"></p></div></td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td>申请时间：</td> -->
+<!-- 						<td><label id="ent_website_label"></label></td> -->
+<!-- 					</tr> -->
+					<tr>
+						<td>读者职称：</td>
+						<td  style="text-align:left;">
+						<select onchange="changeshow(this.value)" name="readerTitle">
+			            <option value="0">其他</option>
+			            <option value="1">正高级</option><option value="2">副高级</option>
+			            <option value="3">中级</option><option value="4">助理员级</option>
+			            <option value="5">技术员级</option>
+			            </select>
+			            </td>
+					</tr>
+					<tr>
+						<td>读者学历：</td>
+						<td  style="text-align:left;">
+						<select onchange="changeshow(this.value)" name="educationalBackground">
+			            <option value="0">其他</option>
+			            <option value="1">博士</option><option value="2">硕士</option>
+			            <option value="3">本科</option><option value="4">本科以下</option>
+			            </select>
+			            </td>
+					</tr>
+<!-- 					<tr> -->
+<!-- 						<td>部门（实验室等）：</td> -->
+<!-- 						<td><label id="ent_website_label"></label></td> -->
+<!-- 					</tr> -->
+					<tr>
+						<td>联系电话：</td>
+						<td  style="text-align:left;"><input id="tel"  style="width:200px;height:28px" required="required" ></input>
+						<font style="color: red;">*</font></td>
+					</tr>
+					<tr>
+						<td>邮政编码：</td>
+						<td  style="text-align:left;"><input id="zipCode"  style="width:200px;height:28px" required="required" ></input></td>
+					</tr>
+					<tr>
+						<td>E-mail：</td>
+						<td  style="text-align:left;">
+						<input id="email"  style="width:300px;height:28px" required="required" ></input>
+						<font style="color: red;">*
+<!-- 						<br>请正确填写E-mail地址，院内用户请使用工作邮箱注册（系统可自动识别），<br>通过审查后系统将自动发送邮件到您的注册邮箱！ -->
+						</font></td>
+					</tr>
+					<tr> 
+						<td>通信地址：</td>
+						<td  style="text-align:left;"><input id="address"  style="width:300px;height:28px" required="required" ></input>
+						<font>（以200字符或100汉字为限） </font>
+						</td>
+					</tr>
+					<tr>
+						<td>备注：</td>
+						<td  style="text-align:left;"><input id="remark"  style="width:300px;height:28px" required="required" ></input>
+						<font size=3>（以100字符或50汉字为限） </font>
+						</td>
+					</tr>
+			</table>
+			<div  style="margin:0 auto;width:200px;"> 
+			<br/>
+			<input id="submit" type="button"  	 value="确定" />
+			<input id="refuse" type="button"	value="重填" />
+			</div>
+			</div>
+		</div>
+		<div class="container clearfix"  id="review_module" style="display: ;">
+		
+	</div>
+		
+		
+	
+	<div  style="float:right" >
+	<input id="submit" type="button" 	 value="批准" />
+	<input id="refuse" type="button" 	value="拒绝" />
+	<input id="" type="button" 	value="返回" />
+	</div>	
+<!-- </div> -->
+</body>
+</html>

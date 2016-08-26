@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=10">
+	<title>首页</title>
+	<link href="../../resource/css/portal/error404.css" rel="stylesheet">
+	<link href="../../resource/css/portal/topnav.css" rel="stylesheet">
+	<link href="../../resource/css/portal/logo.css" rel="stylesheet">
+	<link href="../../resource/css/portal/footer.css" rel="stylesheet">
+	<link href="../../resource/css/portal/searchbar.css" rel="stylesheet">
+	<script src="../../resource/js/portal/jquery-1.10.2.min.js"></script>
+	<script src="../../resource/js/jquery.cookie.js"></script>
+	<script src="../../resource/js/portal/common.js"></script>
+</head>
+<body>
+    <!-- 顶部导航 -->
+	<div id="top-nav"></div>
+	
+	<!-- 主题内容 -->
+	<div id="main">
+		<!-- 搜索框+网站二维码 -->
+		<div id="main-head"></div>
+		<div class="error-content">
+			<img id="pic404" alt="404错误" src="../../resource/img/portal/error404.png" border="0">
+			<a id="btn-return" href="javascript:history.back()" title="返回上一页"></a>
+		</div>
+	</div>
+	
+	<!-- 页脚 -->
+	<div id="footer"></div>
+	
+	<script>
+	(function(){
+		$("#top-nav").load(fsn.portal.CONTEXT_PATH+"/views/portal/common/top-nav.html");
+		$("#main-head").load(fsn.portal.CONTEXT_PATH+"/views/portal/common/logo.html");
+		$("#footer").load(fsn.portal.CONTEXT_PATH+"/views/portal/common/footer-info.html");
+	})();
+	</script>
+</body>
+</html>

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource_new/css/reset.css" />
+<link rel="stylesheet" href="../../resource_new/css/text.css" />
+<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+<link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+<link rel="stylesheet" href="../../resource_new/css/notification.css" />
+<link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
+<link rel="stylesheet" href="../../resource/css/product/select_customer.css" />
+<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+<script src="../../resource_new/kendoui/js/jquery.min.js"></script>
+<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource_new/js/jquery.cookie.js"></script>
+<script src="../../resource_new/js/portal/common.js"></script>
+<script src="../../resource_new/js/fsn.js"></script>
+<script src="../../resource_new/js/lims.js"></script>
+<script src="../../resource_new/js/headerFooterTemplate.js"></script>
+<script src="../../resource_new/js/portal/jquery.form.js"></script>
+<script src="../../resource_new/js/upload/lims.js"></script>
+<script src="../../resource_new/js/util.js"></script>
+<script src="../../resource/js/upload/lims.i18n.js"></script>
+<script src="../../resource_new/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script src="../../resource/js/language/list_product_addQs_zh-cn.js"></script>
+<script src="../../resource_new/js/common/jquery.md5.js"></script>
+<script src="../../resource_new/js/portal/jquery.linkageselect.js"></script>
+<script src="../../resource_new/js/product/select_customer.js"></script>
+<script src="../../resource_new/js/product/product.js"></script>
+<script src="../../resource_new/js/product/product_category.js"></script>
+<script src="../../resource_new/js/product/leadProduct.js"></script>
+<script src="../../resource_new/js/upload/lims.upload.js"></script>
+<script src="../../resource_new/js/portal/upload-product.js"></script>
+<script src="../../resource/js/baiduTemplate.js"></script>
+
+<style type="text/css">
+.div-tr,.div-tr div {
+	float: left;
+}
+
+.div-tr {
+	width: 100%;
+	padding-bottom: 10px;
+}
+
+.div-td {
+	width: 50%;
+	line-height: 30px;
+}
+
+.div-td-full {
+	width: 100%;
+}
+
+.div-td textarea {
+	width: 350px;
+	height: 80px;
+	max-width: 440px;
+	min-width: 200px;
+}
+
+.div-td-add {
+	padding-right: 4px;
+	width: 86%;
+}
+
+.div-td-full .div-td-value .div-td-half,.div-td-value .div-td-half form
+	{
+	width: 50%;
+}
+
+.div-td-full select {
+	height: 32px;
+}
+
+.div-td-full form {
+	width: 50%;
+	float: left;
+}
+
+.div-td-name {
+	width: 98px;
+}
+
+.necessary {
+	color: #f00
+}
+
+#addRegularity_window fieldset {
+	border:1px solid #808080;
+	font-family: Verdana, 'Microsoft YaHei', sans-serif;
+	font-size: 14px;
+	color: #05bf73;
+}
+
+.k-upload-button {
+	width: 200px;
+}
+
+.k-grid-header .k-header {
+	color: #47B139;
+	font-weight: bold;
+	background: none repeat scroll 0 0 #F5F5F5;
+}
+
+.dropdown-header {
+	font-size: 1em;
+}
+
+.dropdown-header>span {
+	webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	text-align: left;
+	display: inline-block;
+	border-style: solid;
+	border-width: 0 0 1px 1px;
+	padding: .3em .3em;
+	width: 100px;
+}
+
+.dropdown-header>span:first-child {
+	width: 205px;
+	border-left-width: 0;
+}
+
+.dropdown>span {
+	webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	text-align: left;
+	display: inline-block;
+	border-style: solid;
+	border-width: 0 0 1px 1px;
+	padding: .3em .3em;
+	width: 170px;
+}
+
+.dropdown>span:first-child {
+	width: 200px;
+	border-left-width: 0;
+}
+
+.div_busNotSC {
+	display: none;
+}
+
+#regularityList li {
+	text-decoration: none;
+	color: #999;
+}
+
+#regularityList li:hover {
+	color: #000
+}
+
+#regularityList li {
+	width: 15em;
+	height: 1.5em;
+	line-height: 1.5em;
+	overflow: hidden;
+	color: #00F;
+}
+
+#regularityList li a {
+	position: relative;
+	display: block;
+	width: 13em;
+	overflow: visible;
+	word-break: break-all;
+	word-wrap: break-word;
+}
+
+#regularityList li a:after {
+	content: "...";
+	position: absolute;
+	bottom: 1.5em;
+	right: -15px;
+}
+.header{
+   	 	font-size: 15px;
+    	font-weight: bold;
+    	color:white;
+    	height:30px;
+    	width:100%;
+    	padding-left:20px;
+    	background:#05bf73;
+  	} 
+._previewFieldset legend span{
+   font-size: 1.2em;
+   font-weight: bolder;
+   letter-spacing: 5px;
+}
+._previewFieldset {
+   color: #05bf73;
+}
+</style>
+</head>
+<body id="home">
+
+	<div class="fixfooter wi800 fl mt20 pr"> 
+    <div class="fullview page_title mt50 wper100 ml20" id="status_bar"> 当前位置：产品管理&raquo;新增/修改<div style="float: right;"><a href="javascript:void(0)" onclick="javascript :history.back(-1);" target=_parent>返回</a></div></div>
+   <div class="wper100 mt15" > 
+   		<div class="row ml20">
+    		<div class=" wper100 last ">
+			<div id="Simple_Grid"></div>
+				
+			  <div class="borderfieldset border-radius4">
+				<div class="header border-radiustop4"><span>产品基本信息</span></div>
+                    <div class="ml20">
+					<fieldset class="_previewFieldset">
+					<div id="Nagricultural" class="div-tr" style="display: block;">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="agricultural"><span data-fsn-text="Agricultural products"></span>:</label>
+							</div>
+							<div class="div-td-value">
+								是<input type="radio" name="agricultural" value="1" onclick="portal.isAgricultural(true)">&nbsp;&nbsp;否<input
+									type="radio" name="agricultural" checked="checked" value="0" onclick="portal.isAgricultural(false)">
+							</div>
+						
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="name"><span data-fsn-text="Product name"></span>:</label>
+							</div>
+							<div class="div-td-value">
+								<input type="hidden" id="id" value=""> <input
+									type="text" id="name" name="name" class="my-textbox"> <font
+									class="necessary">*</font>
+							</div>
+							<span
+								data-fsn-text="Product otherName"></span>:<input type="text"
+								id="otherName" class="my-textbox" style="width:120px">
+						</div>
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="barcode"><span data-fsn-text="Bar code"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="barcode"
+									name="barcode" class="my-textbox"> <font
+									class="necessary">*</font>
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="businessBrand"><span
+									data-fsn-text="Subordinate to the brand"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input type="text" id="businessBrand" name="businessBrand"
+									class="my-textbox" data-id-value="" style="width: 350px;"><font
+									class="necessary">*</font>
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="productUnit"><span data-fsn-text="单位"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="productUnit" name="productUnit" 
+									class="my-textbox" placeholder="例如：60g、箱、500ml/瓶、2瓶/盒、克/袋"/> 
+								<font class="necessary">*</font>
+							</div>
+						</div>
+					</div>
+					<div class="div-tr div_busNotSC">
+						<div class="div-td div_busLT">
+							<div class="div-td-name">
+								<!-- <label for="name"><span data-fsn-text="Business Name"></span>：</label> -->
+							</div>
+							<div class="div-td-value">
+								<input style="width: 252px;" type="hidden" id="businessName"class="my-textbox" ><!-- <font class="necessary">*</font> -->
+							</div>
+						</div>
+						<div class="div-td div_dealer">
+							<div class="div-td-name">
+								<span data-fsn-text="Customer"></span>：
+							</div>
+							<div id="customerSelectDiv">
+								<input style="width:352px;height:35px;" class="my-textbox" id="customerSelect" readonly="readonly">
+								<font class="necessary">*</font>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 保质期和保质天数的tr  -->
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="expirationDate"><span
+									data-fsn-text="Expiration date"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 100px; height: 30px" id="proExpirYear"
+									class="my-textbox" type="text"
+									onchange="fsn.portal.validateExpiration()" />年 <input
+									style="width: 100px; height: 30px" id="proExpirMonth"
+									class="my-textbox" type="text"
+									onchange="fsn.portal.validateExpiration()" />月 <input
+									style="width: 100px; height: 30px" id="proExpirDay"
+									class="my-textbox" type="text"
+									onchange="fsn.portal.validateExpiration()" />日 <font
+									class="necessary">*</font>
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="format"><span data-fsn-text="Specification"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="format"
+									name="format" class="my-textbox">
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="expirationDate"><span data-fsn-text="保质天数"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 100px;" type="text" id="expirationDate-num"
+									name="expirationDate-num" class="my-textbox" readonly="readonly" />
+								<span>天（根据保质期中的年月日自动计算）</span>
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="netContent"><span data-fsn-text="净含量"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="netContent"
+									name="netContent" class="my-textbox">
+							</div>
+						</div>
+					</div>
+
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="characteristic"><span
+									data-fsn-text="Feature"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="characteristic"
+									name="characteristic" class="my-textbox">
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="cstm"><span data-fsn-text="Suit crowds"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="cstm" name="cstm"
+									class="my-textbox">
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="category"><span
+									data-fsn-text="Classification of food"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<select style="width: 110px;" id="category1" name="category"></select>
+								-<select style="width: 110px;" id="category2" name="category"></select>
+								-<select style="width: 110px;" id="category3" name="category"></select>
+								<font class="necessary">*</font>
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name">
+								<label><span data-fsn-text="Government standard"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<div id="regularityDiv">
+									<input id="regularity" name="regularity" readonly="readonly"
+										style="width: 350px;" type="text" class="my-textbox">
+								</div>
+								<font class="necessary" id="operative-norm">*</font>
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="des"><span
+									data-fsn-text="Product description"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<textarea id="des" name="des" class="my-textbox"></textarea>
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="status"><span data-fsn-text="Status"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="status"
+									name="status" class="my-textbox">
+							</div>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="note"><span data-fsn-text="Remark"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<textarea id="note" name="note" class="my-textbox"></textarea>
+							</div>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="ingredient"><span data-fsn-text="Burdening"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<textarea id="ingredient" name="ingredient" class="my-textbox"></textarea>
+							</div>
+						</div>
+					</div>
+					
+					<input type="button" value="添加生产企业"  class="k-button"  onclick="portal.setShowMore()"/>&nbsp;&nbsp;
+					<!--======================================================================-->
+				<input type="hidden" id="div_pro" value="1"/>
+					<div id ="div_product">
+					  <input type="hidden" id="pro_sta"/>
+					</div>
+					<!--======================================================================-->
+					<br>
+					<div class="div-tr" id="origin-div" style="display:none;">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="category"><span>原产地</span>：</label>
+							</div>
+							<div class="div-td-value">
+								<select style="width: 110px;" id="province_id" name="province_id"></select>
+								-<select style="width: 110px;" id="city_id" name="city_id"></select>
+								-<select style="width: 110px;" id="area_id" name="area_id"></select>
+								<font class="necessary">*</font>
+							</div>
+						</div>
+					</div>
+					
+				<div id="imported_product_info" style="display:none">
+				<input type="hidden" id="imported_product_id" value="">
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="countryOfOrigin"><span
+									data-fsn-text="原产地"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="countryOfOrigin"
+									name="countryOfOrigin" class="my-textbox">
+							</div>
+							<font class="necessary">*</font>
+						</div>
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="agentName"><span
+									data-fsn-text="国内代理商"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="agentName"
+									name="agentName" class="my-textbox">
+							</div>
+							<font class="necessary">*</font>
+						</div>
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="agentAddress"><span data-fsn-text="代理商地址"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="agentAddress" name="agentAddress"
+									class="my-textbox">
+							</div>
+						</div>
+					</div>
+				
+				
+					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name" style="width: 200px;">
+								<label for="isLab"><span
+									data-fsn-text="是否有中文标签图片上传"></span>：</label>
+							</div>
+							<div class="div-td-value">
+								 <input type="radio" name='isLab' id="yesLab" value="1" checked="checked"/><label data-fsn-text="是"></label>
+			  					 <input type="radio" name="isLab" id="noLab" value="0" /><label data-fsn-text="否"></label>
+							</div>
+						</div>
+					</div>
+					
+					<div class="div-tr">
+						<div class="div-td div-td-full">
+							<div class="div-td-value">
+								<div class="div-tr">
+									<label id="labFileMsg" style="font-size: 12px; color: red;">
+										(注意:为保证更流畅的体验，建议每次上传照片不超过1M！ 可支持文件格式：png .bmp .jpeg .jpg ) </label>
+								</div>
+								<div id="upload_lab">
+									<span id='uploadLabZone'> <input type="file"
+										id="upload_lab_files" />
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</fieldset>
+				<fieldset>
+					<div id="labListView">
+						<button id="btn_clearLabFiles" style="display:none" class='k-button'>
+							<span data-fsn-text="empty"></span>
+						</button>
+						<div id="labAttachmentsListView"></div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<div class="div-tr">
+						<div class="div-td div-td-full">
+							<div id="product-nutri-grid"></div>
+						</div>
+					</div>
+				</fieldset>
+				
+				<fieldset>
+					<div class="div-tr">
+						<div class="div-td div-td-full">
+							<div class="div-td-value">
+								<div class="div-tr">
+									<label id="proFileMsg" style="font-size: 12px; color: red;">
+										(注意:为保证更流畅的体验，建议每次上传照片不超过1M！ 可支持文件格式：png .bmp .jpeg .jpg ) </label>
+								</div>
+								<div id="upload_product">
+									<span id='uploadZone'> <input type="file"
+										id="upload_product_files" />
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="logListView">
+						<button id="btn_clearProFiles" class='k-button'>
+							<span data-fsn-text="empty"></span>
+						</button>
+						<div id="proAttachmentsListView"></div>
+					</div>
+				</fieldset>
+				<!-- 产品认证信息 -->
+				<div class="div_busSC">
+					<div class="header">
+						<span data-fsn-text="Authentication information"></span>
+					</div>
+					<div id="certification-grid"></div>
+				</div>
+				<div class="div-tr">
+					<div class="div-td" style="margin-top: 10px;">
+						<button class="k-button inputbtn" id="save">
+							<span class="k-icon k-save"></span><span class="ui-button-text"
+								data-fsn-text="Save"></span>
+						</button>
+						<button id="update" class="k-button inputbtn" style="display:none;">
+							更新
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	  </div>
+	 </div>
+ </div>
+ 		<!-- 选择销往企业弹出框 Start -->
+		<div id="customer_select_window">
+			<div id="content">
+				<div style="margin: 10px 0px 5px 5px">
+					<input style="width: 450px;" type="text" id="customerSelectInfo">
+				</div>
+			</div>
+			<div id="float_banner">
+				<button class="k-button" id="btn_customer_select_save">
+					<span class="k-icon k-update"></span>保存
+				</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<button class="k-button" id="btn_customer_select_cancel">
+					<span class="k-icon k-cancel"></span>取消
+				</button>
+			</div>
+		</div>
+		<!-- 选择销往企业弹出框 END -->
+		
+		<!-- 经销商引进产品弹框 Start-->
+		<div id="lead_dealer_window">
+			<div id="content">
+				<span id="leadDealerMsg"></span><br/><br/>
+				<div ><span data-fsn-text="placeCustomer"></span></div>
+				<input style="width: 430px;" id="customerSelect_lead" />
+			</div>
+			<div id="float_banner">
+				<button class="k-button" id="btn_dealer_leadOK">
+					<span class="k-icon k-update"></span>保存
+				</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<button class="k-button" id="btn_leadCancel">
+					<span class="k-icon k-cancel"></span>取消
+				</button>
+			</div>
+		</div>
+		<!-- 经销商引进产品弹框 End-->
+		
+		<!-- 流通企业引进产品弹框 Start-->
+		<div id="lead_window">
+			<span id="leadMsg"></span><br/><br/>
+			<div style="text-align:center;">
+				<button class="k-button" id="btn_leadOK">
+					<span class="k-icon k-update"></span>保存
+				</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<button class="k-button" id="btn_leadCancel">
+					<span class="k-icon k-cancel"></span>取消
+				</button>
+			</div>
+		</div>
+		<!-- 流通企业引进产品弹框 End-->
+		
+		<!-- 选择执行标准弹出框 Start -->
+		<div id="addRegularity_window">
+			<div style="width: 305px; height: 300px; float: left; margin-left: 20px;">
+				<fieldset>
+					<legend>已选择</legend>
+					<div style="width: 280px; height: 260px">
+						<ul id="regularityList"></ul>
+					</div>
+				</fieldset>
+			</div>
+			<div style="width: 350px; height: 300px; float: left; margin-left:10px;">
+				<div>
+					<div style="margin: 10px 0px 5px 5px">
+						<label><span data-fsn-text="选择"></span>：</label> 
+						<input style="width: 280px;" type="text" id="regularityInfo" name="regularityInfo">
+					</div>
+					<fieldset>
+						<legend>新增</legend>
+						<div>
+							<font size=2 color=red>没有您要找的标准？请输入新增</font>
+						</div>
+						<div style="margin: 15px 0px 5px 5px">
+							<label for="status"><span data-fsn-text="标准类型"></span>：</label> <input
+								style="width: 250px;" type="text" id="regularity_type"
+								name="regularity_type" class="my-textbox" placeholder="例如：GB/T">
+						</div>
+						<div style="margin: 15px 0px 5px 5px">
+							<label for="status"><span data-fsn-text="执行序号及年份"></span>：</label>
+							<input style="width: 208px;" type="text" id="regularity_year"
+								name="regularity_year" class="my-textbox"
+								placeholder="例如：27586-2011">
+						</div>
+						<div style="margin: 15px 0px 5px 5px">
+							<label for="status"><span data-fsn-text="标准名称"></span>：</label> <input
+								style="width: 250px;" type="text" id="regularity_name"
+								name="regularity_name" class="my-textbox" placeholder="例如：山葡萄酒">
+						</div>
+						<div style="margin: 15px auto;width:65px;">
+							<button class="k-button" id="btn_regularity_add">
+								<span class="k-icon k-add"></span>添加
+							</button>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div style="width: 200px; height: 35px; float: left;margin-left:280px">
+				<button class="k-button" id="btn_regularity_save">
+					<span class="k-icon k-update"></span>保存
+				</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<button class="k-button" id="btn_regularity_cancel">
+					<span class="k-icon k-cancel"></span>取消
+				</button>
+			</div>
+		</div>
+		<!-- 选择执行标准弹出框 END -->
+
+		<!-- 品牌类型选择窗口 -->
+		<div id="brandCategoryGroupWin">
+			<div id="listView"></div>
+		</div>
+		
+		<script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+		&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+		<button class="k-button" onclick="return fsn.removeRes(#=attachments.id#)">
+        <span class="k-icon k-cancel" data-fsn-text="Delete"></span></button><br><br>
+    	</script>
+    	<script type="text/x-kendo-tmpl" id="uploadedLabFilesTemplate">
+		&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+		<button class="k-button" onclick="return fsn.removeLabRes(#=attachments.id#)">
+        <span class="k-icon k-cancel" data-fsn-text="Delete"></span></button><br><br>
+    	</script>
+		<script type="text/x-kendo-template" id="toolbar_template_nutri">
+             <div><span>营养报告</span>
+			 <input type="text" id="nutriPer" class="my-textbox" value="100" disabled='disabled' style="width:60px;"/>
+			 <div id="nutriUnitDropDown" style="width:60px;"></div>
+			 <span style="color:red;font-size:12px;">注：此处通过选择采样样本的单位样本数量，例如：100g或100ml样本以下成分的数据</span></div>
+			 <span class="fr">
+                <button class="k-button"  onclick="return fsn.addNutri()">
+				  <span class="k-icon k-add" ></span><span data-fsn-text="Add">添加</span>
+                </button>&nbsp;&nbsp;
+			 </span>
+    </script>
+		<script type="text/x-kendo-template" id="toolbar_template_cert">
+              <button class="k-button" onclick="return fsn.addCert()">
+             <span class="k-icon k-add" ></span><span data-fsn-text="Add">添加</span></button>
+    </script>
+		<div class="push"></div>
+		<div id="saveWindow">
+			<div>
+				<label data-fsn-text="saveResMsg"></label>
+			</div>
+			<div style="text-align: right;">
+				<button class="k-button" id="btn_saveOK">
+					<span class="k-icon k-update"></span><label data-fsn-text="OK"></label>
+				</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<button class="k-button" id="btn_saveCancel">
+					<span class="k-icon k-cancel"></span><label data-fsn-text="Cancel"></label>
+				</button>
+				&nbsp;&nbsp;
+			</div>
+		</div>
+		<div id="chooseBrandWindow">
+			<div>
+				<input id="brandCategory" style="width: 300px;" />
+			</div>
+			<div style="text-align: right; margin-top: 100px;">
+				<button class="k-button" id="btn_bcOK">
+					<span class="k-icon k-update"></span><label data-fsn-text="OK"></label>
+				</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<!-- <button class="k-button" id="btn_bcCancel"><span class="k-icon k-cancel"></span><label data-fsn-text="Cancel"></label></button>&nbsp;&nbsp; -->
+			</div>
+		</div>
+		<div id="k_window">
+			<span id="winMsg"></span>
+		</div>
+		<span id="RETURN_MES" style="display: none;"></span>
+		<script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../resource_new/img/error-icon.png" style="display: inline-block;margin-left: 260px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource_new/img/error-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+    </script>
+		<script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success">
+                     <img src="../../resource_new/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource_new/img/success-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+	</script>
+	</div>
+	<script type="text/html" id="license-html">
+<div class="delDiv" index="<#=index#>" id="<#=id#>">
+		  <div class="div-tr">
+		   		<div class="div-td">生产企业：&nbsp;&nbsp;&nbsp;&nbsp;
+<input style="width: 350px;" type=text name="businessName" value="<#=businessName#>" class="businessName my-textbox"
+ placeholder="添加生产企业" onMouseDown="portal.setDownBusinessName(this)"/></div>	
+		   		<div class="div-td">
+					<input type="file" class="upload_licImg_files"/ >
+					<# if(typeof(licResource)!="undefined"&&licResource!=null){#>
+		           <div class="licImgListView" name="licImgListView" style="clear:both;">
+				     <a href="<#=licResource.url#>" target="_blank"><#=licResource.fileName#></a>
+					<button class="k-button delete-license-btn">
+        				<span class="k-icon k-cancel"></span>删除</button>
+			       </div>
+					<#}#>
+			    </div>
+	      </div>
+		  <div class="div-tr">
+			   <div class="div-td"><input type="file" class="upload_qsImg_files"/>	
+					<# if(typeof(qsResource)!="undefined"&&qsResource!=null){#>
+		           <div class="qsImgListView" name="qsImgListView" style="clear:both;">
+				     <a href="<#=qsResource.url#>" target="_blank"><#=qsResource.fileName#></a>
+					<button class="k-button delete-license-btn">
+        				<span class="k-icon k-cancel"></span>删除</button>
+			       </div>
+					<#}#>			     
+			   </div>
+			   <div class="div-td">
+					<input type="file" class="upload_disImg_files"/>	
+					<# if(typeof(disResource)!="undefined"&&disResource!=null){#>
+		           <div class="disImgListView" name="disImgListView" style="clear:both;">
+				     <a href="<#=disResource.url#>" target="_blank"><#=disResource.fileName#></a>
+					<button class="k-button delete-license-btn">
+        				<span class="k-icon k-cancel"></span>删除</button>
+			       </div>
+					<#}#>		
+				<a href="#" class="delete-licence-html">删除</a>	
+	     	</div>
+	  <hr></div>
+	</div>
+</script>
+</body>
+</html>

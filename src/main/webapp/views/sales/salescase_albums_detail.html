@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10" />
+<title>食品安全营养信息平台 V1.</title>
+<link rel="stylesheet" href="../../resource/css/reset.css" />
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource/kendoui/styles/kendo.default.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+<link rel="stylesheet" href="../../resource/css/notification.css" />
+<link rel="stylesheet" href="../../resource/css/index_guid.css" />
+<link rel="stylesheet" href="../../resource/css/sales/renderpic.css" />
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource/js/jquery.cookie.js"></script>
+<script src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/fsn.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource/js/lims.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script src="../../resource/js/language/sales/promotion_case_zh_cn.js"></script>
+<script src="../../resource/js/upload/lims.upload.js"></script>
+<script src="../../resource/js/sales/util/salesKendoUtil.js"></script>
+<script src="../../resource/js/sales/util/renderpic.js"></script>
+<script src="../../resource/js/sales/salescase_albums_detail.js"></script>
+<script>
+    $(document).ready(function(){
+        $("fieldset input").focus(function(){
+            $(this).parent().prev("label").hide();
+        });
+        $("fieldset input").blur(function(){
+            if ($(this).val().trim().length < 1) {
+                $(this).parent().prev("label").show();
+            }
+        });
+        $(".hideBusName").hide();
+    });
+</script>
+<style type="text/css">
+input.k-textbox{width:250px;}
+textarea.k-textbox{width:600px;height:100px;resize:none;}
+div.mian-content{margin:50px 0;}
+div.div-td-name{margin:0 5px;}
+div.div-td-name span,span.page_title{color:rgb(15, 148, 26);}
+.fr{float:right;}
+.mt20{margin-top:20px;}
+.w3{width: 300px;}
+.h3{heigth:300px;}
+.fb{font-weight: bold;}
+.f5{font-size: 1.5em;}
+.f16{font-size:16px;}
+.mr10{margin-right: 10px;}
+.mf115{margin-left: 115px;width:100px;display}
+.dn{display: none;}
+.scstyle{margin-top: 15px;color:#008000;font: 300; }
+.name_sty{font-weight: bold;color: #008000;margin-top:5px;}
+.mt{margin-top:10px;width:100%;}
+</style>
+</head>
+<body>
+<div class="fixfooter">
+    <div class="container" id="content_container">
+        <div class="row">
+            <div class="column12 last">
+				<div class="column12">
+					<span class="page_title">销售信息管理 &raquo;宣传及促销管理 &raquo;电子相册&raquo;</span>
+					<span id="navigation_span" class="page_title"></span>
+				</div>
+			 	<div class="mian-content">
+			 		<div class="mod18" id="picture_listBox"></div>
+			 		<div class="fr h3 w3 mt20">
+			 		   <div class="div-tr">
+                           <span class="fb f5">相册说明：</span><br>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           <span>该相册用于展示销售案例的照片及详情。如果信息存在缺失或图片不清晰等情况，请联系公司的企业管理人员进入销售案例管理界面处更新。</span>
+                           <div class="mt">
+                               <span class="f16 name_sty">案例名称：</span><label class="f16" id="salecase_name"></label>
+                           </div>
+                           <div class="mt">
+                               <span class="f16 scstyle name_sty">案例介绍：</span><label class="f16" id="album_desc"></label>
+                           </div>
+			 		   </div>
+			 		   <div id="album_field"></div>
+			 		</div>
+			 	</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

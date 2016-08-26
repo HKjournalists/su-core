@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="GBK">  
+<head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>   
+    </head>  
+    <body>  
+        <h5>  
+           ${user.userName}您好：  
+        </h5>  
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;欢迎您公司${organizationName}注册成为 食品安全与营养云平台的${type}级用户。
+        </h5>    
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;您的账户是：${user.userName}  
+        </h5>
+        <h5>
+            &nbsp;&nbsp;&nbsp;&nbsp;初始密码为:${password}
+        </h5>
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;登录地址为：<a href="${fsnUrl}">${fsnUrl}</a> 
+        </h5>    
+        <h5>     
+            &nbsp;&nbsp;&nbsp;&nbsp;感谢您的关注和支持！  
+        </h5>    
+  
+--------------------------------------------------------------------  
+        <h5>     
+            请勿直接回复本邮件，如有任何疑问，联系食品安全与营养（贵州）信息科技有限公司
+        </h5>    
+    </body>  
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台</title>
+<link rel="stylesheet" href="../../../resource/css/reset.css"/>
+<link rel="stylesheet" href="../../../resource/css/text.css" />
+<link rel="stylesheet" href="../../../resource/css/grid.css" />
+<link href="../../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../../resource/css/style.less" />
+<link rel="stylesheet" href="../../../resource/css/notification.css" />
+<script src="../../../resource/js/less.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../../resource/kendoui/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../../resource/kendoui/js/kendo.web.min.js"></script>
+<script type="text/javascript" src="../../../resource/js/headerFooterTemplate.js"></script>
+<script type="text/javascript" src="../../../resource/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../../resource/js/fsn.js"></script>
+<script type="text/javascript" src="../../../resource/js/language/system_zh-cn.js"></script>
+<script type="text/javascript" src="../../../resource/js/util.js"></script>
+<script type="text/javascript" src="../../../resource/js/model.js"></script>
+<!-- TestResult -->
+<script type="text/javascript" src="../../../resource/js/language/test_zh-cn.js"></script>
+<script type="text/javascript" src="../../../resource/js/account/admin/admin_test-result-manage-notpub.js"></script>
+<script type="text/javascript" src="../../../resource/js/account/admin/admin_test-property-preview.js"></script>
+
+
+</head>
+<body>	
+<!--Function Start Here  -->
+	<div class="fullview" id="status_bar">
+		<div class="container">
+			<div class="row">
+				<div class="column12">
+					<span class="page_title" data-fsn-text="Test Result:">Test Result:</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<div class="container" id="test_result_view">
+		<input type="hidden" data-bind="value: testResult.id" />
+		
+		<div class="row">
+			<div class="column12 last">
+					<table>
+						<tr>
+							<td><label data-fsn-text="Id">Id</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.id, events: { change: change }" /></td>
+						</tr>
+						<tr>
+							<td><label data-fsn-text="Product">Product Name</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.sample.product.name, events: { change: change }" /></td>
+							<td>&nbsp;&nbsp;<label data-fsn-text="ReportNO">ReportNO</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.serviceOrder, events: { change: change }" /></td>							
+						</tr>			
+						<tr>
+							<td><label data-fsn-text="BrandName">BrandName</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.sample.producer.name, events: { change: change }" /></td>
+							<td>&nbsp;&nbsp;<label data-fsn-text="BatchSerialNo">BatchSerialNo</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.sample.batchSerialNo, events: { change: change }" /></td>
+						</tr>
+						<tr>
+							<td><label data-fsn-text="SamplingLocation">SamplingLocation</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.samplingLocation, events: { change: change }" /></td>
+							<td>&nbsp;&nbsp;<label data-fsn-text="SamplingDate">SamplingDate</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.samplingDate, events: { change: change }" /></td>							
+						</tr>
+						<tr>
+							<td><label data-fsn-text="Testee">Testee</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.testee.name, events: { change: change }" /></td>
+							<td>&nbsp;&nbsp;<label data-fsn-text="TestType">TestType</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.testType, events: { change: change }" /></td>
+						</tr>
+						<tr>
+							<td><label data-fsn-text="Standard">Standard</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.standard, events: { change: change }" /></td>
+							<td>&nbsp;&nbsp;<label data-fsn-text="ApproveBy">ApproveBy</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.approveBy, events: { change: change }" /></td>					
+						</tr>
+						<tr>
+							<td><label data-fsn-text="KeyTester">KeyTester</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.keyTester, events: { change: change }" /></td>
+							<td>&nbsp;&nbsp;<label data-fsn-text="AuditBy">AuditBy</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.auditBy, events: { change: change }" /></td>
+						</tr>
+						<tr>
+							<td><label data-fsn-text="Test Date">Test Date</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.testDate, events: { change: change }" /></td>
+							<td>&nbsp;&nbsp;<label data-fsn-text="Test Result:">Test Result:</label></td>
+							<td><input type="text" readonly="readonly" class="k-textbox" data-bind="value: testResult.result, events: { change: change }" /></td>
+							<td>&nbsp;&nbsp;<a class="k-button" id="report_View"><span class="k-icon k-i-search"></span><span class="ui-button-text" data-fsn-text="Report_View">Report_View</span></a></td>
+<!-- 						<td>&nbsp;&nbsp;<a class="k-button" id="Backout"><span class="k-icon k-update"></span><span class="ui-button-text" data-fsn-text="Backout">Backout</span></a></td> -->
+	 						<td>&nbsp;&nbsp;<a class="k-button" id="BackoutToIndex" ><span class="k-icon k-update"></span><span class="ui-button-text" data-fsn-text=""></span>返回</a></td>
+						</tr>
+
+					</table>
+					<script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+						<a href="#= attachments.url #" target="_blank">
+						#= attachments.fileName #</a>&nbsp;,&nbsp;
+					</script>
+					<div id="proAtt_tr">产品图片:<div id="proAttachments"></div></div>
+					<div id="msg_success" class="msg success"  style="margin-left: 125px; padding-top: 2%;"></div>
+					检测项目：<div id="test_property_grid" style="margin-bottom: 50px;"></div>
+		<div id="RETURN_COMMON_WIN">
+			<div id="listView">
+				<div id="RETURN_LABEL" style="text-align: center;">
+					<textarea class="k-textbox" id="RETURN_MES" style="width:90%"> </textarea>
+				</div>
+				<br/>
+				<div style="text-align: right;">
+					<button id="return_yes_btn"><span class="k-icon k-update"></span><label data-fsn-text="OK"></label></button> &nbsp;&nbsp;&nbsp;&nbsp;
+					<button id="return_no_btn"><span class="k-icon k-cancel"></span><label data-fsn-text="Cancel"></label></button>&nbsp;&nbsp;
+				</div>
+			</div>
+		</div>
+			<span id="RETURN_MES" style="display:none;"></span>
+    <script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../../resource/img/error-icon.png" />
+                    <h3 style="width:240px;">#= message #</h3>
+                </div>
+    </script>
+    <script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success">
+                    <img src="../../../resource/img/success-icon.png" />
+                    <h3 style="width:240px;">#= message #</h3>
+                </div>
+	</script>
+		
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			// fsn.initMenu();
+			new fsn.TestResult().initView();
+		});
+	</script>
+</body>
+</html>

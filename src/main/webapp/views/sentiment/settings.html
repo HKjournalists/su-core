@@ -1,0 +1,192 @@
+<!doctype html>
+<!--
+  Material Design Lite
+  Copyright 2015 Google Inc. All rights reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Demo">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>主题设置</title>
+
+<link rel="stylesheet" href="../../resource/css/reset.css"/>
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link rel="stylesheet" href="../../resource/css/sentiment/settings.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/kendo.common.min.css" />
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+
+<script type="text/javascript" src="../../resource/js/language/settings_zh-cn.js"></script>
+<script type="text/javascript" src="../../resource/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../resource/js/fsn.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script type="text/javascript" src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/util.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource/js/sentiment/settings.js"></script>	
+<script src="../../resource/js/sentiment/jsPopUpBox.js"></script>	
+<script src="../../resource/js/sentiment/kendo.all.min.js"></script>	
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("fieldset input").focus(function(){
+            $(this).parent().prev("label").hide();
+        });
+        $("fieldset input").blur(function(){
+            if ($(this).val().trim().length < 1) {
+                $(this).parent().prev("label").show();
+            }
+        });
+        $(".hideBusName").hide();
+    });
+    </script>
+  </head>
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+      <div class="android-content mdl-layout__content">
+        <div>
+        	<div class="panel-wrap">
+            <!-- responsive panel, collapsed on small screens -->
+            <div id="main-content">
+                <div id="blogs" class="widget">
+                   	<div class="topbtn">
+					<div id="tabstrip">
+					    <ul>
+					    	<li class="k-state-active">主题设置</li>
+					    	<li>监测网站</li>
+					    	<li>待添加监测网站</li>
+					    </ul>
+					     <div id="cfg_form">
+                    		<a id="addBtn" class="k-button k-button-icontext k-grid-add" href="javascript:void(0)">
+								<span class="k-icon k-update"> </span> <span>添加主题</span>
+							</a>
+                    		<div id="grid"></div>
+                    	</div>
+                    	<div id="mygroup_form">
+                    		<div id="mygroup_website_grid"></div>
+                    	</div>
+                    	<div id="website-form">
+                   <!--  		<a id="addNetworkBtn" class="k-button k-button-icontext k-grid-add" href="javascript:void(0)">
+								<span class="k-icon k-update"> </span> <span>设置监测网站</span>
+							</a> -->
+							<div id="website-grid"></div>
+                    	</div>
+					</div>
+						<a id="backBtn" class="k-button k-button-icontext k-grid-add" href="articleSearch.html">
+							<span class="k-icon k-update"> </span> <span>返回</span>
+						</a>
+                   	</div>
+                   
+                </div>
+            </div>
+        </div>
+        </div>
+        <div id="placeholder"></div>
+        <div id="topicPopup" style="display: none;">
+            <div id="cfg_form1" align="center" >
+				<table>
+					<tr>
+						<td><label for="topic_name" class="topic_label">主题名称</label></td>
+						<td><input id="topic_name" placeholder="主题名称不可重复" name="topic_name" class="k-textbox"/><input type="hidden" id="topicId"></td>
+					</tr>
+					<tr>
+						<td><label for="category_key"class="topic_label">分类核心词</label></td>
+						<td><textarea id="category_key" placeholder="多个词用回车分隔..." name="category_key" class="k-textbox"></textarea></td>
+					</tr>
+					<tr>
+						<td><label for="search_key"class="topic_label">搜索关键词</label></td>
+						<td><textarea id="search_key" placeholder="多个词用空格分隔..." name="search_key" class="k-textbox"></textarea></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<span id="topic_list" style="border-bottom: 1px solid #e7e7e7;">
+               					<strong>已存在的主题名称: </strong>
+                    		</span>
+						</td>
+					</tr>
+				</table>
+				<br/>
+				<div>
+					<button id="btn_save" class="k-button">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="btn_reset" class="k-button">重置</button>
+				</div>
+				<div id="notify">
+				</div>
+          	</div>
+        </div>
+        
+       <div id="webSitePopup" style="display: none;">
+            <div id="website_form1" align="center" >
+				<table>
+					<tr>
+						<td><label for="website_name" class="topic_label">网站名称</label></td>
+						<td><input id="website_name" placeholder="请填写网站名称" name="website_name" class="k-textbox"/><input type="hidden"id="websiteId"></td>
+					</tr>
+					<tr>
+						<td><label for="website_url"class="topic_label">网址</label></td>
+						<td> <input type="url" id="website_url" name="website_url" class="k-textbox" placeholder="e.g. myname@example.net"  required data-email-msg="Email format is not valid"  style="width: 220px;"/></td>
+						<!-- <td><textarea id="website_url" placeholder="请填写网站地址" name="website_url" class="k-textbox"></textarea></td> -->
+					</tr>
+				</table>
+				<br/>
+				<div>
+					<button id="website_btn_save" class="k-button">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="website_btn_reset" class="k-button">重置</button>
+				</div>
+				<div id="website_notify">
+				</div>
+          	</div>
+        </div>
+        <span id="RETURN_MES" style="display:none;"></span>
+		<script id="errorTemplate" type="text/x-kendo-template">
+  <div class="wrong-pass">
+     <img src="../../resource/img/error-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+	</script>
+		<script id="successTemplate" type="text/x-kendo-template">
+  <div class="upload-success">
+  <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+	</script>
+	
+	<script id="template" type="text/x-kendo-template">
+		<a  id="webSietAdd" class="k-button k-button-icontext" href="\#"><span class="k-icon k-add"></span>添加</a>
+	</script>
+        
+        <span id="centeredNotification" style="display:none;"></span>
+        <!-- 页面提示信息框 -->
+		<div id="CONFIRM_COMMON_WIN" style="display:none;">
+			<div id="listView">
+				<div id="CONFIRM_MSG" style="text-align: center;">
+				</div>
+				<br/>
+				<div style="text-align: right;">
+					<button id="confirm_yes_btn"><span class="k-icon k-update"></span><label data-lims-text="OK"></label></button> &nbsp;&nbsp;&nbsp;&nbsp;
+				<button id="confirm_no_btn"><span class="k-icon k-cancel"></span><label data-lims-text="Cancel"></label></button>&nbsp;&nbsp;
+				</div>
+			</div>
+		</div>
+      </div>
+    </div>
+  </body>
+</html>

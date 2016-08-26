@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10" />
+<title>食品安全营养信息平台 V1.</title>
+<link rel="stylesheet" href="../../resource/css/reset.css" />
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource/kendoui/styles/kendo.default.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+<link rel="stylesheet" href="../../resource/css/notification.css" />
+<link rel="stylesheet" href="../../resource/css/index_guid.css" />
+<link rel="stylesheet" href="../../resource/css/sales/photos_albums.css" />
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource/js/jquery.cookie.js"></script>
+<script src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/fsn.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource/js/lims.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script src="../../resource/js/language/sales/bus_contract_zh_cn.js"></script>
+<script src="../../resource/js/upload/lims.upload.js"></script>
+<script src="../../resource/js/sales/util/salesKendoUtil.js"></script>
+<script src="../../resource/js/sales/photos_albums_list.js"></script>
+<script>
+    $(document).ready(function(){
+        $("fieldset input").focus(function(){
+            $(this).parent().prev("label").hide();
+        });
+        $("fieldset input").blur(function(){
+            if ($(this).val().trim().length < 1) {
+                $(this).parent().prev("label").show();
+            }
+        });
+        $(".hideBusName").hide();
+    });
+</script>
+</head>
+<body>
+<div class="fixfooter">
+    <div class="container" id="content_container">
+        <div class="row">
+            <div class="column12 last">
+				<div class="column12">
+					<span class="page_title">当前位置：销售信息管理&raquo;宣传及促销管理&raquo;企业相册</span>
+				</div>
+			 <div style="font:14px;margin-top:30px;"><h4>&raquo;企业相册</h4></div>
+		     <div class="album-list-bd">
+		       <ul class="js-album-list-ul" style="height:470px">
+		          <li>
+		            <div class="bg bor3 mod-album js-album-item js-album-transition" style="width:245px;">
+		            	<div class="album-bd" style="height:172px;">
+		            		<a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return album.albumDetail('1');">
+		            		  <img id="SANZHENG_IMG_ID" class="js-cover-img" style="max-width: 165px; max-height: 204.75px; position: relative; margin:auto; text-align: center;vertical-align:middle;">
+		            		  <span class="pic-num-wrap"><span id="SANZHENG_NUM_ID" class="pic-num"></span></span>
+		            		</a>
+		            	</div>
+		            	<div class="album-ft">
+		            		<div class="album-desc ">
+		            		  <div class="album-tit">
+		            		  	<a id="SANZHENG_NAME_ID" class="c-tx2 js-album-desc-a" 
+		            		  	   title="三证" href="javascript:;" onclick = "return album.albumDetail('1');"></a>
+		            		  </div>
+		            		</div>
+		            	</div>
+		            </div>
+		          </li>
+		           <li>
+		            <div class="bg bor3 mod-album js-album-item js-album-transition" style="width:245px;">
+		            	<div class="album-bd" style="height:172px;">
+		            		<a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return album.albumDetail('2');">
+		            		  <img id="HONOR_IMG_ID" class="js-cover-img" style="max-width: 165px; max-height: 204.75px; position: relative; margin:auto; text-align: center;vertical-align:middle;">
+		            		  <span class="pic-num-wrap"><span id="HONOR_NUM_ID" class="pic-num"></span></span>
+		            		</a>
+		            	</div>
+		            	<div class="album-ft">
+		            		<div class="album-desc ">
+		            		  <div class="album-tit">
+		            		  	<a id="HONOR_NAME_ID" class="c-tx2 js-album-desc-a" title="荣誉证书 " href="javascript:;" onclick = "return album.albumDetail('2');"></a>
+		            		  </div>
+		            		</div>
+		            	</div>
+		            </div>
+		          </li>
+		           <li>
+		            <div class="bg bor3 mod-album js-album-item js-album-transition" style="width:245px;">
+		            	<div class="album-bd" style="height:172px;">
+		            		<a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return album.albumDetail('3');">
+		            		  <img id="CERT_IMG_ID" class="js-cover-img" style="max-width: 165px; max-height: 204.75px; position: relative; margin:auto; text-align: center;vertical-align:middle;">
+		            		  <span class="pic-num-wrap"><span id="CERT_NUM_ID" class="pic-num"></span></span>
+		            		</a>
+		            	</div>
+		            	<div class="album-ft">
+		            		<div class="album-desc ">
+		            		  <div class="album-tit">
+		            		  	<a id="CERT_NAME_ID" class="c-tx2 js-album-desc-a" title="认证证照" href="javascript:;" onclick = "return album.albumDetail('3');"></a>
+		            		  </div>
+		            		</div>
+		            	</div>
+		            </div>
+		          </li>
+		           <li>
+		            <div class="bg bor3 mod-album js-album-item js-album-transition" style="width:245px;">
+		            	<div class="album-bd" style="height:172px;">
+		            		<a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return album.albumDetail('4');">
+		            		  <img id="PRODUCT_IMG_ID" class="js-cover-img" style="max-width: 165px; max-height: 204.75px; position: relative; margin:auto; text-align: center;vertical-align:middle;">
+		            		  <span class="pic-num-wrap"><span id="PRODUCT_NUM_ID" class="pic-num"></span></span>
+		            		</a>
+		            	</div>
+		            	<div class="album-ft">
+		            		<div class="album-desc ">
+		            		  <div class="album-tit">
+		            		  	<a id="PRODUCT_NAME_ID" class="c-tx2 js-album-desc-a" title="产品图片集" href="javascript:;" onclick = "return album.albumDetail('4');"></a>
+		            		  </div>
+		            		</div>
+		            	</div>
+		            </div>
+		          </li>
+		          <li>
+		            <div class="bg bor3 mod-album js-album-item js-album-transition" style="width:245px;">
+		            	<div class="album-bd" style="height:172px;">
+		            		<a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return album.albumDetail('5');">
+		            		  <img id="BUSPHOTOS_IMG_ID" class="js-cover-img" style="max-width: 165px; max-height: 204.75px; position: relative; margin:auto; text-align: center;vertical-align:middle;">
+		            		  <span class="pic-num-wrap"><span id="BUSPHOTOS_NUM_ID" class="pic-num"></span></span>
+		            		</a>
+		            	</div>
+		            	<div class="album-ft">
+		            		<div class="album-desc ">
+		            		  <div class="album-tit">
+		            		  	<a id="BUSPHOTOS_NAME_ID" class="c-tx2 js-album-desc-a" title="企业掠影" href="javascript:;" onclick = "return album.albumDetail('5');"></a>
+		            		  </div>
+		            		</div>
+		            	</div>
+		            </div>
+		          </li>
+		       </ul>
+		     </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 页面提示信息框 -->
+<span id="RETURN_MES" style="display:none;"></span>
+<script id="errorTemplate" type="text/x-kendo-template">
+  <div class="wrong-pass">
+     <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+     <br/>
+     <img src="../../resource/img/error-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+</script>
+<script id="successTemplate" type="text/x-kendo-template">
+  <div class="upload-success">
+  <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+  <br/>
+  <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+</script>
+</body>
+</html>

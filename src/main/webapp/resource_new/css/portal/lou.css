@@ -1,0 +1,274 @@
+/*展示楼*/
+.lou {
+	float: left;
+	clear: both;
+	margin-top: 20px;
+	font-weight: normal;
+	line-height: normal;
+}
+
+.lanmu {
+	width: 1024px;
+	margin-bottom: 20px;
+}
+
+.lanmu-main {
+	position: relative;
+	height: 270px;
+	width: 1024px;
+	margin-top: 36px;
+}
+
+.main-word {
+	/* float: left; */
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 270px;
+	width: 224px;
+	background: url(../../img/portal/lou.png);
+}
+
+.lou-topic>div{width: 80px; margin-left: 60px; text-align: center;}
+.lou-topic p {width: 70px;font-size: 120%;line-height: 40px;margin: 0 auto;}
+
+.floor-box {position: absolute; top: 29px; right: 0;}
+
+.main-word-top {
+	height: 260px;
+}
+.col-tag-bg-short-default {background-position: -23px -521px;}
+.col-tag-bg-short-blue {background-position: -23px -521px;}
+.col-tag-bg-short-yellow {background-position: -264px -521px;}
+.col-tag-bg-short-crimson {background-position: -505px -521px;}
+.col-tag-bg-short-orange {background-position: -23px -794px;}
+.col-tag-bg-short-green {background-position: -264px -794px;}
+.col-tag-bg-short-brown {background-position: -505px -794px;}
+.col-tag-bg-short-blush {background-position: -746px -794px;}
+
+.lmimgTag1{
+	 background-position:-10px -160px;
+}
+.lmimgTag2{
+	background-position:-10px -130px;
+}
+.lmimgTag3{
+	background-position:-10px -191px;
+}
+.lmimgTag4{
+	background-position:-10px -218px;
+}
+.lmimgTag5{
+	background-position:-10px -218px;
+}
+.lmimgTag6{
+	background-position:-10px -218px;
+}
+.lmimgTag7{
+	background-position:-10px -218px;
+}
+.lmimg-com font{
+	color: #fff;
+}
+.lou-ad{
+	height: 216px;
+	width: 216px;
+}
+
+.lou-ad-img{
+	width: 188px;
+	height:188px;
+}
+.tab_box ul{
+	float: left;
+	height: 260px;
+	width: 803px;
+	margin-bottom: 0 0 0 3px;
+	overflow: hidden;
+	list-style-type: none;
+}
+.tab_box ul li{
+	position: relative;
+	float: left;
+	height: 207px;
+	width: 141px;
+	padding: 8px 9px;
+}
+.tab_box ul li.floor-top1{
+	border-top: 1px solid #00C0FF;
+	border-bottom: 1px solid #00C0FF;
+}
+.tab_box ul li.floor-top2{
+	border-top: 1px solid #FFC700;
+	border-bottom: 1px solid #FFC700;
+}
+.tab_box ul li.floor-top3{
+	border-top: 1px solid #DE5621;
+	border-bottom: 1px solid #DE5621;
+}
+.tab_box ul li.floor-top4{
+	border-top: 1px solid #FF9102;
+	border-bottom: 1px solid #FF9102;
+}
+.tab_box ul li.floor-top5{
+	border-top: 1px solid #9DE603;
+	border-bottom: 1px solid #9DE603;
+}
+.tab_box ul li.floor-top6{
+	border-top: 1px solid #BEAF44;
+	border-bottom: 1px solid #BEAF44;
+}
+.tab_box ul li.floor-top7{
+	border-top: 1px solid #D0A485;
+	border-bottom: 1px solid #D0A485;
+}
+.tab_box ul li .box-pic{
+	height: 138px;
+	width: 138px;
+}
+.tab_box ul li a{
+	display: block;
+	color: #333;
+}
+
+.tab_box ul li a img{
+	height: 136px;
+	width: 136px;
+	padding: 1px;
+	border:0;
+}
+
+.tab_box ul li .box-col{ 
+	display:none; 
+	position: relative; 
+	left: 1px; 
+	height:24px; 
+	width:136px; 
+	bottom:25px;
+	text-align:center; 
+	color:#fff; 
+	line-height:24px;
+	background-color:#363636; 
+	filter:alpha(opacity=50);
+    opacity:0.5;
+    cursor: pointer;
+	}
+.tab_box ul li .box-col:hover{
+	filter:alpha(opacity=80);
+    opacity:0.8;
+}
+	
+.tab_box ul li a:hover{ 
+	color: #008000;
+	text-decoration: underline;
+	}
+
+.tab_box ul li p{
+	width: 140px;
+	color: rgb(204, 0, 0);
+	font-size: 12px;
+	line-height: 22px;
+}
+
+.tab_box ul li p .qianfu{
+	display: block;
+	padding-top: 4px;
+	overflow: hidden;
+}
+.box-suit{
+	height:20px;
+	width: 120px;
+	font-family: Arial;
+	font-size: 12px;
+	line-height: 20px;
+	color: #ff6000;
+	overflow: hidden;
+}
+
+.box-cert img{
+	display:block;
+	float:left;
+	width:25px;
+	height:25px;
+	margin: 1px;
+	border: 0;
+}
+.box-eva .eva-icon{
+	display:block;
+	position:absolute;
+	right:10px;
+	width:20px;
+	height:20px;
+	bottom: 30px;
+	background: url(../../img/portal/detail-box.png) no-repeat;
+	background-size:200px 200px;
+}
+.box-eva .eva-face1{
+	background-position: -75px -16px;
+}
+.box-eva .eva-face2{
+	background-position: -106px -16px;
+}
+.box-eva .eva-face3{
+	background-position: -141px -16px;
+}
+/*每楼楼底广告位*/
+.ggzw {
+	width: 1024px;
+	padding: 0;
+	margin: 0px auto;
+	overflow: hidden;
+}
+
+.floor-brand{
+	width: 1200px;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	text-align: left;
+}
+
+.brand-list {
+	float: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border-bottom-color: 1px solid #dedede;
+	border-right-color: 3px solid #dedede;
+}
+
+.brand-list li{
+	float: left;
+	height: 60px;
+	width: 149px;
+	margin: 0px;
+	padding: 0;
+	list-style-type: none;
+	overflow: hidden;
+}
+
+.brand-list li a{
+	display: block;
+	height: 57px;
+	margin: 0;
+	padding: 1px;
+	overflow: hidden;
+	text-decoration: none;
+	border-left-color: #dedede;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-top-color: #dedede;
+	border-top-style: solid;
+	border-top-width: 1px;
+	color: #333;
+	cursor: pointer;
+	outline-style: none;
+
+}
+
+.brand-list li a img{
+	width: 134px;
+	border-style: none;
+	border-width: 0;
+	line-height: 36px;
+}

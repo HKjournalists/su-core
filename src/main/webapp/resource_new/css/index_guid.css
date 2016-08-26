@@ -1,0 +1,31 @@
+html #followMeDiv{
+	background:#707070;
+	FILTER:alpha(opaciy=80);
+	moz-opacity:0.5;
+	opacity:0.5;
+	z-index: 12000;
+    position:fixed;
+}
+
+html .stepContent{
+	max-width: 1200px;
+    width: 1200px;
+    margin:auto;
+    z-index:12001;
+    color: white;
+    left:0; 
+    right:0;
+    position:fixed;
+}
+html .noneStyle{display:inline;}
+
+html span.k-tooltip-validation {
+   	 position: absolute;
+}
+
+html .fieldFormatStyle{
+	background-color:yellow;color:#c20000;position:absolute;
+	border:1px solid black;
+	border-radius:5px;
+	z-index:100;
+	}

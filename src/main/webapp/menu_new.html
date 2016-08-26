@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<script>
+$(document).ready(function() {
+	$("#query").focus();
+	
+	var fsn = window.fsn = window.fsn || {};
+	fsn.menu = {};
+	fsn.menu.setting = {};
+	$("#menu_list,#usr_menu").kendoMenu({
+		animation: { open: { effects: "fadeIn" } },
+		orientation : "vertical"
+	});
+/*	$("#dropdown").bind(click,function(event){
+	
+			$("#mylist").slideToggle();
+		
+	});*/
+ 	$.ajax({
+		url : fsn.getHttpPrefix() + "/user/menubar",
+		type : "GET",
+		dataType : "json",
+		async : false,
+		success : function(data) {
+			if (data.status == "false") {
+				window.location.pathname = data.url;
+			} else {
+				if(data == null || data.loginUser==null||data.loginUser=="" || data.loginUser == undefined){
+					
+				}
+				if(data.loginUser){
+					var menu = $("#menu_list").data("kendoMenu");
+					menu.append(data.menubar);
+					var user = $("#menu_loginUser");
+					user.html(data.loginUser);
+					user.attr("title",data.loginUser);
+				}else{
+					location.reload();
+				}
+				
+								
+			}
+		},
+		error:function(){
+			
+		}
+		
+	}); 
+	
+	$("[href$='.com']").attr("target","_blank");
+	
+	$("#reset_safety_btn").bind("click",function(){
+		$("#cur-pwd").val("");
+		$("#new-pwd").val("");
+		$("#conf-pwd").val("");
+	})
+	
+	$("#menu_logout").bind("click", function() {
+		window.location = fsn.getLogoutURL();
+	});
+	
+	$("#menu_setting").bind("click", function() {
+		//Show setting windows
+		fsn.menu.setting.show();
+	});
+
+	fsn.modifyPwd = function(uid,old,newPwd){
+		$.ajax({
+			url:fsn.getHttpPrefix() + "/user/modifyPassword",		
+			type:"POST",
+			contentType:"application/json;charset=UTF-8",
+			data:JSON.stringify({
+				"id":uid,
+				"oldPassword":old,
+				"newPassword":newPwd
+			}),
+			dataType:"json",
+			success:function(data){
+				if(data.status == "true"){
+					$("#reset_safety_btn").click();
+                    data.success = true;
+				    fsn.msg("setting_msg",data,"密码修改成功"); //data.message
+				}else{
+                   
+                    fsn.msg("setting_msg",null,"密码修改未成功,原因可能是您的当前密码不正确");
+                }
+			}
+		});
+	}
+	
+	$("#setting_tab").on('keypress',function(e){
+		if(e.keyCode == 13){
+			$("#save_safety_btn").click();
+		}
+	});
+	
+	$("#save_safety_btn").bind("click",function(){
+		var old = $("#cur-pwd").val();
+		var newPwd = $("#new-pwd").val();
+		var confPwd = $("#conf-pwd").val();
+		if($.trim($("#cur-pwd").val()).length == 0){
+			return;
+		}
+		if($.trim($("#new-pwd").val()).length == 0){
+			return;
+		}
+		if($.trim($("#new-pwd").val()).length == 0){
+			return;
+		}
+		//Confirm password
+		if(newPwd != confPwd){
+			fsn.msg("setting_msg",null,"两次密码不一致");
+			$("#conf-pwd").val("");
+			return;
+		}
+		$.ajax({
+			url:fsn.getHttpPrefix()+"/user/myId",
+			dataType:"json",
+			success:function(data){
+				if(data.id != null){
+					fsn.modifyPwd(data.id,old,newPwd);
+				}
+			}
+		});
+	});
+	
+	$("#setting_win").kendoWindow({
+		width:"500px",
+		modal:true,
+		visible:false,
+		resizable:false
+	});
+	$("#setting_tab").kendoTabStrip();
+	
+	fsn.menu.setting.show = function (){
+		$("#reset_safety_btn").click();
+		fsn.clrmsg("setting_msg",null);
+		$("#setting_win").data("kendoWindow").center().open();
+	}
+	$("#setting_tab ul").css({
+		padding: 0,
+		margin: 0
+	});
+	$("#setting_tab ul li").css({
+		padding: "2px",
+		textAlign: "left"
+	});
+	$("#setting_tab-2 ul li label").css({
+		display:"inline-block",
+		width:"150px",
+		textAlign:"right",
+		color:"#05740f"
+	});
+	$("#about_window").kendoWindow({
+		width:"400px",
+		title:"关于",
+		visible:false,
+		modal:true
+	});
+    fsn.showWindow=function(){
+    	$("#about_content").html("食品安全与营养信息系统，感谢您的使用！</br>版本信息：2.4.6");
+		$("#about_window").data("kendoWindow").open().center();
+    }
+    fsn.closeAboutWindow=function(){
+    	$("#about_window").data("kendoWindow").open().close();
+    }
+    
+    $("#query").on('keypress',function(e){
+		if(e.keyCode == 13){
+			$("#query_btn").click();
+		}
+	});
+    
+    /**
+     * 打开报告展示页面
+     * @author Zhanghui 2015/4/10
+     */
+    fsn.openViewReportPage = function(flag){
+    	var keyWord = $("#query").val().trim();
+    	if(keyWord == ""){
+    		return;
+    	}
+    	
+    	if(flag==undefined||!flag){
+	    	/* 检测当前登录企业的类型 */
+	    	var busType = null;
+	    	$.ajax({
+	            url: fsn.getHttpPrefix() + "/business/getCurrentBusiness",
+	            type: "GET",
+	            dataType: "json",
+	            async: false,
+	            success: function(returnValue) {
+	                if (returnValue.result.status == "true") {
+	                	busType = returnValue.data.type;
+	                }
+	            }
+	        });
+	    	if(busType != "流通企业.商超"){
+	    		fsn.initNotificationMes("检测到您的企业类型为【" + busType + "】,目前只有商超才能使用该搜索功能！", false);
+	    		return;
+	    	}
+    	}
+    	
+    	/* 查找产品id */
+    	var fromBusId = null;
+    	var productId = null;
+    	$.ajax({
+            url: fsn.getHttpPrefix() + "/product/query/getProductId/" + keyWord,
+            type: "GET",
+            dataType: "json",
+            async: false,
+            success: function(returnValue) {
+                if (returnValue.result.status == "true") {
+                	productId = returnValue.data;
+                	//fromBusId = returnValue.data[1];
+                }
+            }
+        });
+    	if(!productId){
+    		fsn.initNotificationMes("产品不存在！", false);
+    		return;
+    	}
+    	
+    	/* 缓存产品id */
+		/* var product = {
+			id : productId
+		};
+		$.cookie("search_0_report_by_product", JSON.stringify(product), {
+			path : '/'
+		}); */
+		if(flag==undefined||!flag){
+		window.open('/fsn-core/views/product_new/view_report_of_product_bussiness_super.html?'+null+'&' + productId);
+		}else{
+		window.open('/fsn-core/views/product_new/view_report_of_product_bussiness_superList.html?'+null+'&' + productId);
+		}
+    };
+	$("#dropdown").bind("click",function(event){
+			$("#mylist").slideToggle();
+		});
+	/*	$("#dropdown").hover(function(event){
+			$("#mylist").slideToggle();
+		});*/
+    
+}); 
+</script>
+<style scoped>
+<!--
+#menu_list li {
+	min-width: 180px;
+}
+.div_space_letter{
+	width:95px; /*假设，5个字符的宽度是50*/
+	white-space:nowrap; /*禁止换行*/
+	text-overflow:ellipsis; /*文本超出隐藏*/
+	-o-text-overflow:ellipsis;/*跟上面一样，只是为了兼容其他浏览器*/
+	overflow: hidden; /*隐藏，跟text-overflow配合使用*/
+}
+div.div_space_letter:HOVER {
+	cursor: pointer;
+}
+-->
+</style>
+<div class="row">
+	<!--<div id="menu_bar" class="column12 last">
+		<ul class="" id="menu_list">
+			<li class="menu_item" id="usr_menu"><a href="javascript:void(0)">您好:<span id="menu_loginUser" ></span></a>
+				<ul>
+					<li><a id="menu_profile" href="javascript:void(0)">我的账户</a></li>
+					<li><a id="menu_setting" href="javascript:void(0)">设置</a></li>
+					<li><a id="system_about" href="javascript:void(0)" onclick="fsn.showWindow()">关于</a></li>
+					<li><a id="menu_logout" href="javascript:void(0)">登出</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>-->
+    
+	<div id="menu_bar" class="w180 w180 fl">
+    	<div class=" tr mgncenter colormenu headbar">
+        	<div class="qiyelogo fl"><img src="/fsn-core/resource_new/img/shop/company.png" /></div>
+            <!--<div class="fl in-block mt15">
+            	
+                
+            </div>-->
+            <div class="fl in-block ml15 mt15" style="width:102px;">
+            	
+                	
+                    	<div class="colormenu tl f12 fl in-block">您好:</div>
+                        <div class="fl in-block" style="z-index:999">
+                            <div class=" set pr " id="dropdown">
+                            	<div id="mylist" class="pa setdrop none">
+                            		<ul>
+	                                     <li class="mt20"><a id="menu_profile" href="javascript:void(0)" class="colormenu">账户</a></li>
+	                                     <li><a id="menu_setting" href="javascript:void(0)" class="colormenu">设置</a></li>
+	                                     <li><a id="system_about" href="javascript:void(0)" class="colormenu" onclick="fsn.showWindow()">关于</a></li>
+	                                     <li><a id="menu_logout" href="javascript:void(0)" class="colormenu">登出</a></li>
+                                	</ul>
+                               </div>
+                            </div>
+                        </div>
+                        <div id="menu_loginUser"  class="tl f12 div_space_letter"></div>
+                    
+                
+                
+            </div>
+            
+        </div>
+        <div>
+			<ul id="menu_list">
+			</ul>
+        </div>
+	</div>
+</div>
+<div id="setting_win" style="display:none">
+	<div id="setting_tab">
+		<ul>
+			<li>基本信息</li>
+			<li class="k-state-active">安全管理</li>
+		</ul>
+		<!--Kendo UI auto generate id is setting_tab-1 -->
+		<div></div>
+		<!-- then setting_tab-2 -->
+		<div>
+			<ul>
+				<li>
+					<label for="cur-pwd" data-lims-text="Current Password:">当前密码：</label>
+					<input type="password" class="k-textbox" id="cur-pwd" name="curPwd" onselectstart="return false" oncopy="return false" onpaste="return false" oncut="return false;"/>
+				</li>
+				<li>
+					<label for="new-pwd" data-lims-text="New Password:">新密码：</label>
+					<input type="password" class="k-textbox" id="new-pwd" name="newPwd" onselectstart="return false" oncopy="return false" onpaste="return false" oncut="return false;"/>
+				</li>
+				<li>
+					<label for="conf-pwd" data-lims-text="Confirm Password:">确认新密码：</label>
+					<input type="password" class="k-textbox" id="conf-pwd" name="confPwd" onselectstart="return false" oncopy="return false" onpaste="return false" oncut="return false;"/>
+				</li>
+			</ul>
+			<div style="margin:10px 0;text-align:center">
+				<button id="save_safety_btn" class="k-button k-button-icontext">
+					<span class="k-icon k-update"></span>
+					<label>确定</label>
+				</button>
+				<button type="reset" id="reset_safety_btn" class="k-button k-button-icontext">
+					<span class="k-icon k-cancel"></span>
+					<label>重置</label>
+				</button>
+				<div id="setting_msg"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<style scoped>
+ul {
+	padding: 0;
+	margin: 0
+}
+
+</style>

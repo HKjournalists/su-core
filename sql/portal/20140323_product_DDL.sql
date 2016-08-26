@@ -1,0 +1,1 @@
+ALTER TABLE `product` ADD COLUMN `pro_url` VARCHAR(1000) DEFAULT NULL COMMENT '供应商推荐url';

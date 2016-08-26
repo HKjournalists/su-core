@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台 V1.</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource_new/css/reset.css" />
+<link rel="stylesheet" href="../../resource_new/css/text.css" />
+<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+<link href="../../resource_new/kendoui/styles/kendo.common.min.css"rel="stylesheet" />
+<link href="../../resource_new/kendoui/styles/kendo.default.min.css"rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+<link rel="stylesheet" href="../../resource_new/css/pushMessage.css" />
+<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+<script src="../../resource_new/kendoui/js/jquery.min.js"></script>
+<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource_new/js/headerFooterTemplate.js"></script>
+<script src="../../resource_new/js/jquery.cookie.js"></script>
+<script src="../../resource_new/js/fsn.js"></script>
+<script src="../../resource_new/js/lims.js"></script>
+<script src="../../resource_new/js/lims.i18n.js"></script>
+<script src="../../resource_new/js/util.js"></script>
+<script src="../../resource_new/js/filter.js"></script>
+<script src="../../resource_new/js/market/data_entry_zh_cn.js"></script>
+<script src="../../resource_new/js/language/product_up_zh-cn.js"></script>
+<script src="../../resource_new/js/bigdata/hotword.js"></script>
+<script src="../../resource_new/js/report/manage_report_common.js"></script>
+<script src="../../resource_new/js/upload/lims.upload.js"></script>
+<script src="../../resource_new/js/market/publish_edit_testreport.js"></script>
+
+<script>
+	$(document).ready(function() {
+		 $("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		}); 
+	});
+</script>
+<style>
+  #testItem_grid span.k-input{
+  	font-size:14px;
+  }
+  .red_xing{
+   color:red;
+   text-align:center;
+   margin-left:3px;
+  }
+</style>
+</head>
+<body>
+<div class="fixfooter">
+  <div class="container" id="content_container">
+	<div id="main" class="row">
+    	<div class="column12 last">
+    		<div style="width:100%;margin-left: auto;margin-right: auto;margin-top: 30px;">
+    			<div style="margin-top:30px;">
+					<div style="text-align: left;">
+						<strong>未发布的检测报告</strong>
+					</div>
+					<script id="toolbar_template" type="text/x-kendo-template">
+                    	<button id="btn_addRemark" class="k-button" onclick="return lims.root.editTips(\"report_no_publish_grid\",\"请选择一条未发布的检测报告！\")">
+       		 			<span class="k-icon k-add"></span>修改提示消息</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   	  				</script>
+    				<div id="report_no_publish_grid"></div>
+  			    </div>
+				<div id="ts_msg"></div>
+				<div style="margin-top:30px;">
+					<div style="text-align: left;">
+						<strong><font color=red>已退回的检测报告(请及时处理)</font></strong>
+					</div>
+					<script id="toolbar_template_back" type="text/x-kendo-template">
+                    	<button id="btn_addRemark_back" class="k-button" onclick="return lims.root.editTips(\"report_back_grid\",\"请选择一条已退回的检测报告\")">
+       		 			<span class="k-icon k-add"></span>修改提示消息</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   	  				</script>
+    				<div id="report_back_grid"></div>
+  			    </div>
+    			<div style="margin-top:30px;">
+					<div style="text-align: left;">
+						<strong>已发布的检测报告</strong>
+					</div>
+    				<div id="report_has_published_grid"></div>
+  			  </div>
+		</div>
+  	</div>
+  <div id="error_msg"></div>
+  <div id="viewWindow">
+  <div id="test_report_info">
+  	<fieldset class="_previewFieldset">
+   		<legend><span data-lims-text="View Product"></span></legend>
+  		<table id="food_info_table">
+	 		<tr>
+				<td><label data-lims-text="Bar code"></label><span class='red_xing'>*</span></td>
+				<td><input id="barcodeId" class=k-textbox type="text" disabled="disabled"/></td>
+				<td><label data-lims-text="food_Name"></label><span class='red_xing'>*</span></td>
+				<td><input id="foodName" class="k-textbox" type="text" disabled="disabled"/></td>
+	  		</tr>
+	  		<tr>
+				<td><label data-lims-text="Specification"></label></td>
+				<td><input id="specification" class="k-textbox" type="text" disabled="disabled"/></td>
+				<td><label data-lims-text="Unit"></label></td>
+				<td><input id="foodinfo_minunit" class="k-textbox" type="text" disabled="disabled"></td>
+	  		</tr>
+	  		<tr>
+				<td><label data-lims-text="Brand"></label></td>
+				<td><input id="foodinfo_brand" class="k-textbox" type="text" disabled="disabled"/></td>
+				<td><label data-lims-text="Standard"></label></td>
+				<td><input id="foodinfo_standard" class="k-textbox" type="text" disabled="disabled"></td>
+	  		</tr>
+			<tr>
+				<td><label data-lims-text="Expiratio"></label></td>
+				<td><input id="foodinfo_expiratio" class="k-textbox" type="text" disabled="disabled"/></td>
+				<td><label data-lims-text="Expir Day"></label></td>
+				<td><input id="foodinfo_expirday" class="k-textbox" type="text" disabled="disabled"></td>
+			</tr>
+			<tr>
+	   		<td><label data-lims-text="Category"></label><span class='red_xing'>*</span></td>
+				<td><input id="foodinfo_category" class="k-textbox" type="text" disabled="disabled"></td>
+				<td><label data-lims-text='foodInfo_Status'></label></td>
+	    		<td><input id="foodInfo_Status" class='k-textbox' type="text" disabled="disabled"/></td>
+			</tr>
+  		</table>
+  	<div id="proAtt_tr">产品资源:<div id="proAttachments"></div></div>
+  </fieldset>
+  
+  <fieldset class="_previewFieldset">
+   	<legend><span data-lims-text="View Busunit"></span></legend>
+  	<div id="bui_div">
+		<table id="bui_table">
+			<tr>
+				<td><label data-lims-text="生产许可证号"></label></td>
+				<td><input type="text" id="bus_qsNo" class="k-textbox" disabled="disabled"/></td>
+				<td><label data-lims-text="License No"></label><span class='red_xing'>*</span></td>
+				<td><input type="text" id="bus_licenseNo" class="k-textbox" disabled="disabled"/></td>
+			</tr>
+			<tr>
+				<td><label data-lims-text="business_Name"></label><span class='red_xing'>*</span></td>
+				<td><input type="text" id="bus_name" class="k-textbox" disabled="disabled"/></td>
+				<td><label data-lims-text="Address"></label></td>
+				<td><input type="text" id="bus_address" class="k-textbox" disabled="disabled"/></td>
+   	 		</tr>
+		</table>
+	</div>
+  </fieldset>
+   <fieldset class="_previewFieldset">
+   <legend><span data-lims-text="View Report"></span></legend>
+	<table id="testReport">
+		<tr>
+			<td><label data-lims-text="ReportNo"></label><span class='red_xing'>*</span></td>
+			<td><input type="text" id="tri_reportNo" class="k-textbox" disabled="disabled"/></td>
+			<td><label data-lims-text="Testee"></label></td>
+			<td><input type="text" id="tri_testee" class="k-textbox" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="Test Org"></label></td>
+			<td><input type="text" id="tri_testOrg" class="k-textbox" disabled="disabled"/></td>
+			<td><label data-lims-text="Test Type"></label></td>
+			<td><input type="text" id="tri_testType" class="k-textbox" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="Conclusio"></label></td>
+			<td><input type="text" id="tri_conclusion" class="k-textbox" disabled="disabled"/></td>
+			<td><label data-lims-text="Test place"></label></td>
+			<td><input type="text" id="tri_testPlace" class="k-textbox" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="Prod Date"></label><span class='red_xing'>*</span></td>
+			<td><input type="text" id="tri_proDate" class="k-textbox" disabled="disabled"/></td>
+			<td><label data-lims-text="Test Date"></label></td>
+			<td><input type="text" id="tri_testDate" class="k-textbox" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td><label data-lims-text="Batch"></label><span class='red_xing'>*</span></td>
+			<td><input type="text" id="tri_batchNo" class="k-textbox" disabled="disabled"/></td>
+			<td><label data-lims-text="End Date"></label><span class='red_xing'>*</span></td>
+			<td><input type="text" id="reportEndDate" class="k-textbox" disabled="disabled"/></td>
+		</tr>
+		<tr>
+		<td><label data-lims-text="sampleAddress"></label></td><td><input type="text" class="k-textbox" id="sampleAds" disabled="disabled"/></td>
+		<td><label data-lims-text="sampleCounts"></label></td><td><input type="text" class="k-textbox" id="sampleCounts" disabled="disabled"/></td>
+		</tr>
+		<tr>
+		<td><label data-lims-text="judgeStandard"></label></td><td colspan="3"><textarea rows="2" cols="60" id="judgeStandard" class="k-textbox" style="width:100%" disabled="disabled"></textarea></td>
+		</tr>
+		<tr>
+		<td><label data-lims-text="testResultDescribe"></label></td><td colspan="3"><textarea rows="2" cols="30" id="testResultDescribe" class="k-textbox" style="width:100%" disabled="disabled"></textarea></td>
+		</tr>
+		<tr>
+		<td><label data-lims-text="remarks"></label></td><td colspan="3"><textarea rows="2" cols="30" id="remarks" class="k-textbox" style="width:100%" disabled="disabled"></textarea></td>
+		</tr>
+	</table>
+	<div id="repAtt_tr">报告资源:<div id="repAttachments"></div></div>
+	<br>
+	 <div id="testItem_grid"></div></fieldset>
+  </div>
+  </div>
+   <!-- <a href="\#" onclick="javascript:lims.download(#= attachments.id #);"> -->
+   <script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+	<a href="#= attachments.url #" target="_blank">
+	#= attachments.fileName #</a>&nbsp;,&nbsp;
+	</script>
+  <div id="toPublishWindow">
+  		<label id="publishStatus" style="font-size: 16px"></label>
+  </div>
+  <div id="CONFIRM_COMMON_WIN">
+			<div id="listView">
+				<div id="CONFIRM_MSG" style="text-align: center;">
+				</div>
+				<br/>
+				<div style="text-align: right;">
+					<button id="confirm_yes_btn"><span class="k-icon k-update"></span><label data-lims-text="OK"></label></button> &nbsp;&nbsp;&nbsp;&nbsp;
+				<button id="confirm_no_btn"><span class="k-icon k-cancel"></span><label data-lims-text="Cancel"></label></button>&nbsp;&nbsp;
+				</div>
+			</div>
+	</div>
+    <div class="push"></div>
+  <div id="addRemarkWin">
+    <label data-lims-text="remarkText"></label><br>
+    <textarea rows="3" cols="30" id="tipText" class="k-textbox" style="width:100%"></textarea>
+    <div style="text-align: right;">
+		<button class="k-button" id="btn_addY"><span class="k-icon k-update"></span>确定</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		<button class="k-button" id="btn_addN"><span class="k-icon k-cancel"></span>取消</button>&nbsp;&nbsp;
+	 </div>
+  </div>
+  <div id="tsWin"></div>
+  <div class="push"></div>
+  <!-- 企业消息推送窗口 -->
+  <div id="J_GlobalRobotEntry" class="g-robot-e" data="global robot-entry" style="left: 1291.5px;">
+  	<div class="J_ServiceListWrap service-question-list-wrap" id="hotworddiv">
+		<h3 class="J_Title">
+			<i></i>
+			<a class="entry-title entry-title-0 J_EntryTitle" hidefocus="" href="#"></a>
+			<a class="entry-title J_EntryTitle" id="hotword" href="#">热词推荐</a>
+		</h3>
+		<div class="service-question-list J_ServiceQuestionList" style="height: auto;">
+			<ul class="J_ServiceItemsBox" style="top: 0px;">
+				<li>
+					目前网络舆情分析<a title="点击查看详情" href="/fsn-core/views/portal/mybigData.html" target="_blank">热词度</a>
+					较高的为<span id='hotWord' style="color:#f60;"></span>，您有<span id='productCount' style="color:#f60;"></span>个产品含有蛋白质物质，请多
+					<a title="点击查看详情" href="/fsn-core/views/portal/product_by_hotword.html" target="_blank">关注</a>
+					该类产品质量控制!
+				</li>
+			</ul>
+		</div>
+		<s class="panel-corner"></s>
+		<a class="close-btn J_CloseBtn" href="#" id="closeBtn"></a>
+	</div>
+	<div class="tao-doll J_TaoDoll"></div>
+</div>	
+</div>
+</div>
+</div>
+</body>
+</html>

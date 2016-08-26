@@ -1,0 +1,190 @@
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+/*Ωπµ„Õº*/
+.mod18{width:680px;height:445px;margin:5px auto;position:relative;background:#f7f7f7;float: left;left:80px;}
+.mod18 .btn{position:absolute;width:15px;height:70px;top:395px;cursor:pointer;z-index:99;font-size:50px;font-weight:bold;}
+.mod18 .prev{left:0;background:url(../../img/sales/prevBtn.png) no-repeat;}
+.mod18 #prevTop,.mod18 #nextTop{top:135px;width:46px;height:48px;}
+.mod18 #prevTop{background:url(../../img/sales/prevBtnTop.png) 0 0 no-repeat;}
+.mod18 #nextTop{background:url(../../img/sales/nextBtnTop.png) 0 0 no-repeat;}
+.mod18 .next{right:0;background:url(../../img/sales/nextBtn.png) no-repeat;}
+.mod18 li{float:left;}
+.mod18 .cf li{position:relative;color:#fff;}
+.mod18 .cf a{display:block;width:680px;height:330px;position:absolute;color:#fff;text-align:center;}
+.mod18 .cf li span{display:block;width:100%;position:absolute;left:0;bottom:0;padding:10px 20px;line-height:22px;text-align:left;background:rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = "#60000000",endColorstr = "#60000000");}
+.mod18 .picBox{height:390px;width:680px;position:relative;overflow:hidden;}
+.mod18 .picBox ul{height:390px;width:680px;position:absolute;}
+.mod18 .picBox li{width:680px;height:390px;}
+.mod18 .listBox{width:642px;height:100px;margin:0 auto;position:relative;padding:6px 0 10px;overflow:hidden;}
+.mod18 .listBox ul{height:100px;position:absolute;}
+.mod18 .listBox li{width:129px;height:70px;cursor:pointer;position:relative;}
+.mod18 .listBox li i{display:none;}
+.mod18 .listBox li a{display:block;width:124px;height:70px;}
+.mod18 .listBox li img{width:124px;height:70px;}
+.mod18 .listBox .on img{width:118px;height:64px;border:3px solid #ff6600;}
+.mod18 .listBox .on i{display:block;}
+
+
+.minListBox {
+    background: none repeat scroll 0 0 rgb(247, 247, 247);
+    height: 150px;
+    margin: 20px auto;
+    position: relative;
+    width: 750px;
+}
+
+.minListBox .listBox {
+    height: 150px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 6px 0 10px;
+    position: relative;
+    width: 725px;
+    left:15px;
+}
+
+.minListBox .listBox ul {
+    height: 150px;
+    position: absolute;
+    left:15px;
+}
+
+
+.minListBox .listBox li {
+    cursor: pointer;
+    height: 150px;
+    position: relative;
+    width: 180px;
+}
+
+.minListBox .cf li {
+    color: rgb(255, 255, 255);
+    position: relative;
+}
+.minListBox li {
+    float: left;
+}
+
+
+.minListBox .listBox .on i {
+    display: block;
+}
+
+.minListBox .btn {
+    cursor: pointer;
+    font-size: 50px;
+    font-weight: bold;
+    height: 80px;
+    position: absolute;
+    top: 35px;
+    width: 15px;
+    z-index: 99;
+}
+
+
+.minListBox .listBox .on img {
+    border: 2px solid rgb(255, 102, 0);
+    max-width: 175px;
+    max-height:140px;
+}
+
+.minListBox .prev {
+    background: url("../../img/sales/prevBtn.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    left: 0;
+}
+
+.minListBox .next {
+    background: url("../../img/sales/nextBtn.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    right: 0;
+}
+
+.s_close{
+	background: url("../../img/sales/close.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    right: 0;
+	display:block;
+}
+
+
+.mod-photo-op {
+    right: 5px;
+    top: 0px;
+    position: absolute;
+}
+
+.photo-op-tip {
+    /* background: none repeat scroll 0 0 rgb(255, 255, 255); */
+   /*  border: 1px solid rgb(214, 214, 214); */
+    border-radius: 3px;
+    /* box-shadow: 0 0 2px rgba(0, 0, 0, 0.15); */
+    cursor: pointer;
+    display: none;
+    height: 20px;
+    position: relative;
+    width: 20px;
+    z-index: 50;
+}
+
+.icon-expansion-m {
+	left: 3px;
+    position: absolute;
+    top: 2px;
+    background-image: url("../../img/close_icon.png");
+    background-position: 0px 0px;
+}
+.icon-expansion-m:hover{
+	background-position: -32px 0px;
+}
+.icon-m {
+    background-repeat: no-repeat;
+    display: inline-block;
+    font-size: 0;
+    height: 20px;
+    width: 20px;
+}
+
+.position-absolute {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    top:85px;
+    left:-110px;
+}
+.position-absolute .bg {
+    background-color: rgb(0, 0, 0);
+    height: 25px;
+    opacity: 0.3;
+    position: absolute;
+    text-align: center;
+    width: 120px;
+    z-index: 1;
+    top:22px;
+    left:-20px;
+}
+.position-absolute p.fav {
+    background-image: url("../../img/fav-ico.png");
+    background-repeat: no-repeat;
+    margin: 5px 0 0 0px;
+    padding-left: 17px;
+    top: 20px;
+}
+
+.position-absolute p.fav_cover {
+    background-image: url("../../img/fav-ico-cover.png");
+    background-repeat: no-repeat;
+    margin: 5px 0 0;
+    padding-left: 17px;
+    top: 20px;
+}
+.position-absolute p {
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+    line-height: 17px;
+    position: absolute;
+    width: 88px;
+    z-index: 2;
+}
+.list_img{
+	max-width:174px;
+	max-height:140px;
+}
+.btn_hied{display:none};

@@ -1,0 +1,55 @@
+.album-list-bd,.album-bd {
+    position: relative;
+}
+.mod-album .album-bd .album-cover {
+    background-color: #f5f5f5;
+    display: inline-flex;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+    text-align: certer;
+}
+.mod-album .album-bd .pic-num-wrap {
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(26, 26, 26, 0.4));
+    bottom: 0;
+    height: 50px;
+    left: 0;
+    position: absolute;
+    text-align: right;
+    width: 100%;
+}
+.mod-album .album-bd .pic-num-wrap .pic-num {
+    color: #fff;
+    display: inline-block;
+    font-family: "Gulim";
+    font-size: 26px;
+    line-height: 1;
+    margin: 20px 5px 0 0;
+}
+.mod-album .album-desc:after {
+    clear: both;
+    content: "";
+    display: block;
+    height: 0;
+}
+.mod-album  .album-tit {
+    float: left;
+    height: 21px;
+    line-height: 21px;
+    width: 100%;
+}
+.album-desc{
+  	padding: 10px 5px 3px;
+}
+.js-album-list-ul li{
+	width:260px;
+	display: inline-block;
+	margin-bottom: 20px;
+	float:left;
+}
+.bg{
+	background-color: #bdbebd;
+}
+.bor3{
+	padding: 5px;
+}

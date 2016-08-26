@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+	<title>食品安全营养信息平台</title>
+	<!--[if IE]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="../../resource_new/css/reset.css"/>
+	<link rel="stylesheet" href="../../resource_new/css/text.css" />
+	<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+	<link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+	<link href="../../resource_new/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+	<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+	<script src="../../resource_new/kendoui/js/jquery.min.js"></script>
+	<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
+	<script type="text/javascript" src="../../resource_new/js/headerFooterTemplate.js"></script>
+	<script type="text/javascript" src="../../resource_new/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="../../resource_new/js/fsn.js"></script>
+	<script src="../../resource_new/js/portal/common.js"></script>
+	<script src="../../resource_new/js/upload/lims.js"></script>
+	<script src="../../resource_new/js/util.js"></script>
+	<script src="../../resource_new/js/upload/lims.i18n.js"></script>
+	<script src="../../resource_new/js/upload/lims.upload.js"></script>
+	<script src="../../resource_new/js/portal/upload-unit.js"></script>
+	<script src="../../resource_new/js/portal/jquery.form.js"></script>
+	
+	<style>
+	.fixfooter {padding-bottom: 60px;}
+	.upload-img-preview {max-width: 800px; max-height: 800px; border: none; display: none; clear: both; float: left;}
+	.upload-img-name {float: left; line-height: 35px; clear: right;}
+	</style>
+	<script>
+	$(document).ready(function() {
+		fsn.initMenu();
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	
+    </script>
+</head>
+<body>
+	<!-- 顶部导航 -->	
+	<div class="fixfooter">
+		<div class="fullview" id="status_bar">
+			<div class="container">
+				<div class="row">
+					<div class="column12">
+						<span class="page_title">数据管理：企业</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container clearfix">
+			<div class="column12">
+				<table>
+					<tr><td>企业名称</td><td>：</td><td>
+						<input type="hidden" id="id" name="id" value=""/>
+						<input type="hidden" id="qsNo" name="qsNo" value=""/>
+						<input type="text" id="name" name="name" class="k-textbox" value=""/>
+					</td></tr>
+					
+					<tr><td>企业地址1</td><td>：</td><td><input type="text" id="address" name="address" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>企业地址2</td><td>：</td><td><input type="text" id="address2" name="address2" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>企业LOGO</td><td>：</td><td>
+						<div class="div-td-half">
+							<form id="logoForm" method="post" enctype="multipart/form-data">
+								<input type="file" id="logo" name="myimg" class="k-textbox" value=""/>
+							</form>
+							<span class="upload-img-name">图片名称：<em>请选择图片</em></span>
+							<img class="upload-img-preview" alt="图片" src="" />
+						</div>
+					</td></tr>
+					
+					<tr><td>官方网址</td><td>：</td><td><input type="text" id="website" name="website" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>企业类型</td><td>：</td>
+						<td><input id="type" type="hidden" data-bind="value: unit.dependency.id, events: { change: change }" />
+								<input id="typeDropdown" style="width: 200px" />
+						</td>
+					</tr>
+					
+					<tr style="display: none;"><td>企业Category</td><td>：</td>
+						<td><select id="category" name="category" class="k-textbox">
+							<option value="0">请选择</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select></td>
+					</tr>
+					
+					<tr><td>企业注册号</td><td>：</td>
+						<td><input type="text" id="licenseNo" name="licenseNo" class="k-textbox" value=""/></td>
+					</tr>
+					
+					<tr><td>联系方式</td><td>：</td><td><input type="text" id="contact" name="contact" class="k-textbox" value=""/></td></tr>
+					
+					<tr><td>备注</td><td>：</td><td><input type="text" id="note" name="note" class="k-textbox" value=""/></td></tr>
+					<tr><td>&nbsp;&nbsp;</td></tr>
+					<tr>
+						<td>
+							<button class="k-button"><span class="k-icon k-save"></span><span class="ui-button-text" data-fsn-text="Save">保存</span></button>
+						</td>
+						<td>&nbsp;&nbsp;</td>
+						<td>
+							<button class="k-button"><span class="k-icon k-cancel"></span><span class="ui-button-text" data-fsn-text="Reset">清空</span></button>
+						</td>
+					</tr>
+					</table>
+				<div id="msg_success" class="msg success"  style="margin-left: 0px; padding-top: 2%;">
+					<!-- Some messages response from Server! -->
+				</div>
+				</div>
+			
+		</div>
+		
+	</div>
+</body>
+</html>

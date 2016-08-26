@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>企业门户</title>
+<link rel="stylesheet" type="text/css" href="resource/css/newbase.css" />
+<link rel="stylesheet" type="text/css" href="resource/css/newstyle.css" />
+<link href="resource/css/registe.css" rel="stylesheet"/>
+<link href="resource/css/city/cityLayout.css" rel="stylesheet"/>
+<link href="resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="resource/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+<link href="resource/css/jquery.mCustomScrollbar.css" rel="stylesheet"/>
+<!-- which version support $.browser -->
+
+<script src="resource/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="resource/kendoui/js/kendo.web.min.js"></script>
+<script src="resource/js/Validform_v5.3.2_min.js"></script>
+<script src="resource/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="resource/js/passwordStrength-min.js"></script>
+<script src="resource/js/jquery.leanModal.min.js"></script>
+<script src="resource/js/enRegValidate.js"></script>
+</head>
+<body>
+<!-- 顶部导航-->
+	<div id="top" class="topbg heitop w">
+		<script>$("#top").load("views/common/top-home.html");</script>
+    </div>
+    <div id="main" class="wicont mgn_center">
+        <!-- 注册信息页 -->
+        <div class="page">
+            <div class="content" id="mainSection">
+                <form class="regForm" onsubmit="return false">
+                    <dl id="nameDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">用户名</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+
+	                        <input type="text" value="" id="username" name="user_name" ajaxurl="/fsn-core/service/business/verificationEnUserName" datatype="szzm2-20" class="ipt norWidthIpt" nullmsg="用户名必须是小写字母和数字组成的2到20个字符" errormsg="必须是小写字母和数字组成的2到20个字符！" onkeydown="if(event.keyCode==32) return false">
+
+	                        <div class="tips"><span class="txt-tip">用户名必须是小写字母和数字组成的2到20个字符</span></div>
+	                    </dd>
+	                </dl>
+	                <dl id="emailDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">邮箱</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <input type="text" id="email" name="email" class="ipt norWidthIpt" datatype="e" nullmsg="请输入邮箱">
+	                        <div  class="tips"><span class="txt-tip">请输入邮箱</span></div>
+	                    </dd>
+	                </dl>
+	                <dl id="pwdDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">密码</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <input type="password" id="password" name="pwd" onselectstart="return false" oncopy="return false" onpaste="return false" oncut="return false;"  class="ipt norWidthIpt" plugin="passwordStrength" datatype="*6-20" errormsg="密码必须为6~20个字符" nullmsg="密码须为6~20个包含字母和数字且不包含用户名和3个连续的字符" onkeydown="if(event.keyCode==32) return false">
+	
+	                        <div id="pwdTips" class="tips">
+	                            <span class="txt-tip" id ="pwd_mag">密码须为6~20个包含字母和数字且不包含用户名和3个连续的字符</span>
+	                        </div>
+	                        <div id="strength" class="passwordStrength" style="display:none">
+	                            <b>密码强度：</b> <span>弱</span><span>中</span><span class="last">强</span>
+	                        </div>
+	                    </dd>
+	                </dl>
+	                <dl id="repwdDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">确认密码</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <input type="password" id="repassword" name="repassword" onselectstart="return false" oncopy="return false" onpaste="return false" oncut="return false;"  class="ipt norWidthIpt" datatype="*6-20" recheck="pwd" errormsg="您两次输入的账号密码不一致！" nullmsg="请再次输入密码" onkeydown="if(event.keyCode==32) return false">
+	                        <div class="tips">
+	                            <span id="repwdTips" class="txt-tip">请再次输入密码</span>
+	                        </div>
+	                    </dd>
+	                </dl>
+	                <dl id="enNameDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">企业名称</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <input type="text" value="" id="enName" name="enName" class="ipt norWidthIpt" ajaxurl="/fsn-core/service/business/verificationEnName" datatype="profession" nullmsg="企业名称为必填项" >
+	                        <div class="tips"><span class="txt-tip" id="verificationOName">请填写企业名称</span></div>
+	                    </dd>
+	                </dl>
+	                
+	                <dl id="belongPlaceDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                     <span class="txt-require">*</span>
+	                        <span class="txt-name">企业地址</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <div style="float:left">
+	                            <input id="location" datatype="location" autocomplete="off" type="text" placeholder="请选择/输入城市名称" nullmsg="企业地址为必填项" errormsg="格式只能为：【省-市】或【省-市-区（县）】"
+    							class="ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2"/>
+	                            <div class="tips">
+	                                <span class="txt-tip">请选择所在地</span>
+	                            </div>
+	
+	                        </div>
+	                    </dd>
+	                </dl>
+	                
+	                <dl id="enAddressDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">详细地址</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <input type="text" value="" id="enAddress" name="enAddress" class="ipt norWidthIpt" datatype="profession" nullmsg="企业详细地址为必填项" >
+	                        <div class="tips"><span class="txt-tip">请填写企业地址</span></div>
+	                    </dd>
+	                </dl>
+	                <dl id="enChargeDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">企业法人代表</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <input type="text" value="" id="enCharge" name="enCharge" class="ipt norWidthIpt" datatype="profession" nullmsg="企业法人代表为必填项" >
+	                        <div class="tips"><span class="txt-tip">请输入企业法人</span></div>
+	                    </dd>
+	                </dl>
+	                <dl id="telepPoneDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">联系电话</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <input type="text" value="" id="telePhone" name="telePhone" class="ipt norWidthIpt" datatype="telePhone" nullmsg="联系电话为必填项" >
+	                        <div class="tips"><span class="txt-tip">请输入联系电话</span></div>
+	                    </dd>
+	                </dl>
+	                 <dl id="typeDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                     <span class="txt-require">*</span>
+	                        <span class="txt-name">企业类型</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <select id="type" name="type" class="">
+	                            <option value="请选择">请选择</option>
+	                            <option value="生产企业">生产企业</option>
+	                            <option value="流通企业">流通企业</option>
+	                            <option value="餐饮企业">餐饮企业</option>                            
+	                            <option value="仁怀市白酒生产企业">仁怀市白酒生产企业</option>                            
+	                            <option value="交易市场">交易市场</option>                            
+	                        </select>
+	                    </dd>
+	                </dl>
+	                <dl id="orgcodeDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">组织机构代码</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+<!-- 	                        <input type="text" value="" id="orgvalue" name="orgvalue" ajaxurl="/fsn-portal/service/user/checkorgcodeUnique" class="ipt norWidthIpt2" datatype="orgcode" errormsg="必须是由8位数字(或大写字母)和一位数字(或大写字母)组成！例如：1111AAAA-A"  nullmsg="组织机构代码为必填项" > -->
+	                        <!--<input type="text" value="" id="orgvalue" name="orgvalue" ajaxurl="/fsn-core/service/business/verificationEnOrgCode"  class="ipt norWidthIpt2" datatype="orgcode" errormsg="必须是由8位数字(或大写字母)和一位数字(或大写字母)组成！例如：1111AAAA-A"  nullmsg="组织机构代码为必填项" >-->
+	                        <input type="text" value="" id="orgvalue" name="orgvalue" class="ipt norWidthIpt2" datatype="orgcode" errormsg="必须是由8位数字(或大写字母)和一位数字(或大写字母)组成！例如：1111AAAA-A"  nullmsg="组织机构代码为必填项" >
+	                        <div class="tips" style="width:468px;" id="orgvalue_msg" ><span class="txt-tip" >必须是由8位数字(或大写字母)和一位数字(或大写字母)组成，格式为：XXXXXXXX-X</span></div>
+	                    </dd>
+	                </dl>
+	                <table><tr><td>
+	                <dl id="orgpicDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">组织机构代码证件图片（副本）</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+								<div id="upload_pro">
+									<input type="file" id="upload_prodPhoto_btn" class="k-textbox" />
+			  					</div>
+			  					 <label id="fileEroMsg" style="font-size: 12px;color:red;">
+									(注意:文件大小不能超过10M！  可支持的文件格式：png、bmp、jpeg、jpg)
+								</label>
+	                    </dd>
+	                </dl>
+	                </td></tr>
+	                </table>
+	                <dl id="liccodeDl" class="regForm-item">
+	                    <dt class="regForm-dt">
+	                        <span class="txt-require">*</span>
+	                        <span class="txt-name">营业执照注册号</span>
+	                    </dt>
+	                    <dd class="regForm-dd">
+	                        <!--<input type="text" value="" id="licvalue" name="licvalue" ajaxurl="/fsn-core/service/business/verificationEnLicenseNo" class="ipt norWidthIpt2" datatype="liccode" errormsg="营业执照注册号必须是由13位字母/数字或15位字母/数字组成"  nullmsg="营业执照注册号为必填项" >-->
+	                        <input type="text" value="" id="licvalue" name="licvalue" class="ipt norWidthIpt2" datatype="liccode" errormsg="营业执照注册号必须是由13位字母/数字或15位字母/数字组成"  nullmsg="营业执照注册号为必填项" >
+	                        <div class="tips" style="width:468px;" id="licvalue_msg"><span class="txt-tip" >营业执照注册号必须是由13位字母/数字或15位字母/数字组成</span></div>
+	                    </dd>
+	                </dl>
+	                <table>
+                    	<tr>
+                        	<td>
+                                <dl id="licpicDl" class="regForm-item">
+                                    <dt class="regForm-dt">
+                                        <span class="txt-require">*</span>
+                                        <span class="txt-name">营业执照证件图片（副本）</span>
+                                    </dt>
+                                    <dd class="regForm-dd">
+                                            <div id="upload_licenseNo">
+                                                <input type="file" id="upload_licenseNo_btn" class="k-textbox"  />
+                                            </div>
+                                            <label id="fileEroMsg1" style="font-size: 12px;color:red;">
+                                                (注意:文件大小不能超过10M！  可支持的文件格式：png、bmp、jpeg、jpg)
+                                            </label>
+                                    </dd>
+                                </dl>
+	                		</td>
+                         </tr>
+	                </table>
+                <dl id="acceptDl" class="regForm-item">
+	                    <dd class="regForm-dd">
+	                         <input type="checkbox" id="accept" datatype="*" name="accept" >我同意
+                           	 <a rel="leanModal" href="#user-protocol" class="in-block">《用户协议》</a>
+                                  和
+                             <a rel="leanModal" href="#privacy"  class="in-block">《隐私权声明》</a>
+	                        
+	                    </dd>
+	                </dl>
+	                <dl id="submitDl" class="regForm-item">
+	                    <dd class="regForm-dd">
+                        	<a class="recbtn colorfff  letterspace1 in-block  fl6"  id="regSubmit">立即注册</a>
+	                        <!--<button id="regSubmit" class="btnReg" style="float:left">立即注册</button>-->
+	                        <div id="acceptTips" class="tips" style="display:none;float:left">
+	                                                       您还没有接受 《用户协议》 和 《隐私权声明》
+	                        </div>
+	                    </dd>
+	                </dl>
+                </form>
+            </div>
+        </div>
+        </div>
+        <!-- 页脚 -->
+		<div id="footer"  class="w mgn_center mt20 cb">
+			<script>$("#footer").load("views/common/footer.html");</script>
+    	</div>
+		
+    </body>
+    
+    <!--弹出省省市-->
+    <!-- 弹出地名选择控件 -->
+    	<div class="provinceCityAll">
+	  <div class="tabs clearfix">
+	    <ul class="">
+	      <li><a href="javascript:" class="current" tb="hotCityAll">热门城市</a></li>
+	      <li><a href="javascript:" tb="provinceAll">省份</a></li>
+	      <li><a href="javascript:" tb="cityAll" id="cityAll">城市</a></li>
+	      <li><a href="javascript:" tb="countyAll" id="countyAll">区县</a></li>
+	    </ul>
+	  </div>
+	  <div class="con">
+	    <div class="hotCityAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul>
+	        </ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	    <div class="provinceAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul>
+	        </ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	    <div class="cityAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul>
+	        </ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	    <div class="countyAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul>
+	        </ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	  </div>
+	</div>
+	
+	<div id="user-protocol" class="lean-dialog">
+		<div class="msg-content">
+			<p>1．知识产权保护
+			该软件的著作权和所有权由食品安全与营养（贵州）科技有限公司所有。该软件受中国著作权法和国际条约条款的保护。商标的使用应符合商标惯例，包括和商标所有人名称的一致。商标可以仅用于对该软件产品的识别。对于任何商标的该种使用都不会导致对该商标使用权的拥有。除上述以外，该协议不授予你该软件上的任何知识产权。
+		　　</p><p>2．软件的使用
+		　　</p><p>你可以：
+		　　</p><p>（1）根据该协议条款使用该软件；
+		　　</p><p>（2）复制和备份；
+		　　</p><p>（3）不对文档作任何增加或修改以文档下载的最初形式将此软件拷贝给他人；
+		　　</p><p>（4）在网址上通过email或者其他任何物理媒体分发该软件。
+		　　</p><p>你不可以：
+		　　</p><p>（1）对本系统进行逆向工程、反汇编、解体拆卸或任何试图发现该软件工作程序获源代码的行为；
+		　　</p><p>（2）未经食品安全与营养（贵州）科技有限公司的书面许可出售租赁该程序；
+		　　</p><p>（3）创造派生性产品包括含有该系统的更大的系统或另外的程序和包裹；
+		　　</p><p>（4）将该软件和与其他没有分离授权协议的产品或山版物捆绑销售；
+		　　</p><p>（5）使用和拷贝没有本公司授权的包含在中的icons，1ogosorartwork；
+		　　</p><p>（6）改变广告图案内部程序的运行，改变广告及其内容、广告出现的时间或使其他功能丧失的行为；
+		　　</p><p>（7）使用该软件改进其他产品和服务；
+		　　</p><p>（8）任何反相工程、反相编译和反汇编以及其他任何试图发现由该内程旗帜广告和该软件中网络共享功能所使用的协议的行为；
+		　　</p><p>（9）在任何图像中使用该软件在任何情况下以任何方式对任何个人和商业实体的诋毁行为；或暗示由软件、软件供应商、软件许可商或其他在该软件中描绘的实体任何形式的认可；
+		　　</p><p>（10）因软件拷贝控诉媒体和运输超过了合理成本。
+		　　</p><p>3．条款
+		　　</p><p>只要你使用该软件，该授权协议就持续有效，除非由于你不遵守该协议的条款而被终止使用权利。一旦协议终止，你必须同意毁掉你所有的该软件的所有拷贝。
+		　　</p><p>4．有限的保证
+		   </p><p>不保证也不能保证你由于使用该软件或其他相关项目因此可以得到的结果的履行。公司对于第三方、商业行为能力和任何特殊的目的的非侵害和适当性不承担任何保证，包括明示和暗示的。没有公司给予的口头或者书面通知或者建议，他的分销商，代理商或者雇员将给予指证对安全担保，也不对数据的丢失和由于在互联网上使用该软件带来的任何风险担保。
+		　　</p><p>5．有限责任
+		　　</p><p>公司不对任何情况下带来的损失承担责任，包括使用该软件、不能使用该软件和书面材料带来的利润损失，或其他附随性的损失和结果性损失，以及即使是公司建议或推荐所带来的可能性损失。公司也不对由于黑客的进入而导致的数据库损失负责。
+		　　</p><p>6．附则
+		　　</p><p>该协议适用于中国法律，如果该协议的任何条款违法、无效，或者因为某种原因导致不能执行，那么该条款被认为与该协议分离将不会影响该协议其他条款的效力和执行力。该协议是一个完整的陈述和说明。在与该协议主题相关的事情上，具有优先使用性。如果对该协议有任何疑问，你可以用下列任何一个地址和公司联系。
+		　　</p><p>7．互联网和隐私
+		　　</p><p>该程序和互联网连接，因此个人隐私的各个方面会受到影响。内程旗帜广告系统将会定期登录服务器下载新的广告。如果你在网上共享图片，其他的人也能够合法或者非法地访问它们和以各种各样的并不是你想要的方式使用它们。通过下载网上资料，你也许就会看到你并不希望看到的或者很讨厌的东西。你所访问的网络也许就跟踪你的访问。由于互联网的国际性本质，来自这些风险的合法保护将取决于你所居住的地方合法救济也会受到限制。当这些风险对于许多网络程序都很普通时，如果你很在乎这些问题，那就不要使用该软件。
+		   </p><p>食品安全与营养（贵州）科技有限公司
+		 </div>
+		<hr style="color:#CCCCCC;margin:10px 0"/>
+		<button class="close-dialog in-block" style="float:right">关闭</button>
+	</div>
+	<!-- 隐私权声明 -->
+	<div id="privacy" class="lean-dialog">
+		<div class="msg-content">
+		<p>隐私保护
+        </p><p> 1.1、保护用户隐私是本公司的一项基本政策，本公司保证不对外公开或向第三方提供用户注册资料及用户在使用网络服务时存储在本公司的非公开内容，但下列情况除外：
+			</p><p>(a) 事先获得用户的明确授权；
+ 			</p><p>(b) 根据有关的法律法规要求；
+ 			</p><p>(c) 按照相关政府主管部门的要求；
+ 			</p><p>(d) 为维护社会公众的利益；
+			</p><p>(e) 为维护本公司的合法权益。 
+		</p><p>1.2、本公司可能会与第三方合作向用户提供相关的网络服务，在此情况下，如该第三方同意承担与本公司同等的保护用户隐私的责任，则本公司可将用户的注册资料等提供给该第三方。
+		</p><p>1.3、在不透露单个用户隐私资料的前提下，本公司有权对整个用户数据库进行分析并对用户数据库进行商业上的利用，且该行为符合中国的现行法律。
+		</p><p>1.4 任何由于本公司合理控制范围以外的原因而产生的服务系统问题，造成信息传输或储存上的错误，导致检测数据泄露、丢失、被盗用或被篡改等，致使服务平台不能响应或响应延迟的，对此可能造成的任何责任本公司不予承担；
+		</p>
+		</div>
+        <hr style="color:#CCCCCC;margin:10px 0"/>
+		<button class="close-dialog in-block" style="float:right">关闭</button>
+	</div>
+	<!-- 成功提醒 -->
+	<a id="show-reg-msg" rel="leanModal" href="#reg-msg" style="display:none">提交成功，等待审核</a>
+	<div id="reg-msg" class="lean-dialog" style="height:50px;text-align: center">
+		<h2 style="font-size:22px;">提交成功，等待审核</h2>
+		<!-- <a href="#">立即登录</a> -->
+	</div>
+    <a id="show-regfailed-msg" rel="leanModal" href="#regfailed-msg" style="display:none">成功注册</a>
+	<div id="regfailed-msg" class="lean-dialog" style="height:50px;text-align: center">
+		<h2 style="font-size:22px;">注册失败！</h2>
+		<label style="font-size:18px;">重新输入</label>
+	</div>
+	
+	<a id="show-org1-msg" rel="leanModal" href="#org-msg1" style="display:none"> 请填写正确的组织机构代码</a>
+	<div id="org-msg1" class="lean-dialog" style="height:50px;text-align: center">
+		<h2 style="font-size:22px;"> 请填写正确的组织机构代码</h2>
+	</div>
+	<a id="show-org2-msg" rel="leanModal" href="#org-msg2" style="display:none"> 请上传组织机构代码证件图片（副本）</a>
+	<div id="org-msg2" class="lean-dialog" style="height:50px;text-align: center">
+		<h2 style="font-size:22px;"> 请上传组织机构代码证件图片（副本）</h2>
+	</div>
+	<a id="show-lic1-msg" rel="leanModal" href="#lic-msg1" style="display:none">请填写正确的营业执照注册号</a>
+	<div id="lic-msg1" class="lean-dialog" style="height:50px;text-align: center">
+		<h2 style="font-size:22px;">请填写正确的营业执照注册号</h2>
+	</div>
+	<a id="show-lic2-msg" rel="leanModal" href="#lic-msg2" style="display:none">请上传营业执照证件图片（副本）</a>
+	<div id="lic-msg2" class="lean-dialog" style="height:50px;text-align: center">
+		<h2 style="font-size:22px;">请上传营业执照证件图片（副本）</h2>
+	</div>
+	<a id="show-type-msg" rel="leanModal" href="#type-msg" style="display:none">请选择企业类型</a>
+	<div id="type-msg" class="lean-dialog" style="height:50px;text-align: center">
+		<h2 style="font-size:22px;">请选择企业类型</h2>
+	</div>
+	
+	<a id="show-acc-msg" rel="leanModal" href="#acc-msg" style="display:none">请勾选同意用户协议</a>
+	<div id="acc-msg" class="lean-dialog" style="height:50px">
+		<h2 style="font-size:22px;">请勾选同意用户协议</h2>
+	</div>
+	
+	<a id="show-sub-msg" rel="leanModal" href="#sub-msg" style="display:none">正在提交</a>
+	<div id="sub-msg" class="lean-dialog" style="height:50px">
+		<h2 style="font-size:22px;">正在提交</h2>
+	</div>
+	<div id="k_window">
+		<span id="winMsg" style="font-size: 20px"></span>
+	</div>
+	
+	<script type="text/javascript">
+		(function(){
+			$(window).load(function(){
+				$(".msg-content").mCustomScrollbar({
+					set_height:"82%",
+					scrollInertia:150,
+					scrollButtons:{//God,can you make a image for this,like '↑ ↓'
+						enable:true
+					}
+				});
+			});
+			$("#username").val("");
+		})(jQuery);
+	</script>
+	<script src="resource/js/city/citypublic.js"></script>
+</html>

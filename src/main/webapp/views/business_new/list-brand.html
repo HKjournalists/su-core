@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource_new/css/reset.css"/>
+<link rel="stylesheet" href="../../resource_new/css/text.css" />
+<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+<link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource_new/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+<link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
+<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+<script src="../../resource_new/kendoui/js/jquery.min.js"></script>
+<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource_new/js/language/brand_up_zh-cn.js"></script>
+<script type="text/javascript" src="../../resource_new/js/headerFooterTemplate.js"></script>
+<script type="text/javascript" src="../../resource_new/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../resource_new/js/fsn.js"></script>
+<script src="../../resource_new/js/upload/lims.js"></script>
+<script src="../../resource_new/js/util.js"></script>
+<script src="../../resource_new/js/fsn.i18n.js"></script>
+<script src="../../resource_new/js/upload/lims.upload.js"></script>
+<script src="../../resource_new/js/filter.js"></script>
+<script src="../../resource_new/js/business/list_brand.js"></script>
+<style type="text/css">
+	td{white-space:nowrap;}
+</style>
+<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+</script>
+</head>
+<body>
+<!--<div class="fixfooter">
+	<div class="fullview" id="status_bar">
+		<div class="container">
+			<div class="row">
+				<div class="column12">
+					<span class="page_title">当前位置：品牌管理</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container clearfix" id="content_container">
+		<div id="main" class="row">
+			<div class="column12 last">-->
+             <div class="fixfooter wi800 fl mt20"> 
+     <div class="fullview page_title mt50 wper100 ml20" id="status_bar">
+              当前位置：品牌管理
+      </div>
+   
+   <div class="wper100 mt15" > 
+   		<div class="row ml20">
+    		<div class=" wper100 last ">
+			   <!--  以下注释代码原本是放在scrip中，现在屏蔽删除功能 -->
+			    <!-- <input type="checkbox" id="checkAll" />全选
+			    <a class="k-button k-button-icontext" id="batchDelete"><span class="k-icon k-cancel"></span>批量删除</a>
+			    <input id="search"/>-->
+				<script id="toolbar_template" type="text/x-kendo-template">
+					<a class="k-button k-button-icontext k-grid-add" href="/fsn-core/views/business/brand.html" >
+					<span class="k-icon k-add"></span>新增品牌</a>
+				</script>
+				<div id="brand-contain" class="top ui-widget">
+		            <div id="brand" class='grid' style="height: 100%;">
+		            </div>
+				</div>
+				<div id="msg_success" class="msg success function_row">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="CONFIRM_COMMON_WIN" style="display:none;">
+			<div id="listView">
+				<div id="CONFIRM_MSG" style="text-align: center;">
+				</div>
+				<br/>
+				<div style="text-align: right;">
+					<button id="confirm_yes_btn"><span class="k-icon k-update"></span><label data-lims-text="OK"></label></button> &nbsp;&nbsp;&nbsp;&nbsp;
+				<button id="confirm_no_btn"><span class="k-icon k-cancel"></span><label data-lims-text="Cancel"></label></button>&nbsp;&nbsp;
+				</div>
+			</div>
+	</div>
+	<div class="push"></div>
+</div>
+</body>
+</html>

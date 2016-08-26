@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>舆情监控</title>
+
+<link rel="stylesheet" href="../../resource/css/reset.css"/>
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link rel="stylesheet" href="../../resource/css/sentiment/articleSearch.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="../../resource/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+<script type="text/javascript" src="../../resource/js/language/settings_zh-cn.js"></script>
+<script type="text/javascript" src="../../resource/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../resource/js/fsn.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script type="text/javascript" src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/util.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource/js/sentiment/articleSearch.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("fieldset input").focus(function(){
+            $(this).parent().prev("label").hide();
+        });
+        $("fieldset input").blur(function(){
+            if ($(this).val().trim().length < 1) {
+                $(this).parent().prev("label").show();
+            }
+        });
+        $(".hideBusName").hide();
+    });
+    </script>		
+  </head>
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <div class="android-content mdl-layout__content">
+              <div>
+        	<div class="panel-wrap">
+            <!-- responsive panel, collapsed on small screens -->
+            <div id="main-content">
+                <div id="blogss" class="widgets">
+                   	<div class="topbtn">
+                   		<div class="k-label"">
+							<h2 class="label"> 舆情分析</h2>
+						</div>
+						<div id="settings-btn">
+							<a id="btn_settings" class="k-button" href="settings.html">设置</a>
+						</div>
+						<div id="search-div">
+							<fieldset>
+							<legend style="display: none;">搜索：</legend>
+							<label id="article_query" for="query-input">关键字搜索</label>
+							<div class="input"><input type="" class="input_query noFocus" name="query" id="query-input" value="" title="搜索"/></div>
+							<div class="input_button"><input type="button" value="搜索" id="article-search-btn"/></div>
+							</fieldset>
+						</div>
+						
+                   	</div>
+                </div>
+            </div>
+        </div>
+        </div>
+      <a name="top"></a>
+        <div>
+        	<div class="panel-wrap">
+            <!-- responsive panel, collapsed on small screens -->
+            <div id="main-content">
+               
+                	<div id="article-topic">
+                		<div id="topic-label">主题：</div>
+                		<div id="topic-contents"></div>
+                	</div>
+                	<div id=topic-keywords>
+                		<div id="keywords-label">关键词:</div>
+                		<div id="keywords-contents"></div>
+                	</div>
+                 <div id="blogs" class="widget">
+                    <div id="listView"></div>
+        			<div id="pager" style="border-bottom: 1px solid #e7e7e7; border-radius: 3px;"></div>
+                    
+                    <script type="text/x-kendo-template" id="template">
+						<div>
+							<h4 class="article-title">#=article_Title#</h4>
+							<p class="blog-info">#:extracted_Time# - By #:article_Source#</p>
+							<p class="blog-abstract">#=article_Abstract#</p>
+						</div>
+    				</script>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+      </div>
+    </div>
+  </body>
+</html>

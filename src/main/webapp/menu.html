@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<script>
+$(document).ready(function() {
+	var fsn = window.fsn = window.fsn || {};
+	fsn.menu = {};
+	fsn.menu.setting = {};
+	$("#menu_list,#usr_menu").kendoMenu({
+		animation: { open: { effects: "fadeIn" } }
+	});
+ 	$.ajax({
+		url : fsn.getHttpPrefix() + "/user/menubar",
+		type : "GET",
+		dataType : "json",
+		async : false,
+		success : function(data) {
+			if (data.status == "false") {
+				window.location.pathname = data.url;
+			} else {
+				if(data == null || data.loginUser==null||data.loginUser=="" || data.loginUser == undefined){
+					
+				}
+			
+				if(data.loginUser){
+						
+					var isShowOldMenu=true;
+					 for (var mb in data.menubar) {
+					 
+					 	if (data.menubar[mb] != null) {
+							var mbdata=data.menubar[mb];
+							for (var tmp in mbdata.items) {
+								var tmpmbdataItems=mbdata.items[tmp];
+								if	(tmpmbdataItems==null||tmpmbdataItems.url==null){
+									continue;
+								}
+								if (tmpmbdataItems.url.indexOf("/business_new/") > 1 ||
+								tmpmbdataItems.url.indexOf("/erp_new/") > 1 ||
+								tmpmbdataItems.url.indexOf("/market_new/") > 1 ||
+								tmpmbdataItems.url.indexOf("/portal_new/") > 1 ||
+								tmpmbdataItems.url.indexOf("/product_new/") > 1 ||
+								tmpmbdataItems.url.indexOf("/report_new/") > 1) {
+							
+								isShowOldMenu=false;
+								}
+							}
+						}
+					 }
+					 //alert(isShowOldMenu);
+					 if	(isShowOldMenu){
+					 	 $("#menu_bar").show();
+					 	var menu = $("#menu_list").data("kendoMenu");
+				       	menu.append(data.menubar);
+					 	
+					 }else{
+					 	$("#menu_bar").hide();
+					 	var menu = $("#menu_list").data("kendoMenu");
+				       	menu.append(data.menubar);
+						 
+					 }
+					 $("#menu_loginUser").html(data.loginUser);
+				}else{
+					location.reload();
+				}
+				
+								
+			}
+		},
+		error:function(){
+			
+		}
+	}); 
+	
+	$("[href$='.com']").attr("target","_blank");
+	
+	$("#reset_safety_btn").bind("click",function(){
+		$("#cur-pwd").val("");
+		$("#new-pwd").val("");
+		$("#conf-pwd").val("");
+	})
+	
+	$("#menu_logout").bind("click", function() {
+		window.location = fsn.getLogoutURL();
+	});
+	
+	$("#menu_setting").bind("click", function() {
+		//Show setting windows
+		fsn.menu.setting.show();
+	});
+
+	fsn.modifyPwd = function(uid,old,newPwd){
+		$.ajax({
+			url:fsn.getHttpPrefix() + "/user/modifyPassword",		
+			type:"POST",
+			contentType:"application/json;charset=UTF-8",
+			data:JSON.stringify({
+				"id":uid,
+				"oldPassword":old,
+				"newPassword":newPwd
+			}),
+			dataType:"json",
+			success:function(data){
+				if(data.status == "true"){
+					$("#reset_safety_btn").click();
+                    data.success = true;
+				    fsn.msg("setting_msg",data,"密码修改成功"); //data.message
+				}else{
+                   
+                    fsn.msg("setting_msg",null,"密码修改未成功,原因可能是您的当前密码不正确");
+                }
+			}
+		});
+	}
+	
+	$("#setting_tab").on('keypress',function(e){
+		if(e.keyCode == 13){
+			$("#save_safety_btn").click();
+		}
+	});
+	
+	$("#save_safety_btn").bind("click",function(){
+		var old = $("#cur-pwd").val();
+		var newPwd = $("#new-pwd").val();
+		var confPwd = $("#conf-pwd").val();
+		if($.trim($("#cur-pwd").val()).length == 0){
+			return;
+		}
+		if($.trim($("#new-pwd").val()).length == 0){
+			return;
+		}
+		if($.trim($("#new-pwd").val()).length == 0){
+			return;
+		}
+		//Confirm password
+		if(newPwd != confPwd){
+			fsn.msg("setting_msg",null,"两次密码不一致");
+			$("#conf-pwd").val("");
+			return;
+		}
+		$.ajax({
+			url:fsn.getHttpPrefix()+"/user/myId",
+			dataType:"json",
+			success:function(data){
+				if(data.id != null){
+					fsn.modifyPwd(data.id,old,newPwd);
+				}
+			}
+		});
+	});
+	
+	$("#setting_win").kendoWindow({
+		width:"500px",
+		modal:true,
+		visible:false,
+		resizable:false
+	});
+	$("#setting_tab").kendoTabStrip();
+	
+	fsn.menu.setting.show = function (){
+		$("#reset_safety_btn").click();
+		fsn.clrmsg("setting_msg",null);
+		$("#setting_win").data("kendoWindow").center().open();
+	}
+	$("#setting_tab ul").css({
+		padding: 0,
+		margin: 0
+	});
+	$("#setting_tab ul li").css({
+		padding: "2px",
+		textAlign: "left"
+	});
+	$("#setting_tab-2 ul li label").css({
+		display:"inline-block",
+		width:"150px",
+		textAlign:"right",
+		color:"#05740f"
+	});
+	$("#about_window").kendoWindow({
+		width:"400px",
+		title:"关于",
+		visible:false,
+		modal:true
+	});
+    fsn.showWindow=function(){
+    	$("#about_content").html("食品安全与营养信息系统，感谢您的使用！</br>版本信息：2.4.6");
+		$("#about_window").data("kendoWindow").open().center();
+    }
+    fsn.closeAboutWindow=function(){
+    	$("#about_window").data("kendoWindow").open().close();
+    }
+    
+}); 
+</script>
+<style scoped>
+<!--
+#menu_list li {
+	min-width: 100px;
+}
+-->
+</style>
+<div class="row">
+	<div id="menu_bar" class="column12 last" >
+		<ul class="" id="menu_list" >
+			<li class="menu_item" id="usr_menu"><a href="javascript:void(0)">您好:<span id="menu_loginUser" ></span></a>
+				<ul>
+					<li><a id="menu_profile" href="javascript:void(0)">我的账户</a></li>
+					<li><a id="menu_setting" href="javascript:void(0)">设置</a></li>
+					<li><a id="system_about" href="javascript:void(0)" onclick="fsn.showWindow()">关于</a></li>
+					<li><a id="menu_logout" href="javascript:void(0)">登出</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="setting_win" style="display:none">
+	<div id="setting_tab">
+		<ul>
+			<li>基本信息</li>
+			<li class="k-state-active">安全管理</li>
+		</ul>
+		<!--Kendo UI auto generate id is setting_tab-1 -->
+		<div></div>
+		<!-- then setting_tab-2 -->
+		<div>
+			<ul>
+				<li>
+					<label for="cur-pwd" data-lims-text="Current Password:">当前密码：</label>
+					<input type="password" class="k-textbox" id="cur-pwd" name="curPwd" onselectstart="return false" oncopy="return false" onpaste="return false" oncut="return false;"/>
+				</li>
+				<li>
+					<label for="new-pwd" data-lims-text="New Password:">新密码：</label>
+					<input type="password" class="k-textbox" id="new-pwd" name="newPwd" onselectstart="return false" oncopy="return false" onpaste="return false" oncut="return false;"/>
+				</li>
+				<li>
+					<label for="conf-pwd" data-lims-text="Confirm Password:">确认新密码：</label>
+					<input type="password" class="k-textbox" id="conf-pwd" name="confPwd" onselectstart="return false" oncopy="return false" onpaste="return false" oncut="return false;"/>
+				</li>
+			</ul>
+			<div style="margin:10px 0;text-align:center">
+				<button id="save_safety_btn" class="k-button k-button-icontext">
+					<span class="k-icon k-update"></span>
+					<label>确定</label>
+				</button>
+				<button type="reset" id="reset_safety_btn" class="k-button k-button-icontext">
+					<span class="k-icon k-cancel"></span>
+					<label>重置</label>
+				</button>
+				<div id="setting_msg"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<style scoped>
+ul {
+	padding: 0;
+	margin: 0
+}
+
+</style>

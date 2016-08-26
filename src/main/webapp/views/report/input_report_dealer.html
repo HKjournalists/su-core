@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全营养信息平台 V1.</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../resource/css/reset.css" />
+<link rel="stylesheet" href="../../resource/css/text.css" />
+<link rel="stylesheet" href="../../resource/css/grid.css" />
+<link href="../../resource/kendoui/styles/kendo.common.min.css"rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+<link rel="stylesheet" href="../../resource/css/notification.css" />
+<link rel="stylesheet" href="../../resource/css/index_guid.css" />
+<link rel="stylesheet" href="../../resource/css/market/add_testreport.css" />
+<link rel="stylesheet" href="../../resource/css/immediateguide.css" />
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource/js/jquery.cookie.js"></script>
+<script src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/lims.i18n.js"></script>
+<script src="../../resource/js/fsn.js"></script>
+<script src="../../resource/js/lims.js"></script>
+<script src="../../resource/js/util.js"></script>
+<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script src="../../resource/js/market/data_entry_zh_cn.js"></script>
+<script src="../../resource/js/report/input_report_dealer.js"></script>
+<script src="../../resource/js/report/upload_resource.js"></script>
+<script src="../../resource/js/report/input_report_common.js"></script>
+<script src="../../resource/js/guid/unit_guid.js"></script>
+<script src="../../resource/js/market/daojishi.js"></script>
+<script src="../../resource/js/market/imgToPdf.js"></script>
+<script>
+	$(document).ready(function() {
+		 $("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		}); 
+	});
+</script>
+  <style type="text/css">
+    #jianchengList .k-textbox{
+    	padding: 0px 51px 0px 0em;
+    }
+    .dropdown-header {
+        font-size: 1em;
+    }
+    .dropdown-header > span {
+        webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        text-align: left;
+        display: inline-block;
+        border-style: solid;
+        border-width: 0 0 1px 1px;
+        padding: .3em .3em;
+        width: 55px;
+    }
+    .dropdown-header > span:first-child {
+        width: 90px;
+        border-left-width: 0;
+    }
+    .dropdown > span {
+        webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        text-align: left;
+        display: inline-block;
+        border-style: solid;
+        border-width: 0 0 1px 1px;
+        padding: .3em .3em;
+        width: 33px;
+    }
+    .dropdown > span:first-child {
+        width: 85px;
+        border-left-width: 0;
+    }
+	#regularityList li{ text-decoration:none; color:#999;}
+	#regularityList li:hover{color:#000}
+	#regularityList li{width:15em; height:1.5em; line-height:1.5em; overflow:hidden;color:#00F;}
+	#regularityList li a{ position:relative; display:block; width:13em; overflow: visible; word-break:break-all; word-wrap: break-word; }
+	#regularityList li a:after{ content:"..."; position:absolute;bottom:1.5em;right:-15px;}/*<!--兼容firefox opera-->*/
+</style>
+</head>
+<body>
+<a name="gTop"></a>
+<div class="fixfooter">
+  <div class="container" id="content_container">
+	<div class="row">
+    <div class="column12 last">
+	<div id="example" class="k-content">
+	 <div id="organizer">
+	<fieldset class="_previewFieldset">
+  	  <legend><span data-lims-text="Food info"></span></legend>
+		<table class="input-readonly">
+		 <tr>
+			<td align="left"><label data-lims-text="Bar code"></label><span class='red_xing'>*</span>：<input type="hidden" id="sample_id"></td>
+			<td><input style="width:250px;" id="barcodeId" class="k-textbox" data-required-msg='不能为空' required='required'></td>
+			<td align="left"><label data-lims-text="food_Name"></label><span class='red_xing'>*</span>：</td>
+			<td><label id="foodName" class="k-text"></label></td>
+		  </tr>
+		  <tr>
+			<td align="left"><label data-lims-text="Specification"></label>：</td>
+			<td><label id="specification"></label></td>
+			<td align="left"><label data-lims-text="Unit"></label>：</td>
+			<td><label id="foodinfo_minunit"></label></td>
+		  </tr>
+		  <tr>
+			<td align="left"><label data-lims-text="Brand"></label>：</td>
+			<td><label id="foodinfo_brand"></label></td>
+			<td align="left"><label data-lims-text='foodInfo_Status'></label>：</td>
+		    <td><label id="foodInfo_Status"></label></td>
+		  </tr>
+		  <tr>
+			<td align="left"><label data-lims-text="Expiratio"></label>：</td>
+			<td><label id="proExpiratio"></label><input id="expiration_date" type="hidden"/></td>
+			<td align="left"><label data-lims-text="Expir Day"></label>：</td>
+			<td colspan="3"><label id="foodinfo_expirday"></label><input id="inputDay" type="hidden"/>
+			</td>
+		 </tr>
+		 <tr>
+		 	<td align="left"><label data-lims-text="Category"></label><span class='red_xing'>*</span>：</td>
+			<td colspan="3"><label id="foodinfo_category"></label></td>
+		 </tr>
+		 <tr>
+		  <td align="left"><label data-lims-text="Standard"></label>：</td>
+		  <td colspan="3"><label id="foodinfo_standard"></label></td>
+		 </tr>
+	  </table>
+		 <div>
+		  <fieldset class="_previewFieldset">
+   		   <legend><span style="font-size:1em;font-weight:normal;letter-spacing: 2px;" data-lims-text="产品图片"></span></legend>
+		   <div id="proAttachmentsListView"></div>
+		  </fieldset>
+		 </div>
+	 </fieldset>
+	 <!-- 生产许可证录入格式 -->
+	 <table class="hide"> 
+         <tbody>
+          <tr>
+           <td><label data-lims-text="Can Choose BusName"></label></td> 
+           <td><input style="width:300px;height:25px;" type="text" id="hid_listBusName" /></td>
+          </tr>
+         </tbody>
+        </table>
+        <table> 
+         <tbody>
+          <tr>
+           <td><label data-lims-text="生产许可证录入格式"></label></td> 
+           <td><input style="width:340px;height:25px;" type="text" id="listqsFormat" /></td>
+          </tr> 
+         </tbody>
+        </table>
+     <!-- End -->
+	 <fieldset class="_previewFieldset">
+  	  <legend><span data-lims-text="Business Unit Info"></span></legend>
+  	   <div class="editQsStyle">
+          <span>注意：当前产品关联的QS证号已经由生产企业绑定，此处不能再修改。</span>
+       </div> 
+	   <table> 
+          <tbody>
+           <tr> 
+            <td align="left"><label data-lims-text="business_Name"></label><span class="red_xing">*</span></td> 
+            <td><input style="width:300px;" type="text" id="bus_name" data-required-msg="不能为空" required="required" /></td> 
+            <td align="left"><label data-lims-text="Address"></label></td> 
+            <td><input style="width:300px" type="text" id="bus_address" /></td> 
+           </tr> 
+           <tr> 
+            <td align="left"><label data-lims-text="生产许可证号"></label><span class="red_xing">*</span></td> 
+            <td id="qs_inputline">
+            	<span id="jianchengList">
+            		<input id="proJianCheng" class="k-textbox" style="width:110px;"/>
+            	</span>
+            	<label id="showQsFormat" style="float:left">QS</label><label></label>
+            	<!-- style="width:221px;left:-59px" -->
+            	<span id="myqsNo" style="width:1px;">
+            		<input id="bus_qsNo"  onkeydown="lims.root.formatQsNo(this,this.value)" 
+            		 	data-required-msg="不能为空" required="required" />
+            	</span>
+            </td> 
+            <td align="left"><label data-lims-text="License No"></label><span class="red_xing">*</span></td> 
+            <td><input style="width:300px;" type="text" id="bus_licenseNo" placeholder="例如:15000001001176" data-required-msg="不能为空" required="required" /></td> 
+           </tr>
+          </tbody>
+         </table> 
+  </fieldset>
+	<fieldset class="_previewFieldset">
+  	  <legend><span data-lims-text="Test Report Info"></span></legend>
+		 <table id="test_report_info">
+		  <tr>
+			<td align="left"><label data-lims-text="ReportNo"></label><span class='red_xing'>*</span></td>
+			<td><input style="width:250px; height:30px" type="text" id="tri_reportNo" class="k-textbox" placeholder="例如:GC201205007" data-required-msg='不能为空' required='required'/></td>
+			<td align="left"><label data-lims-text="Batch"></label><span class='red_xing'>*</span></td>
+			<td colspan="3"><input type="text" id="tri_batchNo" placeholder="例如:20140101" style="width:250px; height:30px"
+					class="k-textbox" data-required-msg='不能为空' required='required'/></td>
+		 </tr>
+		 <tr>
+			<td align="left"><label data-lims-text="Prod Date"></label><span class='red_xing'>*</span></td>
+			<td>
+			    <input style="width:250px; height:28px" type="text" id="tri_proDate" onchange="fsn.setDateValue();" placeholder="例如:2014-01-01" data-required-msg='不能为空' required='required'/>
+                <input type="hidden" id="tri_proDate_format" value="" style="display:none;"/>
+            </td>
+			<td align="left"><label data-lims-text="Test Type"></label></td>
+			<td><input style="width:250px; height:30px" type="text" id="tri_testType"/></td>
+		 </tr>
+		 <tr>
+			<td align="left"><label data-lims-text="Conclusio"></label></td>
+			<td><input style="width:250px; height:30px" type="text" id="tri_conclusion"/></td>
+		 </tr>
+		<tr id="tr_isAuto">
+			<td>
+				<label data-lims-text="res_type"></label>
+			</td>
+			<td colspan="3">
+				<label id="repFileMsg" style="font-size: 12px;color:red;">您可以：上传pdf文件，或上传图片自动合成pdf！</label>
+				<div id="upload_rep">
+					<!-- <input type="file" id="upload_report_files" class="k-textbox" data-lims-text="upload_Report" /> -->
+				</div>
+				<div style="width:130px;heigth:40px;margin-left:10px;margin-bottom:20px;">
+					<button id="openT2P_btn" class="k-button" data-lims-text="图片合成" onclick="lims.openPicToPdfWin()" style="width:130px;"></button>
+				</div>
+			</td>
+		</tr>
+		</table>
+		<div style="margin-left: 10px;">
+			<!--<button id="btn_clearRepFiles" class='k-button'>清空</button>-->
+			<div id="repAttachmentsListView"></div>
+		</div>
+	</fieldset>
+	 <div id="save_status"></div>
+	 <div id="fileErroMsg"></div>
+	 <script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+		&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+		<button class="k-button" onclick="return lims.root.removeRes(#=attachments.id#,'#=attachments.fileName#')">
+        <span class="k-icon k-cancel"></span>删除</button><br><br>
+    </script>
+	</div>		
+	</div>
+	  <div style="margin-top: 10px;">
+	    <button id="clear" class="k-button">
+		  <span class="k-icon k-submit"></span>
+		  <label data-lims-text="Clear"></label>
+		</button>
+	    <button id="update" class="k-button">
+		  <span class="k-icon k-submit"></span>
+		  <label data-lims-text="Update"></label>
+		</button>
+		<!-- <button id="save" class="k-button">
+		  <span class="k-icon k-submit"></span>
+		  <label data-lims-text="Save"></label>
+		</button> -->
+		<button id="submit" class="k-button">
+		  <span class="k-icon k-submit"></span>
+		  <label data-lims-text="Submit"></label>
+		</button>
+		<button id="add" class="k-button">
+		  <span class="k-icon k-submit"></span>
+		  <label data-lims-text="Continue_to_add"></label>
+		</button>
+	  </div>
+	</div>
+	</div>
+	<div id="immediate-guide-trigger">
+		<a href="#" title="温馨提示" data-spm-anchor-id="a1z08.2.0.0"></a>
+	</div>
+	<!--
+    <div id="daojishi">
+		掉线倒计时：
+    	<div id="timer"></div>
+    </div>
+    -->
+	<div id="skin-box-bd">为保证贵企业报告能够顺利通过审核，请务必按照原报告内容准确、完整的填写页面信息。</div>
+	<div id="goTab" class="goTab">
+	  <ul>
+		<li class="gTop">
+			<a href="#gTop" style="display: none; overflow: hidden; width: 100%;">
+				<span>顶部</span>
+				<b></b>
+			</a>
+		</li>
+		<li class="gPrev">
+			<a href="publish_edit_testreport.html" style="width: 100%; overflow: hidden;">
+				<span>返回</span>
+				<b></b>
+			</a>
+		</li>
+   	  </ul>
+	</div>
+	
+	<div id="backMsg"></div>
+	<div id="toSaveWindow">
+  		<label id="saving_msg" style="font-size: 16px" data-lims-text="Save Status"></label>
+    </div>
+    <div id="tsWindow">
+      <div><label data-lims-text="delResMsg"></label></div>
+     <div style="text-align: right;">
+		<button class="k-button" id="btn_delOK"><span class="k-icon k-update"></span><label data-lims-text="OK"></label></button> &nbsp;&nbsp;&nbsp;&nbsp;
+		<button class="k-button" id="btn_delCancel"><span class="k-icon k-cancel"></span><label data-lims-text="Cancel"></label></button>&nbsp;&nbsp;
+	 </div>
+    </div>
+	<div class="push"></div>
+	<div id="CONFIRM_COMMON_WIN">
+		<div id="listView">
+			<div id="CONFIRM_MSG" style="text-align: center;"></div><br/>
+			<div style="text-align: right;">
+				<button id="confirm_yes_btn"><span class="k-icon k-update"></span><label data-lims-text="OK"></label></button> &nbsp;&nbsp;&nbsp;&nbsp;
+				<button id="confirm_no_btn"><span class="k-icon k-cancel"></span><label data-lims-text="Cancel"></label></button>&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+	<div id="diaoxian_logout">
+		<div style="text-align: left;">由于您长时间未操作，为了保障您的账号安全，已自动掉线。（已自动为您保存数据）</div><br/>
+		<div style="text-align: center;">
+			<button id="logout_btn" class="k-button"><span class="k-icon k-update"></span><label data-lims-text="OK"></label></button>
+		</div>
+	</div>
+	<div id="diaoxian_remind_01">
+		<div style="text-align: center;" id="diaoxian_remind_msg">为防止您的数据丢失，请及时保存！</div><br/><br><br>
+		<div style="text-align: center;">
+			<button id="save_btn_01" class="k-button"><span class="k-icon k-update"></span><label data-lims-text="OK"></label></button>
+		</div>
+	</div>
+	<div id="diaoxian_remind_02">
+		<div style="text-align: center;" id="diaoxian_remind_msg">您即将掉线，请及时保存！</div><br/><br>
+		<div style="text-align: center;">
+			<button id="save_btn_02" class="k-button"><span class="k-icon k-update"></span><label data-lims-text="OK"></label></button>
+		</div>
+	</div>
+	<!-- 图片合成pdf窗口 -->
+	<div id="pictureToPdfWindow">
+		<div class=content>
+    		<div class=left id=dom0>
+   			</div>
+		</div><br>
+		<div>
+		   <span style="color:red;font-size:12px;">注：请按照报告排版拖动调整图片位置。建议每次上传文件不超过1M</span>
+		</div>
+		<div id="uploadRepPicDiv">
+		</div>
+		<div style="text-align: right;">
+			<button id="p2pReview_btn" class="k-button" onclick="lims.root.ReviewPdf();"><span class="k-icon k-i-search"></span><span data-lims-text="Review Pdf"></span></button> &nbsp;&nbsp;&nbsp;&nbsp;
+			<button id="p2pOk_btn" class="k-button" onclick="lims.root.picToPdfWinOk();"><span class="k-icon k-update"></span><span data-lims-text="OK"></span></button> &nbsp;&nbsp;&nbsp;&nbsp;
+			<button id="p2pCancel_btn" class="k-button" onclick="lims.closePicToPdfWin('N');"><span class="k-icon k-cancel"></span><span data-lims-text="Cancel"></span></button>&nbsp;&nbsp;
+		</div>
+	</div>
+	<span id="RETURN_MES" style="display:none;"></span>
+    <script id="errorTemplate" type="text/x-kendo-template">
+                <div class="wrong-pass">
+                    <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource/img/error-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+    </script>
+    <script id="successTemplate" type="text/x-kendo-template">
+                <div class="upload-success">
+                     <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+                    <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/>
+                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+                </div>
+	</script>
+</div>
+</div>
+<!-- 页面引导 start-->
+	<div style="position:fixed;right:-2em;bottom:50px;width:150px;">
+   		<div onclick="return fsn.startForwMeStep();"><img src="http://qa.fsnrec.com/portal/guid/unit/unit_newintroduce.png" /></div>
+  	</div>
+  	
+   <div id="followMeDiv"></div>
+   
+    <div class="stepContent" style="top:80px;">
+   	<div id="followMeStep" style="display:none;">
+   	   	<a name="stp1"></a>
+        <img id="imgs" class="noneStyle"/>
+       	<div style="position:relative;top:-2.7em;left:16.2em;width:73px;height:29px;">
+       		<a class="noneStyle" href="javascript:void(0);" onclick="return fsn.backStep();" title="上一页">
+        		<div style="width:35px;height:29px;color:red;"></div>
+       		</a>
+       </div>
+       <div style="position:relative;top:-4.5em;left:19em;width:73px;height:29px;">
+       		 <a class="noneStyle" href="javascript:void(0);" onclick="return fsn.nextStep();" title="下一页">
+        		<div style="width:35px;height:29px;color:red;"></div>
+       		</a>
+       </div>
+       <div style="position:relative;top:-6.4em;left:21.8em;width:25px;height:20px;">
+       		<a class="noneStyle" href="javascript:void(0);" onclick="return fsn.cancelStep();" title="关闭引导">
+        		<div style="width:35px;height:29px;color:red;"></div>
+       		</a>
+       </div>
+    </div>
+   </div>
+   <!-- 页面引导 end-->
+</body>
+</html>

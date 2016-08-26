@@ -1,0 +1,1 @@
+﻿ALTER TABLE `risk_to_property` DROP FOREIGN KEY `risk_to_property_ibfk_2`;

@@ -1,0 +1,2 @@
+ALTER TABLE `test_case`  ADD COLUMN `business_brand_id` BIGINT NULL;
+ALTER TABLE `test_case`  ADD CONSTRAINT `fk_test_case_business_brand` FOREIGN KEY (`business_brand_id`) REFERENCES `business_brand` (`id`);

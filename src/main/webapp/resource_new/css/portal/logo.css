@@ -1,0 +1,16 @@
+/* logo */
+#logo {left: 0px;}
+#logo img {float:left; width: 263px;height:61px;cursor: pointer;}
+#logo .url-introduce{
+	float:left;
+	margin-top:10px;
+	margin-left:6px;
+	font:900 25px "宋体";
+	line-height:30px;
+	color:#12B701;
+}
+#logo .url-introduce .url-address{
+	font-size:18px;
+	font-weight: normal;
+	line-height:20px;
+}

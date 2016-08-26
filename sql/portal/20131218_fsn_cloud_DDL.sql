@@ -1,0 +1,3 @@
+﻿ALTER TABLE business_unit MODIFY COLUMN logo VARCHAR(255);
+
+ALTER TABLE business_brand MODIFY COLUMN trademark VARCHAR(255);

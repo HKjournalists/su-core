@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee">
+         
+  	<display-name>LIMS Core Web Application</display-name>
+  	<context-param>
+	    <param-name>contextConfigLocation</param-name>
+	    <param-value>classpath:/META-INF/spring-context.xml,classpath:/META-INF/aop-config.xml
+	    </param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.gettec.fsnip.fsn.web.LogServletContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.gettec.fsnip.fsn.web.RabbitMQListener</listener-class>
+	</listener>
+	<!-- QA env to support CORS -->
+	<filter>
+        <filter-name>SetCharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SetCharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+	<filter>
+		<filter-name>CORS</filter-name>
+		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+		
+		<init-param>
+			<param-name>cors.allowOrigin</param-name>
+			<param-value>*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cors.supportedMethods</param-name>
+			<param-value>GET, POST, HEAD, PUT, DELETE, OPTIONS</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+        <filter-name>CORS</filter-name>
+        <url-pattern>/service/*</url-pattern>
+	</filter-mapping>
+	
+	<servlet>
+		<servlet-name>rest</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rest</servlet-name>
+		<url-pattern>/service/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ui</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/ui-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ui</servlet-name>
+		<url-pattern>/ui/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>image</servlet-name>
+		<servlet-class>com.gettec.fsnip.fsn.web.servlet.ImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>image</servlet-name>
+		<url-pattern>/image/*</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+	<!--  SSO FSN  -->
+	<listener>
+		<listener-class>com.gettec.fsnip.sso.client.SSOListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+	</listener>
+	<filter> 
+		<filter-name>Cert Login Filter</filter-name>
+		<filter-class>com.gettec.fsnip.sso.client.CertLoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Cert Login Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>SSO Client Session Filter</filter-name>
+		<filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSO Client Session Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>SSO Authentication Filter</filter-name>
+		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+		
+		<init-param>
+			<param-name>portal</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>portalReg</param-name>
+			<param-value>(.*/tzQuery/.*)|(.*/tzApp/.*)|(.*api/external/.*)|(.*resource_new/.*)|(.*resource/.*)|(.*portal/.*)|(.*/login_guid\.html)|(.*/register\.html)|(.*/newVersion/.*)|(.*/userguid/.*)|(.*/enterpriseRegiste.*)|(.*/verificationEnName.*)|(.*/verificationEnUserName.*)|(.*/verificationEnName.*)|(.*/verificationEnLicenseNo.*)|(.*/verificationProductNo*)|(.*/verificationServiceNo*)|(.*/verificationPassNo*)|(.*/wdaBackBusUnitInfoById.*)|(.*/verificationEnOrgCode.*)|(.*/productLIMS1/.*)|(.*/productLIMS/.*)|(.*/business-unitLIMS/.*)|(.*/busProLims/.*)|(.*/product/barcodeList/.*)|(.*/shianjian/product/.*)|(.*/getAllProduct/.*)|(.*/product/searchProductListByName/.*)|(.*/address/findPro.*)|(.*/address/findCityByProId/.*)|(.*/address/findAreaByCityId/.*)|(.*/api/import/.*)|(.*/product/category/query.*)|(.*/fsnApp/.*)|(.*/setimentTopic/.*)|(.*deal/problem/.*)</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSO Authentication Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>SSO Validation Filter</filter-name>
+		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSO Validation Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>SSO HttpServletRequest Wrapper Filter</filter-name>
+		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSO HttpServletRequest Wrapper Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>Authorization Filter</filter-name>
+		<filter-class>com.gettec.fsnip.sso.client.AuthorizationFilter</filter-class>
+		<init-param>
+			<param-name>exclude</param-name>
+			<param-value>(.*resource_new/.*)|(.*/resource/.*)|(.*/portal/common/.*)|(.*/portal/upload/.*)|(.*/home\.html)|(.*/register\.html)|(.*/menu_new\.html)|(.*/menu\.html)|(.*/service/.*)|(.*/views/.*)|(.*/test-result-preview\.html)|(.*/cert-login\.html)|(.*/login_guid\.html)|(.*/newVersion/.*)|(.*/userguid/.*)</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Authorization Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- SSO END -->
+	<error-page>
+		<error-code>404</error-code>
+  		<location>/views/portal/error404.html</location>
+	</error-page>
+	<welcome-file-list>
+		<!-- <welcome-file>home-new.html</welcome-file> -->
+		<welcome-file>home1.html</welcome-file>
+	</welcome-file-list>
+	<distributable/>
+	<!-- 配置jpa session,当jsp页面加载完毕后,才释放session -->
+	<filter>  
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>  
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>  
+        <init-param>  
+            <param-name>entityManagerFactoryBeanName</param-name>  
+            <param-value>emf</param-value>  
+        </init-param>   
+    </filter>  
+    <filter-mapping>  
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>  
+    <!-- 配置jpa session jsp页面结束 -->
+</web-app>

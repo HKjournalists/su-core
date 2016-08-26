@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>食品安全营养信息平台</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<link rel="stylesheet" href="../../resource_new/css/reset.css" />
+<link rel="stylesheet" href="../../resource_new/css/text.css" />
+<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+<link href="../../resource_new/kendoui/styles/kendo.common.min.css"rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+<link rel="stylesheet" href="../../resource_new/css/notification.css" />
+<link rel="stylesheet" href="../../resource_new/css/index_guid.css" />
+<link href="../../resource_new/css/city/cityLayout.css" rel="stylesheet"/>
+<link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
+<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+<script src="../../resource_new/js/jquery-1.8.0.min.js"></script>
+<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource_new/js/jquery.cookie.js"></script>
+<script src="../../resource_new/js/portal/common.js"></script>
+<script src="../../resource_new/js/lims.i18n.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource/js/fsn.js"></script>
+<script src="../../resource_new/js/lims.js"></script>
+<script src="../../resource_new/js/headerFooterTemplate.js"></script>
+<script src="../../resource_new/js/portal/jquery.form.js"></script>
+<script src="../../resource_new/js/upload/lims.js"></script>
+<script src="../../resource_new/js/util.js"></script>
+<script src="../../resource_new/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script src="../../resource_new/js/language/list_product_addQs_zh-cn.js"></script>
+<script src="../../resource_new/js/language/unit_up_zh-cn.js"></script>
+<script src="../../resource/js/waste/waste-common.js"></script>
+<script src="../../resource/js/waste/addWaste.js"></script>
+<script src="../../resource_new/js/guid/unit_guid.js"></script>
+<script src="../../resource_new/js/portal/brandCategoryTree.js"></script>
+<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+	});
+	
+</script>
+<style>
+       .div-tr, .div-tr div {float: left;}
+	.div-tr {width: 100%; padding-bottom: 10px; margin-top:5px;}
+	.div-td {width: 50%; line-height: 30px;}
+	.div-tr1 {width: 100%; padding-bottom: 10px; margin-top:5px;}
+	.div-td1 {width: 80%; line-height: 9px;font-size:15px}
+	.div-td-full {width: 100%;}
+	.div-td textarea {width:440px; height:80px; max-width: 440px; min-width: 200px;}
+	.div-td-add {padding-right: 4px; width: 86%;}
+	.div-td-value input {width: 320px;}
+	.div-td-name { width:155px}
+	.div-td-name-s{ width:120px}
+	
+	.div-td-shortname { width:130px}
+	
+	.div-td-longname{
+		width:170px;
+	}
+	.div-td-shortvalue input{
+		width:300px;
+	}
+	.necessary{color:#f00}
+	.k-upload-button {
+    	width: 200px;
+		border-radius:4px;
+  	}
+  	
+  	.header{
+   	 	font-size: 15px;
+    	font-weight: bold;
+    	color:white;
+    	height:30px;
+    	width:100%;
+    	padding-left:20px;
+    	background:#05bf73;
+  	} 
+  	.k-grid-header .k-header {
+  		color: #47B139;
+    	font-weight: bold;
+  		background: none repeat scroll 0 0 #F5F5F5;
+  	}
+    ._previewFieldset legend span{
+      	font-size: 1.2em;
+      	font-weight: bolder;
+      	letter-spacing: 5px;
+      }
+      ._previewFieldset {
+        color: #05bf73;
+    }
+    span.k-datepicker{
+    	width:144px;
+    }
+</style>
+</head>
+<body id="home">
+<div class="fixfooter wi800 fl mt20">
+	 <div class="fullview page_title mt50 wper100 ml20" id="status_bar"> 当前位置：<span id="fromFlag">废弃物处理 >>添加/编辑废弃物处理 </span></div>
+		 <div class="wper100 mt15 ml20 borderfieldset row">
+			<div class="header border-radiustop4"><span>废弃物处理</span></div>
+		    <div class="ml20">
+			<fieldset class="_previewFieldset">
+				<div class="div-tr">
+					<div class="div-td">
+					<div class="div-td-shortname"><label for="handler">处理人：</label><font class="necessary">*</font></div>
+						<div class="div-td-value">
+							<input type="text" id="handler" name="handler" placeholder="请填写处理人" class="my-textbox" required validationMessage="不能为空"/>
+						</div>
+					</div>
+					<div class="div-td">
+					<div class="div-td-shortname"><label for="handleTime">处理时间：</label><font class="necessary">*</font></div>
+					<div class="div-td-value">
+						<input type="text" id="handleTime" name="handleTime" placeholder="例如:2015-01-01" class="my-textbox" required validationMessage="不能为空"/>
+					</div>
+					</div>
+				</div>
+				<div class="div-tr">
+					<div class="div-td">
+					<div class="div-td-shortname"><label for="handleNumber">处理数量：</label><font class="necessary">*</font></div>
+						<div class="div-td-value">
+							<input type="text" id="handleNumber" name="handleNumber" placeholder="请填写处理数量及单位,如:100斤,200千克" class="my-textbox" required validationMessage="不能为空"/>
+						</div>
+					</div>
+					<div class="div-td">
+					<div class="div-td-shortname"><label for="destory">销毁地点：</label><font class="necessary">*</font></div>
+					<div class="div-td-value">
+						<input type="text" id="destory" name="destory" placeholder="请填写销毁地点" class="my-textbox" required validationMessage="不能为空" />
+					</div>
+					</div>
+				</div>
+				<div class="div-tr">
+					<div class="div-td">
+					<div class="div-td-shortname"><label for="participation">参与部门：</label><font class="necessary"></font></div>
+						<div class="div-td-value">
+							<input type="text" id="participation" name="participation" placeholder="请填写参与部门" class="my-textbox" />
+						</div>
+					</div>
+				</div>
+				<div class="div-tr">
+					<div class="div-td">
+					<div class="div-td-shortname"><label for="handleWay">处理方式：</label><font class="necessary">*</font></div>
+					<div class="div-td-value">
+						<textarea id="handleWay" name="handleWay" placeholder="请填写处理方式" class="my-textbox" style=" width:350px" placeholder="请限制在2000字以内" required validationMessage="不能为空"></textarea>
+					</div>
+					</div>
+				</div>
+				<div class="div-tr">
+					<div class="div-td">
+						<div class="div-td-value">
+							<div class="div-tr ">
+								<label id="proFileMsgDistribution" style="font-size: 12px;color:red;">
+									建议不超过1M,支持png,bmp,jpeg,jpg格式.
+								</label>
+							</div>
+							<div id="upload_distribution_div">
+									<!-- <input type="file" id="upload_distribution_files"/> -->
+   							</div>
+						</div>
+					</div>
+				</div>
+				<div class="div-tr">
+					<div class="div-td">
+						<div id="disListView">
+							<button id="btn_clearDisFiles" class='k-button' style='display: flex;'><span data-fsn-text="empty"></span></button>
+       						<div id="disAttachmentsListView"></div>
+  						</div>
+					</div>
+				</div>
+			</fieldset>
+		   </div>
+		</div>
+        <div class="cb"></div>
+		<div>
+			<div class="div-tr" style="margin-bottom:70px; margin-top:30px;">
+				<div class="div-td">
+					<button class="k-button inputbtn" id="save"><span class="k-icon k-save"></span><span class="ui-button-text" >保存</span></button>
+					<button class="k-button inputbtn" onclick="return fsn.business_unit.goBack()"><span class="k-icon k-save"></span><span class="ui-button-text" >返回</span></button>
+				</div>
+			</div>	
+			<div id="k_window">
+				<span id="winMsg"></span>
+			</div>
+		<div id="msg_success" class="msg success"  style="margin-left: 0px; padding-top: 2%;"></div>
+		<script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+				&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+				<button class="k-button" onclick="return fsn.business_unit.removeRes(#=attachments.id#)">
+        		<span class="k-icon k-cancel"></span>删除</button><br><br>
+    	</script>	
+	   </div>
+</div>
+<!-- 页面提示信息框 -->
+<div id="toSaveWindow">
+	<label id="saving_msg" style="font-size: 16px"></label>
+</div>
+<span id="RETURN_MES" style="display:none;"></span>
+<script id="errorTemplate" type="text/x-kendo-template">
+  <div class="wrong-pass">
+     <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 260px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+     <br/>
+     <img src="../../resource/img/error-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+</script>
+<script id="successTemplate" type="text/x-kendo-template">
+  <div class="upload-success">
+  <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 260px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+  <br/>
+  <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+</script>
+</body>
+</html>

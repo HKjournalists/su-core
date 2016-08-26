@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>食品安全营养信息平台 V1.</title>
+    <link rel="stylesheet" href="../../resource/css/reset.css" />
+    <link rel="stylesheet" href="../../resource/css/text.css" />
+    <link rel="stylesheet" href="../../resource/css/grid.css" />
+    <link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="../../resource/kendoui/styles/kendo.default.min.css" rel="stylesheet" />
+    <link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
+    <link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
+    <link rel="stylesheet" href="../../resource/css/notification.css" />
+    <link rel="stylesheet" href="../../resource/css/index_guid.css" />
+    <link rel="stylesheet" href="../../resource/css/sales/photos_albums.css" />
+    <script src="../../resource/js/less.js" type="text/javascript"></script>
+    <script src="../../resource/kendoui/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../resource/js/jquery.slides.min.js"></script>
+    <script type="text/javascript" src="../../resource/js/jquery.sgallery.js"></script>
+    <script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+    <script src="../../resource/js/jquery.cookie.js"></script>
+    <script src="../../resource/js/headerFooterTemplate.js"></script>
+    <script src="../../resource/js/fsn.js"></script>
+    <script src="../../resource/js/fsn.i18n.js"></script>
+    <script src="../../resource/js/lims.js"></script>
+    <script src="../../resource/js/filter.js"></script>
+    <!-- 百度地图 API的引用 -->
+    <script src="../../resource/js/sales/util/chainMap/raphael.js"></script>
+    <script src="../../resource/js/sales/util/chainMap/chinamapPath.js"></script>
+    <script src="../../resource/js/sales/util/chainMap/init_china_map.js"></script>
+    <script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+    <script src="../../resource/js/language/sales/sales_home_zh_cn.js"></script>
+    <script src="../../resource/js/upload/lims.upload.js"></script>
+    <script src="../../resource/js/sales/util/salesKendoUtil.js"></script>
+    <script src="../../resource/js/sales/sales_home.js"></script>
+    <script type="text/javascript"  src="http://api.map.baidu.com/api?v=2.0&ak=7GQOEACCbLsmRMTrGUCRlz02"></script>
+    
+    <script>
+        $(document).ready(function(){
+            $("fieldset input").focus(function(){
+                $(this).parent().prev("label").hide();
+            });
+            $("fieldset input").blur(function(){
+                if ($(this).val().trim().length < 1) {
+                    $(this).parent().prev("label").show();
+                }
+            });
+            $(".hideBusName").hide();
+        });
+    </script>
+    <style>
+    	.publicity-img{text-align: center;}
+        .publicity-img img{max-width:100%;max-height:250px;margin:10px auto;}
+        .sales-case-div{ border: 0px solid #F00; width: 1123px;height: auto; background: #F9FDF1;overflow-y:auto}
+        .sales-case{ margin:20px;width: 200px; height: 200px; text-align:center;}
+        .sales-case img{ width: 218px; height: 178px; margin:20px;}
+        .redtext{color: red; font: 200;}
+        .scheck{display:inline-block;}
+        .tabstrip-li-style{width: 120px;height: 30px; text-align: center;}
+        .sp_name{font-weight: bolder;font-size: 1.1em;}
+        .js-album-list-ul li {margin:0 5px;}
+        .js-album-list-ul a{text-align:center;}
+        .long_text{display: block; overflow: hidden;position: relative; text-overflow: ellipsis; top: 0; white-space: nowrap;width: 200px;}
+        .recd_sy{position:relative;left:40px;width:80%;}
+        #tabstrip{border:none;}
+        .k-tabstrip-items .k-state-default, .k-ie7 .k-tabstrip-items .k-state-default .k-loading{border:none;}
+        .k-tabstrip-items .k-item, .k-panelbar .k-tabstrip-items .k-item {border-width: 0 0 0;position: static; margin: 0 2px;}
+        #publicity_div .k-content,.k-state-active,.k-tabstrip-items{border:none;}
+        html .k-state-active, .k-state-active:hover, .k-active-filter, .k-tabstrip .k-state-active {border-color:#f9fcf1;}
+        html .k-tabstrip .k-content.k-state-active{background-color: #f9fcf1;}
+        li#bus_about_li,li#bus_album_li,li#show_case_li,li#sales_dot_li,li#data_station_li{border-radius: 10px;height: 40px;width: 130px;font-size: 14px;background-color: #3dac2d;}
+        html .tabstrip-li{ padding-top: 12px; font-size:16px; font-weight: bolder;background-color: #0F941A; margin:5px 5px; padding-bottom:4px;border-radius:5px;}
+        .k-tabstrip-items .k-loading {position: relative;}
+        html .k-tabstrip-items .k-state-default .k-link, .k-panelbar>li.k-state-default>.k-link {color: white;}
+        li#bus_about_li:hover,li#bus_album_li:hover,li#show_case_li:hover,li#sales_dot_li:hover,li#data_station_li:hover{background-color:#3be201 }
+        .sp_rem_name{font-weight: bold;margin-right:8px;}
+        html .js-album-list-ul li{width:185px;}
+        .cont_win .div-td-name{font-weight: bold; width: 85px;}
+        .cont_win .div-td-value{color: #787878;}
+        .mr10{margin-right: 10px;}
+        .name_sty{ font-weight: bolder;color: #008000;margin-top: 5px;font-size:15px;}
+        #branch_field .div-tr{padding-bottom: 0px;}
+        #viewDetailMap{margin-bottom: 10px;}
+        .marg-f-44{margin-left: -44px;}
+        
+        #publicity_div {width: 600px; height:300px;clear:both;margin:0 auto;}
+		.slidesjs-pagination { margin: 3px 0 0;float:left;margin-left:200px;list-style: none;}
+		.slidesjs-pagination li {float: left;margin: 0 1px;}
+		.slidesjs-pagination li a {
+		    display: block;
+		    width: 13px;
+		    height: 0;
+		    padding-top: 13px;
+		    background-image: url(../../resource/img/pagination.png);
+		    background-position: 0 0;
+		    float: left;
+		    overflow: hidden;
+		}
+		 .slidesjs-pagination li a.active,
+		 .slidesjs-pagination li a:hover.active {background-position: 0 -13px}
+         .slidesjs-pagination li a:hover {background-position: 0 -26px}
+         #slides a:link,#slides a:visited {color: #333}
+         #slides a:hover,#slides a:active {color: #9e2020}
+         
+         
+         .FocusPic{zoom:1;position:relative; margin:0 auto;overflow:hidden;width:600px; height:300px}
+		 .FocusPic .content{overflow:hidden}
+		 .changeDiv img{width:600px; height:300px}
+		 .FocusPic .changeDiv a{position:absolute;top:0px;left:0px;display:none;}
+		 
+		 .FocusPic .change{bottom:20px;height:10px;right:44%;*right:44%;_right:44%;position:absolute;text-align:left;z-index:10000;}
+		 .FocusPic .change i{background:url(../../resource/img/d.png) no-repeat 0 bottom;cursor:pointer; overflow:hidden;line-height:240px;padding-right:12px; width:10px; height:10px;display:inline-block;display:-moz-inline-stack;zoom:1;*display:inline;}
+		 .FocusPic .change i.cur {background:url(../../resource/img/ds.png) no-repeat 0 0;}
+         .to_top,.show_2_1,.show_2_2,.show_2_3,.show_2_4,.show_2_5{background-color: #f9fdf1;width: 200px; height: auto;color: #434343;font-size: 14px; display: none;
+         padding:10px;border:#606060 1px solid;border-radius:8px;line-height:24px;position: absolute;
+         }
+          
+    </style>
+</head>
+<body>
+<div class="fixfooter">
+<div class="container" id="content_container">
+<div class="row">
+    <div class="column12 last">
+        <div class="column12">
+            <span class="page_title">当前位置：销售信息管理&raquo;首页</span>
+        </div>
+        <div id="publicity_div">
+            <div class="slide">
+			    <div class="FocusPic">
+			        <div class="content" id="main-slide">
+			            <div class="changeDiv">
+			            </div>
+			        </div>
+			    </div>
+			</div>
+        </div>
+        <!--选项卡-->
+        <div id="tabstrip" style="background: #F9FDF1;margin-top: 20px;">
+            <ul>
+                <li class="k-state-active tabstrip-li-style" id = "bus_about_li" style="font-size:16px;font-weight: bolder;border:1px green solid;background-color:#3be201"><span>企业简介</span></li>
+                <li id = "bus_album_li" class="tabstrip-li-style"><span>企业相册</span></li>
+               <!--  <li id = "show_case_li" class="tabstrip-li-style"><span>案例展示</span></li> -->
+                <li id = "sales_dot_li" class="tabstrip-li-style"><span>销售网点</span></li>
+                <li id = "data_station_li" class="tabstrip-li-style"><span>资料站</span></li> 
+            </ul>
+            <!--企业简介	企业简介，展示企业名称、企业简介、
+            联系地址、联系电话、邮箱、联系人、推荐购买方式、一张企业二维码图片。-->
+            
+            <div>
+                <div id = "bus_about_div" class="sales-case-div">
+                      <!-- 鼠标悬浮提醒范围信息=============开始================ -->
+                <ul class="list">
+                    <li> 
+                    <div>
+		                    <div class="div-tr" style="margin-top: 15px;">
+		                        <div class="div-td-name"><span data-fsn-text="Business Name" class="sp_name"></span></div>
+		                        <div class="div-td-value" ><label id="bus_name"></label></div>
+		                    </div>
+		                    <div class="div-tr">
+		                        <div class="div-td-name"><span data-fsn-text="Business About" class="sp_name"></span></div>
+		                        <div class="div-td-value" style="width: 1000px"><label id="bus_about" ></label></div>
+		                    </div>
+	                   
+		                   
+	                    <div class="div-tr" style="margin-top: 15px;">
+	                        <div class="div-td">
+	                            <div class="div-td-name"><span data-fsn-text="Address" class="sp_name"></span></div>
+	                            <div class="div-td-value"><label id="bus_addr"></label></div>
+	                        </div>
+	                       
+	                    </div>
+	                    <div class="div-tr">
+	                    	 <div class="div-td">
+	                            <div class="div-td-name"><span data-fsn-text="Telephone" class="sp_name"></span></div>
+	                            <div class="div-td-value"><label id="bus_tel"></label></div>
+	                        </div>
+	                    </div>
+	                    <div class="div-tr">
+	                    	<div class="div-td">
+	                            <div class="div-td-name"><span data-fsn-text="Email" class="sp_name"></span></div>
+	                            <div class="div-td-value"><label id="bus_email" ></label></div>
+	                        </div>
+	                    </div>
+	                    <div class="div-tr">
+	                        <div class="div-td">
+	                            <div class="div-td-name"><span data-fsn-text="Contact" class="sp_name"></span></div>
+	                            <div class="div-td-value"><label id="bus_contact" ></label></div>
+	                        </div>
+	                    </div>
+	                    <div class="div-tr">
+	                    	<div class="div-td">
+	                            <div class="div-td-name"><span data-fsn-text="QR code" class="sp_name"></span></div>
+	                            <div class="div-td-value" id="bus_qrcode"></div>
+	                        </div>
+	                    </div>
+                    </div>
+                     </li>
+                     <li> 
+	                    <div>
+	                         <div>&raquo;<span data-fsn-text="Recommend" class="sp_name"></span></div>
+	                         </br>
+	                         <div class="recd_sy">
+	                             <div id="bus_recommend" ></div>
+	                         </div>
+	                    </div>
+                    </li>
+                    </ul>
+                    <div  class="to_top"><b>提示：</b>若需要对相关信息进行编辑，请至【我的企业 >>基本信息】界面进行操作。</div> 
+                   <div  class="to_top"><b>提示：</b>若需要对相关信息进行编辑，请至【销售网点管理】界面进行操作。</div> 
+                  <!-- 鼠标悬浮提醒范围信息=============结束================ -->
+                </div>
+          
+          </div>
+          
+            <!--企业相册-->
+            <div>
+                <div id = "bus_album_div" class="sales-case-div">
+                    <div class="album-list-bd" style="margin-top: 20px;">
+                        <ul class="js-album-list-ul marg-f-44" style="height:300px;" >
+                            <li onmouseover="home.doAlbum(event,2,1)">
+                                <div id="li_div_2" class="bg bor3 mod-album js-album-item js-album-transition" style="width:175px;top:0px;left:0px;">
+                                    <div class="album-bd" style="height:172px;">
+                                        <a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return home.albumDetail('1');">
+                                            <img id="SANZHENG_IMG_ID" class="js-cover-img" style="width: 175px; height: 204.75px; margin-top: -16px; margin-left: 0px;">
+                                            <span class="pic-num-wrap"><span id="SANZHENG_NUM_ID" class="pic-num"></span></span>
+                                        </a>
+                                    </div>
+                                    <div class="album-ft">
+                                        <div class="album-desc ">
+                                            <div class="album-tit">
+                                                <a id="SANZHENG_NAME_ID" class="c-tx2 js-album-desc-a"
+                                                   title="三证" href="javascript:;" onclick = "return home.albumDetail('1');"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li onmouseover="home.doAlbum(event,2,2)">
+                                <div id="li_div_2" class="bg bor3 mod-album js-album-item js-album-transition" style="width:175px;top:0px;left:0px;">
+                                    <div class="album-bd" style="height:172px;">
+                                        <a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return home.albumDetail('2');">
+                                            <img id="HONOR_IMG_ID" class="js-cover-img" style="width: 175px; height: 204.75px; margin-top: -16px; margin-left: 0px;">
+                                            <span class="pic-num-wrap"><span id="HONOR_NUM_ID" class="pic-num"></span></span>
+                                        </a>
+                                    </div>
+                                    <div class="album-ft">
+                                        <div class="album-desc ">
+                                            <div class="album-tit">
+                                                <a id="HONOR_NAME_ID" class="c-tx2 js-album-desc-a" title="荣誉证书 " href="javascript:;" onclick = "return home.albumDetail('2');"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li onmouseover="home.doAlbum(event,2,3)">
+                                <div id="li_div_2" class="bg bor3 mod-album js-album-item js-album-transition" style="width:175px;top:0px;left:0px;">
+                                    <div class="album-bd" style="height:172px;">
+                                        <a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return home.albumDetail('3');">
+                                            <img id="CERT_IMG_ID" class="js-cover-img" style="width: 175px; height: 204.75px; margin-top: -16px; margin-left: 0px;">
+                                            <span class="pic-num-wrap"><span id="CERT_NUM_ID" class="pic-num"></span></span>
+                                        </a>
+                                    </div>
+                                    <div class="album-ft">
+                                        <div class="album-desc ">
+                                            <div class="album-tit">
+                                                <a id="CERT_NAME_ID" class="c-tx2 js-album-desc-a" title="认证证照" href="javascript:;" onclick = "return home.albumDetail('3');"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li onmouseover="home.doAlbum(event,2,4)">
+                                <div id="li_div_2" class="bg bor3 mod-album js-album-item js-album-transition" style="width:175px;top:0px;left:0px;">
+                                    <div class="album-bd" style="height:172px;">
+                                        <a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return home.albumDetail('4');">
+                                            <img id="PRODUCT_IMG_ID" class="js-cover-img" style="width: 175px; height: 204.75px; margin-top: -16px; margin-left: 0px;">
+                                            <span class="pic-num-wrap"><span id="PRODUCT_NUM_ID" class="pic-num"></span></span>
+                                        </a>
+                                    </div>
+                                    <div class="album-ft">
+                                        <div class="album-desc ">
+                                            <div class="album-tit">
+                                                <a id="PRODUCT_NAME_ID" class="c-tx2 js-album-desc-a" title="产品图片集" href="javascript:;" onclick = "return home.albumDetail('4');"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li onmouseover="home.doAlbum(event,2,5)">
+                                <div id="li_div_2" class="bg bor3 mod-album js-album-item js-album-transition" style="width:175px;top:0px;left:0px;">
+                                    <div class="album-bd" style="height:172px;">
+                                        <a class="album-cover js-album-cover" href="javascript:;" title="点击查看相册" onclick = "return home.albumDetail('5');">
+                                            <img id="BUSPHOTOS_IMG_ID" class="js-cover-img" style="width: 175px; height: 204.75px; margin-top: -16px; margin-left: 0px;">
+                                            <span class="pic-num-wrap"><span id="BUSPHOTOS_NUM_ID" class="pic-num"></span></span>
+                                        </a>
+                                    </div>
+                                    <div class="album-ft">
+                                        <div class="album-desc ">
+                                            <div class="album-tit">
+                                                <a id="BUSPHOTOS_NAME_ID" class="c-tx2 js-album-desc-a" title="企业掠影" href="javascript:;" onclick = "return home.albumDetail('5');"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                   <div  class="show_2_1"><b>提示：</b>请至【我的企业 >>基本信息】界面进行操作。</div> 
+                   <div  class="show_2_2"><b>提示：</b>若需要对相关图片进行编辑，请至【我的企业 >>基本信息】界面进行操作。</div> 
+                   <div  class="show_2_3" ><b>提示：</b>若需要对相关图片进行编辑，请至【我的企业 >>基本信息】界面进行操作。</div> 
+                   <div  class="show_2_4"><b>提示：</b>若需要对相关图片进行编辑，请至【我的产品 >>产品管理】界面进行操作。</div> 
+                   <div  class="show_2_5"><b>提示：</b>若需要对相关图片进行编辑，请至【食华管家>>企业相册>>企业掠影】界面进行操作。</div> 
+                    </div>
+                </div>
+            </div>
+
+            <!--案例展示-->
+           <!--  <div>
+                <div id = "show_case_div" class="sales-case-div">
+                    <div class="div-tr" id="sales_case_li"></div>
+                </div>
+            </div> -->
+
+            <!--销售网点-->
+            <div>
+                <div id = "sales_dot_div" class="sales-case-div">
+                    <div style="margin-top: 15px;margin-left: 5px;">
+                        <button class="k-button" id="viewMapBack_btn">
+                            <span class="k-icon k-update"></span><span data-fsn-text="Go Back">Go Back</span>
+                        </button>
+                    </div>
+                    <div style="margin-top: 5px;">
+                        <div id="chainMap"></div>
+                        <div id="viewDetailMap" style="display:none;"></div>
+                        <div id="branch_field" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+            <!--资料站-->
+            <div>
+                <div id = "data_station_div" class="sales-case-div">
+                    <div id="data_btn">
+                        <div style="margin-top: 15px;width:250px;margin-left:10px;">
+                            <button class="k-button" onclick="return home.sendEMail()">
+                                <span class="k-icon k-update"></span><span data-fsn-text="Send EMail"></span>
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="k-button" onclick="return home.downMaterials()">
+                                <span class="k-icon k-update"></span><span data-fsn-text="Download"></span>
+                            </button>
+                        </div>
+                        <div class="album-list-bd" style="margin-top: 10px;">
+                            <ul class="js-album-list-ul marg-f-44" style="height:300px;">
+                                <li>
+                                    <div class="bg bor3 mod-album js-album-item js-album-transition" style="width:175px;top:0px;left:0px;">
+                                        <div class="album-bd" style="height:172px;">
+                                            <a id="edata_a" class="album-cover js-album-cover" target="_black" title="点击查看电子资料" style="cursor: pointer;">
+                                                <img style="height: 160px; margin-top: 5px; margin-left: 0px; margin-left: 0px;" src="../../resource/img/sales/elect_data.png">
+                                            </a>
+                                        </div>
+                                        <div class="album-ft">
+                                            <div class="album-desc ">
+                                                <div class="album-tit">
+                                                    <a class="c-tx2 js-album-desc-a" >电子资料库</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="margin-left: 30px;">
+                                    <div class="bg bor3 mod-album js-album-item js-album-transition" style="width:175px;top:0px;left:0px;">
+                                        <div class="album-bd" style="height:172px;">
+                                            <a class="album-cover js-album-cover" href="javascript:;" title="点击查看合同" onclick = "return home.viewContract();">
+                                                <img style="height: 160px; margin-top: 5px; margin-left: 0px; margin-left: 0px;" src="../../resource/img/sales/img_contract.png">
+                                            </a>
+                                        </div>
+                                        <div class="album-ft" >
+                                            <div class="album-desc ">
+                                                <div class="album-tit">
+                                                    <a class="c-tx2 js-album-desc-a" title="电子合同 " href="javascript:;" onclick = "return home.viewContract();">电子合同</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="data_grid">
+                        <div style="margin-top: 15px;">
+                            <button class="k-button" onclick="return home.contractGoBack()">
+                                <span class="k-icon k-update"></span><span data-fsn-text="Go Back">Go Back</span>
+                            </button>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <div id="data_contract_grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="ADD_CONTRACT_WIN">
+            <div class="cont_win">
+                <div class="div-tr">
+                    <div class="div-td-name"><span data-fsn-text="Contract Name">Contract Name</span>：</div>
+                    <div class="div-td-value"><label id="contractName">contractName</label></div>
+                </div>
+                <div class="div-tr">
+                    <div class="div-td-name">
+                    	<span data-fsn-text="Contract Note">Contract Note</span>：
+                    </div>
+                    <div class="div-td-value wrap"><label id="remark"></label></div>
+                </div>
+                <div class="div-tr">
+                    <div class="div-td-name">
+                        <span data-fsn-text="Annex">Annex</span>：
+                    </div>
+                    <div class="div-td-value" id="listView-div"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 发送电子邮件弹窗 -->
+        <div id="SEND_EMAIL_WIN">
+            <div style="margin-left: 8px;margin-top: 10px;">
+                <div class="div-tr" style="margin-left: 5px;">
+                    <div class="div-td-name" style="width:55px;"><span data-fsn-text="Addressee"></span></div>
+                    <div class="div-td-value"><input id="addressee" class="k-textbox" style="width:415px;"/></div>
+                    <div><span style="color: red;font-size: 12px;margin-left: 55px;">多个收件人请用" ; "隔开!</span></div>
+                </div>
+                <div class="div-tr" style="margin-left: 5px;">
+                    <div class="div-td-name" style="width:55px;"><span data-fsn-text="Theme"></span></div>
+                    <div class="div-td-value"><textarea id="theme" style="width:415px;height:57px;"></textarea></div>
+                </div>
+                <div class="div-tr" style="margin-left: 5px;">
+                    <div class="div-td-name" style="width:55px;"><span data-fsn-text="Annex"></span></div>
+                    <div class="div-td-value">
+                        <div id="annex-div" style="width: 419px;height: 108px;overflow-y:auto;border: 1px solid #EDB048;text-align: left;"></div>
+                    </div>
+                </div>
+                <div class="div-tr" style="margin-left: 5px;">
+                    <div class="div-td-name" style="width:55px;"><span data-fsn-text="Main Text"></span></div>
+                    <div class="div-td-value">
+                        <textarea id="maintext" style="width: 417px;height: 205px;border:1px solid #A9A9A9;resize:none;"
+                                  placeholder="  感谢您选择我公司！我公司将竭诚为您服务！希望与贵公司合作愉快，实现双赢！"></textarea>
+                    </div>
+                </div>
+                <div style="width: 400px;text-align: center;">
+                    <button class="k-button" style="margin-left: 70px;margin-top: 15px;" onclick="return home.sendMail_fun()">
+                        <span class="k-icon k-update"></span><label data-fsn-text="Send EMail"></label>
+                    </button>
+                    <button class="k-button" style="margin-left: 100px;margin-top: 15px;" onclick="return home.close_sendMailWin()">
+                        <span class="k-icon k-update"></span><label data-fsn-text="Close"></label>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 下载资源弹窗 -->
+        <div id="DOWN_MATERIALS_WIN">
+            <div style="text-align: center;margin-top: 15px;margin-left: 10px;">
+                <div class="div-tr">
+                    <div style="width:auto;"><span data-fsn-text="请勾选要下载的电子资料"></span></div>
+                    <div id="contract_div" class="div-td-value" style="width: 330px;height: 150px;overflow-y:auto;border: 1px solid #EDB048;text-align: left;">
+
+                    </div>
+                    <div class="redtext">
+                        <span>
+                            <label>注意:下载后的信息需要全部打包为一个压缩包.</label>
+                        </span><br/>
+                    </div>
+                    <div style="margin-top: 15px;width: 300px;">
+                        <button class="k-button" onclick="return home.down_btn()">
+                            <span class="k-icon k-update"></span><label data-fsn-text="Download"></label>
+                        </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="k-button" onclick="return home.down_close()">
+                            <span class="k-icon k-update"></span><label data-fsn-text="Close"></label>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<!-- 页面提示窗口 -->
+<div id="messageWindow">
+	<div style="margin:0 auto;width:170px"><label id="messageLabel"></label></div>
+</div>
+
+<!-- 页面提示信息框 -->
+<span id="RETURN_MES" style="display:none;"></span>
+<script id="errorTemplate" type="text/x-kendo-template">
+    <div class="wrong-pass">
+        <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+        <br/>
+        <img src="../../resource/img/error-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+    </div>
+</script>
+<script id="successTemplate" type="text/x-kendo-template">
+    <div class="upload-success">
+        <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+        <br/>
+        <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+    </div>
+</script>
+<script type="text/javascript">
+	var isChrome = navigator.userAgent.indexOf("Chrome") > -1 ? true : false;
+	if(isChrome){
+		$(".js-album-list-ul").removeClass("marg-f-44");
+	}
+</script>
+</body>
+</html>

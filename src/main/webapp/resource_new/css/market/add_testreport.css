@@ -1,0 +1,148 @@
+  table{
+	line-height:40px;
+	letter-spacing:2px;
+  }
+
+  .k-upload-button {
+    direction: ltr;
+    overflow: hidden !important;
+    position: relative;
+    width: 130px;
+  }
+  textarea{
+    resize:none;
+  }
+  #bui_div{
+  	margin-bottom:10px;
+  }
+  #bui_div span.k-autocomplete,#testee_info span.k-autocomplete{
+   height:35px;
+  }
+  span.k-dropdown-wrap,span.k-picker-wrap{
+   height:30px;
+  }
+  #tri_proDate,#tri_testDate,#tri_testType,#tri_conclusion,
+  #foodinfo_category,span.k-dropdown-wrap .k-input{
+     height:100%;
+  }
+  .easy_header{
+    font-size: 15px;
+    font-weight: bold;
+    color:white;
+    height:30px;
+    width:100%;
+    padding-left:20px;
+    background:#80de40;
+  } 
+  #proExpirYear,#proExpirMonth,#proExpirDay{
+	width:60px;
+  }
+  .repDate span.k-picker-wrap,.proCat span.k-dropdown-wrap{
+  	margin-top:-5px;
+  }
+  
+  #speCharWindow{
+  	text-align: center;
+  }
+  
+  #speCharWindow table{
+  	text-align:center;
+  	width:100%;
+  }
+  
+  #speCharWindow td{
+  	border: 1px solid #E5E5E5;
+  }
+  
+  #speCharWindow a{
+  	font-size: 2.0em;
+  	display: table;
+  	width:100%;
+  	height:100%;
+  }
+  
+  #speCharWindow a:hover{
+  	background-color: #81DE41;
+  	color:#FFFFFF;
+  }
+  
+  .editQsStyle,.editProStyle{
+    /* color:#c5c5c5; */
+    color:#ff0000;
+    display: none;
+  }
+  .hideStyle{
+  	display: none;
+  }
+  .showStyle{
+  	display: none;
+  }
+  
+  ._previewFieldset legend span{
+  	font-size: 1.2em;
+  	font-weight: bolder;
+  	letter-spacing: 5px;
+  }
+  .hideBusName{
+  	height:35px;
+  	margin-bottom: 10px;
+  }
+
+  .hide{
+  	display:none;
+  }
+  
+   .pic_content{
+  	border:solid 1px black;
+  	float:left;
+  }
+  
+  .picDiv{
+  	float:left;
+  	height:200px;
+  	margin:15px 10px;
+  	border:solid 1px;
+  }
+  
+  .picDiv a:HOVER{
+  	cursor:move;
+  }
+  .picDiv img{
+  	height:180px;
+  	cursor:move;
+  }
+  
+  .pdfPage{
+   	text-align: center;
+   	font-size: 12px;
+  }
+  .content{width:100%;min-height:280px;}
+  .content .left{float:left;border:1px solid #0066CC;margin:3px;}
+  .mo{height:auto;border:1px solid #CCC;margin:5px 3px;background:#FFF;float:left;}
+  .mo img{width:180px;height:200px;padding:5px;cursor:move}
+  .dragging {
+    FILTER: progid:DXImageTransform.Microsoft.Alpha(opacity=60); opacity: 0.6; moz-opacity: 0.6
+  }
+  
+a.ico_close_circle:hover {
+background-position: -32px 0;
+}
+
+a.ico_close_circle {
+position: relative;
+top: -208px;
+right: -170px;
+display: block;
+width: 20px;
+height: 20px;
+overflow: hidden;
+z-index: 55;
+padding: 0;
+background: url("../../../resource/img/close_icon.png") no-repeat scroll 0 0;
+text-indent: -9999px;
+cursor: pointer;
+}
+
+.k-datepicker .k-widget.k-tooltip-validation {
+    margin-left: 30px;
+}

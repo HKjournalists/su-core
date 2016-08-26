@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<title>食品安全与营养网</title>
+	<link href="resource/kendoui/styles/kendo.common.min.css" rel="stylesheet">
+	<link href="resource/kendoui/styles/kendo.rtl.min.css" rel="stylesheet">
+	<link href="resource/kendoui/styles/kendo.default.min.css" rel="stylesheet">
+	
+	<link href="resource/css/portal/topnav.css" rel="stylesheet">
+	<link href="resource/css/portal/searchbar.css" rel="stylesheet">
+	<link href="resource/css/portal/logo.css" rel="stylesheet">
+	<link href="resource/css/portal/qr.css" rel="stylesheet">
+	<link href="resource/css/portal/index.css" rel="stylesheet">
+	<link href="resource/css/portal/lou.css" rel="stylesheet" type="text/css">
+	<link href="resource/css/portal/footer.css" rel="stylesheet">
+	
+	<script src="resource/js/portal/jquery-1.10.2.min.js"></script>
+	<script src="resource/js/jquery.cookie.js"></script>
+	<script src="resource/js/portal/common.js"></script>
+	<script src="resource/js/portal/jquery.qrcode.min.js"></script>
+	<script src="resource/kendoui/js/kendo.web.min.js"></script>
+	<script src="resource/js/portal/superslide.2.1.js"></script>
+	<script src="resource/js/portal/load.js"></script>
+	<style type="text/css">
+		.tab_box ul{border-style: none;}
+		.bd ul{border-style: none;}
+		.box-cert{border-style: none;}
+		#lou{border-style: none;}
+	</style>
+</head>
+<body>
+	<!-- 顶部导航 -->
+	<div id="top-nav"><script>$("#top-nav").load("views/portal/common/top-nav.html");</script></div>
+	<!-- 搜索框+网站二维码 -->
+	<div id="main-head"><script>$("#main-head").load("views/portal/common/search-bar.html");</script></div>
+	<div id="main">
+		<!-- 第一部分主体内容 -->
+		<div>
+			<!-- 左侧导航菜单 -->
+			<div id="left-menu"><script>$("#left-menu").load("views/portal/common/left-nav.html");</script></div>
+			<!-- 中间推荐滚动 -->
+			<div id="center">
+				<div id="slideBox1" class="slideBox slideBox1">
+					<div class="bd">
+						<ul id="firstRecommend">
+						</ul>
+					</div>
+					<div class="hd">
+					  <ul>
+					  </ul>
+					</div>
+					<!-- 下面是前/后按钮代码 -->
+					<div class="pnBtn prev"><a class="arrow" href="javascript:void(0)"></a> </div>
+					<div class="pnBtn next"><a class="arrow" href="javascript:void(0)"></a> </div>
+				</div>
+				<div id="slideBox2" class="slideBox slideBox2">
+					<div class="bd">
+						<ul id="secondRecommend">
+						</ul>
+					</div>
+					<div class="hd">
+					  <ul>
+					  </ul>
+					</div>
+					<!-- 下面是前/后按钮代码 -->
+					<div class="pnBtn prev"><a class="arrow" href="javascript:void(0)"></a> </div>
+					<div class="pnBtn next"><a class="arrow" href="javascript:void(0)"></a> </div>
+				</div>
+			</div>
+			<script type="text/x-kendo-tmpl" id="productRecommend">
+				<li><a target="_blank" href=#:reUrl#><img src=#:rePic# /></a></li>
+			</script>
+			<!-- 右侧新闻推荐菜单 -->
+			<div id="right-news">
+				<div class="law-news">
+					<div class="title"><span></span><!-- a target="_blank" href="#"></a --></div>
+					<div class="news-list"><ul>
+<!-- 						<ul><li><span class="red-label"></span><a title="我公司受贵州省工商行政管理局委托,对《贵州省流通环节食品安全监管信息化平台建设项目》进行国内竞争性谈判采购,于2011年6月2日发布了竞争性谈判采购公告。在2011..." target="_blank" href="http://www.baidu.com/link?url=qSuxZFtgF9QE7vlkCtgPJ2XW3fbaoUDQE3YseoyigxBqrPcqTfKA7Zi1AEQM8CBM_m59wFo5BsEBZF8WGp68Nx5eXyVvYCfNIjbfn7cTLWe">贵州省流通环节食品安全监管信息化平台建设项目成交公告</a></li><li><span class="red-label"></span><a title="2012年7月26日&nbsp;-&nbsp;今天召开的贵州省十一届人大常委会第二十九次会议上了解到,本次会议提请审议的《贵州省食品安全条例(草案)》明确规定了对食品生产者现场制售食品的监管..." target="_blank" href="http://www.baidu.com/link?url=YnZtatQfgmegXsLbMosT_XblIecVUzcKV0KoNzr1nT2CTwybTmN53OrEwQI7UYZaEMcn4wqaw1Zpbpr-YHurLxXfzxwYWo4cG0HTVK2jmT3">贵州食品安全条例明确监管责任 -- 北大法律信息网 -- 中国最早、...</a></li><li><span class="red-label"></span><a title="动态系统提升监管效能贵州省质监系统食品安全动态监管示范推广成效明显本报讯(罗丽娟记者欧阳维民)日前,从贵州省质监局获悉,2011年,贵阳市云岩区作为食品安全动态监管..." target="_blank" href="http://www.baidu.com/link?url=SHg0uazn1XwlsFjnNim13RxoSm3vtWQIxOLcorvYebedgNuBwMlY2Ajp3kUk-dwasMDhL4hdSKod0sdDLfJngq">贵州省质监系统食品安全动态监管示范推广成效明显_中国质量新闻网</a></li><li><span class="red-label"></span><a title="第二条 本制度所称流通环节食品安全日常监督管理信息,是指县级以上工商行政管理机关在履行流通环节食品安全监督管理职责过程中制作或获知的,以一定形式记录、保存的..." target="_blank" href="http://www.baidu.com/link?url=Ja1Vb5nnQmLLR_iPmKUsdDAeMPLpGcPZEHvhdPfkmahIWoMN-rj2ECKB6Hi21dQ25o-5JZYOx9QP14ZOhoswTK">贵州省流通环节食品安全日常监督管理信息公布制度(试行)</a></li><li><span class="red-label"></span><a title="贵州省食品药品监管局 基本信息 法定职责 领导介绍 内设机构 下属单位 行政职权...餐饮服务食品安全、保健食品、化妆品、药品和医疗器械监督管理的法律、法规和规章..." target="_blank" href="http://www.baidu.com/link?url=I_tcNmxrolSi-227P6amA-cH1gXmioYdrg69dBHQxDWhO6FEGfbBEMF_H75_K2hqSr2XuB6cUQuEd_SJO0RUFx2wsurhF89PgXEfn8DxGFW">贵州省人民政府网</a></li><li><span class="red-label"></span><a title="2012年4月9日&nbsp;-&nbsp;日前,从贵州省质监局获悉,2011年,贵阳市云岩区作为食品安全动态监管系统...许可信息、监督管理、食品案件等逐一录入和清理核查,细分了生产企业食品生产..." target="_blank" href="http://www.baidu.com/link?url=VHrnlKzN4WKKPopW0DUNQs6vCvcAjVuvG5rYv-3kQ5lk3E1WwYBTzbJic16aD2dNyb1JKEocai4_4wLFxbYGMq">广东省食品安全网-贵州质监食品安全动态监管示范推广成效明显</a></li><li><span class="red-label"></span><a title="2012年11月29日&nbsp;-&nbsp; 第六条 卫生行政部门承担食品安全风险监测、食品安全地方标准制定、食品安全信息公布、组织查处食品安全重大事故和餐饮具集中消毒等监督管理职责。 质量..." target="_blank" href="http://www.baidu.com/link?url=eUcStlNraAEDrNMYJE4bhfrCwqwCTrR4AvI-NBEDF_XL9RR191PkHLrFoNeAx6Zpth-8wrOQy4KRMvAK49K-IrYl_SzKEuqVcGtmk0xOpg_">贵州省食品安全条例</a></li><li><span class="red-label"></span><a title="[图文] 本系统充分借鉴国家质检总局和各省市食品生产安全监管软件的成功经验,适应食品安全法实施后食品生产安全监管的新形势,运用现代化科技手段和信息技术,遵循国家金质工程..." target="_blank" href="http://www.baidu.com/link?url=Cv5ZL5plYa73eSy_vklT14AQCkwN_xpWOZ_2BQWkCJT5z_anD2kz_fGM1ED75Fp3wpWQMyP9n5zOWCAx_GWvlVN9RUB8QXI_RhhoiErXPFrX9u6yL-pkr74H_3UTmZdm">贵州省食品生产安全动态监管系统(质监局)_成都川大科鸿新技术研究...</a></li><li><span class="red-label"></span><a title="贵州省食药监督管理局主要职责 政府信息公开工作年报 医疗器械广告审批程序 食品安全事故处理程序 贵州省食品药品监督管理系统受理行政许可申请和送达行政许可决定程序..." target="_blank" href="http://www.baidu.com/link?url=_biLMAXT-DRIB0W4diOpPqfLsWKUTAgIHq8Xz_swSjVsmw_pGLa3x5tb6jMEqloo">贵州省食品药品监督管理局-=&gt;首页</a></li><li><span class="red-label"></span><a title="基本信息:所属行业:电脑网络计算机 所属地区:贵州 项目名称:贵州省市场主体诚信信息交换发布系统及食品安全监管信息化平台建设项目 中标单位:查看详细内容请注册 ..." target="_blank" href="http://www.baidu.com/link?url=q6r6teF2ArJvRrI2640zVtGuCfbYepdiBsec1k2uruyVUx09TBKww4eytGQiHGsUwTKLPkkC_ChFDDh_PoxsmxBUVeqEi5-imGBkaOHtzQ3">贵州省市场主体诚信信息交换发布系统及食品安全监管信息化平台...</a></li><li><span class="red-label"></span><a title="2013年9月4日&nbsp;-&nbsp; 为保障2013年中秋节和国庆节日期间食品安全,严防发生重大食品安全事故,国务院食品安全委员会办公室下发《关于加强2013年中秋、国庆节日期间食品安全监管..." target="_blank" href="http://www.baidu.com/link?url=yTdWTUGrXjqsYDweW_wPJAcXZI0heElsZEIo3SNalLmS358Z0I-wpDWCIry_OdjH78nvEkbM-mBrPxSxXcks5I0Gz0As74koGGJJCGCgPGG-V-7C3Xz9_HyDK5Qe_GvHA3rXmOlLNnIt8VBCNYTMnNaXyqnGFI3P1MUis5L7OO3">国务院食品安全办部署强化中秋国庆期间食品安全监管工作--贵州...</a></li><li><span class="red-label"></span><a title="餐饮服务单位食品安全监管信用信息管理办法 [03-26] 餐饮服务食品安全操作规范 [03-26] 贵州省食品安全条例 [03-15] 关于印发保健食品命名规定和命名指南的通知..." target="_blank" href="http://www.baidu.com/link?url=eEw2w7zLBj_dX5Vj0FRympS9TItT6LG7bPtQj9gEXwlk-ZIj0rZQJmIeoFgiA4Vy">餐饮服务.保健食品.化妆品 政务网</a></li><li><span class="red-label"></span><a title="2012年12月19日&nbsp;-&nbsp;贵州省工商局积极运用科技手段,构建食品安全电子化监管体系和信息化追溯体系,全面提升食品安全监管效能,取得了明显成效。近日,就此采访了贵州省工商局党组..." target="_blank" href="http://www.baidu.com/link?url=R_AhyNJKFN--APGSLuu-Xd4brSkIxZ3UY0ycJBbmvQLi4oIWhYWOcW6QUi37nbANAnlBtvMDY1pyrr2hB4V2WtT5RPkmuf5uazEHBAbJ2jK">提升科技监管效能 保障食品消费安全——访贵州省工商局党组书记、...</a></li></ul> -->
+					</ul></div>
+				</div>
+				<div class="dialect-news">
+					<div class="title"><span></span><!-- a target="_blank" href="#"></a --></div>
+					<div class="news-list"><ul>
+<!-- 					<ul><li><span class="red-label"></span><a title="6、不吃已确认变质或怀疑可能变了质的食品; 7、不吃明知添加了防腐剂或色素而又不能肯定其添加量是否符合食品卫生安全标准的食品。 六 饮用牛奶应注意哪些? 1..." target="_blank" href="http://www.baidu.com/link?url=p3J6kPNmL0mYUlD3CoKuprnlxscnKIPrXkldtaP3p9w4rskFBdlLHTWWRgpu_vm5Bm33oVOHotuDUUdSVsK2xZc927G0c7TE1tPyqUqoN3y">食品安全小知识</a></li><li><span class="red-label"></span><a title="上一篇:食品安全小知识-果蔬篇 关键词: 水产 知识 食品安全 新鲜 水中毒 食用 鱼类 含有 [ 网刊订阅 ] [ 食品安全搜索 ] [ ] [ 告诉好友 ] [ 打印本..." target="_blank" href="http://www.baidu.com/link?url=9vrlN-4rEnj3k4v-EA7FlC-_bEsMXTdmWBNCcLx8Y6QRgLKnp5eTFlG1jI-UxEv5xpNwNupSvzOXhtMjsziUGq">食品安全小知识-水产篇_食品安全常识_食品安全_食品伙伴网</a></li><li><span class="red-label"></span><a title="2012年8月24日&nbsp;-&nbsp;食品安全小知识- 购买食品的九大注意事项 食品安全是关乎每个人身体健康和生命安全的大事。除了政府出台法律、加强监管外,消费者自身也应加强自我保护意识..." target="_blank" href="http://www.baidu.com/link?url=VoVYbBdl3QZsoK-Io5BoZFg0Cd9pfzDzuGjYskmqDzeS1u2GZ21gMUP1O18CqqWWoE02CLUfzma-4g-DhzkEZfh9Tt8peSY8RMe_mX8mts_">食品安全小知识</a></li><li><span class="red-label"></span><a title="食物安全小知识 我要办一份食物安全手抄报,要关于食品安全的短文 或者系系日常专家提醒:空腹进食有三忌 坐飞机首选喝矿泉水 孕妇 震灾后应注意饮食安全 切勿饮用..." target="_blank" href="http://www.baidu.com/link?url=P6V7FtgR5fQklY--fyqo-UmKbhYBelU3zJv35DAY1uIU707EJjFYBaaYZvHrw49oXuy-CuRyMKDV7TpE0UR53q">饮食安全小知识</a></li><li><span class="red-label"></span><a title="食品卫生安全小知识 (发稿时间:2012-7-4 12:05:45 信息来源:本站原创 查看次数:( 6143 )预防食物中毒,首先要讲究个人卫生,做到勤洗澡、勤换衣、勤剪指甲、..." target="_blank" href="http://www.baidu.com/link?url=6_Vy1JAbEF6wxcKPwQDStH4HE_XvqaQi7NHWr1FA8dZEgeQilL4KwYGqHiqzOwDDPv6GHjiL2Lch5pF7tmIrYVQskJyd8gdEzbn1EOKv1qa">食品卫生安全小知识</a></li><li><span class="red-label"></span><a title="·国家食品安全风险评估中心:反式脂肪酸危害被夸大 [2013/03/19 08:51] ·英卫生部发布控盐计划 食盐摄入量应在6克以内 [2013/03/14 09:16] ·农业部副..." target="_blank" href="http://www.baidu.com/link?url=lYPQLuYBU7OQFetfKkn1Byq6NHk3fhy7yP075OFau4cUKY_zRCPx1FXy19Uva-jS">食品安全小常识_中国经济网</a></li><li><span class="red-label"></span><a title="2011年8月29日&nbsp;-&nbsp;食品安全小知识http://www.tech-food.com 2011-8-29 10:29:13 中国食品科技网一、有虫眼的果品不要吃 专家提醒:有虫眼的干鲜果品最好不要吃。..." target="_blank" href="http://www.baidu.com/link?url=wHfZEdZ98BnqdleShyMl2l3RvsV97v9lAjMFIQMFKC0f5InEyqL42QSKxirAqitpjwK__1_ptNXD0qUvLKYKp_">食品安全小知识</a></li><li><span class="red-label"></span><a title="上海市南汇区食品安全联席会议办公室2、以镇为单位,对食品“四小行业”业主或负责人开展食品安全知识培训。 3、..“光明杯”上海市中小学生食品安全知识问答题“..." target="_blank" href="http://www.baidu.com/link?url=tFtV3wOXnIVlzL1lmJveGbU8rpnAw_kcP5BxUYpBKtG26n4MokHzFY0yJ1bjp6D1AkuqBvcH4fXtoJDbQ6OyHa">食品安全小知识</a></li><li><span class="red-label"></span><a title="[图文]春季食品安全小知识 作者:乐龄编辑 转载 发表时间: 注意食品卫生,慎防细菌性食物中毒 近日,气温逐渐升高,个别地区出现因加工贮存食品不当而引起的细菌性食物中毒事故..." target="_blank" href="http://www.baidu.com/link?url=1MDKgx1pYSKJ43R-IoZt5PM3S85TtXUEhtqlDai-hA6Lnae7iOlgbBOa8B6tZFMMfrKe7nmYkIe5mDoARL5NjK">春季食品安全小知识_健康_乐龄网</a></li><li><span class="red-label"></span><a title="2011年12月27日&nbsp;-&nbsp;作文网关于食品安全小知识的作文,与食品安全小知识有关的话题作文,食品安全小知识被搜索144次。初中小学生作文网" target="_blank" href="http://www.baidu.com/link?url=EAPKG4kFe9Vmy0Qex6HC1aPbLqnAa7u9uylellXdTC8BO4E-rI-Cxhcu6Ns4h5Qj">食品安全小知识 - 作文网</a></li><li><span class="red-label"></span><a title="2012年11月30日&nbsp;-&nbsp;食品安全小知识 2012-11-30 16:38:06 来源: 石首市实验幼儿园 303次阅读 免费注册 一、为儿童购买食品应注意以下六点: 1.到正规商店里购买,..." target="_blank" href="http://www.baidu.com/link?url=hJ6VlVVy7pT5sm8sT4IL5uC51p9n4gpXOnQpqM36WiM5y-C6QPAN993hH9pRaGTc3BYnEOQK6bkN0VGFMIs9ca">食品安全小知识 _幼儿园新闻_无忧幼儿园网</a></li><li><span class="red-label"></span><a title="因此,按照食品法规要求的使用量和使用范围添加防腐剂,安全性是有保证的,不会影响人体健康。上一篇:没有了下一篇:食品安全小知识-肉品篇 ..." target="_blank" href="http://www.baidu.com/link?url=BJEt8xe5yGSCaVloHCLF5_SPggbfUY4zeDTE4wCbLVxbK_qjQE8bs8PB6ZUVo16x3RQdzLa5NXEx7ZuiM_3LG_">食品安全小知识-粮油篇</a></li><li><span class="red-label"></span><a title="食品安全小知识——所有资料文档均为本人悉心收集,全部是文档中的精品,绝对值得下载收藏!" target="_blank" href="http://www.baidu.com/link?url=l0lNN6GZ-NP4iRj1tC6HUAai4a8IVbY6d_bB_md6Kpb0rEUlgH3jujoDJLVFZRs4">食品安全小知识 - 豆丁网</a></li></ul> -->
+					</ul></div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 第二部分主体内容：楼 -->
+		<div class="lou" id="lou">
+			<script type="text/x-kendo-tmpl" id="columnTemplate">
+				 <div id="#:colId#" class="lanmu">
+					<div class="lanmu-main">
+						<div class="lmimg"></div>
+						<div class="main-word #:colTag#">
+							<div class="lou-topic"><div><p>#:colName#</p></div></div>
+							<div class="main-word-top">
+								<div class="lou-ad">
+		           	              <div class="lou-ad-img">
+		             	               <img src=#:colPic# style="max-width: 187px;max-height:211px; padding: 5px 10px;"/>
+		              	          </div>
+		                    	</div>
+							</div>
+						</div>
+						<div class="floor-box">
+							<div class="tab_box">
+								<div>
+									<ul id=#:floorId#>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</script>
+			<!-- 每一楼的底部横向广告位 -->
+			<div class="ggzw" style="display:none">
+				<!--广告占位-->
+        		<!--品牌列表-->
+        		<div class="floor floor-brand">
+        			<!-- 广告位：1F-底部 -->
+        			<ul class="brand-list" style="background: #fff;">
+        				<li>
+        					<div align="center">
+        						<a href="#"  target="_blank">
+        							<img title="" alt="" src="" width="134px" height="36px"/>
+        						</a>
+        					</div>
+        				</li>
+        				<li>
+        					<div align="center">
+        						<a href="#"  target="_blank">
+        							<img title="" alt="" src="" width="134px" height="36px"/>
+        						</a>
+        					</div>
+        				</li>
+        				<li>
+        					<div align="center">
+        						<a href="#"  target="_blank">
+        							<img title="" alt="" src="" width="134px" height="36px"/>
+        						</a>
+        					</div>
+        				</li>
+        				<li>
+        					<div align="center">
+        						<a href="#"  target="_blank">
+        							<img title="" alt="" src="" width="134px" height="36px"/>
+        						</a>
+        					</div>
+        				</li>
+        				<li>
+        					<div align="center">
+        						<a href="#"  target="_blank">
+        							<img title="" alt="" src="" width="134px" height="36px"/>
+        						</a>
+        					</div>
+        				</li>
+        				<li>
+        					<div align="center">
+        						<a href="#"  target="_blank">
+        							<img title="" alt="" src="" width="134px" height="36px"/>
+        						</a>
+        					</div>
+        				</li>
+        				<li>
+        					<div align="center">
+        						<a href="#"  target="_blank">
+        							<img title="" alt="" src="" width="134px" height="36px"/>
+        						</a>
+        					</div>
+        				</li>
+        				<li>
+        					<div align="center">
+        						<a href="#"  target="_blank">
+        							<img title="" alt="" src="" width="134px" height="36px"/>
+        						</a>
+        					</div>
+        				</li>
+        			</ul>
+        		</div>
+			</div>
+		</div>
+		<!-- 
+		<script type="text/x-kendo-tmpl" id="floorRowTemplate">
+			<li>
+        		<div align="center">
+        			<a href=#:adUrl#  target="_blank">
+        				<img src=#:adPic# width="134px" height="36px"/>
+        			</a>
+        		</div>
+        	</li>				
+		</script>
+		-->
+	</div>
+				<script type="text/x-kendo-tmpl" id="floorTemplate">
+				<li class=#:liClass#>
+					<div class="box-pic">
+						<a href=#:prodUrl# target="_blank">
+							<img src=#:prodPic# style="zoom: 1; display: block;" />
+						</a>
+						<span class="box-col" title="点击收藏该产品">收藏</span>
+					</div>
+					<P><a href=#:prodUrl# target="_blank" class="qianfu">#:prodName#</a></P>
+					<div title="#:cstm#" class="box-suit">适用人群：#:cstm#</div>
+		            <span class="box-cert">
+		            </span>
+		            <div class="box-eva">
+		               <span class="eva-icon #:face#"></span>
+		            </div>
+				</li>
+			</script>
+			<script type="text/x-kendo-tmpl" id="certTemplate">
+				 <img src=#:certUrl# title=#:certName#>
+			</script>	   
+	<!-- 页脚 -->
+	<div id="footer"><script>$("#footer").load("views/portal/common/footer-info.html");</script></div>
+	<script src="resource/js/portal/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+UPDATE product SET category = SUBSTRING(category,1,4) WHERE LENGTH(category) = 6
