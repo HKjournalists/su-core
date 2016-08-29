@@ -114,9 +114,7 @@ $(function(){
 			data.mapProductAddrList[i].lat=markerList[i].getPosition().lat;
 			data.mapProductAddrList[i].lng=markerList[i].getPosition().lng;
 			data.mapProductAddrList[i].describe=markerList[i].getLabel().content;
-			console.log(markerList[i].getPosition());
 		}
-		return false;
 		data.lat=map.getCenter().lat;
 		data.lng=map.getCenter().lng;
 		var type="POST";
