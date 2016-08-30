@@ -49,7 +49,7 @@ $(function(){
 			var marker = new BMap.Marker(point);// 创建标注
 			map.addOverlay(marker);             // 将标注添加到地图中
 			marker.enableDragging();//可拖拽
-			marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+			//marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
 			marker.addContextMenu(markerMenu);
 			var label = new BMap.Label(label,{offset:new BMap.Size(20,-10)});
 			marker.setLabel(label);
