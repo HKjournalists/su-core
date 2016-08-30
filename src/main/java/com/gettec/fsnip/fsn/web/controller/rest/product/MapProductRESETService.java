@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +39,7 @@ public class MapProductRESETService {
 		try {
 			PagingSimpleModelVO<MapProduct> data=mapProductService.getPaging(page, pageSize, null, org);
 			model.addAttribute("data",data);
+			
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -133,6 +135,38 @@ public class MapProductRESETService {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			model.addAttribute("status",false);
+		}
+		return JSON;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET,value = "/getAllMapProducts")
+	public View getAllMapProducts(Model model){
+		List<MapProduct> data = mapProductAddrService.getAllMapProducts();
+		model.addAttribute("data",data);
+		return JSON;
+	}
+	
+	@RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT}, value = "copyAddress/{mapProductId}")
+	public View copyAddress(@PathVariable(value = "mapProductId") long mapProductId,@RequestBody MapProduct mapProduct,Model model){
+		long org=Long.valueOf(AccessUtils.getUserRealOrg().toString());
+		try {
+			if(mapProduct.getId()==null){
+				MapProduct oldMapProduct = mapProductService.findById(mapProductId);
+				mapProduct.setLat(oldMapProduct.getLat());
+				mapProduct.setLng(oldMapProduct.getLng());
+				mapProduct.setOrganization(org);
+				List<MapProductAddr> mapProductAddrList = mapProduct.getMapProductAddrList();
+				for(MapProductAddr addr : mapProductAddrList){
+					addr.setLat(oldMapProduct.getLat());
+					addr.setLng(oldMapProduct.getLng());
+					addr.setMapProduct(mapProduct);
+				}
+				mapProductService.create(mapProduct);
+				model.addAttribute("status",1);
+			}
+		} catch (ServiceException e) {
+			model.addAttribute("status",2);
+			e.printStackTrace();
 		}
 		return JSON;
 	}
