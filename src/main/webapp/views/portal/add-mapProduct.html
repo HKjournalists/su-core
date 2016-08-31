@@ -51,7 +51,31 @@
 					<input style="width:250px;" placeholder="请选择产品" id="barcodeId" class="k-textbox" data-required-msg='不能为空' required='required'>
 					<input type="text" placeholder="输入覆盖物文字标注" class="k-textbox" id="label" style="width:200px;height:30px;line-height:25px;" />
 					<input type="button" id="add-location" class="k-button k-button-icontext k-grid-add" value="添加覆盖物" />
-					<input type="button" id="save" class="k-button k-button-icontext k-grid-add" value="保存" />
+					<button id="have-address" class="k-button k-button-icontext k-grid-add" >导入已有产品抽样地点</button>
+					<!-- 导入开始 -->
+					
+					<div id="CONFIRM_COMMON_WIN" style="display: none;" align="center">
+						<div id="listView">
+							<div id="">
+								<input style="width:250px;" placeholder="请选择已有抽样地点的产品" id="productName" class="k-textbox" data-required-msg='不能为空' required='required'>
+							</div>
+							<br>
+							<br>
+							<div style="text-align: center;">
+								<button id="confirm_yes_btn" class="k-button">
+									<span class="k-icon k-update"></span>
+									<label data-lims-text="OK">确定</label>
+								</button>
+								<button id="confirm_no_btn" class="k-button">
+									<span class="k-icon k-cancel"></span>
+									<label data-lims-text="Cancel"> 取消</label>
+								</button>
+					        </div>
+						</div>
+					</div>
+					
+					<!-- 导入结束 -->
+					<input type="button" id="save" onclick="return save();" class="k-button k-button-icontext k-grid-add" value="保存" />
 				</div>
 				<div id="allmap"></div>
 			</div>
