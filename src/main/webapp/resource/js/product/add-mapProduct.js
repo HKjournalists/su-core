@@ -49,7 +49,7 @@ $(function(){
 			var marker = new BMap.Marker(point);// 创建标注
 			map.addOverlay(marker);             // 将标注添加到地图中
 			marker.enableDragging();//可拖拽
-//			marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+			//marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
 			marker.addContextMenu(markerMenu);
 			var label = new BMap.Label(label,{offset:new BMap.Size(20,-10)});
 			marker.setLabel(label);
@@ -175,9 +175,7 @@ $(function(){
 			data.mapProductAddrList[i].lat=markerList[i].getPosition().lat;
 			data.mapProductAddrList[i].lng=markerList[i].getPosition().lng;
 			data.mapProductAddrList[i].describe=markerList[i].getLabel().content;
-			console.log(markerList[i].getPosition());
 		}
-		return false;
 		data.lat=map.getCenter().lat;
 		data.lng=map.getCenter().lng;
 		var type="POST";
@@ -246,10 +244,8 @@ $(function(){
 			success:function(rs){
 				if(rs.status==1){
 					location.href="map-product.html";
-				}else if(rs.status==2){
+				}else {
 					lims.initNotificationMes('该产品已录入抽检地址，不可重录', false);
-				}else{
-					lims.initNotificationMes('保存失败,请联系管理员', false);
 				}
 			}
 		});
@@ -265,6 +261,52 @@ $(function(){
         minLength: 0,
         index:0,
     });
+	
+//	$("#save").click(function(){
+//		
+//		var data={};
+//		data.productId=$("#barcodeId").data("kendoComboBox").value();
+//		data.productName=$("#barcodeId").data("kendoComboBox").text();
+//		if(data.productId==""){
+//			lims.initNotificationMes('必须选择所属产品！', false);
+//			return false;
+//		}
+//		if(markerList.length==0){
+//			lims.initNotificationMes('必须添加覆盖物在地图上！', false);
+//			return false;
+//		}
+//		data.mapProductAddrList=[];
+//		for(var i in markerList){
+//			data.mapProductAddrList[i]={};
+//			data.mapProductAddrList[i].lat=markerList[i].getPosition().lat;
+//			data.mapProductAddrList[i].lng=markerList[i].getPosition().lng;
+//			data.mapProductAddrList[i].describe=markerList[i].getLabel().content;
+//		}
+//		data.lat=map.getCenter().lat;
+//		data.lng=map.getCenter().lng;
+//		var type="POST";
+//		if(id){
+//			type="PUT";
+//			data.id=id;
+//		}
+//		$.ajax({
+//			type:type,
+//			url:fsn.HTTP_PREFIX+"/mapProduct/save",
+//			data:JSON.stringify(data),
+//			dataType: "json",
+//			contentType: "application/json; charset=utf-8",
+//			success:function(rs){
+//				if(rs.status==2){
+//					lims.initNotificationMes('该产品已经存在', false);
+//				}else if(rs.status){
+//					location.href="map-product.html";
+//				}else{
+//					lims.initNotificationMes('保存失败,请联系管理员', false);
+//				}
+//			}
+//		});
+//		return false;
+//	});
 	
 	    var id=getQueryString("id");
 	    var param='';
