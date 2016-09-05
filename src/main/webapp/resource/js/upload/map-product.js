@@ -54,9 +54,10 @@ $(function() {
        	        schema: {
        	        	 data : function(returnValue) {
        	        		 return returnValue.data.listOfModel;  //响应到页面的数据
+//       	        		 return returnValue.data.listOfModel;  //响应到页面的数据
        	             },
        	             total : function(returnValue) {
-       	            	 return returnValue.data.counts;   //总条数
+       	            	 return returnValue.data.count;   //总条数
        	             }         
        	        },
        	        batch : true,
