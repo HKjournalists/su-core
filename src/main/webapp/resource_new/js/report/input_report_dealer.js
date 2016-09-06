@@ -6,6 +6,7 @@ $(document).ready(function(){
     portal.HTTP_PREFIX = fsn.getHttpPrefix(); // 业务请求前缀
     portal.codeFlag = true;
     root.isNew = true;
+    portal.type = false;
     
     root.aryProAttachments = new Array();
     root.aryRepAttachments = new Array();
@@ -41,10 +42,32 @@ $(document).ready(function(){
     } catch (e) {
     }
     
+   
+    
+    
     /**
      * 初始化
      */
     root.initialize = function(){
+    	 /**
+         * 获取超市处理问题的条形码
+         */
+    	 try {
+    		var arrayParam = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+//    		alert("========1====="+arrayParam)
+    	    	var dealType = arrayParam[0];
+//    	    	alert(dealType+"=====2========"+$.md5("dealProblem"))
+    	    	if(dealType == $.md5("dealProblem")){
+    	    		var barcode = arrayParam[1]; // 产品条形码(被编码过的产品条形码)
+    	    		var barcodeMD5 = arrayParam[2]; // 产品条形码(被编码过的产品条形码)
+    	    		if(barcodeMD5 == $.md5(barcode)){
+    	    			portal.edit_barcode = barcode;
+    	    		}
+    	    	}
+
+    	} catch (e) {
+//    		alert("=============")
+    	}
     	/* 初始化报告上传控件 */
         $("#upload_rep").html("<input id='upload_report_files' type='file' />");
         root.buildUpload("upload_report_files", root.aryRepAttachments, "repFileMsg", "report");
@@ -59,16 +82,29 @@ $(document).ready(function(){
 		
 		root.removeDisabledToBtn(["openS2P_btn"]);
 		
+		portal.business = getCurrentBusiness();
+		if(portal.business!=undefined && portal.business!=null && portal.business.type.trim().indexOf("流通企业.商超")!=-1){
+			portal.type = true;
+		}
 		// 经销商报告录入界面，Click事件绑定
 		root.bindClick_dealer();
 		$("#backMsg").draggable();
-        /* 可以搜索所有的条形码 */
-        $("#barcodeId").kendoAutoComplete({
-            dataSource: lims.getAutoLoadDsByUrl("/product/getAllBarCode"),
-            filter: "startswith",
-            placeholder: "搜索...",
-            select: root.onSelectBarcode,
-        });
+//		alert("========1========"+portal.edit_barcode)
+		if(portal.type && portal.edit_barcode!=undefined){
+//			alert("=====2===========set条形码")
+			$("#barcodeId").val(portal.edit_barcode);
+			root.judgeProductByBarcode(portal.edit_barcode);
+		}else{
+			/* 可以搜索所有的条形码 */
+			$("#barcodeId").kendoAutoComplete({
+				dataSource: lims.getAutoLoadDsByUrl("/product/getAllBarCode"),
+				filter: "startswith",
+				placeholder: "搜索...",
+				select: root.onSelectBarcode,
+			});
+		}
+       // portal.edit_barcode
+        
         
         root.validateComponent();
         
@@ -519,6 +555,8 @@ $(document).ready(function(){
      */
     root.submit = function(){
 
+    	
+    	
     	/* 数据格式校验 */
     	if(!root.validate_submit()){ 
     		return; 
