@@ -178,6 +178,63 @@ public class ProductRESTService extends BaseRESTService{
 		model.addAttribute("result", resultVO);
 		return JSON;
 	}
+	/**
+	 * 根据Id查找产品信息
+	 * @param id
+	 * @param req
+	 * @param resp
+	 * @param model
+	 * @return
+	 */
+	@SuppressWarnings("unused")
+	@RequestMapping(method = RequestMethod.GET, value = "/barcode/{barcode}")
+	public View getByBarcodeProduct(@PathVariable String barcode,@RequestParam(required=false,defaultValue="FSN",value="identify") String identify, HttpServletRequest req, HttpServletResponse resp, Model model) {
+		ResultVO resultVO = new ResultVO();
+		try{
+			AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
+			Long currentUserOrganization = Long.parseLong(AccessUtils.getUserRealOrg().toString());
+			Long id = productService.getByBarcodeProduct(barcode);
+			if(id == null){
+				model.addAttribute("data",null);
+				return JSON;
+			}
+			Product product = productService.findByProductId(id,identify);
+			
+			/* 查找qs号  */
+			Long qsid = productTobusinessUnitService.getQsId(id, currentUserOrganization);
+			product.setQs_info(new QsNoAndFormatVo(qsid));
+			
+			/* 查询销往企业 */
+			Long fromBusId = businessUnitService.findIdByOrg(currentUserOrganization);
+			String selectedCustomerIds = fromToBusService.findIdstrs(product.getId(), fromBusId, false);
+			product.setSelectedCustomerIds(selectedCustomerIds);
+			
+			
+			List<ProductRecommendUrl> proUrl_0 = new ArrayList<ProductRecommendUrl>();
+			List<ProductRecommendUrl> proUrl_1 = new ArrayList<ProductRecommendUrl>();
+			for (ProductRecommendUrl vo : product.getProUrlList()) {
+				if("0".equals(vo.getStatus())){
+					proUrl_0.add(vo);
+				}else{
+					proUrl_1.add(vo);
+				}
+			}
+			List<ProductBusinessLicense> productBusinessLicenseList=this.productBusinessLicenseService.getProductBusinessLicenseListByProductId(id);
+			product.setProductBusinessLicenseList(productBusinessLicenseList);
+			
+			model.addAttribute("vo0", proUrl_0);
+			model.addAttribute("vo1", proUrl_1);
+			model.addAttribute("data", product);
+		} catch (ServiceException sex) {
+			resultVO.setErrorMessage(sex.getMessage());
+			resultVO.setStatus(SERVER_STATUS_FAILED);
+		} catch (Exception e) {
+			resultVO.setErrorMessage(e.getMessage());
+			resultVO.setStatus(SERVER_STATUS_FAILED);
+		}
+		model.addAttribute("result", resultVO);
+		return JSON;
+	}
 	
 	/**
 	 * 按barcode查找该产品是否已经存在

@@ -31,9 +31,18 @@ $(document).ready(function() {
 	 */
     try {
     	var arrayParam = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    	var pid = arrayParam[0]; // 产品id（原始id，未被编码）
-    	var orig_pidmd5 = arrayParam[1]; // 产品id(被编码过的产品id)
-    	portal.edit_id = portal.md5validate(pid,orig_pidmd5);
+    	var dealType = arrayParam[0];
+    	if(dealType == $.md5("dealProblem")){
+    		var barcode = arrayParam[1]; // 产品条形码(被编码过的产品条形码)
+    		var barcodeMD5 = arrayParam[2]; // 产品条形码(被编码过的产品条形码)
+    		if(barcodeMD5 == $.md5(barcode)){
+    			portal.edit_barcode = barcode;
+    		}
+    	}else{
+    		var pid = arrayParam[0]; // 产品id（原始id，未被编码）
+    		var orig_pidmd5 = arrayParam[1]; // 产品id(被编码过的产品id)
+    		portal.edit_id = portal.md5validate(pid,orig_pidmd5);
+    	}
     } catch (e) {}
 	
 	/**
@@ -240,14 +249,12 @@ $(document).ready(function() {
 		var busType = portal.currentBusiness.type.trim();
 		if(busType == "流通企业"){
 			portal.current_bussiness_type = "01";
-			
 			$(".div_busNotSC").css("display","inline");
 			$(".div_dealer").css("display","none");
 			$(".div_busSC").css("display","none");
 			portal.initBusNameAndBrandComplete(); // 初始化所属品牌
-		}else if(busType == "流通企业.供应商"||busType.indexOf("餐饮企业")!=-1){
+		}else if(busType == "流通企业.供应商"||busType.indexOf("餐饮企业")!=-1||busType.indexOf("流通企业.商超")!=-1){
 			portal.current_bussiness_type = "0101";
-			
 			$(".div_busNotSC").css("display","inline");
 			$(".div_busSC").css("display","none");
 			portal.initBusNameAndBrandComplete();  // 初始化所属品牌、企业名称控件
@@ -520,7 +527,6 @@ $(document).ready(function() {
 	 */
 	portal.loadDataSource = function() {
 		if(portal.edit_id){
-			portal.isNew = false;
 			$.ajax({
 				url : portal.HTTP_PREFIX + "/product/" + portal.edit_id,
 				type : 'GET',
@@ -529,85 +535,7 @@ $(document).ready(function() {
 				async:false,
 				success : function(returnValue) {
 					if(returnValue.data != null){
-//						var licData = returnValue.licImgList;
-//						var qsData = returnValue.qsImgList;
-//						var disData = returnValue.disImgList;
-//						for ( var i = 0; i < licData.length; i++) {
-//							var licId = licData[i].id;
-//							var qsId = qsData.length>0?qsData[i].id:-1;
-//							var disId = disData.length>0&&disData[i]!=undefined?disData[i].id:-1;
-//							portal.setShowMore(1,licId,qsId,disId,licData[i].businessToId);
-//						}
-//						portal.aryProBusinessImg("licImg",licData);
-//						portal.aryProBusinessImg("qsImg",qsData);
-//						portal.aryProBusinessImg("disImg",disData);
-//						
-						var html=''
-						for(var i in returnValue.data.productBusinessLicenseList){
-							++portal.delDivIndex;
-							var _data={};
-							$.extend(_data,returnValue.data.productBusinessLicenseList[i]);
-							_data.index=portal.delDivIndex;
-							html+=baidu.template("license-html",_data);
-							if(returnValue.data.productBusinessLicenseList[i].licResource){
-								portal.aryProLicImg[i]=returnValue.data.productBusinessLicenseList[i].licResource;
-							}
-							if(returnValue.data.productBusinessLicenseList[i].qsResource){
-								portal.aryProQsImg[i]=returnValue.data.productBusinessLicenseList[i].qsResource;
-							}
-							if(returnValue.data.productBusinessLicenseList[i].disResource){
-								portal.aryProDisImg[i]=returnValue.data.productBusinessLicenseList[i].disResource;
-							}
-						}
-						$("#div_product").html(html);
-						portal.setBusinessName();
-						portal.writeProductInfo(returnValue.data); // product信息show
-						var val=returnValue.data.agricultureProduct?1:0;
-						$("input[name='agricultural'][value='"+val+"']").attr("checked",true);
-						if(val){
-							$("#operative-norm").html("");
-						}
-						portal.isAgricultural(returnValue.data.agricultureProduct);
-						$("#province_id").val(returnValue.data.provinceID);
-						$("#province_id").data("kendoComboBox").value(returnValue.data.provinceID);
-						var provinceID = returnValue.data.provinceID;
-						if(provinceID!=null&&provinceID!=''){
-							$.get(portal.HTTP_PREFIX + "/erp/address/findCityByProId/"+returnValue.data.provinceID,function(rs){
-								$("#city_id").data("kendoComboBox").dataSource.data(rs.cities);
-								$("#city_id").data("kendoComboBox").value(returnValue.data.cityID);
-							},'json');
-						}
-						var cityID = returnValue.data.cityID;
-						if(cityID!=null&&cityID!=''){
-							$.get(portal.HTTP_PREFIX + "/erp/address/findAreaByCityId/"+returnValue.data.cityID,function(rs){
-								$("#area_id").data("kendoComboBox").dataSource.data(rs.areas);
-								$("#area_id").data("kendoComboBox").value(returnValue.data.areaID);
-							},'json');
-						}
-						/* 为营养报告grid上的条件赋值 */
-						portal.initNutriPer(returnValue.data.listOfNutrition);
-						portal.initProductNutri(returnValue.data.listOfNutrition); // 营养报告列表show
-						portal.initialCertGrid(returnValue.data.listOfCertification);
-						portal.setProAttachments(returnValue.data.proAttachments);
-						portal.oldBarcode = returnValue.data.barcode;
-						if(portal.oldBarcode.indexOf("69N")!=-1){
-							$("#barcode").attr("readonly",true);
-						}
-						//生产企业进入时，才执行该功能
-						if(portal.current_bussiness_type=='02'){
-							portal.initProductUrl(returnValue.data.proUrlList); // 推荐url列表--show
-						}
-						/* 当为供应商且是进口产品时设置进口食品信息 */
-						if(portal.current_bussiness_type == "0101"){
-							// 0101 代表 流通企业.供应商
-							$("#netContent").val(returnValue.data.netContent);//设置净含量  只有供应商有净含量
-							var product_type = portal.getProductType();
-							if(product_type==2 && returnValue.data.importedProduct!=null){
-								//设置之前先清空
-								portal.clearImportedProductInfo(); //清空进口食品信息
-								portal.setImportedProductInfo(returnValue.data.importedProduct);//设置进口食品信息
-							}
-						}
+						portal.setProcductDate(returnValue,false); 
 					}
 				}
 			});
@@ -618,6 +546,27 @@ $(document).ready(function() {
 	        $("#save").hide();
 	        $("#update").bind("click", portal.save);
 	        $("#update").css("display", "block");
+		}else if(portal.edit_barcode){
+			$.ajax({
+				url : portal.HTTP_PREFIX + "/product/barcode/" + portal.edit_barcode,
+				type : 'GET',
+				datatype : 'json',
+				data:{identify:portal.identify},
+				async:false,
+				success : function(returnValue) {
+					if(returnValue.data != null){
+						portal.setProcductDate(returnValue,true);
+						/**
+				         * 发布按钮初始化
+				         * @author ZhangHui 2015/5/7
+				         */
+				        $("#save").hide();
+				        $("#update").bind("click", portal.save);
+				        $("#update").css("display", "block");
+					}
+					$("#barcode").val(portal.edit_barcode);
+				}
+			});
 		}else{
 			 $("#btn_clearProFiles").hide();
 	         $("#logListView").hide();
@@ -628,8 +577,93 @@ $(document).ready(function() {
 		if(portal._barcode){
 			$("#barcode").val(portal._barcode);
 		}
+		if(portal.currentBusiness != undefined){
+		    if(portal.currentBusiness.type.trim().indexOf("流通企业.商超")!=-1){
+				//销往客户给默认值
+				portal.setCustomerSelectInfo();
+		    }
+		}
 	};
-	
+	portal.setProcductDate = function(returnValue,flag){
+		portal.isNew = false;
+		var html='';
+			for(var i in returnValue.data.productBusinessLicenseList){
+				++portal.delDivIndex;
+				var _data={};
+				$.extend(_data,returnValue.data.productBusinessLicenseList[i]);
+				_data.index=portal.delDivIndex;
+				html+=baidu.template("license-html",_data);
+				if(returnValue.data.productBusinessLicenseList[i].licResource){
+					portal.aryProLicImg[i]=returnValue.data.productBusinessLicenseList[i].licResource;
+				}
+				if(returnValue.data.productBusinessLicenseList[i].qsResource){
+					portal.aryProQsImg[i]=returnValue.data.productBusinessLicenseList[i].qsResource;
+				}
+				if(returnValue.data.productBusinessLicenseList[i].disResource){
+					portal.aryProDisImg[i]=returnValue.data.productBusinessLicenseList[i].disResource;
+				}
+			}
+			$("#div_product").html(html);
+			portal.setBusinessName();
+			portal.writeProductInfo(returnValue.data); // product信息show
+			var val=returnValue.data.agricultureProduct?1:0;
+			$("input[name='agricultural'][value='"+val+"']").attr("checked",true);
+			if(val){
+				$("#operative-norm").html("");
+			}
+			portal.isAgricultural(returnValue.data.agricultureProduct);
+			$("#province_id").val(returnValue.data.provinceID);
+			$("#province_id").data("kendoComboBox").value(returnValue.data.provinceID);
+			var provinceID = returnValue.data.provinceID;
+			if(provinceID!=null&&provinceID!=''){
+				$.get(portal.HTTP_PREFIX + "/erp/address/findCityByProId/"+returnValue.data.provinceID,function(rs){
+					$("#city_id").data("kendoComboBox").dataSource.data(rs.cities);
+					$("#city_id").data("kendoComboBox").value(returnValue.data.cityID);
+				},'json');
+			}
+			var cityID = returnValue.data.cityID;
+			if(cityID!=null&&cityID!=''){
+				$.get(portal.HTTP_PREFIX + "/erp/address/findAreaByCityId/"+returnValue.data.cityID,function(rs){
+					$("#area_id").data("kendoComboBox").dataSource.data(rs.areas);
+					$("#area_id").data("kendoComboBox").value(returnValue.data.areaID);
+				},'json');
+			}
+			/* 为营养报告grid上的条件赋值 */
+			portal.initNutriPer(returnValue.data.listOfNutrition);
+			portal.initProductNutri(returnValue.data.listOfNutrition); // 营养报告列表show
+			portal.initialCertGrid(returnValue.data.listOfCertification);
+			portal.setProAttachments(returnValue.data.proAttachments);
+			portal.oldBarcode = returnValue.data.barcode;
+			if(portal.oldBarcode.indexOf("69N")!=-1){
+				$("#barcode").attr("readonly",true);
+			}
+			
+			//生产企业进入时，才执行该功能
+			if(portal.current_bussiness_type=='02'){
+				portal.initProductUrl(returnValue.data.proUrlList); // 推荐url列表--show
+			}
+			/* 当为供应商且是进口产品时设置进口食品信息 */
+			if(portal.current_bussiness_type == "0101"){
+				// 0101 代表 流通企业.供应商
+				$("#netContent").val(returnValue.data.netContent);//设置净含量  只有供应商有净含量
+				var product_type = portal.getProductType();
+				if(product_type==2 && returnValue.data.importedProduct!=null){
+					//设置之前先清空
+					portal.clearImportedProductInfo(); //清空进口食品信息
+					portal.setImportedProductInfo(returnValue.data.importedProduct);//设置进口食品信息
+				}
+			}
+		/**
+		 * 处理问题的列表，点击去处理时，默认加载自己为销往客户
+		 */
+	};
+	portal.setCustomerSelectInfo = function(){
+		var customerSelectInfo = [{id:portal.currentBusiness.id,name:portal.currentBusiness.name}];
+		$("#customerSelectInfo").data("kendoMultiSelect").setDataSource(customerSelectInfo);
+		$("#customerSelectInfo").data("kendoMultiSelect").refresh();
+		$("#customerSelectInfo").data("kendoMultiSelect").value(portal.currentBusiness.id);
+		$("#customerSelect").val(portal.currentBusiness.name+";");
+	};
 	/**
 	 * 初始化营养报告
 	 */
@@ -755,7 +789,6 @@ $(document).ready(function() {
    		 		lims.initNotificationMes("请选择品牌类型！", false);
    		 		return false;
    		 	}
-			var busName = $("#businessName").val().trim();
 			var customerMultiSelectDS =  $("#customerSelectInfo").data("kendoMultiSelect");
 			if(customerMultiSelectDS){
 				var customerItems = customerMultiSelectDS.dataItems();

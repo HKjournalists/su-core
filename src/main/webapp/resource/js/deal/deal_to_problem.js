@@ -40,14 +40,13 @@ $(function(){
 			        	 
 			          }},
 			          { field: "remark",title:"备注", width:"30%",filterable: false,editable: false},
-			          { field: "dealStatus",title:"操作", width:"20%",template:function(e){
+			          { field: "dealStatus",title:"操作", width:"40%",template:function(e){
 		  		          var tag="";
 		  		            	if(e.dealType=='未处理'){
+		  		            		tag = "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal_Problem('"+e.barcode+"','"+e.problemType+"')>去处理</a>";
 		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick='return fsn.deal.updateDeal("+e.id+")'>";
 		  		            		tag += "已处理</a>";
-//		  		            		tag = "<button class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal("+e.id+")><font color=blue>已处理</font></button>";
 		  		            	}else{
-		  		            		tag = "";
 		  		            	}
 		  		            	 return tag;
 		  		           }
@@ -115,6 +114,22 @@ $(function(){
 	              }
 	          }
 	      });
+	};
+	
+	deal.updateDeal_Problem = function(barcode,type){
+		var canshu = "?"+$.md5("dealProblem")+"&"+barcode+"&"+$.md5(barcode);
+//		 try {
+//		    	var arrayParam = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+//		    	var pid = arrayParam[0]; // 产品id（原始id，未被编码）
+//		    	var orig_pidmd5 = arrayParam[1]; // 产品id(被编码过的产品id)
+//		    	portal.edit_id = portal.md5validate(pid,orig_pidmd5);
+//		    } catch (e) {}
+//		    
+//		    
+		if(type = "ZERO"){
+			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
+		}
+		
 	};
 	deal.initialize();
 });

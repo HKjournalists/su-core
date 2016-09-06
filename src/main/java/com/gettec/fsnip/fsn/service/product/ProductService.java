@@ -296,4 +296,12 @@ public interface ProductService extends BaseService<Product, ProductDAO>{
 	
 	public int updateProductCertByBarcode(String barcode,int cert);
 	public Product getAllProductsByOrgandid(long organization,long id);
+    /**
+     * 根据条形码获取产品ID
+     * @param barcode
+     * @return
+     */
+	public Long getByBarcodeProduct(String barcode);
+
+
 }
