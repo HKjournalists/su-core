@@ -79,11 +79,7 @@ $(document).ready(function(){
 		fsn.initKendoWindow("create_product_warn_window","友情提示","300px","200px",false,null);
 		
 		root.removeDisabledToBtn(["openS2P_btn"]);
-		
-		portal.business = getCurrentBusiness();
-		if(portal.business!=undefined && portal.business!=null && portal.business.type.trim().indexOf("流通企业.商超")!=-1){
-			portal.type = true;
-		}
+
 		// 经销商报告录入界面，Click事件绑定
 		root.bindClick_dealer();
 		$("#backMsg").draggable();
@@ -97,7 +93,7 @@ $(document).ready(function(){
 				dataSource: lims.getAutoLoadDsByUrl("/product/getAllBarCode"),
 				filter: "startswith",
 				placeholder: "搜索...",
-				select: root.onSelectBarcode,
+				select: root.onSelectBarcode
 			});
 		}
        // portal.edit_barcode
@@ -285,6 +281,7 @@ $(document).ready(function(){
      */
     root.initialReportData = function(){
         if (root.edit_id) {
+
         	root.isNew = false;
         	/* 编辑状态下: 初始化页面信息 */
             $.ajax({
@@ -400,7 +397,6 @@ $(document).ready(function(){
     			can_edit_qs: can_edit_qs,
     			can_edit_bus: (root.current_bus_vo_has_claim==null?true:false)
     	};
-    	alert($("#tri_testType").data("kendoDropDownList").value());
     	var report_vo = {
     			id: root.isNew?null:root.edit_id,
                 testType: $("#tri_testType").data("kendoDropDownList").value(),
@@ -412,7 +408,7 @@ $(document).ready(function(){
                 publishFlag:'4',
                 product_vo: product_vo,
     			bus_vo: bus_vo,
-    			new_flag: root.isNew,
+    			new_flag: root.isNew
     	};
     	
     	//return report_vo;
@@ -501,7 +497,11 @@ $(document).ready(function(){
         /* 报告编号唯一性校验*/
         if (root.isNew) {
             if (!root.validateReportNO()) {
-                lims.initNotificationMes("当前报告已经存在，您无需录入，商超即可查看！" , true);
+				if(portal.type){
+					lims.initNotificationMes("当前报告已经存在，您无需录入，请在报告管理列表中点击查看！" , false);
+				}else{
+					lims.initNotificationMes("当前报告已经存在，您无需录入，商超即可查看！" , false);
+				}
                 return false;
             }
         } else if (root.ReportNo_old != $("#tri_reportNo").val().trim()) {
@@ -628,9 +628,9 @@ $(document).ready(function(){
         	        $("#proJianCheng").data("kendoDropDownList").readonly(true);
         	        hideListBusNameSelect();
         	        $("#barcodeId").unbind("blur");
-        	        if(portal.type){
-        	        	root.submitPassReport(report_vo.id);
-        	        }
+        	        //if(portal.type){
+        	        //	root.submitPassReport(report_vo.id);
+        	        //}
                 } else {
                 	lims.initNotificationMes((root.isNew ? lims.l("Add") : lims.l("Update")) + '失败！参考原因为：' + returnValue.result.errorMessage, false);
                 }
@@ -645,24 +645,20 @@ $(document).ready(function(){
             }
         });
     };
-    root.submitPassReport = function(reportId){
-    	  $.ajax({
-              url: portal.HTTP_PREFIX + "/report/operation/busSuperCheckReport/true/"+reportId,
-              type: "POST",
-              dataType: "json",
-              timeout: 600000, //10min
-              async: false,
-              contentType: "application/json; charset=utf-8",
-              data: JSON.stringify(report_vo),
-              success: function(returnValue){
-            	  if (returnValue.result.status != "true") {
-            	     lims.initNotificationMes(lims.l("提交报告在发布给testlab环节时出错!"), false);
-            	  }
-              },
-              error: function(e){
-              }
-          });
-    } 
+    //root.submitPassReport = function(reportId){
+	//$.ajax({
+	//	url: portal.HTTP_PREFIX + "/report/operation/busSuperCheckReport/true/" + reportId,
+	//	type: "GET",
+	//	dataType: "json",
+	//	 success: function(returnValue){
+    //        	  if (returnValue.result.status != "true") {
+    //        	     lims.initNotificationMes(lims.l("提交报告在发布给testlab环节时出错!"), false);
+    //        	  }
+    //          },
+    //          error: function(e){
+    //          }
+    //      });
+    //}
     /**
      * 必填数据校验
      * @author Zhanghui 2015/4/3
@@ -754,7 +750,6 @@ $(document).ready(function(){
         }
     	/* 1.2 验证该产品是否为本经销商引进产品 */
     	var count = root.countInitialProduct(productId);
-    	alert(count + "==销往ID==" + portal.business.id);
     	if(count == 0){
     		if(portal.type){
     			//设置默认销往企业是当前登录的超市
@@ -763,9 +758,7 @@ $(document).ready(function(){
     			$("#customerSelect_lead").data("kendoMultiSelect").refresh();
     			$("#customerSelect_lead").data("kendoMultiSelect").value(portal.business.id);
     			root.current_barcode_can_use = false;
-//    			alert("==设值1==" );
 				$("#lead_product_warn_window").data("kendoWindow").open().center();
-//				alert("==设值2,==" + portal.business.id);
 				var customerItems = $("#customerSelect_lead").data("kendoMultiSelect").dataItems();
 				if (customerItems.length<1) {
 	                lims.initNotificationMes("请选择销往客户", false);

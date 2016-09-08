@@ -64,7 +64,7 @@ fsn.setReportValue = function(report, product_html_type){
 	 $("#tri_testDate").val(report.testDateStr?report.testDateStr:"");
 	 
 	 var testTypeDrop =  $("#tri_testType").data("kendoDropDownList");
-	 if(testTypeDrop){
+	 if(testTypeDrop&&!portal.type){
 		 $("#tri_testType").data("kendoDropDownList").value(report.testType);
 		 if(report.testType=='第三方检测'){
 		 	$("#tri_testType").data("kendoDropDownList").refresh();

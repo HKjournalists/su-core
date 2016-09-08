@@ -67,6 +67,10 @@ $(function(){
 			          ];
   		return columns;
   	};
+	/**
+	 * 获取问题处理列表
+	 * @constructor
+	 */
   	deal.InitGridDataSource = function(){
   		var barcode = $("#barcode").val();
   	var dataSource = new kendo.data.DataSource({
@@ -105,7 +109,11 @@ $(function(){
 	};
 	deal.iSClean = function(){
 		$("#barcode").val('');
-	}; 
+	};
+	/**
+	 * 已处理（通知监管）
+	 * @param id
+	 */
 	deal.updateDeal = function(id){
 		$.ajax({
 	          url: fsn.getHttpPrefix() + "/deal/editDealToProblem/"+id,
@@ -119,32 +127,18 @@ $(function(){
 	          }
 	      });
 	};
-	
+	/**
+	 * 根据各类问题做相关的页面跳转（处理问题）
+	 * @param barcode
+	 * @param type
+	 */
 	deal.updateDeal_Problem = function(barcode,type){
 		var canshu = "?"+$.md5("dealProblem")+"&"+barcode+"&"+$.md5(barcode);
-//		var canshu = "?"+$.md5("dealProblem")+"&"+barcode+"&"+$.md5(barcode) + "&" + $.md(superMaket);
-//		 try {
-//		    	var arrayParam = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-//		    	var pid = arrayParam[0]; // 产品id（原始id，未被编码）
-//		    	var orig_pidmd5 = arrayParam[1]; // 产品id(被编码过的产品id)
-//		    	portal.edit_id = portal.md5validate(pid,orig_pidmd5);
-//		    } catch (e) {}
-		
-		if(type == "ZERO"){
-			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
-		}else if(type == "ONE"){
-			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
-		}else if(type == "TWO"){
+		if(type == "TWO" || type == "THREE"){
 			window.location.href = "/fsn-core/views/report_new/input_report_dealer.html"+canshu;
-		}else if(type == "THREE"){
-			window.location.href = "/fsn-core/views/report_new/input_report_dealer.html"+canshu;
-		}else if(type == "FOUR"){
+		}else if(type != "OTHER"){
 			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
-		}else if(type == "FIVE"){
-			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
-		}else{
-			
-		};
+		}
 	};
 	deal.initialize();
 });

@@ -19,7 +19,7 @@ $(function(){
 		
 		initItemGrid("testItem_grid");
 	};
-	
+
 	root.dealer_reportDS = new kendo.data.DataSource({
 		transport: {
             read: {
@@ -41,12 +41,12 @@ $(function(){
             data : function(returnValue) {
                 return returnValue.data.listOfReport;
             },
-            total : function(returnValue) {       
+            total : function(returnValue) {
                 return returnValue.data.counts;
-            }     
+            }
         },
         change: function(e) {
-            
+
         },
         serverPaging : true,
         serverFiltering : true,
@@ -65,7 +65,7 @@ $(function(){
 	            		return portal.HTTP_PREFIX + "/testReport/byuser/getBackToGYS/" + options.page + "/" + options.pageSize + "/" + configure;
 	            	},
 	                dataType : "json",
-	                contentType : "application/json;charset=utf-8",
+	                contentType : "application/json;charset=utf-8"
 	            }
 	        },
 	        batch : true,
@@ -103,7 +103,7 @@ $(function(){
         },
         batch : true,
         page:1,
-        pageSize: 5,
+        pageSize: 10,
         schema: {
             data : function(returnValue) {
                 return returnValue.data.listOfReport;
@@ -119,80 +119,197 @@ $(function(){
         serverFiltering : true,
         serverSorting : true
 	});
-	
-	root.publishColumn = [	
-	                   /*{ field: "id", title:"ID", width: 35 },*/
-	                   { field: "serviceOrder", title:"报告编号", width: 80 },
-	                   { field: "sample.product.name", title:"食品名称",width: 100 },
-	                   { field: "sample.product.barcode", title:"条形码",width: 100 },
-	                   { field: "sample.batchSerialNo", title:"批次", width: 50},
-	                   { field: "status", title:"状态", width: 40, filterable: false, template: function(dataItem) {
-                           var reportStatue="";
-                           switch (dataItem.publishFlag){
-                               case "4": reportStatue = "未审核" ;break;
-                               default: ;
-                           }
-                    	   return "<strong style='color:#006536;'>" + reportStatue + "</strong>";                    		 
-	                   	}},
-	                   { field: "lastModifyUserName",title:"最后更新者",width:60},
-	                   { field: "lastModifyTime",title:"最后更新时间",width:55,template: '#= fsn.formatGridDate(lastModifyTime)#', filterable: false},
-		                   { command: [{name:"edit",
-		                   	    text:"<span class='k-edit'></span>" + "编辑", 
-		                   	    click:function(e){
-		                   	    	var url = '/fsn-core/views/report_new/input_report_dealer.html';
-		                   	    	fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "manage_report_dealer.html");
-		                     }},
-		                     {name:"review",
-		                   	    text:"<span class='k-icon k-cancel'></span>" + "预览", 
-		                   	    click:function(e){
-		                   	    	e.preventDefault();
-		                   	    	var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
-		                   	    	viewReportInfo(currentItem.id);
-		                     }},
-		                     {name:"delete",
-							  text:"<span class='k-icon k-cancel'></span>" + lims.localized("Delete"),
-						      click: function(e){
-						          var deleteRow = $(e.target).closest("tr");
-						          deleteItem = this.dataItem(deleteRow);
-						          fsn.delete_id = deleteItem.id;
-							      $("#delete_window").data("kendoWindow").open().center(); 
-						     }}
-		                     ], title: "操作", width: 125 }];
-	
-	root.backColumn = [	
-		                   /*{ field: "id", title:"ID", width: 35 },*/
-		                   { field: "serviceOrder", title:"报告编号", width: 70 },
-		                   { field: "sample.product.name", title:"食品名称",width: 80 },
-		                   { field: "sample.product.barcode", title:"条形码",width: 100 },
-		                   { field: "status", title:"状态", width: 40, filterable: false, template: function(dataItem) {
-		                    		return "<strong style='color:red;'>" + dataItem.status + "</strong>";                    		 
-		                     }},
-		                   { field: "backResult",title:"退回原因",width:100},
-		                   { field: "backTime",title:"退回时间",width:45,template: '#= fsn.formatGridDate(backTime)#', filterable: false},
-		                   { field: "lastModifyUserName",title:"最后更新者",width:55},
-			                   { command: [{name:"edit",
-			                   	    text:"<span class='k-edit'></span>" + "编辑", 
-			                   	    click:function(e){
-			                   	    	var url = '/fsn-core/views/report_new/input_report_dealer.html';
-			                   	    	fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "manage_report_dealer.html");
-			                     }},
-			                     {name:"review",
-			                   	    text:"<span class='k-icon k-cancel'></span>" + "预览", 
-			                   	    click:function(e){
-			                   	    	e.preventDefault();
-			                   	    	var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
-			                   	    	viewReportInfo(currentItem.id);
-			                     }},
-			                     {name:"delete",
-									  text:"<span class='k-icon k-cancel'></span>"+ lims.localized("Delete"),
-								      click: function(e){
-								          var deleteRow = $(e.target).closest("tr");
-								          deleteItem = this.dataItem(deleteRow);
-								          fsn.delete_id = deleteItem.id;
-							      		  $("#delete_window").data("kendoWindow").open().center(); 
-								 }}
-			                     ], title: "操作", width: 125 }];
-	
+	var dealType = $("#dealType").val();
+	if(!dealType){
+		root.publishColumn = [
+			/*{ field: "id", title:"ID", width: 35 },*/
+			{ field: "serviceOrder", title:"报告编号", width: 80 },
+			{ field: "sample.product.name", title:"食品名称",width: 100 },
+			{ field: "sample.product.barcode", title:"条形码",width: 100 },
+			{ field: "sample.batchSerialNo", title:"批次", width: 50},
+			{ field: "status", title:"状态", width: 40, filterable: false, template: function(dataItem) {
+				var reportStatue="";
+				switch (dataItem.publishFlag){
+					case "4": reportStatue = "未审核" ;break;
+					default: ;
+				}
+				return "<strong style='color:#006536;'>" + reportStatue + "</strong>";
+			}},
+			{ field: "lastModifyUserName",title:"最后更新者",width:60},
+			{ field: "lastModifyTime",title:"最后更新时间",width:55,template: '#= fsn.formatGridDate(lastModifyTime)#', filterable: false},
+			{ command: [{name:"edit",
+				text:"<span class='k-edit'></span>" + "编辑",
+				click:function(e){
+					var url = '/fsn-core/views/report_new/input_report_dealer.html';
+					fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "manage_report_dealer.html");
+				}},
+				{name:"review",
+					text:"<span class='k-icon k-cancel'></span>" + "预览",
+					click:function(e){
+						e.preventDefault();
+						var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
+						viewReportInfo(currentItem.id);
+					}},
+				{name:"delete",
+					text:"<span class='k-icon k-cancel'></span>" + lims.localized("Delete"),
+					click: function(e){
+						var deleteRow = $(e.target).closest("tr");
+						deleteItem = this.dataItem(deleteRow);
+						fsn.delete_id = deleteItem.id;
+						$("#delete_window").data("kendoWindow").open().center();
+					}}
+			], title: "操作", width: 125 }];
+		root.backColumn = [
+			/*{ field: "id", title:"ID", width: 35 },*/
+			{ field: "serviceOrder", title:"报告编号", width: 70 },
+			{ field: "sample.product.name", title:"食品名称",width: 80 },
+			{ field: "sample.product.barcode", title:"条形码",width: 100 },
+			{ field: "status", title:"状态", width: 40, filterable: false, template: function(dataItem) {
+				return "<strong style='color:red;'>" + dataItem.status + "</strong>";
+			}},
+			{ field: "backResult",title:"退回原因",width:100},
+			{ field: "backTime",title:"退回时间",width:45,template: '#= fsn.formatGridDate(backTime)#', filterable: false},
+			{ field: "lastModifyUserName",title:"最后更新者",width:55},
+			{ command: [{name:"edit",
+				text:"<span class='k-edit'></span>" + "编辑",
+				click:function(e){
+					var url = '/fsn-core/views/report_new/input_report_dealer.html';
+					fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "manage_report_dealer.html");
+				}},
+				{name:"review",
+					text:"<span class='k-icon k-cancel'></span>" + "预览",
+					click:function(e){
+						e.preventDefault();
+						var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
+						viewReportInfo(currentItem.id);
+					}},
+				{name:"delete",
+					text:"<span class='k-icon k-cancel'></span>"+ lims.localized("Delete"),
+					click: function(e){
+						var deleteRow = $(e.target).closest("tr");
+						deleteItem = this.dataItem(deleteRow);
+						fsn.delete_id = deleteItem.id;
+						$("#delete_window").data("kendoWindow").open().center();
+					}}
+			], title: "操作", width: 125 }];
+	}else{
+		root.publishColumn = [
+			/*{ field: "id", title:"ID", width: 35 },*/
+			{ field: "serviceOrder", title:"报告编号", width: 80 },
+			{ field: "sample.product.name", title:"食品名称",width: 100 },
+			{ field: "sample.product.barcode", title:"条形码",width: 100 },
+			{ field: "sample.batchSerialNo", title:"批次", width: 50},
+			{ field: "status", title:"状态", width: 40, filterable: false, template: function(dataItem) {
+				var reportStatue="";
+				switch (dataItem.publishFlag){
+					case "4": reportStatue = "未审核" ;break;
+					default: ;
+				}
+				return "<strong style='color:#006536;'>" + reportStatue + "</strong>";
+			}},
+			{ field: "lastModifyUserName",title:"最后更新者",width:60},
+			{ field: "lastModifyTime",title:"最后更新时间",width:55,template: '#= fsn.formatGridDate(lastModifyTime)#', filterable: false},
+			{ command: [{name:"edit",
+				text:"<span class='k-edit'></span>" + "编辑",
+				click:function(e){
+					var url = '/fsn-core/views/report_new/input_report_dealer.html';
+					fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "manage_report_dealer.html");
+				}},
+				{name:"review",
+					text:"<span class='k-icon k-cancel'></span>" + "预览",
+					click:function(e){
+						e.preventDefault();
+						var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
+						viewReportInfo(currentItem.id);
+					}},
+				{name:"delete",
+					text:"<span class='k-icon k-cancel'></span>" + lims.localized("Delete"),
+					click: function(e){
+						var deleteRow = $(e.target).closest("tr");
+						deleteItem = this.dataItem(deleteRow);
+						fsn.delete_id = deleteItem.id;
+						$("#delete_window").data("kendoWindow").open().center();
+					}},
+				{name:"publicFlag",
+					text: lims.localized("发布"),
+					click: function(e){
+						var deleteRow = $(e.target).closest("tr");
+						deleteItem = this.dataItem(deleteRow);
+						var reportId = deleteItem.id;
+						$.ajax({
+							url: portal.HTTP_PREFIX + "/report/operation/busSuperCheckReport/true/" + reportId,
+							type: "GET",
+							dataType: "json",
+							success: function(returnValue) {
+								if (returnValue.result.status == "true") {
+									fsn.initNotificationMes("ID=" + reportId + ",审核通过！", true);
+									upload.buildGridWioutToolBar("report_publish_edit_grid", root.publishColumn, root.dealer_reportDS, 350);
+									upload.buildGridWioutToolBar("was_published_grid", root.publishedColumn, root.dealer_publishedReportDS, 350);
+								}else if(returnValue.result.show){
+									fsn.initNotificationMes("ID=" + reportId + "," + returnValue.result.errorMessage, false);
+								}
+							}
+						});
+					}}
+			], title: "操作", width: 125 }];
+
+		root.backColumn = [
+			/*{ field: "id", title:"ID", width: 35 },*/
+			{ field: "serviceOrder", title:"报告编号", width: 70 },
+			{ field: "sample.product.name", title:"食品名称",width: 80 },
+			{ field: "sample.product.barcode", title:"条形码",width: 100 },
+			{ field: "status", title:"状态", width: 40, filterable: false, template: function(dataItem) {
+				return "<strong style='color:red;'>" + dataItem.status + "</strong>";
+			}},
+			{ field: "backResult",title:"退回原因",width:100},
+			{ field: "backTime",title:"退回时间",width:45,template: '#= fsn.formatGridDate(backTime)#', filterable: false},
+			{ field: "lastModifyUserName",title:"最后更新者",width:55},
+			{ command: [{name:"edit",
+				text:"<span class='k-edit'></span>" + "编辑",
+				click:function(e){
+					var url = '/fsn-core/views/report_new/input_report_dealer.html';
+					fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "manage_report_dealer.html");
+				}},
+				{name:"review",
+					text:"<span class='k-icon k-cancel'></span>" + "预览",
+					click:function(e){
+						e.preventDefault();
+						var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
+						viewReportInfo(currentItem.id);
+					}},
+				{name:"delete",
+					text:"<span class='k-icon k-cancel'></span>"+ lims.localized("Delete"),
+					click: function(e){
+						var deleteRow = $(e.target).closest("tr");
+						deleteItem = this.dataItem(deleteRow);
+						fsn.delete_id = deleteItem.id;
+						$("#delete_window").data("kendoWindow").open().center();
+					}},
+				{name:"publicFlag",
+					text: lims.localized("发布"),
+					click: function(e){
+						var deleteRow = $(e.target).closest("tr");
+						deleteItem = this.dataItem(deleteRow);
+						var reportId = deleteItem.id;
+						$.ajax({
+							url: portal.HTTP_PREFIX + "/report/operation/busSuperCheckReport/true/" + reportId,
+							type: "GET",
+							dataType: "json",
+							success: function(returnValue) {
+								if (returnValue.result.status == "true") {
+									fsn.initNotificationMes("ID=" + reportId + ",审核通过！", true);
+									upload.buildGridWioutToolBar("report_back_eidt_grid", root.backColumn, root.dealer_backReportDS, 350);
+									upload.buildGridWioutToolBar("was_published_grid", root.publishedColumn, root.dealer_publishedReportDS, 350);
+								}else if(returnValue.result.show){
+									fsn.initNotificationMes("ID=" + reportId + "," + returnValue.result.errorMessage, false);
+								}
+							}
+						});
+					}}
+			], title: "操作", width: 125 }];
+	}
+
+
 	root.publishedColumn=[
 	                       /*{ field: "id", title:"ID", width: 35 },*/
 		                   { field: "serviceOrder", title:"报告编号", width: 110 },
@@ -221,7 +338,7 @@ $(function(){
 		                   	    	e.preventDefault();
 		                   	    	var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
 		                   	    	viewReportInfo(currentItem.id);
-		                   	    },
+		                   	    }
 		                   	    	},], title: "操作", width: 50 }];
 	
 	root.initialize();
