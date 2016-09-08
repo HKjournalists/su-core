@@ -45,10 +45,12 @@ $(function(){
 		  		            	if(e.dealType=='未处理'){
 //		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick='return fsn.deal.updateDeal("+e.id+")'>";
 //		  		            		tag += "已处理</a>";
-		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal_Problem('"+e.barcode+"','"+e.problemType+"')>赶紧去处理</a>";
-		  		            		tag += "<button class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal("+e.id+")><font color=blue>已处理</font></button>";
+//		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal_Problem('"+e.barcode+"','"+e.problemType+"')>赶紧去处理</a>";
+//		  		            		tag += "<button class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal("+e.id+")><font color=blue>已处理</font></button>";
+		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal_Problem('"+e.barcode+"','"+e.problemType+"')>去处理</a>";
+		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick='return fsn.deal.updateDeal("+e.id+")'>";
+		  		            		tag += "已处理</a>";
 		  		            	}else{
-		  		            		tag = "";
 		  		            	}
 		  		            	 return tag;
 		  		           }
@@ -120,6 +122,7 @@ $(function(){
 	
 	deal.updateDeal_Problem = function(barcode,type){
 		var canshu = "?"+$.md5("dealProblem")+"&"+barcode+"&"+$.md5(barcode);
+//		var canshu = "?"+$.md5("dealProblem")+"&"+barcode+"&"+$.md5(barcode) + "&" + $.md(superMaket);
 //		 try {
 //		    	var arrayParam = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 //		    	var pid = arrayParam[0]; // 产品id（原始id，未被编码）
@@ -130,19 +133,18 @@ $(function(){
 		if(type == "ZERO"){
 			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
 		}else if(type == "ONE"){
-			
+			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
 		}else if(type == "TWO"){
 			window.location.href = "/fsn-core/views/report_new/input_report_dealer.html"+canshu;
 		}else if(type == "THREE"){
 			window.location.href = "/fsn-core/views/report_new/input_report_dealer.html"+canshu;
 		}else if(type == "FOUR"){
-			
+			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
 		}else if(type == "FIVE"){
-			
+			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
 		}else{
 			
 		};
-		
 	};
 	deal.initialize();
 });

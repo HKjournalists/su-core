@@ -54,9 +54,7 @@ $(document).ready(function(){
          */
     	 try {
     		var arrayParam = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-//    		alert("========1====="+arrayParam)
     	    	var dealType = arrayParam[0];
-//    	    	alert(dealType+"=====2========"+$.md5("dealProblem"))
     	    	if(dealType == $.md5("dealProblem")){
     	    		var barcode = arrayParam[1]; // 产品条形码(被编码过的产品条形码)
     	    		var barcodeMD5 = arrayParam[2]; // 产品条形码(被编码过的产品条形码)
@@ -66,7 +64,6 @@ $(document).ready(function(){
     	    	}
 
     	} catch (e) {
-//    		alert("=============")
     	}
     	/* 初始化报告上传控件 */
         $("#upload_rep").html("<input id='upload_report_files' type='file' />");
@@ -78,6 +75,7 @@ $(document).ready(function(){
 		root.initComponent();
 		
 		fsn.initKendoWindow("lead_product_warn_window","友情提示","480px","420px",false,null);
+		
 		fsn.initKendoWindow("create_product_warn_window","友情提示","300px","200px",false,null);
 		
 		root.removeDisabledToBtn(["openS2P_btn"]);
@@ -89,9 +87,8 @@ $(document).ready(function(){
 		// 经销商报告录入界面，Click事件绑定
 		root.bindClick_dealer();
 		$("#backMsg").draggable();
-//		alert("========1========"+portal.edit_barcode)
-		if(portal.type && portal.edit_barcode!=undefined){
-//			alert("=====2===========set条形码")
+		//获取超市处理问题的条形码
+		if(portal.type && portal.edit_barcode != undefined){
 			$("#barcodeId").val(portal.edit_barcode);
 			root.judgeProductByBarcode(portal.edit_barcode);
 		}else{
@@ -167,6 +164,10 @@ $(document).ready(function(){
     	$("#lead_product_yes_btn").click(function(){
     			/* 引进该条码的产品 */
 	    	    var barcode = $("#barcodeId").val().trim();
+	    	    /**
+	    	     * 超市添加报告，设置默认的销往企业
+	    	     */
+	    	    
 				var customerItems = $("#customerSelect_lead").data("kendoMultiSelect").dataItems();
 				if (customerItems.length<1) {
 	                lims.initNotificationMes("请选择销往客户", false);
@@ -399,7 +400,7 @@ $(document).ready(function(){
     			can_edit_qs: can_edit_qs,
     			can_edit_bus: (root.current_bus_vo_has_claim==null?true:false)
     	};
-    	
+    	alert($("#tri_testType").data("kendoDropDownList").value());
     	var report_vo = {
     			id: root.isNew?null:root.edit_id,
                 testType: $("#tri_testType").data("kendoDropDownList").value(),
@@ -555,8 +556,6 @@ $(document).ready(function(){
      */
     root.submit = function(){
 
-    	
-    	
     	/* 数据格式校验 */
     	if(!root.validate_submit()){ 
     		return; 
@@ -629,6 +628,9 @@ $(document).ready(function(){
         	        $("#proJianCheng").data("kendoDropDownList").readonly(true);
         	        hideListBusNameSelect();
         	        $("#barcodeId").unbind("blur");
+        	        if(portal.type){
+        	        	root.submitPassReport(report_vo.id);
+        	        }
                 } else {
                 	lims.initNotificationMes((root.isNew ? lims.l("Add") : lims.l("Update")) + '失败！参考原因为：' + returnValue.result.errorMessage, false);
                 }
@@ -643,7 +645,24 @@ $(document).ready(function(){
             }
         });
     };
-    
+    root.submitPassReport = function(reportId){
+    	  $.ajax({
+              url: portal.HTTP_PREFIX + "/report/operation/busSuperCheckReport/true/"+reportId,
+              type: "POST",
+              dataType: "json",
+              timeout: 600000, //10min
+              async: false,
+              contentType: "application/json; charset=utf-8",
+              data: JSON.stringify(report_vo),
+              success: function(returnValue){
+            	  if (returnValue.result.status != "true") {
+            	     lims.initNotificationMes(lims.l("提交报告在发布给testlab环节时出错!"), false);
+            	  }
+              },
+              error: function(e){
+              }
+          });
+    } 
     /**
      * 必填数据校验
      * @author Zhanghui 2015/4/3
@@ -724,7 +743,7 @@ $(document).ready(function(){
 		if(barcode==""){
 			return;
 		}
-		root.queryCheckByBarcode(barcode)
+		root.queryCheckByBarcode(barcode);
 		/* 1 验证产品条形码是否为系统已存在产品 */
         var productId = root.queryProductIdByBarcode(barcode);
         if(productId == null){
@@ -735,10 +754,50 @@ $(document).ready(function(){
         }
     	/* 1.2 验证该产品是否为本经销商引进产品 */
     	var count = root.countInitialProduct(productId);
+    	alert(count + "==销往ID==" + portal.business.id);
     	if(count == 0){
-    		/* 1.2.1 不是引进产品，则引导用户填写销往客户 */
-    		root.current_barcode_can_use = false;
-    		$("#lead_product_warn_window").data("kendoWindow").open().center();
+    		if(portal.type){
+    			//设置默认销往企业是当前登录的超市
+    			var customerSelectInfo = [{id:portal.business.id,name:portal.business.name}];
+    			$("#customerSelect_lead").data("kendoMultiSelect").setDataSource(customerSelectInfo);
+    			$("#customerSelect_lead").data("kendoMultiSelect").refresh();
+    			$("#customerSelect_lead").data("kendoMultiSelect").value(portal.business.id);
+    			root.current_barcode_can_use = false;
+//    			alert("==设值1==" );
+				$("#lead_product_warn_window").data("kendoWindow").open().center();
+//				alert("==设值2,==" + portal.business.id);
+				var customerItems = $("#customerSelect_lead").data("kendoMultiSelect").dataItems();
+				if (customerItems.length<1) {
+	                lims.initNotificationMes("请选择销往客户", false);
+					return ;
+	            }
+					var isSuccess = portal.leadProduct(barcode);
+						if(isSuccess){
+						var customerNames = "";
+						var customerIds = "";
+						for ( var entry in customerItems) {
+							customerNames += (customerItems[entry].name + ",");
+							customerIds += (customerItems[entry].id + ",");
+						}
+						lims.initNotificationMes("条形码为：" + barcode + "的产品引进成功", true);
+						/* 保存 产品-当前登录企业-销往企业 的关系 */
+						var productVO = {
+								barcode: barcode,
+								selectedCustomerIds: customerIds,
+						};
+						portal.saveSelectCustomer(productVO);
+						
+						root.current_barcode_can_use = true; // 记录当前条形码可以使用
+						root.initPageData(barcode);
+					}else{
+						lims.initNotificationMes("条形码为：" + barcode + "的产品引进失败", false);
+					}
+						$("#lead_product_warn_window").data("kendoWindow").close();
+    			} else{
+    				/* 1.2.1 不是引进产品，则引导用户填写销往客户 */
+    				root.current_barcode_can_use = false;
+    				$("#lead_product_warn_window").data("kendoWindow").open().center();
+    			}
     	}else{
     		/* 1.2.2 是引进产品或者是自己新增的产品，则进行正常录报告流程 */
     		root.current_barcode_can_use = true;
@@ -762,6 +821,11 @@ $(document).ready(function(){
 	                }
 	             	var count = returnValue.count;
 	            	if(count == 0){
+	            		var customerSelectInfo = [{id:portal.business.id,name:portal.business.name}];
+	            		$("#customerSelect_lead").data("kendoMultiSelect").setDataSource(customerSelectInfo);
+	            		$("#customerSelect_lead").data("kendoMultiSelect").refresh();
+	            		$("#customerSelect_lead").data("kendoMultiSelect").value(portal.business.id);
+//	            		$("#customerSelect").val(portal.business.name+";");
 	            		/* 1.2.1 不是引进产品，则引导用户填写销往客户 */
 	            		root.current_barcode_can_use = false;
 	            		$("#lead_product_warn_window").data("kendoWindow").open().center();
@@ -790,7 +854,7 @@ $(document).ready(function(){
 	 * @author ZhangHui 2015/4/30
 	 */
     root.initPageData = function(barcode){
-        root.initBarcode = barcode;
+    	root.initBarcode = barcode;
         /* 每次当条形码发生改变之后，都要清空上次一加载的数据 */
         lims.listOfBusunitName = null;
         lims.pro2Bus = null;
@@ -802,10 +866,10 @@ $(document).ready(function(){
         /* 验证是否是进口产品 */
         root.validateIsImportedProduct(barcode);
         
-//		var isExist=root.verifyBackReportByBarcode(barcode);
+		var isExist=root.verifyBackReportByBarcode(barcode);
 		if(root.isNew){
 			if(isExist){
-				 var currentBusiness = getCurrentBusiness();
+				 var currentBusiness = portal.business;
 				 if(currentBusiness!=null&&!currentBusiness.passFlag){
 					 $("#save").hide();
 				     $("#clear").hide();
