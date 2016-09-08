@@ -2,6 +2,7 @@ package com.gettec.fsnip.fsn.service.common;
 
 import java.util.List;
 
+import com.gettec.fsnip.fsn.dao.common.BaseDAO;
 import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.vo.erp.PagingSimpleModelVO;
 
@@ -41,6 +42,17 @@ public interface BaseService<E, DAO> {
 	 * @throws ServiceException
 	 */
 	public PagingSimpleModelVO<E> getAll(Long organization) throws ServiceException;
-	
+	BaseDAO<E> field(String field);
+	BaseDAO<E> where(String where);
+	BaseDAO<E> where(String where,Object []params);
+	BaseDAO<E> order(String order);
+	BaseDAO<E> limit(Integer pageSize);
+	BaseDAO<E> limit(Integer page,Integer pageSize);
+	BaseDAO<E> group(String group);
+	E find();
+	List<E> select();
+	List<String> selectOneList(String field);
+	long getMaxId();
+	void delete();
 	public DAO getDAO();
 }

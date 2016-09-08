@@ -135,4 +135,34 @@ public interface BaseDAO<E> {
 	public Map<String, Object> findQueryPage(PageVO pageVo,DetachedCriteria detachedCriteria);
 	
 	public Session getSession();
+	
+	/**
+	 * 查询数据库总数（条件查询，第三个参数传null，代表不是条件查询）
+	 * @param className
+	 * @param condition
+	 * @param params
+	 * @return
+	 */
+	public long count();
+	/**
+	 * 根据条件查询某对象是否存在
+	 * @param condition
+	 * @param params
+	 * @return
+	 */
+	E isExist(String condition,Object[] params);
+	BaseDAO<E> field(String field);
+	BaseDAO<E> where(String where);
+	BaseDAO<E> where(String where,Object []params);
+	BaseDAO<E> order(String order);
+	BaseDAO<E> limit(Integer pageSize);
+	BaseDAO<E> limit(Integer page,Integer pageSize);
+	BaseDAO<E> group(String group);
+	E find();
+	List<E> select();
+	List<String> selectOneList(String field);
+	
+	long getMaxId();
+	
+	void delete();
 }
