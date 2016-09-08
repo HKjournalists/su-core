@@ -61,4 +61,33 @@ public interface BaseDao<E> {
 
 	<U> List<U> getListBySQLWithoutType(Class<U> returnType, String sql,
 			Object[] params) throws JPAException;
+	/**
+	 * 根据条件查询某对象是否存在
+	 * @param condition
+	 * @param params
+	 * @return
+	 */
+	E isExist(String condition,Object[] params);
+	BaseDao<E> field(String field);
+	BaseDao<E> where(String where);
+	BaseDao<E> where(String where,Object []params);
+	BaseDao<E> order(String order);
+	BaseDao<E> limit(Integer pageSize);
+	BaseDao<E> limit(Integer page,Integer pageSize);
+	BaseDao<E> group(String group);
+	E find();
+	List<E> select();
+	List<String> selectOneList(String field);
+	
+	long getMaxId();
+	
+	void delete();
+	/**
+	 * 查询数据库总数（条件查询，第三个参数传null，代表不是条件查询）
+	 * @param className
+	 * @param condition
+	 * @param params
+	 * @return
+	 */
+	public long count();
 }

@@ -30,6 +30,8 @@ import com.gettec.fsnip.fsn.vo.page.PageVO;
 import com.gettec.fsnip.fsn.vo.page.SortVO;
 import com.lhfs.fsn.util.StringUtil;
 
+import net.sf.json.JSONArray;
+
 
 /**
  * 
@@ -42,6 +44,17 @@ public class BaseDAOImpl<E> implements BaseDAO<E> {
 	@PersistenceContext
 	protected EntityManager entityManager;
 	protected Class<E> entityClass;
+	protected String aliseTableName="e";
+	protected StringBuilder where=new StringBuilder();
+	protected StringBuilder field=new StringBuilder(aliseTableName);
+	protected StringBuilder order=new StringBuilder();
+	protected StringBuilder group=new StringBuilder();
+	protected Integer page;
+	protected Integer pageSize;
+	protected StringBuilder sql=new StringBuilder();
+	protected StringBuilder tableName=new StringBuilder(aliseTableName);
+	protected Object[] params;
+	private boolean useParams=false;
 	
 	public enum Operator {
 		EQ ("eq"), //等于
@@ -876,5 +889,204 @@ public class BaseDAOImpl<E> implements BaseDAO<E> {
 	public Session getSession() {
 		Session session = entityManager.unwrap(org.hibernate.Session.class);
 		return session;
+	}
+	
+	private void initVar(){
+		where.setLength(0);
+		field.setLength(0);
+		field.append(aliseTableName);
+		order.setLength(0);
+		group.setLength(0);
+		page=null;
+		pageSize=null;
+		sql.setLength(0);
+		tableName.setLength(0);
+		tableName.append(aliseTableName);
+		useParams=false;
+	}
+
+	public BaseDAO<E> field(String field){
+		this.field.setLength(0);
+		this.field.append(field);
+		return this;
+	}
+	
+	public BaseDAO<E> field(String field,boolean returnOneList){
+		this.field.setLength(0);
+		this.field.append(field);
+		return this;
+	}
+
+	public BaseDAO<E> where(String where){
+		this.where.append(where);
+		return this;
+	}
+
+	public BaseDAO<E> where(String where,Object []params){
+		this.params=params;
+		this.where.append(where);
+		useParams=true;
+		return this;
+	}
+	public BaseDAO<E> order(String order){
+		this.order.append(order);
+		return this;
+	}
+	public BaseDAO<E> limit(Integer pageSize){
+		this.page=1;
+		this.pageSize=pageSize;
+		return this;
+	}
+	public BaseDAO<E> limit(Integer page,Integer pageSize){
+		this.page=page;
+		this.pageSize=pageSize;
+		return this;
+	}
+	public BaseDAO<E> group(String group){
+		this.group.append(group);
+		return this;
+	}
+	public long count(){
+		StringBuilder jpql=new StringBuilder();
+		jpql.append("select count(*) from "+entityClass.getName()+" "+this.tableName);
+		if(this.where.length()!=0){
+			jpql.append(" where "+this.where);
+		}
+		Object rtn=null;
+		try{
+			Query query = entityManager.createQuery(jpql.toString());
+			if(this.useParams){
+				setQueryParameters(query, this.params);
+			}
+			rtn = query.getSingleResult();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			initVar();
+		}
+		return rtn == null ? 0 : Long.parseLong(rtn.toString());
+	}
+	@SuppressWarnings("unchecked")
+	public E find(){
+		StringBuilder jpql=new StringBuilder();
+		jpql.append("select "+this.field+" from "+entityClass.getName()+" "+this.tableName);
+		if(this.where.length()!=0){
+			jpql.append(" where "+this.where);
+		}
+		if(this.group.length()!=0){
+			jpql.append(" group by "+this.group);
+		}
+		if(this.order.length()!=0){
+			jpql.append(" order by "+this.order);
+		}
+		try{
+			Query query = entityManager.createQuery(jpql.toString());
+			if(this.useParams){
+				setQueryParameters(query, this.params);
+			}
+			query.setMaxResults(1);
+			List<E> list=query.getResultList();
+			initVar();
+			if(list.size()>0){
+				return list.get(0);
+			}
+			return null;
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			initVar();
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<E> select(){
+		StringBuilder jpql=new StringBuilder();
+		jpql.append("select "+this.field+" from "+entityClass.getName()+" "+this.tableName);
+		if(this.where.length()!=0){
+			jpql.append(" where "+this.where);
+		}
+		if(this.group.length()!=0){
+			jpql.append(" group by "+this.group);
+		}
+		if(this.order.length()!=0){
+			jpql.append(" order by "+this.order);
+		}
+
+		List<E> list=new ArrayList<E>();
+		try{
+			Query query = entityManager.createQuery(jpql.toString());
+			if(this.useParams){
+				setQueryParameters(query, this.params);
+			}
+			if (this.pageSize!=null) {
+				query.setFirstResult((page - 1) * pageSize);
+				query.setMaxResults(pageSize);
+			}
+			list=query.getResultList();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			initVar();
+		}
+		return list;
+	}
+	
+	public void delete(){
+		StringBuilder jpql=new StringBuilder();
+		jpql.append("delete from "+entityClass.getName()+" "+this.tableName);
+		if(this.where.length()!=0){
+			jpql.append(" where "+this.where);
+		}
+		try{
+			Query query = entityManager.createQuery(jpql.toString());
+			if(this.useParams){
+				setQueryParameters(query, this.params);
+			}
+			query.executeUpdate();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			initVar();
+		}
+	}
+	
+	public List<String> selectOneList(String field){
+		JSONArray list=JSONArray.fromObject(this.select());
+		List<String> strList=new ArrayList<String>();
+		for(int i=0;i<list.size();i++){
+			strList.add(list.getJSONObject(i).getString(field));
+		}
+		return strList;
+	}
+
+	public E isExist(String condition,Object[] params){
+		StringBuffer sql=new StringBuffer("select e from "+entityClass.getName()+" e");
+		if(condition!=null&&!condition.equals("")){
+			sql.append(" where "+condition);
+		}
+		Query query = entityManager.createQuery(sql.toString());
+		setQueryParameters(query,params);
+		query.setMaxResults(1);
+		@SuppressWarnings("unchecked")
+		List<E> list=query.getResultList();
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
+	}
+	
+	protected void setQueryParameters(Query query, Object[] params) {
+		int length = (params != null ? params.length : 0);
+		for (int i = 0; i < length; i++) {
+			query.setParameter(i + 1, params[i]);
+		}
+	}
+	
+	public long getMaxId(){
+		StringBuffer sql=new StringBuffer("select max(id) from "+entityClass.getName()+" e");
+		Query query = entityManager.createQuery(sql.toString());
+		return Long.parseLong(query.getSingleResult()+"") ;
 	}
 }

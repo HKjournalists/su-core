@@ -1,16 +1,13 @@
 package com.gettec.fsnip.fsn.dao.business.impl;
 
-import javax.persistence.PersistenceContext;
-
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.gettec.fsnip.fsn.dao.business.SampleBusinessBrandDAO;
-import com.gettec.fsnip.fsn.dao.common.impl.AbstractModelDAOImpl;
+import com.gettec.fsnip.fsn.dao.common.impl.BaseDAOImpl;
 import com.gettec.fsnip.fsn.exception.ServiceException;
-import com.gettec.fsnip.fsn.model.business.BusinessBrand;
 import com.gettec.fsnip.fsn.model.business.BusinessUnit;
 import com.gettec.fsnip.fsn.model.business.SampleBusinessBrand;
 import com.lhfs.fsn.util.StringUtil;
@@ -21,7 +18,7 @@ import com.lhfs.fsn.util.StringUtil;
  * @author Ryan Wang
  */
 @Repository(value="sampleBusinessBrandDAO")
-public class SampleBusinessBrandDAOImpl extends AbstractModelDAOImpl<SampleBusinessBrand>
+public class SampleBusinessBrandDAOImpl extends BaseDAOImpl<SampleBusinessBrand>
 		implements SampleBusinessBrandDAO {
 
 	

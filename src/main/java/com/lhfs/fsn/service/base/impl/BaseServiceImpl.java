@@ -42,7 +42,55 @@ public abstract class BaseServiceImpl<E extends Model, Dao extends BaseDao<E>> i
 	public void delete(Long id) throws JPAException {
 		getDao().remove(getDao().findById(id));
 	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public long count(){
+		return getDao().count();
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDao<E> field(String field){
+		return this.getDao().field(field);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDao<E> where(String where){
+		return getDao().where(where);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDao<E> where(String where,Object []params){
+		return getDao().where(where, params);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDao<E> order(String order){
+		return getDao().order(order);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDao<E> limit(Integer pageSize){
+		return getDao().limit(pageSize);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDao<E> limit(Integer page,Integer pageSize){
+		return getDao().limit(page, pageSize);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDao<E> group(String group){
+		return getDao().group(group);
+	}	
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public E find(){
+		return getDao().find();
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public List<E> select(){
+		return getDao().select();
+	}
 
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public long getMaxId() {
+		return getDao().getMaxId();
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public List<String> selectOneList(String field){
+		return getDao().selectOneList(field);
+	}
 	public abstract Dao getDao();
 
 }

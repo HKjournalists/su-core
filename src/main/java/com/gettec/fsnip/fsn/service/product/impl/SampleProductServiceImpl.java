@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gettec.fsnip.fsn.dao.product.SampleProductDAO;
 import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.product.SampleProduct;
-import com.gettec.fsnip.fsn.service.common.impl.AbstractBaseServiceImpl;
+import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.service.product.SampleProductService;
 
 
@@ -17,7 +17,7 @@ import com.gettec.fsnip.fsn.service.product.SampleProductService;
  * @author Ryan Wang
  */
 @Service(value="sampleProductService")
-public class SampleProductServiceImpl extends AbstractBaseServiceImpl<SampleProduct, SampleProductDAO> 
+public class SampleProductServiceImpl extends BaseServiceImpl<SampleProduct, SampleProductDAO> 
 		implements SampleProductService{
 	
 	@Autowired 

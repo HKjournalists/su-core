@@ -16,7 +16,5 @@ implements  MkCategoryInfoService{
 	public MKCategoryInfoDAO getDAO() {	
 		return categoryInfoDAO;
 	}
-	
-	
 
 }
