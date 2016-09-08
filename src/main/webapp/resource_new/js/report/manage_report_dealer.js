@@ -284,27 +284,6 @@ $(function(){
 						deleteItem = this.dataItem(deleteRow);
 						fsn.delete_id = deleteItem.id;
 						$("#delete_window").data("kendoWindow").open().center();
-					}},
-				{name:"publicFlag",
-					text: lims.localized("发布"),
-					click: function(e){
-						var deleteRow = $(e.target).closest("tr");
-						deleteItem = this.dataItem(deleteRow);
-						var reportId = deleteItem.id;
-						$.ajax({
-							url: portal.HTTP_PREFIX + "/report/operation/busSuperCheckReport/true/" + reportId,
-							type: "GET",
-							dataType: "json",
-							success: function(returnValue) {
-								if (returnValue.result.status == "true") {
-									fsn.initNotificationMes("ID=" + reportId + ",审核通过！", true);
-									upload.buildGridWioutToolBar("report_back_eidt_grid", root.backColumn, root.dealer_backReportDS, 350);
-									upload.buildGridWioutToolBar("was_published_grid", root.publishedColumn, root.dealer_publishedReportDS, 350);
-								}else if(returnValue.result.show){
-									fsn.initNotificationMes("ID=" + reportId + "," + returnValue.result.errorMessage, false);
-								}
-							}
-						});
 					}}
 			], title: "操作", width: 125 }];
 	}

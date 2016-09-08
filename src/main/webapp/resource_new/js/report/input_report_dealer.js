@@ -595,7 +595,11 @@ $(document).ready(function(){
 					
                 	// 当编辑【食安云】退回的报告时，更新完成后，直接跳转至报告管理界面
                 	if(root.isNew==false && root.edit_report && root.edit_report.publishFlag=='7'){
-                		window.location.href="/fsn-core/views/report_new/manage_report_dealer.html";
+                		if(portal.type){
+                			window.location.href="/fsn-core/views/report_new/super_report_manage.html";
+                		}else{
+                			window.location.href="/fsn-core/views/report_new/manage_report_dealer.html";
+                		}
                 		return;
                 	}
                 	
