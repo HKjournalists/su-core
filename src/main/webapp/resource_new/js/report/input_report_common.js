@@ -110,26 +110,25 @@ root.initComponent = function(){
         suggest: true,
         index: 0
     });
-
+    
+    
+    var dataSource =[];
+    	if(portal.type){
+    	   dataSource = [{text: "企业自检",value: "企业自检"},
+			    		 {text: "企业送检",value: "企业送检"},
+			    		 {text: "政府抽检",value: "政府抽检"}];
+    	}else{
+		   dataSource = [{text: "企业自检",value: "企业自检"},
+		    		  {text: "企业送检",value: "企业送检"},
+		    		  {text: "政府抽检",value: "政府抽检"},
+		    		  {text: "第三方检测",value: "第三方检测"}];
+       }
+    
+    
     $("#tri_testType").kendoDropDownList({
         dataTextField: "text",
         dataValueField: "value",
-        dataSource: [{
-            text: "企业自检",
-            value: "企业自检"
-        },
-        {
-            text: "企业送检",
-            value: "企业送检"
-        },
-        {
-            text: "政府抽检",
-            value: "政府抽检"
-        },
-	    {
-	    	text: "第三方检测",
-	    	value: "第三方检测"
-	    }],
+        dataSource: dataSource,
         filter: "contains",
         suggest: true,
         index: 0,
