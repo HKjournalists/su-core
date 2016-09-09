@@ -105,14 +105,15 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 				try {
 					List<Resource> SourceCertifyList = new ArrayList<Resource>(traceData.getSourceCertifyList());  
 					for(int i=0;i<SourceCertifyList.size();i++){
-						
-						UploadUtil uploadUtil=new UploadUtil();
-						String fileName=uploadUtil.createFileNameByDate(SourceCertifyList.get(i).getFileName());
-						uploadUtil.uploadFile(SourceCertifyList.get(i).getFile(),PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH),fileName);
-						if(UploadUtil.IsOss()){
-							SourceCertifyList.get(i).setUrl(uploadUtil.getOssSignUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH)+"/"+fileName));
-						}else{
-							SourceCertifyList.get(i).setUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH+"/"+fileName));
+						if(SourceCertifyList.get(i).getId()==null){
+							UploadUtil uploadUtil=new UploadUtil();
+							String fileName=uploadUtil.createFileNameByDate(SourceCertifyList.get(i).getFileName());
+							uploadUtil.uploadFile(SourceCertifyList.get(i).getFile(),PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH),fileName);
+							if(UploadUtil.IsOss()){
+								SourceCertifyList.get(i).setUrl(uploadUtil.getOssSignUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH)+"/"+fileName));
+							}else{
+								SourceCertifyList.get(i).setUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH+"/"+fileName));
+							}
 						}
 					}
 				} catch (Exception e) {
@@ -122,7 +123,7 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 		return traceData.getSourceCertifyList();
 	}
 	public Resource addResource1(TraceData traceData){
-		if(traceData.getGrowEnvironmentResource()!=null){
+		if(traceData.getGrowEnvironmentResource()!=null&&traceData.getGrowEnvironmentResource().getId()==null){
 		
 //				resourceService.create(traceData.getGrowEnvironmentResource());
 				UploadUtil uploadUtil=new UploadUtil();
@@ -137,7 +138,7 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 		return traceData.getGrowEnvironmentResource();
 	}
 	public Resource addResource2(TraceData traceData){
-		if(traceData.getBuyLink()!=null){
+		if(traceData.getBuyLink()!=null&&traceData.getBuyLink().getId()==null){
 //				resourceService.create(traceData.getBuyLink());
 				UploadUtil uploadUtil=new UploadUtil();
 				String fileName=uploadUtil.createFileNameByDate(traceData.getBuyLink().getFileName());
@@ -152,7 +153,7 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 	}
 	
 	public Resource addResource3(TraceData traceData){
-		if(traceData.getBusinessPromiseResource()!=null){
+		if(traceData.getBusinessPromiseResource()!=null&&traceData.getBusinessPromiseResource().getId()==null){
 			
 //				resourceService.create(traceData.getBusinessPromiseResource());
 				UploadUtil uploadUtil=new UploadUtil();
@@ -179,10 +180,15 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 				this.addResource3(traceData);
 			} else {
 				TraceData _traceData = this.findById(traceData.getId());
-				this.resourceService.delete(_traceData.getGrowEnvironmentResource());
-				this.resourceService.delete(_traceData.getBuyLink());
-				this.resourceService.delete(_traceData.getBusinessPromiseResource());
-				
+				if (_traceData.getGrowEnvironmentResource() != null) {
+					this.resourceService.delete(_traceData.getGrowEnvironmentResource());
+				}
+				if (_traceData.getBuyLink() != null) {
+					this.resourceService.delete(_traceData.getBuyLink());
+				}
+				if (_traceData.getBusinessPromiseResource() != null) {
+					this.resourceService.delete(_traceData.getBusinessPromiseResource());
+				}
 				for (Resource rs : _traceData.getSourceCertifyList()) {
 					this.resourceService.delete(rs);
 				}

@@ -70,7 +70,11 @@ fsn.setReportValue = function(report, product_html_type){
 		 	$("#tri_testType").data("kendoDropDownList").refresh();
 		 }
 	 }else{
-		 $("#tri_testType").val(report.testType?report.testType:"企业自检");
+		 if($("#tri_testType").data("kendoDropDownList")==undefined){
+			 $("#tri_testType").val(report.testType?report.testType:"企业自检");
+		 }else{
+			 $("#tri_testType").data("kendoDropDownList").value(report.testType?report.testType:"企业自检");
+		 }
 	 }
 	 
 	 var autoElement =  document.getElementById("yesAuto");

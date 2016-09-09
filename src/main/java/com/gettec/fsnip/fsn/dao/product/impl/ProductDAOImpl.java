@@ -1663,5 +1663,21 @@ public class ProductDAOImpl extends BaseDAOImpl<Product>
 		}
 	
 	}
+
+	@Override
+	public Long getByBarcodeProduct(String barcode) {
+		String sql = "SELECT id,barcode from product where barcode = ?1 ";
+				Query query = entityManager.createNativeQuery(sql);
+				query.setParameter(1,barcode);
+				List<Object[]> objs = query.getResultList();
+				Long id = null;
+				if(objs.size()>0){
+					for (Object[] objects : objs) {
+						id = Long.parseLong(objects[0].toString());
+						break;
+					}
+				}
+		return id;
+	}
 	
 }

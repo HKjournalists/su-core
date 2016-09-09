@@ -43,11 +43,7 @@ $(function(){
 			          { field: "dealStatus",title:"操作", width:"40%",template:function(e){
 		  		          var tag="";
 		  		            	if(e.dealType=='未处理'){
-//		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick='return fsn.deal.updateDeal("+e.id+")'>";
-//		  		            		tag += "已处理</a>";
-//		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal_Problem('"+e.barcode+"','"+e.problemType+"')>赶紧去处理</a>";
-//		  		            		tag += "<button class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal("+e.id+")><font color=blue>已处理</font></button>";
-		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal_Problem('"+e.barcode+"','"+e.problemType+"')>去处理</a>";
+		  		            		tag = "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.deal.updateDeal_Problem('"+e.barcode+"','"+e.problemType+"')>去处理</a>";
 		  		            		tag += "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick='return fsn.deal.updateDeal("+e.id+")'>";
 		  		            		tag += "已处理</a>";
 		  		            	}else{
@@ -67,10 +63,6 @@ $(function(){
 			          ];
   		return columns;
   	};
-	/**
-	 * 获取问题处理列表
-	 * @constructor
-	 */
   	deal.InitGridDataSource = function(){
   		var barcode = $("#barcode").val();
   	var dataSource = new kendo.data.DataSource({
@@ -109,11 +101,7 @@ $(function(){
 	};
 	deal.iSClean = function(){
 		$("#barcode").val('');
-	};
-	/**
-	 * 已处理（通知监管）
-	 * @param id
-	 */
+	}; 
 	deal.updateDeal = function(id){
 		$.ajax({
 	          url: fsn.getHttpPrefix() + "/deal/editDealToProblem/"+id,
@@ -127,11 +115,7 @@ $(function(){
 	          }
 	      });
 	};
-	/**
-	 * 根据各类问题做相关的页面跳转（处理问题）
-	 * @param barcode
-	 * @param type
-	 */
+	
 	deal.updateDeal_Problem = function(barcode,type){
 		var canshu = "?"+$.md5("dealProblem")+"&"+barcode+"&"+$.md5(barcode);
 		if(type == "TWO" || type == "THREE"){
@@ -139,6 +123,7 @@ $(function(){
 		}else if(type != "OTHER"){
 			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
 		}
+		
 	};
 	deal.initialize();
 });
