@@ -1408,7 +1408,7 @@ public class TestReportDaoImpl extends BaseDAOImpl<TestResult> implements TestRe
 	
 	public List<TestRptJson> getThirdList(long productId,int year,String type){
 		String sql="select tr.id,tr.test_date,tr.pass from test_result tr left join product_instance pi on pi.id=tr.sample_id"
-				+ " where tr.test_date between ?1 and ?2 and pi.product_id=?3 and tr.test_type=?4 order by test_date asc";
+				+ " where tr.test_date between ?1 and ?2 and pi.product_id=?3 and tr.test_type=?4 and tr.publish_flag='1' order by test_date asc";
 		Query query=entityManager.createNativeQuery(sql);
 		query.setParameter(1,year+"-01-01 00:00:00");
 		query.setParameter(2,year+"-12-31 23:59:00");

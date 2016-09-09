@@ -8,12 +8,9 @@ import com.gettec.fsnip.fsn.model.business.BusinessUnit;
 import com.gettec.fsnip.fsn.model.erp.base.ReceivingNote;
 import com.lhfs.fsn.vo.PlusInfoVO;
 import com.lhfs.fsn.vo.ResourceVO;
-import com.lhfs.fsn.vo.ScoreInfoVO;
 import com.lhfs.fsn.vo.business.BusinessAndPros2PortalVO;
 import com.lhfs.fsn.vo.business.BusinessResultVO;
 import com.lhfs.fsn.vo.business.BusinessVOWda;
-import com.lhfs.fsn.vo.business.BussinessBaseInfoVO;
-import com.lhfs.fsn.vo.business.BussinessCredentialsVO;
 import com.lhfs.fsn.vo.product.ProductInfoVO;
 import com.lhfs.fsn.vo.product.ProductInfosVO;
 /**
