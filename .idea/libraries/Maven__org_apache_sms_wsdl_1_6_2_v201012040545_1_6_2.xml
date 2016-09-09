@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.apache.sms:wsdl_1.6.2.v201012040545:1.6.2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/sms/wsdl_1.6.2.v201012040545/1.6.2/wsdl_1.6.2.v201012040545-1.6.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/sms/wsdl_1.6.2.v201012040545/1.6.2/wsdl_1.6.2.v201012040545-1.6.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/sms/wsdl_1.6.2.v201012040545/1.6.2/wsdl_1.6.2.v201012040545-1.6.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

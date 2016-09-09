@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.gettec.fsnip.fsn.dao.test.SampleTestPropertyDAO;
 import com.gettec.fsnip.fsn.model.test.SampleTestProperty;
-import com.gettec.fsnip.fsn.service.common.impl.AbstractBaseServiceImpl;
+import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.service.test.SampleTestPropertyService;
 
 /**
@@ -14,7 +14,7 @@ import com.gettec.fsnip.fsn.service.test.SampleTestPropertyService;
  * @author Ryan Wang
  */
 @Service(value="sampleTestPropertyService")
-public class SampleTestPropertyServiceImpl extends AbstractBaseServiceImpl<SampleTestProperty, SampleTestPropertyDAO> 
+public class SampleTestPropertyServiceImpl extends BaseServiceImpl<SampleTestProperty, SampleTestPropertyDAO> 
 		implements SampleTestPropertyService{
 	@Autowired 
 	protected SampleTestPropertyDAO sampleTestPropertyDAO;

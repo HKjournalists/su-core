@@ -3,7 +3,7 @@ var fsn = window.fsn = window.fsn || {}; // 全局命名空间
 var root = window.lims.root = window.lims.root || {}; // root命名空间
 var portal = fsn.portal = fsn.portal || {}; // portal命名空间
 portal.HTTP_PREFIX = fsn.getHttpPrefix(); // 业务请求前缀
-
+portal.type = false;
 /**
  * 产品的原产国
  * 当为null或者"中国"时 为国产食品
@@ -110,26 +110,27 @@ root.initComponent = function(){
         suggest: true,
         index: 0
     });
+    portal.business = getCurrentBusiness();
+    if(portal.business!=undefined && portal.business!=null && portal.business.type.trim().indexOf("流通企业.商超")!=-1){
+        portal.type = true;
+    }
+    
+    var dataSource =[];
+    	if(portal.type){
+    	   dataSource = [{text: "企业自检",value: "企业自检"},
+			    		 {text: "企业送检",value: "企业送检"},
+			    		 {text: "政府抽检",value: "政府抽检"}];
+    	}else{
+		   dataSource = [{text: "企业自检",value: "企业自检"},
+		    		  {text: "企业送检",value: "企业送检"},
+		    		  {text: "政府抽检",value: "政府抽检"},
+		    		  {text: "第三方检测",value: "第三方检测"}];
+       }
 
     $("#tri_testType").kendoDropDownList({
         dataTextField: "text",
         dataValueField: "value",
-        dataSource: [{
-            text: "企业自检",
-            value: "企业自检"
-        },
-        {
-            text: "企业送检",
-            value: "企业送检"
-        },
-        {
-            text: "政府抽检",
-            value: "政府抽检"
-        },
-	    {
-	    	text: "第三方检测",
-	    	value: "第三方检测"
-	    }],
+        dataSource: dataSource,
         filter: "contains",
         suggest: true,
         index: 0,

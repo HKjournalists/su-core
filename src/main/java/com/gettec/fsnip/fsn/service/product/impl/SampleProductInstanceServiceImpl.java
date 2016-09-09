@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.gettec.fsnip.fsn.dao.product.SampleProductInstanceDAO;
 import com.gettec.fsnip.fsn.model.product.SampleProductInstance;
-import com.gettec.fsnip.fsn.service.common.impl.AbstractBaseServiceImpl;
+import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.service.product.SampleProductInstanceService;
 
 /**
@@ -14,7 +14,7 @@ import com.gettec.fsnip.fsn.service.product.SampleProductInstanceService;
  * @author Ryan Wang
  */
 @Service(value="sampleProductInstanceService")
-public class SampleProductInstanceServiceImpl extends AbstractBaseServiceImpl<SampleProductInstance, SampleProductInstanceDAO> 
+public class SampleProductInstanceServiceImpl extends BaseServiceImpl<SampleProductInstance, SampleProductInstanceDAO> 
 		implements SampleProductInstanceService{
 	
 	@Autowired 

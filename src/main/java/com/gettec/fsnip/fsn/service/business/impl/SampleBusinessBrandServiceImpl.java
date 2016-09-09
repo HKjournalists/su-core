@@ -8,7 +8,7 @@ import com.gettec.fsnip.fsn.dao.business.SampleBusinessBrandDAO;
 import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.business.SampleBusinessBrand;
 import com.gettec.fsnip.fsn.service.business.SampleBusinessBrandService;
-import com.gettec.fsnip.fsn.service.common.impl.AbstractBaseServiceImpl;
+import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 
 /**
  * BusinessBrand service implementation
@@ -17,7 +17,7 @@ import com.gettec.fsnip.fsn.service.common.impl.AbstractBaseServiceImpl;
  */
 @Transactional
 @Service(value="sampleBusinessBrandService")
-public class SampleBusinessBrandServiceImpl extends AbstractBaseServiceImpl<SampleBusinessBrand, SampleBusinessBrandDAO> 
+public class SampleBusinessBrandServiceImpl extends BaseServiceImpl<SampleBusinessBrand, SampleBusinessBrandDAO> 
 		implements SampleBusinessBrandService{
 
 	@Autowired 

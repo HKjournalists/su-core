@@ -1,6 +1,8 @@
 package com.gettec.fsnip.fsn.model.trace;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -81,9 +85,15 @@ public class TraceData  extends Model{
 	private String fsnCode;
 	@Column(name = "sourceArea")
 	private String sourceArea;
-	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JoinColumn(name = "sourceCertifyResource")
-	private Resource sourceCertify;
+	
+//	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+//	@JoinColumn(name = "sourceCertifyResource")
+//	private Resource sourceCertify;
+	
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinTable(name="trace_data_to_resource",joinColumns={@JoinColumn(name="TRACE_DATA_ID")}, inverseJoinColumns = {@JoinColumn(name="RESOURCE_ID")})
+	private Set<Resource> sourceCertifyList = new HashSet<Resource>();//报告原件
+	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name = "growEnvironmentResource")
 	private Resource growEnvironmentResource;
@@ -116,17 +126,11 @@ public class TraceData  extends Model{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Resource getGrowEnvironmentResource() {
-		return growEnvironmentResource;
+	public Long getProductID() {
+		return productID;
 	}
-	public void setGrowEnvironmentResource(Resource growEnvironmentResource) {
-		this.growEnvironmentResource = growEnvironmentResource;
-	}
-	public Resource getBuyLink() {
-		return buyLink;
-	}
-	public void setBuyLink(Resource buyLink) {
-		this.buyLink = buyLink;
+	public void setProductID(Long productID) {
+		this.productID = productID;
 	}
 	public String getAddress() {
 		return address;
@@ -224,11 +228,8 @@ public class TraceData  extends Model{
 	public void setProdPics(String prodPics) {
 		this.prodPics = prodPics;
 	}
-	public java.sql.Date getProductDate() {
-		if(productDate==null){
-			return null;
-		}
-		return new java.sql.Date(productDate.getTime());
+	public Date getProductDate() {
+		return productDate;
 	}
 	public void setProductDate(Date productDate) {
 		this.productDate = productDate;
@@ -239,11 +240,11 @@ public class TraceData  extends Model{
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	public String getVolume() {
-		return volume;
+	public String getGpsList() {
+		return gpsList;
 	}
-	public void setVolume(String volume) {
-		this.volume = volume;
+	public void setGpsList(String gpsList) {
+		this.gpsList = gpsList;
 	}
 	public String getTimeTrack() {
 		return timeTrack;
@@ -251,17 +252,17 @@ public class TraceData  extends Model{
 	public void setTimeTrack(String timeTrack) {
 		this.timeTrack = timeTrack;
 	}
+	public String getVolume() {
+		return volume;
+	}
+	public void setVolume(String volume) {
+		this.volume = volume;
+	}
 	public String getWorkShop() {
 		return workShop;
 	}
 	public void setWorkShop(String workShop) {
 		this.workShop = workShop;
-	}
-	public Long  getProductID() {
-		return productID;
-	}
-	public void setProductID(Long productID) {
-		this.productID = productID;
 	}
 	public String getKeyWord() {
 		return keyWord;
@@ -281,29 +282,42 @@ public class TraceData  extends Model{
 	public void setSourceArea(String sourceArea) {
 		this.sourceArea = sourceArea;
 	}
-	public Resource getSourceCertify() {
-		return sourceCertify;
+//	public Resource getSourceCertify() {
+//		return sourceCertify;
+//	}
+//	public void setSourceCertify(Resource sourceCertify) {
+//		this.sourceCertify = sourceCertify;
+//	}
+	
+	public Set<Resource> getSourceCertifyList() {
+		return sourceCertifyList;
 	}
-	public void setSourceCertify(Resource sourceCertify) {
-		this.sourceCertify = sourceCertify;
+	public void setSourceCertifyList(Set<Resource> sourceCertifyList) {
+		this.sourceCertifyList = sourceCertifyList;
+	}
+	public Resource getGrowEnvironmentResource() {
+		return growEnvironmentResource;
+	}
+	public void setGrowEnvironmentResource(Resource growEnvironmentResource) {
+		this.growEnvironmentResource = growEnvironmentResource;
+	}
+	public Resource getBusinessPromiseResource() {
+		return businessPromiseResource;
+	}
+	public void setBusinessPromiseResource(Resource businessPromiseResource) {
+		this.businessPromiseResource = businessPromiseResource;
+	}
+	public Resource getBuyLink() {
+		return buyLink;
+	}
+	public void setBuyLink(Resource buyLink) {
+		this.buyLink = buyLink;
 	}
 	public Date getSourceDate() {
 		return sourceDate;
 	}
 	public void setSourceDate(Date sourceDate) {
 		this.sourceDate = sourceDate;
-	}
-	public Date getWarehouseDate() {
-		return warehouseDate;
-	}
-	public void setWarehouseDate(Date warehouseDate) {
-		this.warehouseDate = warehouseDate;
-	}
-	public Date getLeaveDate() {
-		return leaveDate;
-	}
-	public void setLeaveDate(Date leaveDate) {
-		this.leaveDate = leaveDate;
 	}
 	public String getProcessor() {
 		return processor;
@@ -317,6 +331,18 @@ public class TraceData  extends Model{
 	public void setPackagePlant(String packagePlant) {
 		this.packagePlant = packagePlant;
 	}
+	public Date getWarehouseDate() {
+		return warehouseDate;
+	}
+	public void setWarehouseDate(Date warehouseDate) {
+		this.warehouseDate = warehouseDate;
+	}
+	public Date getLeaveDate() {
+		return leaveDate;
+	}
+	public void setLeaveDate(Date leaveDate) {
+		this.leaveDate = leaveDate;
+	}
 	public Long getOrganization() {
 		return organization;
 	}
@@ -329,19 +355,5 @@ public class TraceData  extends Model{
 	public void setTraceData(boolean isTraceData) {
 		this.isTraceData = isTraceData;
 	}
-	public String getGpsList() {
-		return gpsList;
-	}
-	public void setGpsList(String gpsList) {
-		this.gpsList = gpsList;
-	}
-	public Resource getBusinessPromiseResource() {
-		return businessPromiseResource;
-	}
-	public void setBusinessPromiseResource(Resource businessPromiseResource) {
-		this.businessPromiseResource = businessPromiseResource;
-	}
-
-
-
+	
 }

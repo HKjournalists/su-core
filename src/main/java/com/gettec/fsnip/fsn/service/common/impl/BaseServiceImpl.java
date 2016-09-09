@@ -68,7 +68,12 @@ public abstract class BaseServiceImpl<E extends Model, DAO extends BaseDAO<E>> i
 			throw new ServiceException("", jpae.getException());
 		}
 	}
-	
+
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void delete()  {
+		getDAO().delete();
+	}
+
 	@SuppressWarnings("unused")
 	public PagingSimpleModelVO<E> getPaging(int page, int size, String keywords, Long organization) throws ServiceException {
 		PagingSimpleModelVO<E> result = new PagingSimpleModelVO<E>();
@@ -90,7 +95,7 @@ public abstract class BaseServiceImpl<E extends Model, DAO extends BaseDAO<E>> i
 		}
 		return result;
 	}
-	
+
 	public PagingSimpleModelVO<E> getAll(Long organization) throws ServiceException {
 		PagingSimpleModelVO<E> result = new PagingSimpleModelVO<E>();
 		String configure = " WHERE e.organization = " + organization;
@@ -101,7 +106,7 @@ public abstract class BaseServiceImpl<E extends Model, DAO extends BaseDAO<E>> i
 		}
 		return result;
 	}
-	
+
 	public long countUniqueName(String condition) throws ServiceException {
 		try {
 			return getDAO().count(condition);
@@ -110,5 +115,54 @@ public abstract class BaseServiceImpl<E extends Model, DAO extends BaseDAO<E>> i
 		}
 	}
 
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public long count(){
+		return getDAO().count();
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDAO<E> field(String field){
+		return this.getDAO().field(field);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDAO<E> where(String where){
+		return getDAO().where(where);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDAO<E> where(String where,Object []params){
+		return getDAO().where(where, params);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDAO<E> order(String order){
+		return getDAO().order(order);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDAO<E> limit(Integer pageSize){
+		return getDAO().limit(pageSize);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDAO<E> limit(Integer page,Integer pageSize){
+		return getDAO().limit(page, pageSize);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public BaseDAO<E> group(String group){
+		return getDAO().group(group);
+	}	
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public E find(){
+		return getDAO().find();
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public List<E> select(){
+		return getDAO().select();
+	}
+
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public long getMaxId() {
+		return getDAO().getMaxId();
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public List<String> selectOneList(String field){
+		return getDAO().selectOneList(field);
+	}
 	public abstract DAO getDAO();
 }
