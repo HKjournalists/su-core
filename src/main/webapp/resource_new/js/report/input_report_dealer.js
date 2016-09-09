@@ -85,7 +85,7 @@ $(document).ready(function(){
 		$("#backMsg").draggable();
 		//获取超市处理问题的条形码
 		if(portal.type && portal.edit_barcode != undefined){
-			$("#barcodeId").val(portal.edit_barcode);
+			 $("#barcodeId").val(portal.edit_barcode).attr('disabled',true);
 			root.judgeProductByBarcode(portal.edit_barcode);
 		}else{
 			/* 可以搜索所有的条形码 */
