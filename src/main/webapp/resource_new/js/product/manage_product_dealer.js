@@ -59,13 +59,13 @@ $(function() {
 			    		tag += "<a  onclick='return fsn.portal.edit("+e.id+","+e.packageFlag+")' " +
 			    				"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
 			    				"</span>" + fsn.l('Edit') + "</a>";
-			    	}
-			    	if(!portal.type){
-			    		if(e.local == "false"){
-			    			tag += "<a  onclick='return fsn.portal.viewProduct("+e.id+")' " +
-			    			"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
-			    			"</span>" + fsn.l('Preview') + "</a>";
-			    		}
+			    	}else
+					  if(e.local == "false"){
+						  tag += "<a  onclick='return fsn.portal.viewProduct("+e.id+")' " +
+						  "class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
+						  "</span>" + fsn.l('Preview') + "</a>";
+					  }
+					  if(!portal.type){
 			    		tag += "<a  onclick='return fsn.portal.editCustomers("+e.id+",\""+e.barcode+"\")' " +
 			    		"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
 			    		"</span>修改客户</a>";
