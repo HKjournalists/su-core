@@ -1,7 +1,10 @@
 package com.gettec.fsnip.fsn.service.trace.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.json.JSONArray;
 
@@ -97,31 +100,31 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 		return this.traceDataDao.countbyOrg(org);
 	}
 
-	public Resource addResource(TraceData traceData){
-		if(traceData.getSourceCertify()!=null){
-			try {
-				resourceService.create(traceData.getSourceCertify());
-				UploadUtil uploadUtil=new UploadUtil();
-				String fileName=uploadUtil.createFileNameByDate(traceData.getSourceCertify().getFileName());
-				uploadUtil.uploadFile(traceData.getSourceCertify().getFile(),PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH),fileName);
-				if(UploadUtil.IsOss()){
-					traceData.getSourceCertify().setUrl(uploadUtil.getOssSignUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH)+"/"+fileName));
-				}else{
-					traceData.getSourceCertify().setUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH+"/"+fileName));
+	public Set<Resource> addResource(TraceData traceData){
+		
+				try {
+					List<Resource> SourceCertifyList = new ArrayList<Resource>(traceData.getSourceCertifyList());  
+					for(int i=0;i<SourceCertifyList.size();i++){
+						
+						UploadUtil uploadUtil=new UploadUtil();
+						String fileName=uploadUtil.createFileNameByDate(SourceCertifyList.get(i).getFileName());
+						uploadUtil.uploadFile(SourceCertifyList.get(i).getFile(),PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH),fileName);
+						if(UploadUtil.IsOss()){
+							SourceCertifyList.get(i).setUrl(uploadUtil.getOssSignUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH)+"/"+fileName));
+						}else{
+							SourceCertifyList.get(i).setUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH+"/"+fileName));
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				return traceData.getSourceCertify();
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			}
-		}
-		return traceData.getSourceCertify();
+		
+		return traceData.getSourceCertifyList();
 	}
 	public Resource addResource1(TraceData traceData){
 		if(traceData.getGrowEnvironmentResource()!=null){
-			try {
-				resourceService.create(traceData.getGrowEnvironmentResource());
+		
+//				resourceService.create(traceData.getGrowEnvironmentResource());
 				UploadUtil uploadUtil=new UploadUtil();
 				String fileName=uploadUtil.createFileNameByDate(traceData.getGrowEnvironmentResource().getFileName());
 				uploadUtil.uploadFile(traceData.getGrowEnvironmentResource().getFile(),PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH),fileName);
@@ -130,19 +133,12 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 				}else{
 					traceData.getGrowEnvironmentResource().setUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH+"/"+fileName));
 				}
-				return traceData.getGrowEnvironmentResource();
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			}
 		}
 		return traceData.getGrowEnvironmentResource();
 	}
 	public Resource addResource2(TraceData traceData){
 		if(traceData.getBuyLink()!=null){
-			try {
-				resourceService.create(traceData.getBuyLink());
+//				resourceService.create(traceData.getBuyLink());
 				UploadUtil uploadUtil=new UploadUtil();
 				String fileName=uploadUtil.createFileNameByDate(traceData.getBuyLink().getFileName());
 				uploadUtil.uploadFile(traceData.getBuyLink().getFile(),PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH),fileName);
@@ -151,20 +147,14 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 				}else{
 					traceData.getBuyLink().setUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH+"/"+fileName));
 				}
-				return traceData.getBuyLink();
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			}
 		}
 		return traceData.getBuyLink();
 	}
 	
 	public Resource addResource3(TraceData traceData){
 		if(traceData.getBusinessPromiseResource()!=null){
-			try {
-				resourceService.create(traceData.getBusinessPromiseResource());
+			
+//				resourceService.create(traceData.getBusinessPromiseResource());
 				UploadUtil uploadUtil=new UploadUtil();
 				String fileName=uploadUtil.createFileNameByDate(traceData.getBusinessPromiseResource().getFileName());
 				uploadUtil.uploadFile(traceData.getBusinessPromiseResource().getFile(),PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH),fileName);
@@ -173,137 +163,126 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 				}else{
 					traceData.getBusinessPromiseResource().setUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH+"/"+fileName));
 				}
-				return traceData.getBusinessPromiseResource();
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			}
+			
 		}
 		return traceData.getBusinessPromiseResource();
 	}
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public TraceData update(TraceData traceData){
-		try{
-			if(traceData.getId()==null){
+	public TraceData update(TraceData traceData) {
+		try {
+			if (traceData.getId() == null) {
 				this.addResource(traceData);
 				this.addResource1(traceData);
 				this.addResource2(traceData);
 				this.addResource3(traceData);
-			}else{
-				if(traceData.getSourceCertify()!=null){
-					if(traceData.getSourceCertify().getId()==null){
-						try{
-							TraceData _traceData=this.findById(traceData.getId());
-							if(_traceData.getSourceCertify()!=null){
-								this.resourceService.delete(_traceData.getSourceCertify());
-							}
-						}catch(Exception e){
-							e.printStackTrace();
-						}
-						this.addResource(traceData);
-					}
-				}else{
-					try{
-						TraceData _traceData=this.findById(traceData.getId());
-						if(_traceData.getSourceCertify()!=null){
-							this.resourceService.delete(_traceData.getSourceCertify());
-						}
-						traceData.setSourceCertify(null);
-					}catch(Exception e){
-						e.printStackTrace();
-					}
-				}
-				if(traceData.getGrowEnvironmentResource()!=null){
-					if(traceData.getGrowEnvironmentResource().getId()==null){
-						try{
-							TraceData _traceData=this.findById(traceData.getId());
-							if(_traceData.getGrowEnvironmentResource()!=null){
-								this.resourceService.delete(_traceData.getGrowEnvironmentResource());
-							}
-						}catch(Exception e){
-							e.printStackTrace();
-						}
-						this.addResource1(traceData);
-					}
-				}else{
-					try{
-						TraceData _traceData=this.findById(traceData.getId());
-						if(_traceData.getGrowEnvironmentResource()!=null){
-							this.resourceService.delete(_traceData.getGrowEnvironmentResource());
-						}
-						traceData.setGrowEnvironmentResource(null);
-					}catch(Exception e){
-						e.printStackTrace();
-					}
-				}
-				if(traceData.getBuyLink()!=null){
-					if(traceData.getBuyLink().getId()==null){
-						try{
-							TraceData _traceData=this.findById(traceData.getId());
-							if(_traceData.getBuyLink()!=null){
-								this.resourceService.delete(_traceData.getBuyLink());
-							}
-						}catch(Exception e){
-							e.printStackTrace();
-						}
-						this.addResource2(traceData);
-					}
-				}else{
-					try{
-						TraceData _traceData=this.findById(traceData.getId());
-						if(_traceData.getBuyLink()!=null){
-							this.resourceService.delete(_traceData.getBuyLink());
-						}
-						traceData.setBuyLink(null);
-					}catch(Exception e){
-						e.printStackTrace();
-					}
-				}
+			} else {
+				TraceData _traceData = this.findById(traceData.getId());
+				this.resourceService.delete(_traceData.getGrowEnvironmentResource());
+				this.resourceService.delete(_traceData.getBuyLink());
+				this.resourceService.delete(_traceData.getBusinessPromiseResource());
 				
-				if(traceData.getBusinessPromiseResource()!=null){
-					if(traceData.getBusinessPromiseResource().getId()==null){
-						try{
-							TraceData _traceData=this.findById(traceData.getId());
-							if(_traceData.getBusinessPromiseResource()!=null){
-								this.resourceService.delete(_traceData.getBusinessPromiseResource());
-							}
-						}catch(Exception e){
-							e.printStackTrace();
-						}
-						this.addResource3(traceData);
-					}
-				}else{
-					try{
-						TraceData _traceData=this.findById(traceData.getId());
-						if(_traceData.getBusinessPromiseResource()!=null){
-							this.resourceService.delete(_traceData.getBusinessPromiseResource());
-						}
-						traceData.setBusinessPromiseResource(null);
-					}catch(Exception e){
-						e.printStackTrace();
-					}
+				for (Resource rs : _traceData.getSourceCertifyList()) {
+					this.resourceService.delete(rs);
 				}
-				
+
+				if (traceData.getSourceCertifyList() != null) {
+					this.addResource(traceData);
+				} else {
+					traceData.setSourceCertifyList(null);
+				}
+
+				if (traceData.getGrowEnvironmentResource() != null) {
+					this.addResource1(traceData);
+				} else {
+					traceData.setGrowEnvironmentResource(null);
+				}
+				if (traceData.getBuyLink() != null) {
+					this.addResource2(traceData);
+				} else {
+					traceData.setBuyLink(null);
+				}
+				if (traceData.getBusinessPromiseResource() != null) {
+					this.addResource3(traceData);
+				} else {
+					traceData.setBusinessPromiseResource(null);
+				}
+				/*
+				 * 
+				 * if(traceData.getSourceCertifyList()!=null){ for (Resource rs
+				 * : traceData.getSourceCertifyList()) { try{
+				 * this.resourceService.delete(rs.getId()); }catch(Exception e){
+				 * e.printStackTrace(); } } this.addResource(traceData); }else{
+				 * try{ TraceData _traceData=this.findById(traceData.getId());
+				 * for (Resource rs : _traceData.getSourceCertifyList()) {
+				 * if(_traceData.getSourceCertifyList()!=null){
+				 * this.resourceService.delete(rs); } }
+				 * traceData.setSourceCertifyList(null); }catch(Exception e){
+				 * e.printStackTrace(); } }
+				 * 
+				 * if(traceData.getGrowEnvironmentResource()!=null){
+				 * if(traceData.getGrowEnvironmentResource().getId()==null){
+				 * try{ TraceData _traceData=this.findById(traceData.getId());
+				 * if(_traceData.getGrowEnvironmentResource()!=null){
+				 * this.resourceService
+				 * .delete(_traceData.getGrowEnvironmentResource()); }
+				 * }catch(Exception e){ e.printStackTrace(); }
+				 * this.addResource1(traceData); } }else{ try{ TraceData
+				 * _traceData=this.findById(traceData.getId());
+				 * if(_traceData.getGrowEnvironmentResource()!=null){
+				 * this.resourceService
+				 * .delete(_traceData.getGrowEnvironmentResource()); }
+				 * traceData.setGrowEnvironmentResource(null); }catch(Exception
+				 * e){ e.printStackTrace(); } }
+				 * if(traceData.getBuyLink()!=null){
+				 * if(traceData.getBuyLink().getId()==null){ try{ TraceData
+				 * _traceData=this.findById(traceData.getId());
+				 * if(_traceData.getBuyLink()!=null){
+				 * this.resourceService.delete(_traceData.getBuyLink()); }
+				 * }catch(Exception e){ e.printStackTrace(); }
+				 * this.addResource2(traceData); } }else{ try{ TraceData
+				 * _traceData=this.findById(traceData.getId());
+				 * if(_traceData.getBuyLink()!=null){
+				 * this.resourceService.delete(_traceData.getBuyLink()); }
+				 * traceData.setBuyLink(null); }catch(Exception e){
+				 * e.printStackTrace(); } }
+				 * 
+				 * if(traceData.getBusinessPromiseResource()!=null){
+				 * if(traceData.getBusinessPromiseResource().getId()==null){
+				 * try{ TraceData _traceData=this.findById(traceData.getId());
+				 * if(_traceData.getBusinessPromiseResource()!=null){
+				 * this.resourceService
+				 * .delete(_traceData.getBusinessPromiseResource()); }
+				 * }catch(Exception e){ e.printStackTrace(); }
+				 * this.addResource3(traceData); } }else{ try{ TraceData
+				 * _traceData=this.findById(traceData.getId());
+				 * if(_traceData.getBusinessPromiseResource()!=null){
+				 * this.resourceService
+				 * .delete(_traceData.getBusinessPromiseResource()); }
+				 * traceData.setBusinessPromiseResource(null); }catch(Exception
+				 * e){ e.printStackTrace(); } }
+				 * 
+				 * }
+				 */
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				JSONArray timeTrace = new JSONArray();
+				timeTrace.add(sdf.format(traceData.getSourceDate()) + "@原材料入仓时间");
+				if (traceData.getWarehouseDate() != null) {
+					timeTrace.add(sdf.format(traceData.getWarehouseDate()) + "@入库时间");
+				}
+				timeTrace.add(sdf.format(traceData.getProductDate()) + "@生产日期");
+				if (traceData.getLeaveDate() != null) {
+					timeTrace.add(sdf.format(traceData.getLeaveDate()) + "@出厂日期");
+				}
+				traceData.setTimeTrack(timeTrace.toString());
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			JSONArray timeTrace=new JSONArray();
-			timeTrace.add(sdf.format(traceData.getSourceDate())+"@原材料入仓时间");
-			if(traceData.getWarehouseDate()!=null){
-				timeTrace.add(sdf.format(traceData.getWarehouseDate())+"@入库时间");
-			}
-			timeTrace.add(sdf.format(traceData.getProductDate())+"@生产日期");
-			if(traceData.getLeaveDate()!=null){
-				timeTrace.add(sdf.format(traceData.getLeaveDate())+"@出厂日期");
-			}
-			traceData.setTimeTrack(timeTrace.toString());
 			this.traceDataDao.merge(traceData);
-			return traceData;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
+		return traceData;
 	}
+
+	
 }

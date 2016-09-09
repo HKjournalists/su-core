@@ -3,6 +3,7 @@ package com.gettec.fsnip.fsn.service.trace;
 
 
 import java.util.List;
+import java.util.Set;
 
 import com.gettec.fsnip.fsn.dao.trace.TraceDataDao;
 import com.gettec.fsnip.fsn.model.market.Resource;
@@ -17,5 +18,8 @@ public interface TraceDataService extends BaseService<TraceData, TraceDataDao> {
 	String CheckCode(String fsnCode);
 	List<TraceData> getbyOrgId(Long org,int page,int pageSize);
 	long countbyOrg(long org);
-	Resource addResource(TraceData traceData);
+	
+	Set<Resource> addResource(TraceData traceData);
+
+	
 }
