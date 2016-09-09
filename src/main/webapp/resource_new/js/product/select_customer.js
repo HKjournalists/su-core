@@ -77,33 +77,6 @@ portal.initCustomerMultiSelect_lead = function() {
  * @author Zhanghui 2015/5/9
  */
 portal.fillCustomerSelectDataSource=function(){
-	
-		var dataSource = new kendo.data.DataSource({
-		transport : {
-			read : function(options) {
-				$.ajax({
-					url : portal.HTTP_PREFIX + "/erp/customer/2/lists",
-					type : "GET",
-					async:false,
-					dataType : "json",
-					success : function(data) {
-						options.success(data.result);
-					}
-				});
-			}
-		}
-	});
-	
-	return dataSource;
-	
-} 
-
-/**
- * 经销商产品管理界面，[销往企业]数据初始化
- * @author Zhanghui 2015/4/3
- */
-portal.fillCustomerSelect = function() {
-	
 	var dataSource = new kendo.data.DataSource({
 		transport : {
 			read : function(options) {
@@ -119,6 +92,15 @@ portal.fillCustomerSelect = function() {
 			}
 		}
 	});
+	return dataSource;
+	
+} ;
+
+/**
+ * 经销商产品管理界面，[销往企业]数据初始化
+ * @author Zhanghui 2015/4/3
+ */
+portal.fillCustomerSelect = function() {
 
    portal.customerSelectDataSource =portal.fillCustomerSelectDataSource();
 	/**
@@ -129,7 +111,6 @@ portal.fillCustomerSelect = function() {
 		$("#customerSelectInfo").data("kendoMultiSelect").setDataSource(portal.customerSelectDataSource);
 		$("#customerSelectInfo").data("kendoMultiSelect").refresh();
 	}
-	
 	/**
 	 * 产品引进时，销往客户控件数据初始化
 	 * @author HuangYong 2015/4/14

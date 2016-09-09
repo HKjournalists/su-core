@@ -1852,4 +1852,11 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductDAO>
 	public Product getAllProductsByOrgandid(long organization,long id){
 		return this.productDAO.getAllProductsByOrgandid(organization, id);
 	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Long getByBarcodeProduct(String barcode) {
+		
+		return productDAO.getByBarcodeProduct(barcode);
+	}
 }

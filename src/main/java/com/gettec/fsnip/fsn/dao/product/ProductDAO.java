@@ -280,5 +280,12 @@ public interface ProductDAO extends BaseDAO<Product>{
 
 	
 	public int updateProductCertByBarcode(String barcode,int cert);
+	/**
+	    * 根据条形码获取产品ID
+	    * @param barcode
+	    * @param model
+	    * @return
+	    */
+	public Long getByBarcodeProduct(String barcode);
 }
 

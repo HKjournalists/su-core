@@ -5,7 +5,7 @@ $(function() {
 	var portal = fsn.portal = fsn.portal || {}; // portal命名空间
 	portal.CONTEXT_PATH = "/fsn-core"; // 项目名称
 	portal.HTTP_PREFIX = fsn.getHttpPrefix(); // 业务请求前缀
-	
+	portal.type = false;
 	//判断cookie不为空时设置为空
 	try {
 		var edit_id = $.cookie("user_0_edit_product").id;
@@ -32,7 +32,13 @@ $(function() {
 				visible: false,
 				title:"删除产品",
 			});
-		upload.buildGridByBoolbar("my_product_grid",portal.mytemplatecolumns, portal.mytemplateDS, "460px", "toolbar_template");
+			portal.currentBusiness = getCurrentBusiness();
+			var toolbar_template = "toolbar_template";
+			if(portal.currentBusiness!=undefined&&portal.currentBusiness!=null&&portal.currentBusiness.type.trim().indexOf("流通企业.商超")!=-1){
+				toolbar_template="";
+				portal.type = true;
+			}
+		upload.buildGridByBoolbar("my_product_grid",portal.mytemplatecolumns, portal.mytemplateDS, "460px", toolbar_template);
 		product.initComponent();
 		
 		// 初始化[销往企业]多选框控件
@@ -53,17 +59,20 @@ $(function() {
 			    		tag += "<a  onclick='return fsn.portal.edit("+e.id+","+e.packageFlag+")' " +
 			    				"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
 			    				"</span>" + fsn.l('Edit') + "</a>";
-			    	}else if(e.local == "false"){
-			    		tag += "<a  onclick='return fsn.portal.viewProduct("+e.id+")' " +
-			    				"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
-			    				"</span>" + fsn.l('Preview') + "</a>";
 			    	}
-			    	tag += "<a  onclick='return fsn.portal.editCustomers("+e.id+",\""+e.barcode+"\")' " +
+			    	if(!portal.type){
+			    		if(e.local == "false"){
+			    			tag += "<a  onclick='return fsn.portal.viewProduct("+e.id+")' " +
 			    			"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
-			    			"</span>修改客户</a>";
-			    	tag += "<a onclick='return portal.delProduct("+e.id+")' " +
-    						"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
-    						"</span>删除</a>";
+			    			"</span>" + fsn.l('Preview') + "</a>";
+			    		}
+			    		tag += "<a  onclick='return fsn.portal.editCustomers("+e.id+",\""+e.barcode+"\")' " +
+			    		"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
+			    		"</span>修改客户</a>";
+			    		tag += "<a onclick='return portal.delProduct("+e.id+")' " +
+			    		"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
+			    		"</span>删除</a>";
+			    	}
 					return tag;
 				}
 		    }];
