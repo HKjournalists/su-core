@@ -35,7 +35,8 @@
 <script src="../../resource/js/upload/lims.i18n.js"></script>
 <script src="../../resource_new/js/report/upload_resource.js"></script>
 <script src="../../resource/js/dialog-min.js"></script>
-<script src="../../resource/js/tracedata/tracedata.js"></script>
+<script src="../../resource/js/tracedata/tracedata-new.js"></script>
+
 <style type="text/css">
 .fixfooter {
 	padding-bottom: 60px;
@@ -133,7 +134,7 @@ color:#0f941a;
 						<td></td>
 						<td></td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<td>原料来源区域：<span class='red_xing'>*</span></td>
 						<td><input id="sourceArea" class="k-textbox" type="text"
 							style="width: 250px" name="sourceArea"></td>
@@ -152,6 +153,25 @@ color:#0f941a;
 								<br>
 								<br>
 							</div> <label id="repFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
+						</td>
+					</tr> -->
+					<tr>
+						<td>原料来源区域：<span class='red_xing'>*</span></td>
+						<td><input id="sourceArea" class="k-textbox" type="text"
+							style="width: 250px" name="sourceArea"></td>
+						<td>原材料其他证明：</td>
+						<td>
+							<div id="upload_source">
+								<span id='uploadZone'> 
+									<input type="file" id="upload-other-img" />
+								</span>
+							</div>
+							<div id="logListView">
+								<div id="proAttachmentsListView"></div>
+							</div>
+							<div class="div-tr">
+								<label id="otherFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -182,36 +202,32 @@ color:#0f941a;
 					</tr>
 					<tr>
 						<td>生长环境展示：</td>
-						<td><input id=upload-ge-img type='file' />
-							<div id="geAttachmentsListView" data-role="listview"
-								class="k-widget k-listview" role="listbox" style="display:none;">
-								&nbsp;&nbsp;<a
-									href="#"
-									target="_blank"
-									role="option" aria-selected="false">查看生长环境展示</a>
-								<button class="k-button"
-									onclick="return root.removeGe()">
-									<span class="k-icon k-cancel">删除</span>
-								</button>
-								<br>
-								<br>
-							</div> <label id="repFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
+						<td>
+							<div id="upload_source">
+								<span id='uploadZone'> 
+									<input type="file" id="upload-ge-img" />
+								</span>
+							</div>
+							<div id="logListView1">
+								<div id="proAttachmentsListView1"></div>
+							</div>
+							<div class="div-tr">
+								<label id="szFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
+							</div>
 						</td>
 						<td>购买链接二维码：</td>
-						<td><input id=upload-by-img type='file' />
-							<div id="byAttachmentsListView" data-role="listview"
-								class="k-widget k-listview" role="listbox" style="display:none;">
-								&nbsp;&nbsp;<a
-									href="#"
-									target="_blank"
-									role="option" aria-selected="false">查看购买二维码</a>
-								<button class="k-button"
-									onclick="return root.removeBy()">
-									<span class="k-icon k-cancel">删除</span>
-								</button>
-								<br>
-								<br>
-							</div> <label id="repFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
+						<td>
+							<div id="upload_source">
+								<span id='uploadZone'> 
+									<input type="file" id="upload-by-img" />
+								</span>
+							</div>
+							<div id="logListView2">
+								<div id="proAttachmentsListView2"></div>
+							</div>
+							<div class="div-tr">
+								<label id="erFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
+							</div>
 						</td>
 						
 					</tr>
@@ -219,20 +235,18 @@ color:#0f941a;
 						<!-- 企业承诺图片start -->
 					<tr>
 						<td>企业承诺图片：</td>
-						<td><input id=upload-business-img type='file' />
-							<div id="businessAttachmentsListView" data-role="listview"
-								class="k-widget k-listview" role="listbox" style="display:none;">
-								&nbsp;&nbsp;<a
-									href="#"
-									target="_blank"
-									role="option" aria-selected="false">查看企业承诺图片</a>
-								<button class="k-button"
-									onclick="return root.removeBusiness()">
-									<span class="k-icon k-cancel">删除</span>
-								</button> 
-								<br>
-								<br>
-							</div> <label id="repFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
+						<td>
+							<div id="upload_source">
+								<span id='uploadZone'> 
+									<input type="file" id="upload-business-img" />
+								</span>
+							</div>
+							<div id="logListView3">
+								<div id="proAttachmentsListView3"></div>
+							</div>
+							<div class="div-tr">
+								<label id="cnFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
+							</div>
 						</td>
 					</tr>
 						<!-- 企业承诺图片end -->
@@ -263,7 +277,28 @@ color:#0f941a;
 	</script>
 			</div>
 		</div>
+		
 		</form>
 	</div>
+	<script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+		&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+		<button class="k-button" onclick="return root.removeRes0(#=attachments.id#)">
+        <span class="k-icon k-cancel" data-fsn-text="Delete"></span></button><br><br>
+    </script>
+    <script type="text/x-kendo-tmpl" id="uploadedFilesTemplate1">
+		&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+		<button class="k-button" onclick="return root.removeRes1(#=attachments.id#)">
+        <span class="k-icon k-cancel" data-fsn-text="Delete"></span></button><br><br>
+    </script>
+    <script type="text/x-kendo-tmpl" id="uploadedFilesTemplate2">
+		&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+		<button class="k-button" onclick="return root.removeRes2(#=attachments.id#)">
+        <span class="k-icon k-cancel" data-fsn-text="Delete"></span></button><br><br>
+    </script>
+    <script type="text/x-kendo-tmpl" id="uploadedFilesTemplate3">
+		&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+		<button class="k-button" onclick="return root.removeRes3(#=attachments.id#)">
+        <span class="k-icon k-cancel" data-fsn-text="Delete"></span></button><br><br>
+    </script>
 </body>
 </html>
