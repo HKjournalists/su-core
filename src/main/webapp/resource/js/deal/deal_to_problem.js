@@ -118,15 +118,9 @@ $(function(){
 	
 	deal.updateDeal_Problem = function(barcode,type){
 		var canshu = "?"+$.md5("dealProblem")+"&"+barcode+"&"+$.md5(barcode);
-//		 try {
-//		    	var arrayParam = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-//		    	var pid = arrayParam[0]; // 产品id（原始id，未被编码）
-//		    	var orig_pidmd5 = arrayParam[1]; // 产品id(被编码过的产品id)
-//		    	portal.edit_id = portal.md5validate(pid,orig_pidmd5);
-//		    } catch (e) {}
-//		    
-//		    
-		if(type = "ZERO"){
+		if(type == "TWO" || type == "THREE"){
+			window.location.href = "/fsn-core/views/report_new/input_report_dealer.html"+canshu;
+		}else if(type != "OTHER"){
 			window.location.href = "/fsn-core/views/portal_new/product.html"+canshu;
 		}
 		

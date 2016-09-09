@@ -579,6 +579,7 @@ $(document).ready(function() {
 		}
 		if(portal.currentBusiness != undefined){
 		    if(portal.currentBusiness.type.trim().indexOf("流通企业.商超")!=-1){
+		    	$("#barcode").attr("readonly",true);
 				//销往客户给默认值
 				portal.setCustomerSelectInfo();
 		    }
