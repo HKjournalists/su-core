@@ -49,18 +49,18 @@ $(document).ready(function(){
 			$("#leaveDate").val(fsn.formatGridDate(rs.traceData.leaveDate));
 			if(rs.traceData.sourceCertifyList){
 				if(rs.traceData.sourceCertifyList.length>0){
-			         $("#logListView").show();
+			         $("#logListView0").show();
 			         var dataSource = new kendo.data.DataSource();
 					 for(var i=0;i<rs.traceData.sourceCertifyList.length;i++){
 						 root.aryRepAttachments.push(rs.traceData.sourceCertifyList[i]);
 						 dataSource.add({attachments:rs.traceData.sourceCertifyList[i]});
 					 }
 				 }else{
-			         $("#logListView").hide();
+			         $("#logListView0").hide();
 				 }
-				 $("#proAttachmentsListView").kendoListView({
+				 $("#proAttachmentsListView0").kendoListView({
 			         dataSource: dataSource,
-			         template:kendo.template($("#uploadedFilesTemplate").html()),
+			         template:kendo.template($("#uploadedFilesTemplate0").html()),
 			     });
 			}
 			if(rs.traceData.growEnvironmentResource){
@@ -72,6 +72,7 @@ $(document).ready(function(){
 			         dataSource: dataSource,
 			         template:kendo.template($("#uploadedFilesTemplate1").html()),
 			     });
+				$("#upload-ge-img").data("kendoUpload").disable();
 			}else{
 		        $("#logListView1").hide();
 			}
@@ -84,6 +85,7 @@ $(document).ready(function(){
 				    dataSource: dataSource,
 				    template:kendo.template($("#uploadedFilesTemplate2").html()),
 				});
+				$("#upload-by-img").data("kendoUpload").disable();
 			}else{
 			    $("#logListView2").hide();
 			}
@@ -96,6 +98,7 @@ $(document).ready(function(){
 				    dataSource: dataSource,
 				    template:kendo.template($("#uploadedFilesTemplate3").html()),
 				});
+				$("#upload-business-img").data("kendoUpload").disable();
 			}else{
 			   $("#logListView3").hide();
 			}
@@ -269,64 +272,7 @@ $(document).ready(function(){
 	/**
 	 * 初始化原材料证明图片，页面显示
 	 */
-	portal.setRepAttachments=function(repAttachments){
-		 var dataSource = new kendo.data.DataSource();
-		 root.aryRepAttachments.length=0;
-		 if(repAttachments.length>0){
-			 $("#btn_clearProFiles").show();
-	         $("#logListView").show();
-			 for(var i=0;i<repAttachments.length;i++){
-				 root.aryProAttachments.push(repAttachments[i]);
-				 dataSource.add({attachments:repAttachments[i]});
-			 }
-		 }else{
-			 $("#btn_clearProFiles").hide();
-	         $("#logListView").hide();
-		 }
-		 $("#proAttachmentsListView").kendoListView({
-	         dataSource: dataSource,
-	         template:kendo.template($("#uploadedFilesTemplate").html()),
-	     });
-	 };
-	 /**
-	  * 初始化产品图片，页面显示
-	  */
-	 portal.aryProBusinessImg=function(strImg,aryProImg){
-		 if(strImg=='licImg'){
-			 portal.aryProLicImg.length=0;
-		 }else if(strImg=='qsImg'){
-			 portal.aryProQsImg.length=0;
-		 }else if(strImg=='disImg'){
-			 portal.aryProDisImg.length=0;
-		 }
-		 if(aryProImg.length>0){
-			 var k = 0 ;
-			 for(var i=0;i<aryProImg.length;i++){
-				 k = i+1;
-				 var dataSource = new kendo.data.DataSource();
-				 $("#btn_clearProFiles").show();
-				 $("#businessName"+k).val(aryProImg[i].businessName);
-				 if(strImg=='licImg'){
-					 portal.aryProLicImg.push(aryProImg[i]);
-				 }else if(strImg=='qsImg'){
-					 portal.aryProQsImg.push(aryProImg[i]);
-				 }else if(strImg=='disImg'){
-					 portal.aryProDisImg.push(aryProImg[i]);
-				 }
-				 
-				 dataSource.add({attachments:aryProImg[i]});
-				 $("#"+strImg+"ListView"+k).show();
-				 $("#"+strImg+"FilesView"+k).kendoListView({
-					 dataSource: dataSource,
-					 template:kendo.template($("#"+strImg+"FilesTemplate").html()),
-				 });
-			 }
-		 }else{
-			 $("#btn_clearProFiles").hide();
-			 $("#"+strImg+"ListView").hide();
-		 }
-	 };
-	 
+	
 	function getUrlParam(name){  
 		//构造一个含有目标参数的正则表达式对象  
 		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");  
@@ -341,18 +287,18 @@ $(document).ready(function(){
 	 * 从页面删除产品图片
 	 */
 	root.removeRes0 = function(resID){
-		root.removeRes(resID, root.aryRepAttachments, "#proAttachmentsListView", "#logListView");
+		root.removeRes(resID, root.aryRepAttachments, "#proAttachmentsListView0", "#logListView0", "#upload-ge-img");
 	};
 	root.removeRes1 = function(resID){
-		root.removeRes(resID, root.aryGeAttachments, "#proAttachmentsListView1", "#logListView1");
+		root.removeRes(resID, root.aryGeAttachments, "#proAttachmentsListView1", "#logListView1", "#upload-ge-img");
 	};
 	root.removeRes2 = function(resID){
-		root.removeRes(resID, root.aryByAttachments, "#proAttachmentsListView2", "#logListView2");
+		root.removeRes(resID, root.aryByAttachments, "#proAttachmentsListView2", "#logListView2", "#upload-by-img");
 	};
 	root.removeRes3 = function(resID){
-		root.removeRes(resID, root.aryBusinessAttachments, "#proAttachmentsListView3", "#logListView3");
+		root.removeRes(resID, root.aryBusinessAttachments, "#proAttachmentsListView3", "#logListView3", "#upload-business-img");
 	};
-	root.removeRes = function(resID, attmachmentss, attachmentsListView, logListView){
+	root.removeRes = function(resID, attmachmentss, attachmentsListView, logListView, id){
 		 var dataSource = new kendo.data.DataSource();
 		 for(var i=0; i<attmachmentss.length; i++){
 	   	 if(attmachmentss[i].id == resID){
@@ -371,7 +317,8 @@ $(document).ready(function(){
 			}
 		 }
 		 $(attachmentsListView).data("kendoListView").setDataSource(dataSource);
-			if(root.aryByAttachments.length == 0){
+			if(attmachmentss.length == 0){
+				$(id).data("kendoUpload").enable();
 				$(logListView).hide();
 		 }
 	};

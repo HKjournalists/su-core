@@ -134,27 +134,6 @@ color:#0f941a;
 						<td></td>
 						<td></td>
 					</tr>
-					<!-- <tr>
-						<td>原料来源区域：<span class='red_xing'>*</span></td>
-						<td><input id="sourceArea" class="k-textbox" type="text"
-							style="width: 250px" name="sourceArea"></td>
-						<td>原材料其他证明：</td>
-						<td><input id=upload-other-img type='file' />
-							<div id="repAttachmentsListView" data-role="listview"
-								class="k-widget k-listview" role="listbox" style="display:none;">
-								&nbsp;&nbsp;<a
-									href="#"
-									target="_blank"
-									role="option" aria-selected="false">查看原材料证明</a>
-								<button class="k-button"
-									onclick="return root.removeRes()">
-									<span class="k-icon k-cancel">删除</span>
-								</button>
-								<br>
-								<br>
-							</div> <label id="repFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
-						</td>
-					</tr> -->
 					<tr>
 						<td>原料来源区域：<span class='red_xing'>*</span></td>
 						<td><input id="sourceArea" class="k-textbox" type="text"
@@ -166,8 +145,8 @@ color:#0f941a;
 									<input type="file" id="upload-other-img" />
 								</span>
 							</div>
-							<div id="logListView">
-								<div id="proAttachmentsListView"></div>
+							<div id="logListView0">
+								<div id="proAttachmentsListView0"></div>
 							</div>
 							<div class="div-tr">
 								<label id="otherFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
@@ -280,7 +259,7 @@ color:#0f941a;
 		
 		</form>
 	</div>
-	<script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+	<script type="text/x-kendo-tmpl" id="uploadedFilesTemplate0">
 		&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
 		<button class="k-button" onclick="return root.removeRes0(#=attachments.id#)">
         <span class="k-icon k-cancel" data-fsn-text="Delete"></span></button><br><br>
