@@ -69,6 +69,7 @@ public class DealToProblemServiceImpl extends BaseServiceImpl<DealToProblem, Dea
 			e.setBarcode(vo.getBarcode());
 			e.setProductTime(vo.getProductionDate());
 			e.setProductName(vo.getProductName());
+			e.setDqcode(vo.getProblemCode());
 			e.setWtcode(vo.getProblemType().getId());
 		    e.setTjtime(vo.getCreateTime());
 		    e.setYjtime(vo.getDealTime());
@@ -141,6 +142,7 @@ public class DealToProblemServiceImpl extends BaseServiceImpl<DealToProblem, Dea
 		newvo.setBusinessName(dealvo.getBusinessName());
 		newvo.setBarcode(dealvo.getBarcode());
 		newvo.setProblemType(dealvo.getProblemType());
+		newvo.setProblemCode(dealvo.getCounties());
 		newvo.setCreateTime(dealvo.getCreateTime());
 		newvo.setDealTime(dealvo.getRequestDealTime());
 		newvo.setCommitStatus(dealvo.getCommitStatus());
