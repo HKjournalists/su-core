@@ -453,7 +453,14 @@ public class TestResultServiceImpl extends BaseServiceImpl<TestResult, TestResul
 		/* 抽样地点 */
 		report.setSamplingLocation(testResultVO.getSamplingLocation());
 		/* 检验类别 */
-		report.setTestType(testResultsVO.getTestType());
+		String testType = testResultsVO.getTestType();
+		if(testType.equals("云平台委托检测")){
+			report.setTestType("第三方检测");
+			report.setPublishFlag('1');
+		}else{
+			report.setTestType(testType);
+			report.setPublishFlag('0');
+		}
 		/* 主要仪器 */
 		report.setEquipment(testResultVO.getEquipment());
 		/* 执行标准 */
@@ -473,7 +480,6 @@ public class TestResultServiceImpl extends BaseServiceImpl<TestResult, TestResul
 		/* 完整的没有截取的报告路径 */ 
 		report.setFullPdfPath(fullPdfPath);
 		report.setReceiveDate(new Date());
-		report.setPublishFlag('0');
 		report.setDbflag("receive_from_lims");
 		report.setSampleNO(sample.getSampleNO());
 		report.setLimsSampleId(sample.getSampleId());
