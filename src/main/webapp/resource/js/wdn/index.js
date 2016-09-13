@@ -240,7 +240,7 @@ $(function() {
 			}
 		});
 
-		$("#search").keyup(function(){
+		$("#search").keyup(function(event){
 			if(event.keyCode == 13){
 				wdn.searchDocument();
 			}

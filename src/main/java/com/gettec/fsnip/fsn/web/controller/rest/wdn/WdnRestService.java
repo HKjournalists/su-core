@@ -72,13 +72,14 @@ public class WdnRestService {
                 if(!typeSelectName.equals(URLEncoder.encode(SEARCH_ALL_TYPE, "UTF-8"))){
                     urlBuffer.append("class:").append(typeSelectName).append("+");
                 }
-                urlBuffer.append(selectCode).append(":").append(keywords)
-                        .append("&start=").append(page).append("&size=").append(pageSize)
-                        .append("&sortField=").append(sortField);
-
-                //Fixed: Search result is null while the search type selected "全部类型".
-                /*String url =  "http://discovery.las.ac.cn/jsoninterface.do?action=expertSearch&expression=class:" + typeSelectName +
-                        "+" + selectCode + ":" + keywords + "&start="+ page + "&size=" + pageSize + "&sortField=" +sortField;*/
+                if (selectCode.equals("title-all") && keywords.equals("0")){
+                    urlBuffer.append("&start=").append(page).append("&size=").append(pageSize)
+                            .append("&sortField=").append(sortField);
+                } else {
+                    urlBuffer.append(selectCode).append(":").append(keywords)
+                            .append("&start=").append(page).append("&size=").append(pageSize)
+                            .append("&sortField=").append(sortField);
+                }
 
                 results = connect(urlBuffer.toString(), "GET", "");
                 results = results.replaceAll("data-source","datasource");
