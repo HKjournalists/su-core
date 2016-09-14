@@ -7,17 +7,20 @@
 <!--[if IE]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<link rel="stylesheet" href="../../resource/css/reset.css" />
-<link rel="stylesheet" href="../../resource/css/text.css" />
-<link rel="stylesheet" href="../../resource/css/grid.css" />
-<link href="../../resource/kendoui/styles/kendo.common.min.css"rel="stylesheet" />
-<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
-<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
-<link rel="stylesheet" href="../../resource/css/notification.css" />
+<link rel="stylesheet" href="../../resource_new/css/reset.css" />
+<link rel="stylesheet" href="../../resource_new/css/text.css" />
+<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+<link href="../../resource_new/kendoui/styles/kendo.common.min.css"rel="stylesheet" />
+<link href="../../resource_new/kendoui/styles/kendo.default.min.css"rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+<link rel="stylesheet" href="../../resource_new/css/pushMessage.css" />
+<link rel="stylesheet" href="../../resource_new/css/notification.css" />
+<link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
 <script src="../../resource/js/less.js" type="text/javascript"></script>
 <script src="../../resource/kendoui/js/jquery.min.js"></script>
 <script src="../../resource/kendoui/js/kendo.web.min.js"></script>
-<script src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource_new/js/headerFooterTemplate.js"></script>
 <script src="../../resource/js/jquery.cookie.js"></script>
 <script src="../../resource/js/lims.i18n.js"></script>
 <script src="../../resource/js/fsn.js"></script>
@@ -56,10 +59,11 @@ html .column12 { margin-bottom: 30px;margin-top: -25px;}
 </style>
 </head>
 <body>
-<div class="fixfooter">
- <div class="container" id="content_container">
- <div id="main" class="row">
-   <div class="column12 last">
+<div class="fixfooter wi800 fl mt20 pr"> 
+     <div class="fullview page_title mt50 wper100 ml20" id="status_bar"> 当前位置：报告发布</div>
+   <div class="wper100 mt15" > 
+   		<div class="row ml20">
+    		<div class=" wper100 last ">
     <div style="width:100%;margin-left: auto;margin-right: auto;margin-top: 30px;">
    	  <div >
     	<div style="margin-top:30px;">
@@ -71,8 +75,8 @@ html .column12 { margin-bottom: 30px;margin-top: -25px;}
 				<span class="k-icon k-update"></span>签名</button>&nbsp;
  				<button id="report_publish_btn" class="k-button" onclick="return lims.root.publish()">
 				<span class="k-icon k-add"></span>发布</button>&nbsp;
-                <button id="btn_addRemark" class="k-button" onclick="return lims.root.editTips()">
-       		 	<span class="k-icon k-add"></span>修改提示消息</button> 
+               <!-- <button id="btn_addRemark" class="k-button" onclick="return lims.root.editTips()">
+       		 	<span class="k-icon k-add"></span>修改提示消息</button> -->
    	  		</script>
     	 	<div id="report_publish_grid"></div>
   		</div>
@@ -86,8 +90,8 @@ html .column12 { margin-bottom: 30px;margin-top: -25px;}
 				<span class="k-icon k-update"></span>签名</button>&nbsp;
  				<button id="report_publish_btn_back" class="k-button" onclick="return lims.root.publish_back()">
 				<span class="k-icon k-add"></span>发布</button>&nbsp;&nbsp;&nbsp;
-                <button id="btn_addRemark_back" class="k-button" onclick="return lims.root.editTips_back()">
-       		 	<span class="k-icon k-add"></span>修改提示消息</button>
+                <!--<button id="btn_addRemark_back" class="k-button" onclick="return lims.root.editTips_back()">
+       		 	<span class="k-icon k-add"></span>修改提示消息</button>-->
    	  		</script>
     	 	<div id="report_back_eidt_grid"></div>
   		</div>
@@ -100,7 +104,7 @@ html .column12 { margin-bottom: 30px;margin-top: -25px;}
   		</div>
 	</div>
 	</div>
-  </div>
+  
   <div id="msg_error"></div>
   <div id="viewWindow">
   <div id="test_report_info">
@@ -270,6 +274,7 @@ html .column12 { margin-bottom: 30px;margin-top: -25px;}
                     <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
                 </div>
 	</script>
+</div>
 </div>
 </div>
 </div>
