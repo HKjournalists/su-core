@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html>	
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=10">
 <title>食品安全营养信息平台</title>
-<!--[if IE]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-<link rel="stylesheet" href="../../resource/css/reset.css" />
-<link rel="stylesheet" href="../../resource/css/text.css" />
-<link rel="stylesheet" href="../../resource/css/grid.css" />
-<link href="../../resource/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
-<link rel="stylesheet/less" type="text/css" href="../../resource/kendoui/styles/kendo.metro.less" />
-<link rel="stylesheet/less" type="text/css" href="../../resource/css/style.less" />
-<link rel="stylesheet" href="../../resource/css/notification.css" />
-<link rel="stylesheet" href="../../resource/css/product/select_customer.css" />
-<script src="../../resource/js/less.js" type="text/javascript"></script>
+<!-- 修改open -->
+	<!--[if IE]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="../../resource_new/css/reset.css"/>
+	<link rel="stylesheet" href="../../resource_new/css/text.css" />
+	<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+	<link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+	<link href="../../resource_new/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+	<link rel="stylesheet" href="../../resource_new/css/notification.css" />
+	<link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
+	<link rel="stylesheet" href="../../resource/css/product/select_customer.css" />
+<!-- 修改end -->
+<script src="../../resource_new/js/less.js" type="text/javascript"></script>
 <script src="../../resource/kendoui/js/jquery.min.js"></script>
 <script src="../../resource/kendoui/js/kendo.web.min.js"></script>
 <script src="../../resource_new/js/jquery.cookie.js"></script>
 <script src="../../resource_new/js/portal/common.js"></script>
 <script src="../../resource_new/js/fsn.js"></script>
 <script src="../../resource_new/js/lims.js"></script>
-<script src="../../resource/js/headerFooterTemplate.js"></script>
+<script src="../../resource_new/js/headerFooterTemplate.js"></script>
 <script src="../../resource_new/js/portal/jquery.form.js"></script>
 <script src="../../resource_new/js/upload/lims.js"></script>
 <script src="../../resource_new/js/util.js"></script>
@@ -100,7 +104,7 @@
 	border: none;
 	font-family: Verdana, 'Microsoft YaHei', sans-serif;
 	font-size: 14px;
-	color: #0f941a;
+	color: #05bf73;
 }
 
 .k-upload-button {
@@ -114,7 +118,7 @@
 	height: 30px;
 	width: 100%;
 	padding-left: 20px;
-	background: #80de40;
+	background: #05bf73;
 }
 /* kendoComboBox(品牌) */
 .k-grid-header .k-header {
@@ -205,23 +209,23 @@ opera--
 </style>
 </head>
 <body id="home">
-	<div class="fixfooter">
-		<div class="fullview" id="status_bar">
+	<div class="fixfooter wi800 fl mt20">
+		<div class="fullview page_title mt50 wper100 ml20" id="status_bar">
 			<div class="container">
 				<div class="row">
 					<div class="column12">
-						<span class="page_title">当前位置：我的产品&raquo;产品管理&raquo;新增/修改</span>
-						<span style="float:right"><a href="https://shop129098631.taobao.com/?spm=a230r.7195193.1997079397.2.WGDhfR" target="_blank"  style="font-size:16px;color:red;">服务</a></span>
+						<span>当前位置：我的产品&raquo;产品管理&raquo;新增/修改</span>
+						<span style="margin-left:600px;"><a href="https://shop129098631.taobao.com/?spm=a230r.7195193.1997079397.2.WGDhfR" target="_blank"  style="font-size:16px;color:red;">服务</a></span>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="container clearfix">
-			<div class="column12">
-				<div class="header">
+		<div class="container clearfix wper100 mt15">
+			<div class="column12 borderfieldset border-radius4">
+				<div class="header border-radiustop4">
 					<span>产品基本信息</span>
 				</div>
-				<fieldset>
+				<fieldset class="_previewFieldset ml20" >
 				<div id="Nagricultural" class="div-tr" style="display: block;">
 						<div class="div-td">
 							<div class="div-td-name">
@@ -246,14 +250,14 @@ opera--
 							</div>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label for="name"><span
 								data-fsn-text="Product otherName"></span>：</label> <input type="text"
-								id="otherName" class="k-textbox">
+								id="otherName" class="k-textbox" style="width:100px">
 						</div>
 						<div class="div-td">
 							<div class="div-td-name">
 								<label for="barcode"><span data-fsn-text="Bar code"></span>：</label>
 							</div>
 							<div class="div-td-value">
-								<input style="width: 430px;" type="text" id="barcode"
+								<input style="width: 350px;" type="text" id="barcode"
 									name="barcode" class="k-textbox"> <font
 									class="necessary">*</font>
 							</div>
