@@ -41,9 +41,12 @@ table, caption, tbody, tfoot, thead, tr, th, td
 .wi800{
 	width:1000px;
 }
+.wi1100{
+	width:1100px;
+}
 .container{
 	margin:0 auto;
-	width:1300px;
+	width:1300px;	
 }
 .wper100{
 	width:100%;
@@ -67,6 +70,7 @@ table, caption, tbody, tfoot, thead, tr, th, td
 	height:30px;
 	line-height:30px;
 	border-bottom: 1px solid #cad5e0;
+	overflow:hidden;
 }
 .mt10{
 	margin-top:10px;
