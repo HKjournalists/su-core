@@ -660,7 +660,7 @@ public class ProductDAOImpl extends BaseDAOImpl<Product>
 	@Override
 	public List<String> getAllBarcode() throws DaoException {
 		try {
-			String sql = "select barcode from product";
+			String sql = "select barcode from product where barcode is not null and barcode <>''";
 			List<String>  barcodes = entityManager.createNativeQuery(sql).getResultList();
 			return barcodes;
 		} catch (Exception e) {

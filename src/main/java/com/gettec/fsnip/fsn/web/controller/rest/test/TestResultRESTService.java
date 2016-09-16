@@ -12,8 +12,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,6 +49,8 @@ import com.gettec.fsnip.sso.client.util.AccessUtils;
 import com.gettec.fsnip.sso.client.util.SSOClientUtil;
 import com.gettec.fsnip.sso.client.vo.AuthenticateInfo;
 import com.lhfs.fsn.service.testReport.TestReportService;
+
+import net.sf.json.JSONObject;
 
  /**
  * TestResult REST Service API
@@ -109,6 +109,21 @@ public class TestResultRESTService extends BaseRESTService{
 		try {
 			List<TestResult> testResults = testResultService.findTestResults(criteria);
 			long totalCount=testResultService.getCount(criteria);
+			Map map=new HashedMap();
+			map.put("testResultList", testResults);
+			map.put("totalCount", totalCount);
+			return map;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(method = RequestMethod.POST, value = "test-resultsByThird")
+	public Map testResultsByThird(@RequestParam("criteria") TestResultSearchCriteria criteria) {
+		try {
+			List<TestResult> testResults = testResultService.findTestResultsByThird(criteria);
+			long totalCount=testResultService.getThirdCount(criteria);
 			Map map=new HashedMap();
 			map.put("testResultList", testResults);
 			map.put("totalCount", totalCount);

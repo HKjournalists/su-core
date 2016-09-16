@@ -69,6 +69,8 @@ import com.gettec.fsnip.fsn.vo.report.StructuredReportOfTestlabVO;
 			int pageSize, String configure) throws DaoException;
 
 	long getTestResultCount(boolean publishFlag, String configure) throws DaoException;
+	
+	long getTestResultThirdCount(String configure) throws DaoException;
 
     public List<TestResult> getProEXECLReportList(
             Map<String, Object> configSQLString)throws DaoException;
@@ -176,4 +178,6 @@ import com.gettec.fsnip.fsn.vo.report.StructuredReportOfTestlabVO;
 	 * @author lxz 2015/5/6
 	 */
 	public TestResult findByTestResultId(Long id)throws DaoException;
+	
+	public List<TestResult> findTestResults(int page, int pageSize, String configure) throws DaoException;
 }
