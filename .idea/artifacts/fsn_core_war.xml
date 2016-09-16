@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="fsn-core:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="fsn-core.war">
-      <element id="artifact" artifact-name="fsn-core:war exploded" />
-    </root>
-  </artifact>
-</component>
