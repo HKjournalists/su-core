@@ -12,6 +12,11 @@ $(function() {
 	});
 
 	affirmOrder.submit = function() {
+	    var fillUserInfoFlag = $('#defaultForm').data("bootstrapValidator").isValid();
+	    if (!fillUserInfoFlag){
+	        $('#defaultForm').data("bootstrapValidator").validate();
+	        return;
+	    }
 		var ds = $("#grid").data("kendoGrid").dataSource.data();
 		if (ds && ds.length > 0) {
 			ds.forEach(function(item) {
@@ -29,7 +34,11 @@ $(function() {
 								issn : item.isn.replace("/", "__"),
 								startPage : item.startpage,
 								endPage : item.endpage,
-								dataSource : item.datasource
+								dataSource : item.datasource,
+								applyName:$("#username").val(),
+								applyPhone:$("#phone").val(),
+								applyMail:$("#email").val(),
+								applyAddress:$("#address").val()
 							},
 							contentType : "application/json; charset=utf-8",
 							async : false,
@@ -41,11 +50,6 @@ $(function() {
 									window.open(fsn.getContextPath()
 											+ "/views/wdn/success_order.html",
 											"_self");
-									/*
-									 * ds.forEach(function(d){ var index =
-									 * shoppingCatData.indexOf(d);
-									 * shoppingCatData.splice(index,1); });
-									 */
 								}
 							},
 						});
