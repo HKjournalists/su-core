@@ -28,8 +28,11 @@ $(function() {
 	                           {field: "barcode",title: "产品条码",width: 50,filterable: false},
 	                           {field: "batch",title: "批次",width: 40,filterable: false},
 	                           {field: "number",title: "处理数量",width: 40,filterable: false},
+	                           {field: "problem_describe",title: "处理原因",width: 40,filterable: false},
 	                           {field: "process_time",title: "处理时间",template: '#=process_time=fsn.formatGridDate(process_time)#',width: 40,filterable: false},
-	                           {field: "process_mode",title: "处理方式",width: 40,filterable: false},
+	                           {field: "deal_address",title: "处理地点",width: 40,filterable: false},
+							   {field: "deal_person",title: "处理人",width: 40,filterable: false},
+							   {field: "process_mode",title: "处理方式",width: 40,filterable: false},
 	                           /*{width:60,title: fsn.l("Operation"),
 	                        	   template:function(e){
 	                        		   var tag="<a  onclick='return fsn.upload.product.edit("+e.id+")' class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> </span>" + fsn.l('Edit') + "</a>";
@@ -44,11 +47,16 @@ $(function() {
 				type : "GET",
 				async:false,
 				url : function(options){
-					var configure = null;
+					var condition="";
 					if(options.filter){
-						configure = filter.configure(options.filter);
+						condition = filter.configure(options.filter);
 					}
-					return portal.HTTP_PREFIX + "/product/getListDestroy?condition=" + configure;
+					if($.trim($("#search_keyword").val())!=''){
+						condition+='?keyword='+$.trim($("#search_keyword").val());
+					}else{
+						condition+='?keyword='+"";
+					}
+					return portal.HTTP_PREFIX + "/product/getListDestroy"+condition;
 				},
 				dataType : "json",
 				contentType : "application/json"
@@ -94,6 +102,9 @@ $(function() {
 			});
 		}
 		return false;
+	});
+	$("#search-btn").click(function(){
+		$("#product").data("kendoGrid").dataSource.read();
 	});
 	product.initialize();
 });

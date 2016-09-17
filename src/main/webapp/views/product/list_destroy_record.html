@@ -59,7 +59,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="column12">
-					<span>当前位置：问题产品处理记录</span>
+					<span>当前位置：问题产品处理记录</span><span style="color:red;">(处理记录一旦新增不可修改和删除)</span>
 				</div>
 			</div>
 		</div>
@@ -67,11 +67,17 @@
 	<div class="container clearfix wper100 last" id="content_container">
 		<div id="main" class="row ml20">
 			<div class="column12 last">
-				<script id="toolbar_template" type="text/x-kendo-template">
-					<a class="k-button k-button-icontext k-grid-add" href="/fsn-core/views/product/add_destroy_record.html" >
-					<span class="k-icon k-add"></span>新增</a>			
+			<div style="margin-left: 150px;margin-top:10px">
+			<span >查询处理记录：</span>
+						  
+				<input  type=text size="50" id="search_keyword" style="height: 30px;" placeholder="请输入查询条件，支持模糊查询产品名称/产品条形码等"/> 
+				<input type="button" id="search-btn" class="k-button" value="查询">
+				<a class="k-button " href="/fsn-core/views/product/add_destroy_record.html" ><input type="button"  class="k-button"  value="新增"></a>
+			</div>			
+	<script id="toolbar_template" type="text/x-kendo-template">
+								
 				</script>
-				<div id="product-contain" class="top ui-widget" style="margin-top: 40px;">
+				<div id="product-contain" class="top ui-widget" style="margin-top: 10px;">
 		            <div id='product' class='grid' style="margin-top: 5px; height: 100%;">
 		            </div>
 				</div>

@@ -90,12 +90,13 @@ public class TZBusaccountInfoOutServiceImpl extends BaseServiceImpl<TZBusaccount
                             productDestroyRecord.setBarcode(vo.getBarcode());
                             productDestroyRecord.setBatch(vo.getBatch());
                             productDestroyRecord.setNumber(vo.getReturnCount().toString());
-                            for (Recycle_reason recycle_reason : Recycle_reason.values()) {
+                            productDestroyRecord.setProblem_describe(vo.getProblem_describe());
+                          /*  for (Recycle_reason recycle_reason : Recycle_reason.values()) {
                             	if (recycle_reason.getValue().equals(vo.getProblem_describe())) {
                                     productDestroyRecord.setProblem_describe(recycle_reason);
                                     break;
                             	}
-                            }
+                            }*/
                             productDestroyRecord.setProcess_time(accountOut.getOutDate());
                             productDestroyRecord.setProcess_mode(Process_mode.RETURN_GOODS);
                             productDestroyRecord.setHandle_name(outBusName);
@@ -124,12 +125,13 @@ public class TZBusaccountInfoOutServiceImpl extends BaseServiceImpl<TZBusaccount
                         productDestroyRecord.setBarcode(vo.getBarcode());
                         productDestroyRecord.setBatch(vo.getBatch());
                         productDestroyRecord.setNumber(vo.getReturnCount().toString());
-                        for (Recycle_reason recycle_reason : Recycle_reason.values()) {
+                        productDestroyRecord.setProblem_describe(vo.getProblem_describe());
+                    /*    for (Recycle_reason recycle_reason : Recycle_reason.values()) {
                         	if (recycle_reason.getValue().equals(vo.getProblem_describe())) {
                                 productDestroyRecord.setProblem_describe(recycle_reason);
                                 break;
                         	}
-                        }
+                        }*/
                         productDestroyRecord.setProcess_time(accountOut.getOutDate());
                         productDestroyRecord.setProcess_mode(Process_mode.RETURN_GOODS);
                         productDestroyRecord.setHandle_name(outBusName);

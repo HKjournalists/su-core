@@ -11,6 +11,7 @@ import com.gettec.fsnip.fsn.model.trace.TraceData;
  *
  */
 public interface ProductDestroyRecordDAO extends BaseDAO<ProductDestroyRecord> {
-	List<ProductDestroyRecord> getbyOrgId(String orgname,int page,int pageSize);
-	long countbyOrg(String orgname);
+	List<ProductDestroyRecord> getbyOrgId(String orgname,int page,int pageSize,String keyword);
+	//List<ProductDestroyRecord> getbyOrgIdandKeyword(String orgname,int page,int pageSize,String keyword);
+	long countbyOrg(String orgname,String keyword);
 }

@@ -1384,8 +1384,10 @@ public class ProductRESTService extends BaseRESTService{
 				productDestroyRecord.setName(productDestroyRecordVo.getName());
 				productDestroyRecord.setBarcode(productDestroyRecordVo.getBarcode());
 				productDestroyRecord.setBatch(productDestroyRecordVo.getBatch());
-				productDestroyRecord.setProblem_describe(Recycle_reason.getMap().get(productDestroyRecordVo.getProblem_describe()));
+				productDestroyRecord.setProblem_describe(productDestroyRecordVo.getProblem_describe());
 				productDestroyRecord.setProcess_time(productDestroyRecordVo.getProcess_time());
+				productDestroyRecord.setDeal_address(productDestroyRecordVo.getDeal_address());
+				productDestroyRecord.setDeal_person(productDestroyRecordVo.getDeal_person());
 				productDestroyRecord.setProcess_mode(Process_mode.getMap().get(productDestroyRecordVo.getProcess_mode()));
 				productDestroyRecord.setId(productDestroyRecordVo.getId());
 				productDestroyRecord.setRecAttachments(productDestroyRecordVo.getRecAttachments());
@@ -1422,9 +1424,9 @@ public class ProductRESTService extends BaseRESTService{
 		    */
 	//查询该企业的销毁记录
 		@RequestMapping("/getListDestroy")
-		public View  getListDestroy(Model model,@RequestParam("page") int page,@RequestParam("pageSize") int pageSize){
+		public View  getListDestroy(Model model,@RequestParam("page") int page,@RequestParam("pageSize") int pageSize,@RequestParam("keyword") String keyword){
 			String orgname=AccessUtils.getUserName().toString();
-			List<ProductDestroyRecord> list=productDestroyRecordService.getbyOrgId(orgname, page, pageSize);
+			List<ProductDestroyRecord> list=productDestroyRecordService.getbyOrgId(orgname, page, pageSize,keyword);
 			List<ProductDestroyRecordVo> arraylist=new ArrayList<ProductDestroyRecordVo>();
 			for(int i=0;i<list.size();i++){
 				ProductDestroyRecordVo _productDestroyRecordVo=new ProductDestroyRecordVo();
@@ -1435,8 +1437,10 @@ public class ProductRESTService extends BaseRESTService{
 				_productDestroyRecordVo.setId(list.get(i).getId());
 				_productDestroyRecordVo.setNumber(list.get(i).getNumber());
 				_productDestroyRecordVo.setOperation_user(list.get(i).getOperation_user());
-				_productDestroyRecordVo.setProblem_describe(list.get(i).getProblem_describe().getName());
+				_productDestroyRecordVo.setProblem_describe(list.get(i).getProblem_describe());
 				_productDestroyRecordVo.setProcess_time(list.get(i).getProcess_time());
+				_productDestroyRecordVo.setDeal_address(list.get(i).getDeal_address());
+				_productDestroyRecordVo.setDeal_person(list.get(i).getDeal_person());
 				_productDestroyRecordVo.setRecAttachments(list.get(i).getRecAttachments());
 					if(list.get(i).getProcess_mode()==Process_mode.DESTROY){
 						_productDestroyRecordVo.setProcess_mode(list.get(i).getProcess_mode().getName().toString());
@@ -1446,7 +1450,7 @@ public class ProductRESTService extends BaseRESTService{
 					arraylist.add(_productDestroyRecordVo);
 			}
 			model.addAttribute("list",arraylist);
-			model.addAttribute("count",productDestroyRecordService.countbyOrg(orgname));
+			model.addAttribute("count",productDestroyRecordService.countbyOrg(orgname,keyword));
 			return JSON;
 		}
 		 /**
@@ -1467,8 +1471,10 @@ public class ProductRESTService extends BaseRESTService{
 				productDestroyRecordVo.setId(productDestroyRecord.getId());
 				productDestroyRecordVo.setNumber(productDestroyRecord.getNumber());
 				productDestroyRecordVo.setOperation_user(productDestroyRecord.getOperation_user());
-				productDestroyRecordVo.setProblem_describe(productDestroyRecord.getProblem_describe().getValue());
+				productDestroyRecordVo.setProblem_describe(productDestroyRecord.getProblem_describe());
 				productDestroyRecordVo.setProcess_time(productDestroyRecord.getProcess_time());
+				productDestroyRecordVo.setDeal_address(productDestroyRecord.getDeal_address());
+				productDestroyRecordVo.setDeal_person(productDestroyRecord.getDeal_person());
 				productDestroyRecordVo.setRecAttachments(productDestroyRecord.getRecAttachments());
 				productDestroyRecordVo.setProcess_mode(productDestroyRecord.getProcess_mode().getName());
 				model.addAttribute("productDestroyRecord",productDestroyRecordVo);
@@ -1479,7 +1485,7 @@ public class ProductRESTService extends BaseRESTService{
 			return JSON;
 		}
 		/**
-		 * 根据产品id与组织机构查询
+		 * 根据产品id与组织机构查询产品
 		 * @param barcode
 		 * @param req
 		 * @param resp

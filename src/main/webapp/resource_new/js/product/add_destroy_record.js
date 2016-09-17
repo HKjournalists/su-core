@@ -5,10 +5,10 @@ $(document).ready(function(){
 	var upload = fsn.upload = fsn.upload || {};
 	var proname;
 	portal.codeFlag = true;
-	var describe = [ { text: "国家强制召回", Value: "compulsory_recall" },   
+/*	var describe = [ { text: "国家强制召回", Value: "compulsory_recall" },   
 	                  { text: "产品临期", Value: "advent" },  
 	                  { text: "其他", Value: "other" }  
-	               ]; 
+	               ];*/ 
 	root.aryRepAttachments=new Array();
 	root.initialize=function(){
 		root.bindClick_dealer();
@@ -18,11 +18,11 @@ $(document).ready(function(){
 	            placeholder: "搜索...",
 	            select: root.onSelectBarcode,
 	        });
-		$("#problem_describe").kendoDropDownList({
+	/*	$("#problem_describe").kendoDropDownList({
 			dataSource:describe,
 			dataTextField: "text",
 			dataValueField: "Value"
-		});
+		});*/
 		
 		$("#process_time").kendoDatePicker({
 			format: "yyyy-MM-dd",
@@ -110,8 +110,10 @@ $(document).ready(function(){
 				$("#barcode").val(rs.productDestroyRecord.barcode);
 				$("#batch").val(rs.productDestroyRecord.batch);
 				$("#number").val(rs.productDestroyRecord.number);
-				$("#problem_describe").data("kendoDropDownList").value(rs.productDestroyRecord.problem_describe);
+				$("#problem_describe").val(rs.productDestroyRecord.problem_describe);
 				$("#process_mode").val(rs.productDestroyRecord.process_mode);
+				$("#deal_address").val(rs.productDestroyRecord.deal_address);
+				$("#deal_person").val(rs.productDestroyRecord.deal_person);
 				$("#process_time").val(fsn.formatGridDate(rs.productDestroyRecord.process_time));
 				if(rs.productDestroyRecord.recAttachments){
 					var html='';
@@ -295,9 +297,11 @@ $(document).ready(function(){
 		data.batch=$("#batch").val();
 		data.number=$("#number").val();
 		data.handle_name=null;
-		data.problem_describe=$("#problem_describe").data("kendoDropDownList").value();
+		data.problem_describe=$("#problem_describe").val();
 		data.process_mode=2;
 		data.process_time=$("#process_time").val();
+		data.deal_address=$("#deal_address").val();
+		data.deal_person=$("#deal_person").val();
 		data.recieve_name=null;
 		data.record_id=null;
 		data.operation_user=null;

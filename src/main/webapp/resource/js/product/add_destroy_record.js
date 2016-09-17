@@ -5,10 +5,10 @@ $(document).ready(function(){
 	var upload = fsn.upload = fsn.upload || {};
 	var proname;
 	portal.codeFlag = true;
-	var describe = [ { text: "国家强制召回", Value: "compulsory_recall" },   
+	/*var describe = [ { text: "国家强制召回", Value: "compulsory_recall" },   
 	                  { text: "产品临期", Value: "advent" },  
 	                  { text: "其他", Value: "other" }  
-	               ]; 
+	               ];*/ 
 	root.aryRepAttachments=new Array();
 	root.initialize=function(){
 		/*$("#name").kendoDropDownList({
@@ -45,11 +45,11 @@ $(document).ready(function(){
 	            placeholder: "搜索...",
 	            select: root.onSelectBarcode,
 	        });
-		$("#problem_describe").kendoDropDownList({
+		/*$("#problem_describe").kendoDropDownList({
 			dataSource:describe,
 			dataTextField: "text",
 			dataValueField: "Value"
-		});
+		});*/
 		
 		$("#process_time").kendoDatePicker({
 			format: "yyyy-MM-dd",
@@ -137,9 +137,11 @@ $(document).ready(function(){
 				$("#barcode").val(rs.productDestroyRecord.barcode);
 				$("#batch").val(rs.productDestroyRecord.batch);
 				$("#number").val(rs.productDestroyRecord.number);
-				$("#problem_describe").data("kendoDropDownList").value(rs.productDestroyRecord.problem_describe);
+				$("#problem_describe").val(rs.productDestroyRecord.problem_describe);
 				$("#process_mode").val(rs.productDestroyRecord.process_mode);
 				$("#process_time").val(fsn.formatGridDate(rs.productDestroyRecord.process_time));
+				$("#deal_preson").val(fsn.formatGridDate(rs.productDestroyRecord.deal_preson));
+				$("#deal_address").val(fsn.formatGridDate(rs.productDestroyRecord.deal_address));
 				if(rs.productDestroyRecord.recAttachments){
 					var html='';
 					for(var i in rs.productDestroyRecord.recAttachments){
@@ -331,9 +333,11 @@ $(document).ready(function(){
 		data.batch=$("#batch").val();
 		data.number=$("#number").val();
 		data.handle_name=null;
-		data.problem_describe=$("#problem_describe").data("kendoDropDownList").value();
+		data.problem_describe=$("#problem_describe").val();
 		data.process_mode=2;
 		data.process_time=$("#process_time").val();
+		data.deal_person=$("#deal_person").val();
+		data.deal_address=$("#deal_address").val();
 		data.recieve_name=null;
 		data.record_id=null;
 		data.operation_user=null;
@@ -363,7 +367,11 @@ $(document).ready(function(){
 	            return false;
 	        }
 		}
-		
+		if(data.problem_describe==""){
+            fsn.initNotificationMes("处理原因不能为空！", false);
+			
+			return false;
+		}
 		if(data.process_time==""){
 			lims.initNotificationMes('处理日期不能为空',false);
 			return false;
@@ -383,12 +391,12 @@ $(document).ready(function(){
 			return false;
 		}
 		if(confirm("该数据保存之后不可更改，确定要保存这条数据吗？")){
-		dialog({
+	/*	dialog({
 			id:"提交中",
 			content:"保存中...,请稍等",
 			width:350,
 			modal:true
-		}).show();
+		}).show();*/
 		$.ajax({
 			url:fsn.getHttpPrefix()+"/product/savedestroy",
 			type: "POST",
