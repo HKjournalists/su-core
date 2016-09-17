@@ -190,6 +190,7 @@ $(function(){
 		                   	    	e.preventDefault();
 		                   	    	var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
 		                   	    	viewReportInfo(currentItem.id);
+		                   	    	
 		                   	    },
 		                   	    	},], title: "操作", width: 40 }];
 	
@@ -207,7 +208,6 @@ $(function(){
                      }},
                    { field: "lastModifyUserName",title:"创建者",width:40},
                    { field: "lastModifyTime",title:"最后更新时间",width:38,template: '#=lastModifyTime=fsn.formatGridDate(lastModifyTime)#', filterable: false},
-                   { field: "tips",title:"消息提示",width:60},
                    { field: "signFlag", title:"签名状态", width: 25, filterable: false, template: function(dataItem) {
                   	 if(dataItem.signFlag=="已签名"){
                   		 return "<strong style='color:red;'>" + dataItem.signFlag + "</strong>";
@@ -225,7 +225,13 @@ $(function(){
 	                   	    	var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
 	                   	    	viewReportInfo(currentItem.id);
                     	    },
-                     },], title: "操作", width: 30 }];
+                     },
+                     {name:"edit",
+	                   	    text:"<span class='k-edit'></span>" + "编辑", 
+	                   	    click:function(e){
+	                   	    	var url = '/fsn-core/views/market/subBusiness_addReport.html';
+	                   	    	fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "publish_testreport.html");
+	                     }},], title: "操作", width: 30 }];
 	
 	
 	root.backColumn = [	
@@ -243,7 +249,6 @@ $(function(){
 	                   { field: "backResult",title:"退回原因",width:60},
 	                   { field: "backTime",title:"退回时间",width:50,template: '#=backTime=fsn.formatGridDate(backTime)#', filterable: false},
 	                   { field: "lastModifyUserName",title:"最后更新者",width:45},
-	                   { field: "tips",title:"消息提示",width:60},
 	                   { field: "signFlag", title:"签名状态", width: 30, filterable: false, template: function(dataItem) {
 	                    	 if(dataItem.signFlag=="已签名"){
 	                      		 return "<strong style='color:red;'>" + dataItem.signFlag + "</strong>";
@@ -260,7 +265,13 @@ $(function(){
 		                   	    	var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
 		                   	    	viewReportInfo(currentItem.id);
 		                   	    },
-		                   	 },], title: "操作", width: 40 }];
+		                   	 },
+		                     {name:"edit",
+			                   	    text:"<span class='k-edit'></span>" + "编辑", 
+			                   	    click:function(e){
+			                   	    	var url = '/fsn-core/views/market/subBusiness_addReport.html';
+			                   	    	fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "publish_testreport.html");
+			                     }}], title: "操作", width: 40 }];
 	
     root.sign = function(){
     	var size = $("#report_publish_grid").data("kendoGrid").select().length;
