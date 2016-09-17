@@ -5,12 +5,12 @@ $(function(){
 	
 	common.validator = null;
 	common.grid = null;
-	/*common.SIMPLE_TYPE = parseInt(window.location.search.substr(6));
-	common.SIMPLE_MODEL_NAME = decodeURIComponent(window.location.search.substr(13));*/
+	common.SIMPLE_TYPE = parseInt(window.location.search.substr(6));
+	common.SIMPLE_MODEL_NAME = decodeURIComponent(window.location.search.substr(13));
 	
-	/*if(common.SIMPLE_MODEL_NAME.substring(0, 1) == "=") {
+	if(common.SIMPLE_MODEL_NAME.substring(0, 1) == "=") {
 		common.SIMPLE_MODEL_NAME = common.SIMPLE_MODEL_NAME.substr(1);
-	}*/
+	}
 	
 	common.realObj = {};
 	
