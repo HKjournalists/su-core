@@ -36,6 +36,10 @@ public class ProductDestroyRecordVo {
 
 	private String process_time; // 处理时间
 	
+	private String deal_address; // 处理时间
+	
+	private String deal_person; // 处理时间
+	
 	private String  process_mode; // 处理方式
 	
 	private String record_id; // 处理记录ID
@@ -165,6 +169,22 @@ public class ProductDestroyRecordVo {
 
 	public void setProblem_describe(String problem_describe) {
 		this.problem_describe = problem_describe;
+	}
+
+	public String getDeal_address() {
+		return deal_address;
+	}
+
+	public void setDeal_address(String deal_address) {
+		this.deal_address = deal_address;
+	}
+
+	public String getDeal_person() {
+		return deal_person;
+	}
+
+	public void setDeal_person(String deal_person) {
+		this.deal_person = deal_person;
 	}
 
 

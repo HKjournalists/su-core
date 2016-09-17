@@ -23,7 +23,6 @@ import org.hibernate.annotations.Type;
 import com.gettec.fsnip.fsn.model.common.Model;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.recycle.Process_mode;
-import com.gettec.fsnip.fsn.recycle.Recycle_reason;
 
 /*
  *销毁日志
@@ -57,13 +56,17 @@ public class ProductDestroyRecord extends Model{
 
 //	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "problem_describe")
-	@Type(type="com.gettec.fsnip.fsn.recycle.UserEnumType",
-		parameters={@Parameter(name="enumClass",value="com.gettec.fsnip.fsn.recycle.Recycle_reason")})
-	private Recycle_reason  problem_describe; // 问题描述
+	private String  problem_describe; // 问题描述
 
 	@Column(name = "process_time")
 	private String process_time; // 处理时间
 
+	@Column(name = "deal_address")
+	private String deal_address; // 处理时间
+	
+	@Column(name = "deal_person")
+	private String deal_person; // 处理时间
+	
 //	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "process_mode")
 	@Type(type="com.gettec.fsnip.fsn.recycle.UserEnumType",
@@ -194,11 +197,27 @@ public class ProductDestroyRecord extends Model{
 	public void setProcess_mode(Process_mode process_mode) {
 		this.process_mode = process_mode;
 	}
-	public Recycle_reason getProblem_describe() {
+	public String getProblem_describe() {
 		return problem_describe;
 	}
 
-	public void setProblem_describe(Recycle_reason problem_describe) {
+	public void setProblem_describe(String problem_describe) {
 		this.problem_describe = problem_describe;
+	}
+
+	public String getDeal_address() {
+		return deal_address;
+	}
+
+	public void setDeal_address(String deal_address) {
+		this.deal_address = deal_address;
+	}
+
+	public String getDeal_person() {
+		return deal_person;
+	}
+
+	public void setDeal_person(String deal_person) {
+		this.deal_person = deal_person;
 	}
 }

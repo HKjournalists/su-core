@@ -854,14 +854,19 @@ $(function() {
                 tag += ">其他</option>";*/
                 //modify by ltg 20160812 增加回收原因由后台枚举类返回 end
                 
-                var selectTag = $("<select class='k-select k-textbox' style='width: 120px;' onchange='return fsn.relation.selectDescribe(this)'>"+ tag+"</select>");
-                
+                //var selectTag = $("<select class='k-select k-textbox' style='width: 120px;' onchange='return fsn.relation.selectDescribe(this)'>"+ tag+"</select>");
+                var selectTag = $("<input onchange='return fsn.relation.selectDescribe(this)' />");
                 selectTag.appendTo(container);
+//                relation.selectDescribe = function(obj){
+//                    var index = obj.selectedIndex; // 选中索引
+//                    var overDate = obj.options[index].title;
+//                    var text = obj.options[index].text;
+//                    options.model.problem_describe = text;
+//                }
                 relation.selectDescribe = function(obj){
-                    var index = obj.selectedIndex; // 选中索引
-                    var overDate = obj.options[index].title;
-                    var text = obj.options[index].text;
-                    options.model.problem_describe = text;
+//                    var val = $(obj).val(); // 选中索引
+//                    console.log(obj.val());
+                    options.model.problem_describe = obj.value;
                 }
             }
         }

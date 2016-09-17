@@ -33,31 +33,6 @@ public class ProductDestroyRecordServiceImpl extends BaseServiceImpl<ProductDest
 		// TODO Auto-generated method stub
 		return productDestroyRecordDAO;
 	}
-/*	@Override
-	public Set<Resource> addResource(ProductDestroyRecord productDestroyRecord) {
-		if(productDestroyRecord.getRecAttachments()!=null){
-			try {
-				for(int i=0;i<productDestroyRecord.getRecAttachments().size();i++){
-				Resource r=productDestroyRecord..get(i);
-				resourceService.create(r);
-				UploadUtil uploadUtil=new UploadUtil();
-				String fileName=uploadUtil.createFileNameByDate(r.getFileName());
-				uploadUtil.uploadFile(r.getFile(),PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH),fileName);
-				if(UploadUtil.IsOss()){
-					r.setUrl(uploadUtil.getOssSignUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH)+"/"+fileName));
-				}else{
-					r.setUrl(PropertiesUtil.getProperty(SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH+"/"+fileName));
-				}
-				}
-				return productDestroyRecord.getRecAttachments();
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			}
-		}
-		return productDestroyRecord.getRecAttachments;
-	}*/
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public ProductDestroyRecord update(ProductDestroyRecord productDestroyRecord){
@@ -85,13 +60,14 @@ public class ProductDestroyRecordServiceImpl extends BaseServiceImpl<ProductDest
 	}
 	@Override
 	public List<ProductDestroyRecord> getbyOrgId(String orgname, int page,
-			int pageSize) {
+			int pageSize,String keyword) {
 		// TODO Auto-generated method stub
-		return productDestroyRecordDAO.getbyOrgId(orgname, page, pageSize);
+		return productDestroyRecordDAO.getbyOrgId(orgname, page, pageSize,keyword);
 	}
+
 	@Override
-	public long countbyOrg(String orgname) {
+	public long countbyOrg(String orgname,String keyword) {
 		// TODO Auto-generated method stub
-		return productDestroyRecordDAO.countbyOrg(orgname);
+		return productDestroyRecordDAO.countbyOrg(orgname,keyword);
 	}
 }

@@ -10,6 +10,7 @@ import com.gettec.fsnip.fsn.service.common.BaseService;
 
 public interface ProductDestroyRecordService extends BaseService<ProductDestroyRecord, ProductDestroyRecordDAO> {
 	//Set<Resource> addResource(ProductDestroyRecord productDestroyRecord);
-	List<ProductDestroyRecord> getbyOrgId(String orgname,int page,int pageSize);
-	long countbyOrg(String orgname);
+	List<ProductDestroyRecord> getbyOrgId(String orgname,int page,int pageSize,String keyword);
+//	List<ProductDestroyRecord> getbyOrgIdandKeyword(String orgname,int page,int pageSize);
+	long countbyOrg(String orgname,String keyword);
 }
