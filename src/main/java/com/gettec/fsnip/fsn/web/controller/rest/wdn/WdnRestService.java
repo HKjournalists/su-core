@@ -126,13 +126,17 @@ public class WdnRestService {
 			@RequestParam(value = "issn", required = false) String issn,
 			@RequestParam(value = "startPage", required = false) String startPage,
 			@RequestParam(value = "endPage", required = false) String endPage,
-			@RequestParam(value = "dataSource", required = false) String dataSource) {
+			@RequestParam(value = "dataSource", required = false) String dataSource,
+            @RequestParam(value = "applyName",required = true) String applyName,
+            @RequestParam(value = "applyPhone",required = true) String applyPhone,
+            @RequestParam(value = "applyMail",required = true) String applyMail,
+            @RequestParam(value = "applyAddress",required = true) String applyAddress) {
 		try {
 			AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
 			String url = "http://dds.las.ac.cn/Reader/guizhou_fill_bill.jsp?";
 			url += "username=gzytest&password=gzy";
-			String email = SUPPORT_EMAIL;// AccessUtils.getUserEmail().toString();
-			String phone = SUPPORT_PHONE;// AccessUtils.getUserPhone().toString();
+			String email = SUPPORT_EMAIL;
+			String phone = SUPPORT_PHONE;
 			url += "&email=" + email + "&libcode=311001";
 			String result = "";
 			String str = "&title=" + enCodeUTF8(title) + "&journal="
@@ -160,14 +164,14 @@ public class WdnRestService {
 			order.setDataSource(URLDecoder.decode(dataSource, "UTF-8"));
 			order.setUserId(info.getUserId());
 			order.setUserRealName(info.getRealUserName());
-			order.setPhone(phone);
-			order.setEmail(email);
+			order.setPhone(applyPhone);
+			order.setEmail(applyMail);
 			order.setApplyDate(new Date());
 			order.setStatus("等待处理！");
 			wdnService.saveWdnOrder(order);
 			model.addAttribute("status", obj.get("illReturn"));
-			boolean hasEmail = (null == AccessUtils.getUserEmail() ? false : true);
-			boolean hasPhone = (null == AccessUtils.getUserPhone() ? false : true);
+			boolean hasEmail = (null == applyMail ? false : true);
+			boolean hasPhone = (null == applyPhone ? false : true);
 			// 由于大部分用户不存在电话和邮箱, 程序反向推理
 			String draftMessage = null;
 			String content = null;
