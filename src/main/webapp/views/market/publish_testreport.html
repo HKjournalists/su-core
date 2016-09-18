@@ -23,7 +23,7 @@
 <script src="../../resource_new/js/headerFooterTemplate.js"></script>
 <script src="../../resource/js/jquery.cookie.js"></script>
 <script src="../../resource/js/lims.i18n.js"></script>
-<script src="../../resource/js/fsn.js"></script>
+<script src="../../resource_new/js/fsn.js"></script>
 <script src="../../resource/js/lims.js"></script>
 <script src="../../resource/js/util.js"></script>
 <script src="../../resource/js/filter.js"></script>
@@ -257,6 +257,21 @@ html .column12 { margin-bottom: 30px;margin-top: -25px;}
 				</div>
 			</div>
 	</div>
+				<!-- 报告删除窗口 Start -->
+				<div id="delete_window">
+					<div style="text-align: center;">您确定要删除吗?</div>
+					<br/>
+					<div style="text-align: center;padding-top:54px">
+						<button class="k-button" id="delete_yes_btn">
+							<span class="k-icon k-update"></span>确定
+						</button>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<button class="k-button" id="delete_no_btn">
+							<span class="k-icon k-cancel"></span>取消
+						</button>
+					</div>
+				</div>
+				<!-- 报告删除窗口 End -->
    <div id="tsWin"></div>
   <div class="push"></div>	
   <span id="RETURN_MES" style="display:none;"></span>
