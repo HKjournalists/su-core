@@ -72,6 +72,7 @@
 	overflow:hidden;
     z-index:9999;
 	}
+	
 .biaoge td{
 	color:#00A221;
 	text-decoration:none;
@@ -105,6 +106,19 @@
 	top: 56.5%;
 	overflow:hidden;
 	}
+	fieldset{
+		padding:10px;
+	}
+	.tab tr td{
+		padding-left:20px;
+	}
+	button.k-button .k-icon {
+    margin-top: -2px;
+    vertical-align: middle;
+}
+#report_grid .k-grid-header thead tr{
+	line-height:20px;
+}
 </style>
 </head>
 <body>
@@ -123,7 +137,7 @@
 	 <div id="organizer">
 	<fieldset class="_previewFieldset">
   	  <legend><span data-lims-text="Food info"></span></legend>
-		<table class="input-readonly">
+		<table class="input-readonly tab">
 		 <tr>
 			<td align="left"><label data-lims-text="Bar code"></label><span class='red_xing'>*</span>：<input type="hidden" id="sample_id"></td>
 			<td><input style="width:250px;" id="barcodeId" class="k-textbox" data-required-msg='不能为空' required='required'></td>
@@ -160,7 +174,7 @@
 	  </table>
 		 <div>
 		  <fieldset class="_previewFieldset">
-   		   <legend><span style="font-size:1em;font-weight:normal;letter-spacing: 2px;" data-lims-text="产品图片"></span></legend>
+   		   <legend><span style="font-size:1em;font-weight:normal;letter-spacing: 2px; padding-left:10px;" data-lims-text="产品图片"></span></legend>
 		   <div id="proAttachmentsListView"></div>
 		  </fieldset>
 		 </div>
@@ -168,7 +182,7 @@
 	 
 	 <fieldset class="_previewFieldset">
   	  <legend><span data-lims-text="Business Unit Info"></span></legend>
-	   <table>
+	   <table class="tab">
 		<tr>
 			<td align="left"><label data-lims-text="QS No"></label></td>
 			<td>
@@ -185,9 +199,9 @@
 		</tr>
 	</table>
   </fieldset>
-	<fieldset class="_previewFieldset">
+	<fieldset class="_previewFieldset tab">
   	  <legend><span data-lims-text="Test Report Info"></span></legend>
-		 <table id="test_report_info">
+		 <table id="test_report_info tab">
 		  <tr>
 			<td align="left"><label data-lims-text="ReportNo"></label><span class='red_xing'>*</span></td>
 			<td><input style="width:250px; height:30px" type="text" id="tri_reportNo" class="k-textbox" placeholder="例如:GC201205007" data-required-msg='不能为空' required='required'/></td>
