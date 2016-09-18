@@ -236,6 +236,10 @@ $(function(){
 			 lims.initNotificationMes('采购数量不能为空!', false);
 			 return;
 		 }
+		if($("#procurementNum").data("kendoNumericTextBox").value()<0){
+			lims.initNotificationMes('采购数量不能小于0', false);
+			return;
+		}
 		 if(!$("#procurementDate").data("kendoDatePicker").value()){
 			 lims.initNotificationMes('请选择采购时间!', false);
 			 return;
