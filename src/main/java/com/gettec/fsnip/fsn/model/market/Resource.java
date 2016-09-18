@@ -1,25 +1,14 @@
 package com.gettec.fsnip.fsn.model.market;
 
-import java.util.Arrays;
-import java.util.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 import com.gettec.fsnip.fsn.model.common.Model;
 import com.gettec.fsnip.fsn.web.controller.JsonDateDeserializer;
 import com.gettec.fsnip.fsn.web.controller.JsonDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 @Entity(name="T_TEST_RESOURCE")
@@ -50,6 +39,9 @@ public class Resource extends Model{
 	
 	@Transient
 	private byte[] file;
+
+	@Transient
+	private String fileBase64;
 	
 	@Transient
 	String interceptionPdfPath;  // 政府抽检的截取前两页pdf路径；合成pdf的时候传到前台
@@ -168,7 +160,12 @@ public class Resource extends Model{
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
 	}
-	
-	
-	
+
+	public String getFileBase64() {
+		return fileBase64;
+	}
+
+	public void setFileBase64(String fileBase64) {
+		this.fileBase64 = fileBase64;
+	}
 }
