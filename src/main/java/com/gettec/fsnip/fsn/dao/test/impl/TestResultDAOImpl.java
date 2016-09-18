@@ -68,6 +68,9 @@ public class TestResultDAOImpl extends BaseDAOImpl<TestResult>
 	 */
 	private String splitSCJointConfigure(String field,String mark,String value) {
 		try {
+			if(field.equals("id")){
+				return FilterUtils.getConditionStr(" tr.id ",mark,value);
+			}
 			if(field.equals("serviceOrder")){
 				return FilterUtils.getConditionStr(" tr.service_order ",mark,value);
 			}
@@ -113,6 +116,63 @@ public class TestResultDAOImpl extends BaseDAOImpl<TestResult>
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TestResult> findTestResults(int page, int pageSize, String configure) throws DaoException{
+		try {
+		
+			String new_configure = getConfigure(configure,"1=1");
+			String sql="SELECT tr.id,tr.service_order,tr.publish_flag,ip.batch_serial_no,p.`name` AS pName,p.barcode,"
+					+ "bu.name AS bName,tr.test_type,tr.pub_user_name,tr.organization_name,tr.receiveDate,tr.publishDate,"
+					+ "p.risk_succeed,p.riskIndex,p.risk_failure,tr.edition,tr.organization FROM "
+					+ "( SELECT * FROM test_result tr where tr.test_type ='第三方检测'  ) tr "
+					+" LEFT JOIN product_instance ip ON ip.id=tr.sample_id "
+					+" LEFT JOIN product p ON p.id=ip.product_id "
+					+" LEFT JOIN business_unit bu ON bu.id=ip.producer_id  "
+					+" where "+new_configure
+					+" order by tr.receiveDate ASC ";
+			Query query = entityManager.createNativeQuery(sql);
+			if(page > 0 && pageSize > 0){
+				query.setFirstResult((page-1)*pageSize);
+				query.setMaxResults(pageSize);
+			}
+			List<Object[]> objs=query.getResultList();
+			List<TestResult> trs= new ArrayList<TestResult>();
+			if(objs!=null&&objs.size()>0){
+				for(Object[] obj:objs){
+					TestResult tr=new TestResult();
+					tr.setId(obj[0] != null ? Long.parseLong(obj[0].toString()) : -1L);
+					tr.setServiceOrder(obj[1] != null ? obj[1].toString() : "");
+					tr.setPublishFlag((Character)obj[2]);
+					ProductInstance pi=new ProductInstance();
+					pi.setBatchSerialNo(obj[3] != null ? obj[3].toString() : "");
+					Product pro =new Product();
+					pro.setName(obj[4] != null ? obj[4].toString() : "");
+					pro.setPackageFlag('0');
+					pro.setRisk_succeed(obj[12]==null?false:(Boolean)obj[12]);
+					pro.setBarcode(obj[5] != null ? obj[5].toString() : "");
+					pro.setRiskIndex(obj[13]==null?null:(Double)obj[13]);
+					pro.setRiskFailure(obj[14] != null ? obj[14].toString() : "");
+					pi.setProduct(pro);
+					pi.getProduct().setPackageFlag('0');
+					pi.setProducer(new BusinessUnit(obj[6] != null ? obj[6].toString() : ""));
+					tr.setSample(pi);
+					tr.setTestType(obj[7] != null ? obj[7].toString() : "");
+					tr.setPubUserName(obj[8] != null ? obj[8].toString() : "");
+					tr.setOrganizationName(obj[9] != null ? obj[9].toString() : "");
+					tr.setReceiveDate(obj[10]==null?null:(Date)obj[10]);
+					tr.setPublishDate(obj[11]==null?null:(Date)obj[11]);
+					tr.setEdition(obj[15] != null ? obj[15].toString() : "");
+					tr.setOrganization(obj[16] != null ? Long.parseLong(obj[16].toString()) : -1L);
+					trs.add(tr);
+				}
+			}
+			return trs;
+		} catch (Exception jpae) {
+			throw new DaoException("TestResultDAOImpl.findTestResults() 出现异常！", jpae);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -399,6 +459,21 @@ public class TestResultDAOImpl extends BaseDAOImpl<TestResult>
 			throw new DaoException("TestResultDAOImpl.getTestResultCount() 出现异常！", jpae);
 		}
 	 }
+	
+	public long getTestResultThirdCount(String configure) throws DaoException{
+			try {
+				String new_configure = getConfigure(configure,"");
+				
+				String sql = "SELECT count(*) FROM test_result tr "+
+						 "LEFT JOIN product_instance ip ON ip.id=tr.sample_id " +
+						 "LEFT JOIN product p ON p.id=ip.product_id " +
+						 "LEFT JOIN business_unit bu ON bu.id=ip.producer_id where tr.test_type ='第三方检测' "+new_configure ;
+				Query query=entityManager.createNativeQuery(sql);
+				return Long.parseLong(query.getSingleResult().toString());
+			} catch (Exception jpae) {
+				throw new DaoException("TestResultDAOImpl.getTestResultCount() 出现异常！", jpae);
+			}
+		 }
 	
 	/**
 	 * 获取需审核的结构化报告数量

@@ -95,6 +95,20 @@ public class TestResultServiceImpl extends BaseServiceImpl<TestResult, TestResul
 		}
 	}
 	
+	@Override
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public List<TestResult> findTestResultsByThird(TestResultSearchCriteria criteria) throws ServiceException{
+		try {
+			return getDAO().findTestResults(
+					criteria.getPage(),
+					criteria.getPageSize(),
+					criteria.getConfigure()
+			        );
+		} catch (DaoException daoe) {
+			throw new ServiceException("TestResultServiceImpl.findTestResults()-->" + daoe.getMessage(), daoe.getException());
+		}
+	}
+	
 	/**
 	 * 获取需审核的结构化报告集合
 	 * @author ZhangHui 2015/5/6
@@ -118,6 +132,16 @@ public class TestResultServiceImpl extends BaseServiceImpl<TestResult, TestResul
 	public long getCount(TestResultSearchCriteria criteria) throws ServiceException{
 		try {
 			return getDAO().getTestResultCount(criteria.isPublishFlag(),criteria.getConfigure());
+		} catch (DaoException daoe) {
+			throw new ServiceException("TestResultServiceImpl.getCount()-->" + daoe.getMessage(), daoe.getException());
+		}
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+	public long getThirdCount(TestResultSearchCriteria criteria) throws ServiceException{
+		try {
+			return getDAO().getTestResultThirdCount(criteria.getConfigure());
 		} catch (DaoException daoe) {
 			throw new ServiceException("TestResultServiceImpl.getCount()-->" + daoe.getMessage(), daoe.getException());
 		}

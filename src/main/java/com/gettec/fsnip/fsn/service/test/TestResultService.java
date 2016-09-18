@@ -30,6 +30,8 @@ public interface TestResultService extends BaseService<TestResult, TestResultDAO
 	List<TestResult> findTestResults(TestResultSearchCriteria criteria) throws ServiceException;
 
 	long getCount(TestResultSearchCriteria criteria) throws ServiceException;
+	
+	long getThirdCount(TestResultSearchCriteria criteria) throws ServiceException;
 
 	public List<RiskResultVO> findTRByProductInstance(Long id,Boolean isInspect)throws ServiceException;
 
@@ -141,4 +143,6 @@ public interface TestResultService extends BaseService<TestResult, TestResultDAO
 	 * @return  返回生产企业基本信息
 	 */
 	public TestBusinessUnitVo getBusinessUnitVO(String barcode, long id,String date);
+	
+	public List<TestResult> findTestResultsByThird(TestResultSearchCriteria criteria) throws ServiceException;
 }
