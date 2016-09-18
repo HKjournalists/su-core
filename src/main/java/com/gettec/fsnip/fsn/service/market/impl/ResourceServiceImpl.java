@@ -1,68 +1,10 @@
 package com.gettec.fsnip.fsn.service.market.impl;
 
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_BRAND_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_CERT_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_DIS_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_LICENSE_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_LIQUOR_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_LOGO_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_ORG_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_PRODEP_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_PRODUCT_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_QS_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_BRAND_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_CERT_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_DIS_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_LICENSE_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_LIQUOR_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_LOGO_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_ORG_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_PRODEP_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_PRODUCT_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_QS_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WASTE_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_WASTE_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_DISHSNO_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_DISHSNO_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_DESTROY_PATH;
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_DESTROY_PATH;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-
 import com.gettec.fsnip.fsn.dao.market.MkTestResourceDAO;
 import com.gettec.fsnip.fsn.exception.DaoException;
 import com.gettec.fsnip.fsn.exception.JPAException;
 import com.gettec.fsnip.fsn.exception.ServiceException;
-import com.gettec.fsnip.fsn.model.business.BusinessBrand;
-import com.gettec.fsnip.fsn.model.business.BusinessUnit;
-import com.gettec.fsnip.fsn.model.business.EnterpriseRegiste;
-import com.gettec.fsnip.fsn.model.business.LiutongFieldValue;
-import com.gettec.fsnip.fsn.model.business.ProducingDepartment;
-import com.gettec.fsnip.fsn.model.business.ProductionLicenseInfo;
+import com.gettec.fsnip.fsn.model.business.*;
 import com.gettec.fsnip.fsn.model.dishs.DishsNo;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.model.market.ResourceType;
@@ -74,11 +16,7 @@ import com.gettec.fsnip.fsn.model.test.ImportedProductTestResult;
 import com.gettec.fsnip.fsn.model.test.TestProperty;
 import com.gettec.fsnip.fsn.model.test.TestResult;
 import com.gettec.fsnip.fsn.model.waste.WasteDisposa;
-import com.gettec.fsnip.fsn.service.business.BusinessBrandService;
-import com.gettec.fsnip.fsn.service.business.EnterpriseRegisteService;
-import com.gettec.fsnip.fsn.service.business.LiutongFieldValueService;
-import com.gettec.fsnip.fsn.service.business.ProducingDepartmentService;
-import com.gettec.fsnip.fsn.service.business.ProductionLicenseService;
+import com.gettec.fsnip.fsn.service.business.*;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.service.dishs.DishsNoService;
 import com.gettec.fsnip.fsn.service.market.ResourceService;
@@ -93,6 +31,25 @@ import com.gettec.fsnip.fsn.util.MKReportNOUtils;
 import com.gettec.fsnip.fsn.util.PropertiesUtil;
 import com.gettec.fsnip.fsn.util.UploadUtil;
 import com.lhfs.fsn.service.testReport.TestReportService;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+
+import org.apache.axis.encoding.Base64;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.*;
 
 @Service(value = "testResourceService")
 public class ResourceServiceImpl extends
@@ -1101,6 +1058,7 @@ public class ResourceServiceImpl extends
 				if (type != null) {
 					rs.setType(type);
 				}
+				rs.setFileBase64(Base64.encode(rs.getFile()));
 				/*if (rs.getType() == null) {
 					System.out.println((rs.getType() == null) + " is null");
 					continue;

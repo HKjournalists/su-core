@@ -1,0 +1,129 @@
+
+
+#slides {
+	position:absolute;
+	top:15px;
+	left:25px;
+	z-index:100;
+}
+
+/*
+	Slides container
+	Important:
+	Set the width of your slides container
+	Set to display none, prevents content flash
+*/
+
+.slides_container {
+	width:850px;
+	overflow:hidden;
+	position:relative;
+	display:none;
+}
+
+/*
+	Each slide
+	Important:
+	Set the width of your slides
+	If height not specified height will be set by the slide content
+	Set to display block
+*/
+
+.slides_container div.slide {
+	width:849px;
+	height:640px;
+	display:block;
+}
+
+
+/*
+	Next/prev buttons
+*/
+
+#slides .next,#slides .prev {
+	position:absolute;
+	top:280px;
+	left:-25px;
+	width:24px;
+	height:43px;
+	display:block;
+	z-index:101;
+}
+
+#slides .next {
+	left:850px;
+}
+
+/*
+	Pagination
+*/
+
+.pagination {
+	margin:20px auto 0;
+	width:100px;
+}
+
+.pagination li {
+	float:left;
+	margin:0 1px;
+	list-style:none;
+}
+
+.pagination li a {
+	display:block;
+	width:12px;
+	height:0;
+	padding-top:12px;
+	background-image:url(../img/pagination.png);
+	background-position:0 0;
+	float:left;
+	overflow:hidden;
+}
+
+.pagination li.current a {
+	background-position:0 -12px;
+}
+
+
+
+
+
+
+#slides1,#slides2  {
+	position:absolute;
+	top:15px;
+	left:440px;
+	z-index:100;
+}
+
+#slides1 .slides_container,#slides2 .slides_container {
+	width:340px;
+	overflow:hidden;
+	position:relative;
+	display:none;
+}
+
+#slides1 .slides_container div.slide,#slides2 .slides_container div.slide  {
+	width:340px;
+	height:360px;
+	display:block;
+}
+
+#slides1 .next,#slides1 .prev,#slides2 .next,#slides2 .prev  {
+	position:absolute;
+	top:180px;
+	left:-25px;
+	width:24px;
+	height:43px;
+	display:block;
+	z-index:101;
+}
+
+#slides1 .next,#slides2 .next {
+	left:340px;
+}
+
+
+
+
+

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>食品安全营养信息平台  - ERP</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+	<link rel="stylesheet" href="../../resource_new/css/reset.css" />
+	<link rel="stylesheet" href="../../resource_new/css/text.css" />
+	<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+	<link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+	<link rel="stylesheet" href="../../resource_new/css/notification.css" />
+	<link rel="stylesheet" href="../../resource_new/css/index_guid.css" />
+	<link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
+	<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/jquery.min.js"></script>
+<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource_new/js/headerFooterTemplate.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource/js/less.js" type="text/javascript"></script>
+<script src="../../resource/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script src="../../resource/js/jquery.cookie.js"></script>
+<script src="../../resource/js/filter.js"></script>
+<script src="../../resource_new/js/fsn.js"></script>
+<script src="../../resource/js/lims.js"></script>
+<script src="../../resource/js/erp/kendo_widget.js"></script>
+<script src="../../resource/js/util.js"></script>
+<script src="../../resource/js/procurement/raw_material_record_list.js"></script>
+	<script>
+		$(document).ready(function() {
+			fsn.record.backUrl=fsn.getContextPath()+"/views/procurement/raw_material_list.html";
+			fsn.record.initialize();
+		});
+	</script>
+<style type="text/css">
+	/* td{white-space: nowrap;} */
+	.k-textbox.k-input{border:1px solid;}
+	.unusable{color: gray;cursor:not-allowed;}
+	.unusable:hover{color: gray;background: #e5e5e5;}
+	.show-area {width: 80%;margin-left: 16%;}
+	.div-input-name{width:120px;}
+	.add-win-div{width: 450px;margin-top: 15px;margin-top: 10px;}
+	.show-area {width: 80%;margin-left: 16%;}
+	.grid-font-size{font-size: 12px;}
+	.line{margin-left: -20px;}
+	.cond{margin-left: 15px;margin-top: 10px;margin-bottom: 10px;}
+	.necessary {
+		color: #f00
+	}
+	.k-edit-field .k-button-confirm,.k-grid-content .k-button-icontext{
+		box-sizing: content-box;
+		min-width: 64px;
+		background-color: white;
+		border: 1px solid #05bf73;
+		color: #05bf73;
+		cursor: pointer;
+		line-height: 2em;
+	}
+	.k-edit-field .k-button-cancel{
+		box-sizing: content-box;
+		min-width: 64px;
+		background-color: white;
+		border: 1px solid #fd645f;
+		color: #fd645f;
+		cursor: pointer;
+		line-height: 2em;
+	}
+	.k-edit-field .k-button-confirm:hover,.k-grid-content .k-button-icontext:hover{
+		background-color: #05bf73;
+		border: 1px solid;
+		color: white;
+		cursor: pointer;
+	}
+	.k-edit-field .k-button-cancel:hover{
+		background-color: #fd645f;
+		border: 1px solid;
+		color: white;
+		cursor: pointer;
+	}
+</style>
+</head>
+<body>
+ 
+<div class="fixfooter">
+	<div class="fullview" id="status_bar">
+		<div class="container">
+			<div class="row show-area">
+				<div class="column12">
+					<div class="fullview page_title mt50 wper100 line" id="status_bar"> 采购管理>>原辅料台账>>使用记录 </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container clearfix" id="content_container">
+		<div id="main" class="row show-area">
+				<fieldset style="border-color:#05BF73;">
+					<div class="cond">
+						<label>使用时间：</label><input type="text" id="useDate_query" class="k-textbox div-input-value" />&nbsp;&nbsp;
+						<a onclick="return fsn.record.check()"  class="k-button"><span class="k-button inputbtn">查询</span></a> &nbsp;&nbsp;
+						<a onclick="return fsn.record.add()"  class="k-button"><span class="k-button inputbtn">添加</span></a> &nbsp;&nbsp;
+						<a onclick="return fsn.record.goback()"  class="k-button"><span class="k-button inputbtn">返回</span></a> &nbsp;&nbsp;
+					</div>
+				</fieldset>
+				<div id="raw_material_record" style="margin-top: 10px;">
+				</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="addRecordPopup" style="display: none;">
+	<div class="k-edit-form-container">
+		<div class="k-edit-label user-edit_lable">
+			<label for="name_r" >名称：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="name_r"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="format_r">规格：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="format_r"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="batch_r" >批次：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="batch_r"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="surplusNum_r" >剩余数量：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="surplusNum_r"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="expireDate_r" >过期日期：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="expireDate_r"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="useDate" >使用日期：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;">
+			<input class="k-input k-textbox lims-input" id="useDate" type="text" />
+			<font class="necessary">*</font>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="useNum" >使用数量：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;">
+			<input class="k-input k-textbox lims-input" id="useNum" type="text" />
+			<font class="necessary">*</font>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="purpose" >用途：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;">
+			<input class="k-input k-textbox lims-input" id="purpose" type="text" />
+			<font class="necessary">*</font>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="remark" >备注：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;">
+			<textarea class="k-input k-textbox lims-input" id="remark" ></textarea>
+		</div>
+		<div class="k-edit-field">
+			<a onclick="return fsn.record.saveRecord()" class="k-button k-button-confirm" href="javascript:void(0)">
+				<span class="k-icon k-update"> </span> <span >确定</span>
+			</a>
+			<a onclick="return fsn.record.cancelRecord()" class="k-button k-button-cancel" href="javascript:void(0)">
+				<span class="k-icon k-cancel"> </span> <span>取消</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+
+<div id="k_window">
+	<span id="winMsg">正在保存数据，请稍候....</span>
+</div>
+
+<div id="addRecordConfirmPopup" style="display: none;">
+	<div class="necessary">请确定您填写的数据是否正确！保存后不能修改</div>
+	<div class="k-edit-form-container">
+		<div class="k-edit-label user-edit_lable">
+			<label for="name_rc" >名称：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="name_rc"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="format_rc">规格：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="format_rc"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="batch_rc" >批次：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="batch_rc"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="surplusNum_rc" >剩余数量：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="surplusNum_rc"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="expireDate_rc" >过期日期：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="expireDate_rc"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="useDate_rc" >使用日期：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="useDate_rc"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="useNum_rc" >使用数量：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="useNum_rc"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="purpose_rc" >用途：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="purpose_rc"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="remark_rc" >备注：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;">
+			<textarea class="k-input k-textbox lims-input" id="remark_rc" ></textarea>
+		</div>
+		<div class="k-edit-field">
+			<a onclick="return fsn.record.saveRecordConfirm()" class="k-button k-button-confirm" href="javascript:void(0)">
+				<span class="k-icon k-update"> </span> <span >确定</span>
+			</a>
+			<a onclick="return fsn.record.cancelRecordConfirm()" class="k-button k-button-cancel" href="javascript:void(0)">
+				<span class="k-icon k-cancel"> </span> <span>取消</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+<div id="remarkWindow" style="display: none;">
+	<div class="k-edit-label user-edit_lable">
+		<label for="remark_rcu" >备注：</label>
+	</div>
+	<div class="k-edit-field" style="float: left;margin-left: 4px;">
+		<textarea style="width: 300px;height: 150px" class="k-input k-textbox lims-input" id="remark_rcu" ></textarea>
+	</div>
+	<div class="k-edit-field">
+		<a onclick="return fsn.record.saveRemark()" class="k-button k-button-confirm" href="javascript:void(0)">
+			<span class="k-icon k-update"> </span> <span >确定</span>
+		</a>
+		<a onclick="return fsn.record.cancelRemark()" class="k-button k-button-cancel" href="javascript:void(0)">
+			<span class="k-icon k-cancel"> </span> <span>取消</span>
+		</a>
+	</div>
+</div>
+
+<!-- 页面提示信息框 -->
+<span id="RETURN_MES" style="display:none;"></span>
+<script id="errorTemplate" type="text/x-kendo-template">
+  <div class="wrong-pass">
+     <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 260px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+     <br/>
+     <img src="../../resource/img/error-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+</script>
+<script id="successTemplate" type="text/x-kendo-template">
+  <div class="upload-success">
+  <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 260px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/>
+  <br/>
+  <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+  </div>
+</script>
+</body>
+</html>
