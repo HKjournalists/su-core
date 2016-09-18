@@ -14,10 +14,10 @@ $(function(){
 		root.buildGrid("was_publish_grid_", root.publishedReportDS, "empty", root.hasPubColumn);
 		root.buildGrid("report_back_eidt_grid", root.backReportDS, "toolbar_template_back", root.backColumn);
 		lims.initEasyItemGrid("testItem_grid");
-		
+        fsn.initKendoWindow("delete_window","友情提示","300px","190px",false, []);
 		root.current_bus = getCurrentBusiness();
 	};
-	
+
 	root.reportDS = new kendo.data.DataSource({
 		transport: {
             read: {
@@ -231,7 +231,16 @@ $(function(){
 	                   	    click:function(e){
 	                   	    	var url = '/fsn-core/views/market/subBusiness_addReport.html';
 	                   	    	fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "publish_testreport.html");
-	                     }},], title: "操作", width: 30 }];
+	                     }},
+	                  {name:lims.localized("delete"),
+                      		text:"<span class='k-icon k-cancel'></span>" + "删除",
+                      		click: function(e){
+                      		var deleteRow = $(e.target).closest("tr");
+                      		deleteItem = this.dataItem(deleteRow);
+                      		fsn.delete_id = deleteItem.id;
+                      		$("#delete_window").data("kendoWindow").open().center();
+                      		}}
+                      ], title: "操作", width: 30 }];
 	
 	
 	root.backColumn = [	
@@ -271,7 +280,15 @@ $(function(){
 			                   	    click:function(e){
 			                   	    	var url = '/fsn-core/views/market/subBusiness_addReport.html';
 			                   	    	fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "publish_testreport.html");
-			                     }}], title: "操作", width: 40 }];
+			                     }},
+			                 {name:lims.localized("delete"),
+                                    text:"<span class='k-icon k-cancel'></span>" + "删除",
+                                    click: function(e){
+                                          var deleteRow = $(e.target).closest("tr");
+                                           deleteItem = this.dataItem(deleteRow);
+                                           fsn.delete_id = deleteItem.id;
+                                           $("#delete_window").data("kendoWindow").open().center();
+                                   }}], title: "操作", width: 40 }];
 	
     root.sign = function(){
     	var size = $("#report_publish_grid").data("kendoGrid").select().length;
@@ -495,7 +512,47 @@ $(function(){
 	 $("#btn_pubCancel").click(function(){
 		 $("#pubWindow_noProJpg").data("kendoWindow").close();
 	 });
-	 
+	 	$("#delete_no_btn").click(function(){
+     		$("#delete_window").data("kendoWindow").close();
+     	});
+
+     	$("#delete_yes_btn").click(function(){
+     		if(!fsn.delete_id){
+     			fsn.initNotificationMes("请先选择一个要删除的报告!", false);
+     			return;
+     		}
+
+     		$.ajax({
+     			url:portal.HTTP_PREFIX + "/testReport/" + fsn.delete_id,
+     			type:"DELETE",
+     			success:function(data){
+     				$("#delete_window").data("kendoWindow").close();
+
+     				if(data.result.status == "true"){
+     					if(data.result.show){
+     						fsn.initNotificationMes(data.result.errorMessage, false);
+     					}else{
+     						fsn.initNotificationMes("删除成功!", true);
+     						location.reload();
+     					}
+
+     					if(fsn.current_page_name && fsn.current_page_name=="manage_report_dealer"){
+     						root.dealer_reportDS.read();
+     						root.dealer_backReportDS.read();
+     						root.dealer_publishedReportDS.read();
+     					}else{
+     						//fsn.fleshGirdPageFun(fsn.reportDS);
+     						//fsn.fleshGirdPageFun(fsn.backReportInputDS);
+     						fsn.reportDS.read();
+     						fsn.backReportInputDS.read();
+     						fsn.publishedReportDS.read();
+     					}
+     				}else{
+     					fsn.initNotificationMes("删除失败!", false);
+     				}
+     			}
+     		});
+     	});
 	 root.publish = function(){
 		 var size = $("#report_publish_grid").data("kendoGrid").select().length;
 		 if(size == 1){
