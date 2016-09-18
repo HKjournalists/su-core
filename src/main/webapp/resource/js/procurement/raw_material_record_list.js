@@ -189,9 +189,17 @@ $(function(){
 			lims.initNotificationMes('使用日期不能大于过期日期!', false);
 			return;
 		}
+		if($("#useDate").data("kendoDatePicker").value()<record.procurement.procurementDate){
+			lims.initNotificationMes('采购日期为：'+fsn.formatGridDate(record.procurement.procurementDate)+'; 使用日期不能小于采购日期!', false);
+			return;
+		}
 		var num=$("#useNum").data("kendoNumericTextBox").value();
 		if(!num){
 			lims.initNotificationMes('使用数量不能为空!', false);
+			return;
+		}
+		if(num<0){
+			lims.initNotificationMes('使用数量不能小于0', false);
 			return;
 		}
 		if(num-record.procurement.surplusNum>0){

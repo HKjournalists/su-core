@@ -274,6 +274,10 @@ $(function(){
 			 lims.initNotificationMes('采购数量不能为空!', false);
 			 return;
 		 }
+		 if($("#procurementNum").data("kendoNumericTextBox").value()<0){
+			 lims.initNotificationMes('采购数量不能小于0', false);
+			 return;
+		 }
 		 if(!$("#procurementDate").data("kendoDatePicker").value()){
 			 lims.initNotificationMes('请选择采购时间!', false);
 			 return;
@@ -467,12 +471,20 @@ $(function(){
 			 lims.initNotificationMes('处理数量不能为空!', false);
 			 return;
 		 }
+		 if(num<0){
+			 lims.initNotificationMes('处理数量不能小于0 ', false);
+			 return;
+		 }
 		 if(num-procurement.dispose.surplusNum>0){
 			 lims.initNotificationMes('处理数量不能大于剩余数量!', false);
 			 return;
 		 }
 		 if(!$("#disposeDate").data("kendoDatePicker").value()){
 			 lims.initNotificationMes('请选择处理日期!', false);
+			 return;
+		 }
+		 if($("#disposeDate").data("kendoDatePicker").value()<new Date(procurement.dispose.procurementDate)){
+			 lims.initNotificationMes('采购日期为：'+procurement.dispose.procurementDate+'; 处理日期不能小于采购日期!', false);
 			 return;
 		 }
 		 if(""==$("#disposeCause").val().trim()){
