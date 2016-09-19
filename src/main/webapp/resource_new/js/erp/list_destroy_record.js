@@ -21,7 +21,23 @@ $(function() {
 		upload.buildGrid("product", this.templatecolumns, this.templateDS);
 		$("#product .k-grid-content tr td:first-child a").removeAttr("class");
 		$("#product .k-grid-content").attr("style","height: 364px");
+		product.initPopup("showQualifiedPopup","查看");
 	};
+	/**
+    	 * 初始化弹框方法
+    	 */
+    product.initPopup = function(id,title) {
+    		var window = $("#"+id);
+    		if (!window.data("kendoWindow")) {
+    			window.kendoWindow({
+    				title:title ,
+    				modal:true
+    				/*visible : false,
+    				resizable : false*/
+    			});
+    		}
+    		window.data("kendoWindow").center();
+    	};
 	product.templatecolumns = [
 	                           {field: "id",title: "序号",width: 25,filterable: false},
 	                           {field: "name",title: "产品名称",width: 50,filterable: false},
@@ -33,7 +49,18 @@ $(function() {
 	                           {field: "deal_address",title: "处理地点",width: 40,filterable: false},
 							   {field: "deal_person",title: "处理人",width: 40,filterable: false},
 							   {field: "process_mode",title: "处理方式",width: 40,filterable: false},
-	                           /*{width:60,title: fsn.l("Operation"),
+							   {field: "remark",title: "备注",width: 40,filterable: false},
+							   		{ command: [{
+                               				text: "处理证明",
+                               				click: function(e){
+                               					e.preventDefault();
+                               					var editRow = $(e.target).closest("tr");
+                               					var temp = this.dataItem(editRow);
+                               					product.showQualifiedImg(temp.recAttachments);
+                               				}
+                               			},
+                               		], title:"操作", width: 40, }
+	                          /* {width:60,title: fsn.l("Operation"),
 	                        	   template:function(e){
 	                        		   var tag="<a  onclick='return fsn.upload.product.edit("+e.id+")' class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> </span>" + fsn.l('Edit') + "</a>";
 	                        		   tag+="<a id='"+e.id+"' class='k-button k-button-icontext k-grid-ViewDetail delete'><span class='k-icon k-delete'> </span>" + "删除" + "</a>";
@@ -68,7 +95,7 @@ $(function() {
 			},
 			total : function(returnValue) {
 				return returnValue.count;   //总条数
-			}         
+			}
 		},
 		batch : true,
 		page:1,
@@ -77,10 +104,23 @@ $(function() {
 		serverFiltering : true,
 		serverSorting : true
 	});
+    product.showQualifiedImg=function (imgs) {
+    		var slides = $("#slides");
+    		var img ="<div class=\"slides_container\">";
+    		for(var i=0;i<imgs.length; i++)
+    		{
+    			 img =img+ '<div class="slide"><img style="width: 849px;height: 638px" src="'+imgs[i].url+'"/></div>';
 
+    		}
+    		img =img+ '</div><a href="#" class="prev"><img src="../../resource/js/slides/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>'+
+    			'<a href="#" class="next"><img src="../../resource/js/slides/img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>';
+    		slides.html(img);
+    		$('#slides').slides();
+    		$("#showQualifiedPopup").data("kendoWindow").open();
+    	};
 	// 编辑
 	product.edit = function(id){
-		window.location.href = fsn.getResourcePrefix()+"/views/erp_new/add_destroy_record.html?id="+id;
+		window.location.href = fsn.getResourcePrefix()+"/views/product/add_destroy_record.html?id="+id;
 	};
 	/*删除数据*/
 	$(document).on("click",".delete",function(){
