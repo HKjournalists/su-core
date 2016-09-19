@@ -39,6 +39,7 @@ $(document).ready(function() {
     fsn.src = "http://qa.fsnrec.com/portal/guid/unit/unit_produce_"; //引导原地址
     
     business_unit.initialize = function() {
+    	business_unit.initGrid("productionLic_1", business_unit.qsDS, business_unit.column_1, "toolbar_template_1");
     	business_unit.initGrid("productionLic", business_unit.qsDS, business_unit.column, "toolbar_template");
     	business_unit.initUpload();
     	business_unit.initWindow();
@@ -64,40 +65,44 @@ $(document).ready(function() {
          * @author ZhangHui 2015/6/11
          */
         initQsClaimMsgItemGrid("qs_applicant_grid");
+
     };
     
     business_unit.initUpload = function(){
     	/* 初始化上传控件 */
         $("#upload_logo_div").html("<input id='upload_logo_files' type='file' />");
+        business_unit.buildUpload("upload_logo_files", business_unit.aryLogoAttachments, "upload_logo_files_log");
         
         /**
          * 初始化企业宣传照上传控件
          * @author huangyong 2015-05-06
          */ 
         $("#upload_propaganda_div").html("<input id='upload_propaganda_files' type='file' />");
-        business_unit.buildUpload("upload_propaganda_files", business_unit.aryPropagandaAttachments, "proFileMsgPropaganda");
+        business_unit.buildUpload("upload_propaganda_files", business_unit.aryPropagandaAttachments, "upload_propaganda_files_log");
 
         /**
          * 初始化企业二维码维码上传控件
          * @author huangyong 2015-05-06
          */
         $("#upload_qr_div").html("<input id='upload_qr_files' type='file' />");
-        business_unit.buildUpload("upload_qr_files", business_unit.aryQrAttachments, "proFileMsgQr");
+        business_unit.buildUpload("upload_qr_files", business_unit.aryQrAttachments, "upload_qr_files_log");
 
         /**
          * 初始化企业税务登记证附件上传控件
          * @author huangyong 2015-05-06
          */
         $("#upload_tax_div").html("<input id='upload_tax_files' type='file' />");
-        business_unit.buildUpload("upload_tax_files", business_unit.aryTaxAttachments, "proFileMsgTax");
+        business_unit.buildUpload("upload_tax_files", business_unit.aryTaxAttachments, "upload_tax_files_log");
         
-        business_unit.buildUpload("upload_logo_files", business_unit.aryLogoAttachments, "proFileMsgLogo");
+
         $("#upload_license_div").html("<input id='upload_license_files' type='file' />");
-        business_unit.buildUpload("upload_license_files", business_unit.aryLicenseAttachments, "proFileMsgLicense");
+        business_unit.buildUpload("upload_license_files", business_unit.aryLicenseAttachments, "upload_license_files_log");
+
         $("#upload_org_div").html("<input id='upload_orgnization_files' type='file' />");
-        business_unit.buildUpload("upload_orgnization_files", business_unit.aryOrgAttachments, "proFileMsgOrg");
+        business_unit.buildUpload("upload_orgnization_files", business_unit.aryOrgAttachments, "upload_orgnization_files_log");
+
         $("#upload_certification_div").html("<input id='upload_certification_files' type='file' />");
-        business_unit.buildUpload("upload_certification_files", business_unit.certMap, "hideMsg");
+        business_unit.buildUpload("upload_certification_files", business_unit.certMap, "upload_certification_files_log");
     };
     
     business_unit.initWindow = function(){
@@ -124,7 +129,8 @@ $(document).ready(function() {
     };
     
     business_unit.bindClick = function(){
-    	$("#save").bind("click", business_unit.save);
+    	$("#sasaveInfove").bind("click", business_unit.save);
+    	$("#saveCertificate").bind("click", business_unit.saveCertificate);
         $("#reset").bind("click", business_unit.reset);
         $("#addProLic").bind("click", business_unit.addProLic);
         $("#saveProLic").bind("click", business_unit.saveProLic);
@@ -242,7 +248,7 @@ $(document).ready(function() {
 		        pageable: {
 		            refresh: true,
 		            pageSizes: 5,
-		            messages: fsn.gridPageMessage(),
+		            messages: fsn.gridPageMessage()
 		        },
 		        columns: [
 		                  { field: "qsno", title:"生产许可证编号", width: 35 },
@@ -267,7 +273,7 @@ $(document).ready(function() {
                               }
 	                    	  return msg;
 		                  }},
-			             ],
+			             ]
 			});
 		}
 	};
@@ -382,15 +388,34 @@ $(document).ready(function() {
             selectable: true,
             pageable: {
             	refresh: true,
-                messages: lims.gridPageMessage(),
+                messages: lims.gridPageMessage()
             },
             toolbar: [{
                 template: kendo.template($("#" + toolbarId).html())
             }],
-            columns: column,
+            columns: column
         });
     };
     
+    business_unit.column_1 = [{
+        field: "qsno",
+        title: "生产许可证编号",
+        width: 60,
+        height: 30
+    },
+    {
+        field: "businessName",
+        title: "生产企业名称",
+        width: 90,
+        height: 30
+    },
+    {
+        field: "productName",
+        title: "产品名称",
+        width: 90,
+        height: 30
+    }];
+
     business_unit.column = [{
         field: "qsno",
         title: "生产许可证编号",
@@ -409,30 +434,30 @@ $(document).ready(function() {
         width: 90,
         height: 30
     },
-    {width:40,title: fsn.l("Operation"),
+    {width:50,title: fsn.l("Operation"),
 	      template:function(e){
 	    	var tag = "";
 	    	if(e.can_eidt){
 	    		// 可以编辑
-	    		tag += "<a  onclick='return fsn.operateQsInfo(" + e.qsId + ",\"" + e.qsno +  "\"," + e.claimed + ",\"edit\")' " +
+	    		tag += "<a  class='k-button k-button-icontext k-grid-edit onclick='return fsn.operateQsInfo(" + e.qsId + ",\"" + e.qsno +  "\"," + e.claimed + ",\"edit\")' " +
 	    				"class='k-button'><span class='k-icon k-edit'> " +
 	    				"</span>编辑</a>";
 	    	}else{
 	    		// 可以预览
-	    		tag += "<a  onclick='return fsn.operateQsInfo(" + e.qsId + ",\"" + e.qsno + "\",null,\"view\")' " +
-	    				"class='k-button'><span class='k-icon k-i-search k-search'> " +
+	    		tag += "<a  class='k-button k-button-icontext k-grid-ViewDetail onclick='return fsn.operateQsInfo(" + e.qsId + ",\"" + e.qsno + "\",null,\"view\")' " +
+	    				"class='k-button'><span class='k-icon k-i-search k-ViewDetail'> " +
 	    				"</span>预览</a>";
 	    	}
 	    	/*if(!e.claimed || e.local){*/
 	    		// 可以删除
-	    		tag += "<a onclick='return fsn.delQsInfo(" + e.qsId + "," + e.local + ")' " +
+	    		tag += "<a class='k-button k-button-icontext k-grid-delete onclick='return fsn.delQsInfo(" + e.qsId + "," + e.local + ")' " +
 					   "class='k-button'><span class='k-icon k-delete'> " +
 					   "</span>删除</a>";
 	    	/*}*/
 			return tag;
 	      }
     }];
-    
+
     /**
      * 初始化页面
      */
@@ -1067,7 +1092,7 @@ $(document).ready(function() {
             website: $("#website").val().trim(),
             license: license,
             orgInstitution: orgInstitution,
-            logoAttachments: business_unit.aryLogoAttachments,
+            logoAttachments: business_unit.aryLogoAttachments, //企业logo
             orgAttachments: business_unit.aryOrgAttachments,
             licAttachments: business_unit.aryLicenseAttachments,
             listOfCertification: business_unit.getCerts(),
@@ -1080,6 +1105,11 @@ $(document).ready(function() {
         return subBusiness;
     };
 
+    business_unit.saveCertificate = function() {
+        business_unit.save();
+        var tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
+            tabStrip.select(2);        // Select by jQuery selector
+    }
     /* 保存 */
     business_unit.save = function() {
         /* 校验数据的有效性  */
@@ -1120,6 +1150,12 @@ $(document).ready(function() {
                      * @author tangxin 2015-05-14
                      */
                     changePropagandaAndQrcodeUploadStatus();
+
+
+                    var tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
+                    var index = tabStrip.select().index();
+                          index = index+1
+                          tabStrip.select(index);        // Select by jQuery selector
                 } else {
                     fsn.initNotificationMes("企业信息修改失败", false);
                 }
@@ -1305,7 +1341,7 @@ $(document).ready(function() {
                     dataType: "json",
                     async: true,
                     contentType: "application/json",
-                    url: portal.HTTP_PREFIX + url,
+                    url: portal.HTTP_PREFIX + url
                 }
             },
             schema: {
@@ -1428,6 +1464,73 @@ $(document).ready(function() {
         }
 
         /* 初始化其他认证信息grid */
+        $("#certification-grid_1").kendoGrid({
+            dataSource: cerDs == null ? [] : new kendo.data.DataSource({
+                data: cerDs,
+                page: 1,
+                pageSize: 1000
+            }),
+            navigatable: true,
+            pageable: {
+                messages: lims.gridPageMessage()
+            },
+            //toolbar: [{
+            //    template: kendo.template($("#toolbar_template_cert").html())
+            //}],
+            columns: [{
+                fild: "id",
+                title: "id",
+                editable: false,
+                width: 1
+            },
+                {
+                    field: "cert.name",
+                    title: "认证名称",
+                    width: 40
+                },
+                {
+                    title: "上传图片名称",
+                    width: 50,
+                    template:function(model){
+                        if(model.certResource != null){
+                            // 方法返回一个a标签，使得在gird中点击认证的资源名称可以在浏览器的新窗口中查看资源图片
+                            var url = model.certResource.url;
+                            var href = (url == null || url == "") ? "" : 'href="'+url+'" target="_black" title="查看原图"';
+                            return '<a ' + href + '>'+model.certResource.fileName+'</a>';
+                        }
+                    }
+                },
+                {
+                    field: "cert.stdStatus",
+                    title: "认证类型",
+                    template: function (e) {
+                        if (e.cert != null) {
+                            // 认证信息Cert 中 stdStauts 说明  0 ：国家标准认证，基础数据 。 1： 荣誉认证，由用户自己上传。
+                            if (e.cert.stdStatus == 0) return "普通认证";
+                            if (e.cert.stdStatus == 1) return "荣誉认证";
+                        }
+                        return "普通认证";
+                    },
+                    width: 50
+                },
+                {
+                    title: "有效期截止时间（如：2014-01-01）",
+                    width: 60,
+                    template: function(model){
+                        model.endDate = fsn.formatGridDate(model.endDate);
+                        var date = model.endDate;
+                        date = (date != null ? date.toString() : "");
+                        /**
+                         * 为了方便查询 当用户选择截止日期为 长期有效 时 实际保存的是 2200-01-01
+                         * 所有页面展示时需要进行转换
+                         */
+                        return date.indexOf("2200-01-01")>-1 ? "长期有效" : date;
+                    }
+                }]
+        });
+
+
+        /* 初始化其他认证信息grid */
         $("#certification-grid").kendoGrid({
             dataSource: cerDs == null ? [] : new kendo.data.DataSource({
                 data: cerDs,
@@ -1489,12 +1592,12 @@ $(document).ready(function() {
                     	 * 所有页面展示时需要进行转换
                     	 */ 
                     	return date.indexOf("2200-01-01")>-1 ? "长期有效" : date;
-                    },
+                    }
                 },
                 {
                     command: [
                         {
-                            name: "Edit",
+                            name: "edit",
                             text: "<span class='k-icon k-edit'></span>" + fsn.l("Edit"),
                             click: function (e) {
                                 e.preventDefault();
@@ -1506,8 +1609,8 @@ $(document).ready(function() {
                             }
                         },
                         {
-                            name: "Remove",
-                            text: "<span class='k-icon k-cancel'></span>" + fsn.l("Delete"),
+                            name: "delete",
+                            text: "<span class='k-icon k-delete'></span>" + fsn.l("Delete"),
                             click: function (e) {
                             	// 删除认证信息
                                 e.preventDefault();
@@ -1528,7 +1631,7 @@ $(document).ready(function() {
                             }
                         }],
                     title: fsn.l("Operation"),
-                    width: 35
+                    width: 40
                 }]
         });
     };
@@ -2136,6 +2239,6 @@ $(document).ready(function() {
     $("#bus_mainAddr").kendoValidator().data("kendoValidator");
     $("#org_mainAddr").kendoValidator().data("kendoValidator");
     $("#license_mainAddr").kendoValidator().data("kendoValidator");
-    
+
     business_unit.initialize();
 });
