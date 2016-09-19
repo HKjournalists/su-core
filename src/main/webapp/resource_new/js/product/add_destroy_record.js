@@ -110,6 +110,7 @@ $(document).ready(function(){
 			$.get(fsn.getHttpPrefix()+"/product/getDestroyById",{id:id},function(rs){
 				$("#name").val(rs.productDestroyRecord.name);
 				$("#barcode").val(rs.productDestroyRecord.barcode);
+				$("#format").val(rs.productDestroyRecord.format);
 				$("#batch").val(rs.productDestroyRecord.batch);
 				$("#number").val(rs.productDestroyRecord.number);
 				$("#problem_describe").val(rs.productDestroyRecord.problem_describe);
@@ -258,6 +259,7 @@ $(document).ready(function(){
         	var barcode = $("#barcode").val();
 
     		$("#name").val("");
+    		$("#format").val("");
         	/*条形码为空不进行判断*/
         	if(barcode==""){
         		return;
@@ -292,6 +294,7 @@ $(document).ready(function(){
 	         dataType: "json",
 	         success: function(returnValue) {
 	        	 $("#name").val(returnValue.data.name);
+	        	 $("#format").val(returnValue.data.format);
 	         }
 	     });
 };
@@ -332,11 +335,18 @@ $(document).ready(function(){
                         		}
                         		if($("#problem_describe").val()==""){
                                     fsn.initNotificationMes("处理原因不能为空！", false);
-
                         			return false;
                         		}
+                        		if($("#deal_address").val()==""){
+                                    fsn.initNotificationMes("处理地点不能为空！", false);
+                                    return false;
+                                }
+                                if($("#deal_person").val()==""){
+                                    fsn.initNotificationMes("处理人不能为空！", false);
+                                    return false;
+                                }
                         		if($("#process_time").val()==""){
-                        			lims.initNotificationMes('处理日期不能为空',false);
+                        			lims.initNotificationMes('处理时间不能为空',false);
                         			return false;
                         		}else{
                         			var expirday = $("#process_time").val();
@@ -359,12 +369,13 @@ $(document).ready(function(){
          root.openConfirmWin=function () {
                 		$("#barcode_y").html($("#barcode").val());
                 		$("#name_y").html($("#name").val());
+                		$("#format_y").html($("#format").val());
                 		$("#batch_y").html($("#batch").val());
                 		$("#number_y").html($("#number").val());
                 		$("#problem_describe_y").html($("#problem_describe").val());
                 		$("#process_time_y").html($("#process_time").val());
                 		$("#deal_address_y").html($("#deal_address").val());
-                		$("#deal_person_y").val($("#deal_person").val());
+                		$("#deal_person_y").html($("#deal_person").val());
                 		$("#remark_y").html($("#remark").val());
                 		var slides = $("#slides1");
                 		var img ="<div class=\"slides_container\">";
@@ -388,6 +399,7 @@ $(document).ready(function(){
     		data.id=getUrlParam("id");
     		data.name=$("#name").val();
     		data.barcode=$("#barcode").val();
+    		data.format=$("#format").val();
     		data.batch=$("#batch").val();
     		data.number=$("#number").val();
     		data.handle_name=null;

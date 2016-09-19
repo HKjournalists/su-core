@@ -354,7 +354,7 @@ public class ReportRESTService {
 		
 		ResultVO resultVO = new ResultVO();
 		try{
-		//	AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
+			//AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
 			Long currentUserOrganization = Long.parseLong(AccessUtils.getUserRealOrg().toString());
 			
 			/* 获取当前登录的商超企业id */
@@ -370,7 +370,9 @@ public class ReportRESTService {
 				model.addAttribute("product", null);
 			}else{
 				String name=product.getName();
+				String format=product.getFormat();
 				model.addAttribute("product", name);
+				model.addAttribute("format", format);
 			}
 			
 		}catch (Exception e) {

@@ -1383,6 +1383,7 @@ public class ProductRESTService extends BaseRESTService{
 				productDestroyRecord.setNumber(productDestroyRecordVo.getNumber());
 				productDestroyRecord.setName(productDestroyRecordVo.getName());
 				productDestroyRecord.setBarcode(productDestroyRecordVo.getBarcode());
+				productDestroyRecord.setFormat(productDestroyRecordVo.getFormat());
 				productDestroyRecord.setBatch(productDestroyRecordVo.getBatch());
 				productDestroyRecord.setProblem_describe(productDestroyRecordVo.getProblem_describe());
 				productDestroyRecord.setProcess_time(productDestroyRecordVo.getProcess_time());
@@ -1434,6 +1435,7 @@ public class ProductRESTService extends BaseRESTService{
 				_productDestroyRecordVo.setName(list.get(i).getName());
 				_productDestroyRecordVo.setBarcode(list.get(i).getBarcode());
 				_productDestroyRecordVo.setBatch(list.get(i).getBatch());
+				_productDestroyRecordVo.setFormat(list.get(i).getFormat());
 				_productDestroyRecordVo.setHandle_name(list.get(i).getHandle_name());
 				_productDestroyRecordVo.setId(list.get(i).getId());
 				_productDestroyRecordVo.setNumber(list.get(i).getNumber());
@@ -1468,6 +1470,7 @@ public class ProductRESTService extends BaseRESTService{
 				ProductDestroyRecordVo productDestroyRecordVo=new ProductDestroyRecordVo();
 				productDestroyRecordVo.setName(productDestroyRecord.getName());
 				productDestroyRecordVo.setBarcode(productDestroyRecord.getBarcode());
+				productDestroyRecordVo.setFormat(productDestroyRecord.getFormat());
 				productDestroyRecordVo.setBatch(productDestroyRecord.getBatch());
 				productDestroyRecordVo.setHandle_name(productDestroyRecord.getHandle_name());
 				productDestroyRecordVo.setId(productDestroyRecord.getId());
@@ -1503,7 +1506,9 @@ public class ProductRESTService extends BaseRESTService{
 				model.addAttribute("product", null);
 			}else{
 				String name=pro.getName();
+				String format=pro.getFormat();
 				model.addAttribute("product",name);
+				model.addAttribute("format",format);
 			}
 			return JSON;
 		}

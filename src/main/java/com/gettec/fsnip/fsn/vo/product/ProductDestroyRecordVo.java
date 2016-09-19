@@ -28,6 +28,8 @@ public class ProductDestroyRecordVo {
 
 	private String barcode; // 产品条形码
 
+	private String format; // 规格
+
 	private String batch; // 批次
 
 	private String number; // 数量
@@ -77,6 +79,14 @@ public class ProductDestroyRecordVo {
 
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
 	}
 
 	public String getBatch() {

@@ -39,6 +39,7 @@ $(function() {
 	                           {field: "id",title: "序号",width: 25,filterable: false},
 	                           {field: "name",title: "产品名称",width: 50,filterable: false},
 	                           {field: "barcode",title: "产品条码",width: 50,filterable: false},
+	                           {field: "format",title: "规格",width: 50,filterable: false},
 	                           {field: "batch",title: "批次",width: 40,filterable: false},
 	                           {field: "number",title: "处理数量",width: 40,filterable: false},
 	                           {field: "problem_describe",title: "处理原因",width: 40,filterable: false},
