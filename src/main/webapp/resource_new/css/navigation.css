@@ -1,0 +1,106 @@
+.brief{	
+	width:100%;
+	padding:35px 20px;
+	border-bottom:1px solid #ccc;
+	position:relative;			
+}
+.image{
+	width:390px;
+	height:230px;
+	margin-right:100px;	
+}
+.txt{
+	width:50%;
+	height:230px;
+}
+.txt p{
+	width:100%;
+	text-indent:25px;
+}
+.item{
+	width:160px;
+	height:120px;
+	border-radius:10px;
+	background:#00A877;	
+	text-align:center;
+	line-height:120px;
+	margin:0 50px 50px 0;
+	float:left;	
+	position: relative;
+}
+.item a{
+	color:#fff;
+	font-size:18px;
+	display:block;
+	width:100%;
+	height:100%;
+}
+.item span{
+	display:block;
+	background:url("../img/close.png")no-repeat;
+	width:12px;
+	height:12px;
+	position: absolute;
+	right:5px;
+	top:5px;
+}
+.add{
+	border:2px dashed #ccc;	
+	background:#fff;
+}
+.add a{
+	font-size:80px;
+	color:#ccc;
+	line-height:100px;	
+}
+.selection{
+	width: 300px;
+    height: 170px;
+    position: absolute;
+    left: 30%;
+    bottom: 10px;
+    border:1px solid #000;
+    border-radius:10px;
+    background:#fff;
+    display:none;
+}
+.selection h3{
+	width: 100%;
+    height: 30px;
+    background-color: rgba(0, 168, 120, 1);
+    color:#fff;
+    margin-top:20px;
+    padding-left:17px;
+}
+.selection .inpt{
+	position: absolute;
+    left: 17px;
+    width: 253px;
+    height: 22px;
+}
+.selection .inpt select{
+	width:100%;
+	height:100%;
+}
+.selection .father{
+	top:53px;
+}
+.selection .child{
+	top:90px;
+}
+.selection .btn{
+	position: absolute;
+    top: 120px;
+    width: 109px;
+    height: 25px;
+}
+.selection .sub{
+	left:17px;
+}
+.selection .clo{
+	left:160px;
+}
+.selection .btn input{
+	width:100%;
+	height:100%;
+}
