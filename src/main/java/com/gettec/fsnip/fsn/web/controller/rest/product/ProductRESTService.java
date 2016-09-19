@@ -865,7 +865,7 @@ public class ProductRESTService extends BaseRESTService{
 		try{
 			AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
 			List<String> listOfBarcode = null;
-			if("经销商".equals(businessType)){
+			if("经销商".equals(businessType)||"生产企业".equals(businessType)){
 				Long myOrg = info.getOrganization();
 				listOfBarcode = productService.getAllBarcode(myOrg);
 			}else{
@@ -1390,6 +1390,7 @@ public class ProductRESTService extends BaseRESTService{
 				productDestroyRecord.setDeal_person(productDestroyRecordVo.getDeal_person());
 				productDestroyRecord.setProcess_mode(Process_mode.getMap().get(productDestroyRecordVo.getProcess_mode()));
 				productDestroyRecord.setId(productDestroyRecordVo.getId());
+				productDestroyRecord.setRemark(productDestroyRecordVo.getRemark());
 				productDestroyRecord.setRecAttachments(productDestroyRecordVo.getRecAttachments());
 				productDestroyRecordService.update(productDestroyRecord);
 				model.addAttribute("status",true);
@@ -1441,6 +1442,7 @@ public class ProductRESTService extends BaseRESTService{
 				_productDestroyRecordVo.setProcess_time(list.get(i).getProcess_time());
 				_productDestroyRecordVo.setDeal_address(list.get(i).getDeal_address());
 				_productDestroyRecordVo.setDeal_person(list.get(i).getDeal_person());
+				_productDestroyRecordVo.setRemark(list.get(i).getRemark());
 				_productDestroyRecordVo.setRecAttachments(list.get(i).getRecAttachments());
 					if(list.get(i).getProcess_mode()==Process_mode.DESTROY){
 						_productDestroyRecordVo.setProcess_mode(list.get(i).getProcess_mode().getName().toString());
@@ -1475,6 +1477,7 @@ public class ProductRESTService extends BaseRESTService{
 				productDestroyRecordVo.setProcess_time(productDestroyRecord.getProcess_time());
 				productDestroyRecordVo.setDeal_address(productDestroyRecord.getDeal_address());
 				productDestroyRecordVo.setDeal_person(productDestroyRecord.getDeal_person());
+				productDestroyRecordVo.setRemark(productDestroyRecord.getRemark());
 				productDestroyRecordVo.setRecAttachments(productDestroyRecord.getRecAttachments());
 				productDestroyRecordVo.setProcess_mode(productDestroyRecord.getProcess_mode().getName());
 				model.addAttribute("productDestroyRecord",productDestroyRecordVo);

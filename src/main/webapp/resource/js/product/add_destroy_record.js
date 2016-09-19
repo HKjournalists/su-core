@@ -38,9 +38,12 @@ $(document).ready(function(){
 			dataValueField: "name"
 		});
 		*/
+		portal.initPopup("addConfirmPopup","确认");
+      //  portal.initPopup("addConfirmDisposePopup","确认");
+		fsn.initKendoWindow("k_window","保存状态","300px","60px",false,'[]');
 		root.bindClick_dealer();
 		 $("#barcode").kendoAutoComplete({
-	            dataSource: lims.getAutoLoadDsByUrl("/product/getAllBarCode"),
+	            dataSource: lims.getAutoLoadDsByUrl("/product/getAllBarCode?businessType=生产企业"),
 	            filter: "startswith",
 	            placeholder: "搜索...",
 	            select: root.onSelectBarcode,
@@ -50,7 +53,7 @@ $(document).ready(function(){
 			dataTextField: "text",
 			dataValueField: "Value"
 		});*/
-		
+
 		$("#process_time").kendoDatePicker({
 			format: "yyyy-MM-dd",
 			height:30,
@@ -156,6 +159,18 @@ $(document).ready(function(){
 			},'json');
 		}
 	};
+	portal.initPopup = function(id,title) {
+            		var window = $("#"+id);
+            		if (!window.data("kendoWindow")) {
+            			window.kendoWindow({
+            				title:title ,
+            				modal:true
+            				/*visible : false,
+            				resizable : false*/
+            			});
+            		}
+            		window.data("kendoWindow").center();
+            	};
 	 	/**
 	 	 * 根据条形码查找产品id
 	 	 * @author ZhangHui 2015/4/14
@@ -282,7 +297,7 @@ $(document).ready(function(){
   	         dataType: "json",
   	         success: function(returnValue) {
   	             	var name = returnValue.product;
-  	             	console.log(name);
+  	             	//console.log(name);
   	             	if(name == null){
   	                	/* 1.1 该条形码系统不存在，则引导用户跳转至产品新增界面 */
   	             		fsn.initNotificationMes("您的列表中不存在该产品！", false);
@@ -326,6 +341,86 @@ $(document).ready(function(){
     };*/
 
 	$("#save").click(function(){
+
+            				if($("#batch").val()==""){
+                                fsn.initNotificationMes("批次不能为空！", false);
+
+                    			return false;
+                    		}
+                    		if($("#barcode").val()==""){
+                    			lims.initNotificationMes('条形码不能为空',false);
+                    			return false;
+                    		}
+                    		if($("#name").val()==""){
+                    			lims.initNotificationMes('产品名称不能为空',false);
+                    			return false;
+                    		}
+                    		if($("#number").val()==""){
+                    			lims.initNotificationMes('处理数量不能为空',false);
+                    			return false;
+                    		}else{
+                    			var expirday = $("#number").val();
+                    	        var re1 = /^[1-9]{1}$/;
+                    	        if (!expirday.charAt(0).match(re1) && expirday.trim() != "") {
+                    	            $("#number").val("");
+                    	            lims.initNotificationMes('处理数量必须以数字开始',false);
+                    	            return false;
+                    	        }
+                    		}
+                    		if($("#problem_describe").val()==""){
+                                fsn.initNotificationMes("处理原因不能为空！", false);
+
+                    			return false;
+                    		}
+                    		if($("#process_time").val()==""){
+                    			lims.initNotificationMes('处理日期不能为空',false);
+                    			return false;
+                    		}else{
+                    			var expirday = $("#process_time").val();
+                    	        var re1 = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+                    	        if (!expirday.match(re1) && expirday.trim() != "") {
+                    	            $("#process_time").val("");
+                    	            lims.initNotificationMes('处理日期格式不正确',false);
+                    	            return false;
+                    	        }
+                    		}
+                    		if(root.aryRepAttachments.length<1){
+                    			lims.initNotificationMes('处理证明不能为空',false);
+                    			return false;
+                    		}
+            		 root.openConfirmWin();
+	});
+	 root.saveProcurement = function(){
+            	 };
+
+     root.openConfirmWin=function () {
+            		$("#barcode_y").html($("#name").val());
+            		$("#name_y").html($("#name").val());
+            		$("#batch_y").html($("#batch").val());
+            		$("#number_y").html($("#number").val());
+            		$("#problem_describe_y").html($("#problem_describe").val());
+            		$("#process_time_y").html($("#process_time").val());
+            		$("#deal_address_y").html($("#deal_address").val());
+            		$("#deal_person_y").val($("#deal_person").val());
+            		$("#remark_y").html($("#remark").val());
+            		var slides = $("#slides1");
+            		var img ="<div class=\"slides_container\">";
+            		for(var i=0;i<root.aryRepAttachments.length; i++)
+            		{
+            			img =img+ '<div class="slide"><img style="width: 339px;height: 360px" src="data:image/png;base64,'+root.aryRepAttachments[i].fileBase64+'"/></div>';
+
+            		}
+            		img =img+ '</div><a href="#" class="prev"><img src="../../resource/js/slides/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>'+
+            			'<a href="#" class="next"><img src="../../resource/js/slides/img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>';
+            		slides.html(img);
+            		$("#slides1").slides();
+
+
+            		$("#addConfirmPopup").data("kendoWindow").open();
+            	} ;
+
+     $("#saveConfirm").click(function(){
+        $("#k_window").data("kendoWindow").open().center();
 		var data={};
 		data.id=getUrlParam("id");
 		data.name=$("#name").val();
@@ -341,62 +436,8 @@ $(document).ready(function(){
 		data.recieve_name=null;
 		data.record_id=null;
 		data.operation_user=null;
-		console.log($("#process_time").val());
-		if(data.batch==""){
-            fsn.initNotificationMes("批次不能为空！", false);
-			
-			return false;
-		}
-		if(data.barcode==""){
-			lims.initNotificationMes('条形码不能为空',false);
-			return false;
-		}
-		if(data.name==""){
-			lims.initNotificationMes('产品名称不能为空',false);
-			return false;
-		}
-		if(data.number==""){
-			lims.initNotificationMes('处理数量不能为空',false);
-			return false;
-		}else{
-			var expirday = $("#number").val();
-	        var re1 = /^[1-9]{1}$/;
-	        if (!expirday.charAt(0).match(re1) && expirday.trim() != "") {
-	            $("#number").val("");
-	            lims.initNotificationMes('处理数量必须以数字开始',false);
-	            return false;
-	        }
-		}
-		if(data.problem_describe==""){
-            fsn.initNotificationMes("处理原因不能为空！", false);
-			
-			return false;
-		}
-		if(data.process_time==""){
-			lims.initNotificationMes('处理日期不能为空',false);
-			return false;
-		}else{
-			var expirday = $("#process_time").val();
-	        var re1 = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
-	        if (!expirday.match(re1) && expirday.trim() != "") {
-	            $("#process_time").val("");
-	            lims.initNotificationMes('处理日期格式不正确',false);
-	            return false;
-	        }
-		}
-		if(root.aryRepAttachments.length>0){
-				data.recAttachments=root.aryRepAttachments;			
-		}else{
-			lims.initNotificationMes('处理证明不能为空',false);
-			return false;
-		}
-		if(confirm("该数据保存之后不可更改，确定要保存这条数据吗？")){
-	/*	dialog({
-			id:"提交中",
-			content:"保存中...,请稍等",
-			width:350,
-			modal:true
-		}).show();*/
+		data.remark=$("#remark").val();
+		data.recAttachments=root.aryRepAttachments;
 		$.ajax({
 			url:fsn.getHttpPrefix()+"/product/savedestroy",
 			type: "POST",
@@ -410,9 +451,12 @@ $(document).ready(function(){
 					lims.initNotificationMes('保存失败',false);
 				}
 			}
-		});}
+		});
 		return false;
-	});
+        });
+     $("#cancelConfirm").click(function(){
+    		$("#addConfirmPopup").data("kendoWindow").close();
+    	});
 	function getUrlParam(name){  
 		//构造一个含有目标参数的正则表达式对象  
 		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");  

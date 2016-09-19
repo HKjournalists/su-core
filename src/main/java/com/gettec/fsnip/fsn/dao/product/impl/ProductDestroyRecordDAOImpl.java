@@ -22,12 +22,12 @@ implements ProductDestroyRecordDAO {
 	public List<ProductDestroyRecord> getbyOrgId(String orgname,int page,int pageSize,String keyword) {
 		String jpql = "SELECT e FROM " + entityClass.getName() + " e"+" where e.operation_user=?1";
 		if(!keyword.equals("")&&keyword!=null){
-		jpql +=" and e.name=?2 or e.barcode=?2";
+		jpql +=" and e.name like"+" ?2"+" or e.barcode like"+" ?2";
 		}
 		Query query = entityManager.createQuery(jpql);
 		query.setParameter(1,orgname);
 		if(!keyword.equals("")&&keyword!=null){
-			query.setParameter(2,keyword);
+			query.setParameter(2,"%"+keyword+"%");
 			}
 		query.setFirstResult((page-1)*pageSize);
 		query.setMaxResults(pageSize);
@@ -57,12 +57,12 @@ implements ProductDestroyRecordDAO {
 	public long countbyOrg(String orgname,String keyword) {
 		String jpql = "SELECT count(*) FROM " + entityClass.getName() + " e"+" where e.operation_user=?1";
 		if(!keyword.equals("")&&keyword!=null){
-			jpql +=" and e.name=?2 or e.barcode=?2";
+			jpql +=" and e.name like"+" ?2"+" or e.barcode like"+" ?2";
 			}
 		Query query = entityManager.createQuery(jpql);
 		query.setParameter(1,orgname);
 		if(!keyword.equals("")&&keyword!=null){
-			query.setParameter(2,keyword);
+			query.setParameter(2,"%"+keyword+"%");
 			}
 		
 		try{

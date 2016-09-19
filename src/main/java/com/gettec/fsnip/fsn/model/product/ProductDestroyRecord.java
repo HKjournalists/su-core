@@ -84,7 +84,9 @@ public class ProductDestroyRecord extends Model{
 
 	@Column(name = "operation_user")
 	private String operation_user; // 操作者
-	
+
+	@Column(name = "remark")
+	private String remark; // 备注
 	
 	/* 销毁证明上传  */
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
@@ -219,5 +221,13 @@ public class ProductDestroyRecord extends Model{
 
 	public void setDeal_person(String deal_person) {
 		this.deal_person = deal_person;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }
