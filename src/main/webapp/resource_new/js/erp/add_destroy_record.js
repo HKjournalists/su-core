@@ -11,33 +11,8 @@ $(document).ready(function(){
 	               ]; */
 	root.aryRepAttachments=new Array();
 	root.initialize=function(){
-		/*$("#name").kendoDropDownList({
-			dataSource:{
-				transport: {
-					read: {
-						url:
-							fsn.getHttpPrefix()+"/product/getListOfProduct",
-						dataType: "json"
-					}
-				},
-				schema: {
-					data: function(response) {
-						return response.productList; 
-					}
-				},
-				
-			},
-			dataBound: function(e) {
-				$("#barcode").val(e.sender.dataItem().barcode);
-			  },
-			change:function(e){
-				$("#barcode").val(e.sender.dataItem().barcode);
-				//bar=e.sender.dataItem().barcode;
-			},
-			dataTextField: "name",
-			dataValueField: "name"
-		});
-		*/
+		portal.initPopup("addConfirmPopup","确认");
+        fsn.initKendoWindow("k_window","保存状态","300px","60px",false,'[]');
 		root.bindClick_dealer();
 		 $("#barcode").kendoAutoComplete({
 	            dataSource: lims.getAutoLoadDsByUrl("/product/getAllBarCode"),
@@ -154,6 +129,18 @@ $(document).ready(function(){
 			},'json');
 		}
 	};
+	portal.initPopup = function(id,title) {
+                		var window = $("#"+id);
+                		if (!window.data("kendoWindow")) {
+                			window.kendoWindow({
+                				title:title ,
+                				modal:true
+                				/*visible : false,
+                				resizable : false*/
+                			});
+                		}
+                		window.data("kendoWindow").center();
+                	};
 	/**
 	 * 根据条形码查找产品id
 	 * @author ZhangHui 2015/4/14
@@ -317,88 +304,123 @@ $(document).ready(function(){
 		root.aryRepAttachments.length=0;
 	},
 
-	$("#save").click(function(){
-		var data={};
-		data.id=getUrlParam("id");
-		data.name=$("#name").val();
-		data.barcode=$("#barcode").val();
-		data.batch=$("#batch").val();
-		data.number=$("#number").val();
-		data.handle_name=null;
-		data.problem_describe=$("#problem_describe").val();
-		data.process_mode=2;
-		data.process_time=$("#process_time").val();
-		data.deal_address=$("#deal_address").val();
-		data.deal_person=$("#deal_person").val();
-		data.recieve_name=null;
-		data.record_id=null;
-		data.operation_user=null;
-		if(data.batch==""){
-            fsn.initNotificationMes("批次不能为空！", false);
-			return false;
-		}
-		if(data.barcode==""){
-			lims.initNotificationMes('条形码不能为空',false);
-			return false;
-		}
-		if(data.name==""){
-			lims.initNotificationMes('产品名称不能为空',false);
-			return false;
-		}
-		if(data.number==""){
-			lims.initNotificationMes('处理数量不能为空',false);
-			return false;
-		}else{
-			var expirday = $("#number").val();
-	        var re1 = /^[1-9]{1}$/;
-	        if (!expirday.charAt(0).match(re1) && expirday.trim() != "") {
-	            $("#number").val("");
-	            lims.initNotificationMes('处理数量必须以数字开始',false);
-	            return false;
-	        }
-		}
-		
-		if(data.process_time==""){
-			lims.initNotificationMes('处理日期不能为空',false);
-			return false;
-		}else{
-			var expirday = $("#process_time").val();
-	        var re1 = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
-	        if (!expirday.match(re1) && expirday.trim() != "") {
-	            $("#process_time").val("");
-	            lims.initNotificationMes('处理日期格式不正确',false);
-	            return false;
-	        }
-		}
-		if(root.aryRepAttachments.length>0){
-				data.recAttachments=root.aryRepAttachments;			
-		}else{
-			lims.initNotificationMes('处理证明不能为空',false);
-			return false;
-		}
-		if(confirm("该数据保存之后不可更改，确定要保存这条数据吗？")){
-		/*dialog({
-			id:"提交中",
-			content:"保存中...,请稍等",
-			width:350,
-			modal:true
-		}).show();*/
-		$.ajax({
-			url:fsn.getHttpPrefix()+"/product/savedestroy",
-			type: "POST",
-			dataType: "json",
-			contentType: "application/json; charset=utf-8",
-			data: JSON.stringify(data),
-			success:function(rs){
-				if(rs.status){
-					location.href="list_destroy_record.html";
-				}else{
-					lims.initNotificationMes('保存失败',false);
-				}
-			}
-		});}
-		return false;
-	});
+		$("#save").click(function(){
+
+                				if($("#batch").val()==""){
+                                    fsn.initNotificationMes("批次不能为空！", false);
+
+                        			return false;
+                        		}
+                        		if($("#barcode").val()==""){
+                        			lims.initNotificationMes('条形码不能为空',false);
+                        			return false;
+                        		}
+                        		if($("#name").val()==""){
+                        			lims.initNotificationMes('产品名称不能为空',false);
+                        			return false;
+                        		}
+                        		if($("#number").val()==""){
+                        			lims.initNotificationMes('处理数量不能为空',false);
+                        			return false;
+                        		}else{
+                        			var expirday = $("#number").val();
+                        	        var re1 = /^[1-9]{1}$/;
+                        	        if (!expirday.charAt(0).match(re1) && expirday.trim() != "") {
+                        	            $("#number").val("");
+                        	            lims.initNotificationMes('处理数量必须以数字开始',false);
+                        	            return false;
+                        	        }
+                        		}
+                        		if($("#problem_describe").val()==""){
+                                    fsn.initNotificationMes("处理原因不能为空！", false);
+
+                        			return false;
+                        		}
+                        		if($("#process_time").val()==""){
+                        			lims.initNotificationMes('处理日期不能为空',false);
+                        			return false;
+                        		}else{
+                        			var expirday = $("#process_time").val();
+                        	        var re1 = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+                        	        if (!expirday.match(re1) && expirday.trim() != "") {
+                        	            $("#process_time").val("");
+                        	            lims.initNotificationMes('处理日期格式不正确',false);
+                        	            return false;
+                        	        }
+                        		}
+                        		if(root.aryRepAttachments.length<1){
+                        			lims.initNotificationMes('处理证明不能为空',false);
+                        			return false;
+                        		}
+                		 root.openConfirmWin();
+    	});
+    	 root.saveProcurement = function(){
+                	 };
+
+         root.openConfirmWin=function () {
+                		$("#barcode_y").html($("#barcode").val());
+                		$("#name_y").html($("#name").val());
+                		$("#batch_y").html($("#batch").val());
+                		$("#number_y").html($("#number").val());
+                		$("#problem_describe_y").html($("#problem_describe").val());
+                		$("#process_time_y").html($("#process_time").val());
+                		$("#deal_address_y").html($("#deal_address").val());
+                		$("#deal_person_y").val($("#deal_person").val());
+                		$("#remark_y").html($("#remark").val());
+                		var slides = $("#slides1");
+                		var img ="<div class=\"slides_container\">";
+                		for(var i=0;i<root.aryRepAttachments.length; i++)
+                		{
+                			img =img+ '<div class="slide"><img style="width: 339px;height: 360px" src="data:image/png;base64,'+root.aryRepAttachments[i].fileBase64+'"/></div>';
+
+                		}
+                		img =img+ '</div><a href="#" class="prev"><img src="../../resource/js/slides/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>'+
+                			'<a href="#" class="next"><img src="../../resource/js/slides/img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>';
+                		slides.html(img);
+                		$("#slides1").slides();
+
+
+                		$("#addConfirmPopup").data("kendoWindow").open();
+                	} ;
+
+         $("#saveConfirm").click(function(){
+            $("#k_window").data("kendoWindow").open().center();
+    		var data={};
+    		data.id=getUrlParam("id");
+    		data.name=$("#name").val();
+    		data.barcode=$("#barcode").val();
+    		data.batch=$("#batch").val();
+    		data.number=$("#number").val();
+    		data.handle_name=null;
+    		data.problem_describe=$("#problem_describe").val();
+    		data.process_mode=2;
+    		data.process_time=$("#process_time").val();
+    		data.deal_person=$("#deal_person").val();
+    		data.deal_address=$("#deal_address").val();
+    		data.recieve_name=null;
+    		data.record_id=null;
+    		data.operation_user=null;
+    		data.remark=$("#remark").val();
+    		data.recAttachments=root.aryRepAttachments;
+    		$.ajax({
+    			url:fsn.getHttpPrefix()+"/product/savedestroy",
+    			type: "POST",
+    			dataType: "json",
+    			contentType: "application/json; charset=utf-8",
+    			data: JSON.stringify(data),
+    			success:function(rs){
+    				if(rs.status){
+    					location.href="list_destroy_record.html";
+    				}else{
+    					lims.initNotificationMes('保存失败',false);
+    				}
+    			}
+    		});
+    		return false;
+            });
+         $("#cancelConfirm").click(function(){
+        		$("#addConfirmPopup").data("kendoWindow").close();
+        	});
 	function getUrlParam(name){  
 		//构造一个含有目标参数的正则表达式对象  
 		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");  

@@ -394,7 +394,7 @@ $(document).ready(function(){
             	 };
 
      root.openConfirmWin=function () {
-            		$("#barcode_y").html($("#name").val());
+            		$("#barcode_y").html($("#barcode").val());
             		$("#name_y").html($("#name").val());
             		$("#batch_y").html($("#batch").val());
             		$("#number_y").html($("#number").val());

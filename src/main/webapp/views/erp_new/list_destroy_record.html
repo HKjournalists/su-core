@@ -1,44 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=10">
-<title>食品安全营养信息平台</title>
-<!--[if IE]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-<link rel="stylesheet" href="../../resource_new/css/reset.css"/>
-<link rel="stylesheet" href="../../resource_new/css/text.css" />
-<link rel="stylesheet" href="../../resource_new/css/grid.css" />
-<link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
-<link href="../../resource_new/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
-<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
-<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
-<link rel="stylesheet" href="../../resource_new/css/notification.css" />
-<link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
-<link rel="stylesheet" href="../../resource/css/product/select_customer.css" />
-<script src="../../resource_new/js/less.js" type="text/javascript"></script>
-<script src="../../resource_new/kendoui/js/jquery.min.js"></script>
-<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
-<script src="../../resource_new/js/jquery.cookie.js"></script>
-<script src="../../resource_new/js/portal/common.js"></script>
-<script src="../../resource_new/js/fsn.js"></script>
-<script src="../../resource_new/js/headerFooterTemplate.js"></script>
-<script src="../../resource_new/js/upload/lims.js"></script>
-<script src="../../resource_new/js/util.js"></script>
-<script src="../../resource_new/js/lims.js"></script>
-<script src="../../resource_new/js/fsn.i18n.js"></script>
-<script src="../../resource_new/js/upload/lims.upload.js"></script>
-<script src="../../resource_new/js/upload/list.js"></script>
-<script src="../../resource_new/js/filter.js"></script>
-<script src="../../resource_new/js/language/product_up_zh-cn.js"></script>
-<script src="../../resource_new/js/language/list_product_addQs_zh-cn.js"></script>
-<script src="../../resource_new/js/product/manage_product.js"></script>
-<script src="../../resource_new/js/product/product.js"></script>
-<script src="../../resource_new/js/common/jquery.md5.js"></script>
-<script src="../../resource_new/js/product/select_customer.js"></script>
-<script src="../../resource_new/js/erp/list_destroy_record.js"></script>
-<script>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=10">
+	<title>食品安全营养信息平台</title>
+	<!--[if IE]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="../../resource_new/css/reset.css"/>
+	<link rel="stylesheet" href="../../resource_new/css/text.css" />
+	<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+	<link href="../../resource_new/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+	<link href="../../resource_new/kendoui/styles/kendo.metro.min.css" rel="stylesheet" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+	<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+	<link rel="stylesheet" href="../../resource_new/css/notification.css" />
+	<link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
+	<link rel="stylesheet" href="../../resource/js/slides/css/global.css" />
+	<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+	<script src="../../resource/kendoui/js/jquery.min.js"></script>
+	<script src="../../resource/kendoui/js/kendo.web.min.js"></script>
+	<script src="../../resource/js/jquery.cookie.js"></script>
+	<script src="../../resource/js/portal/common.js"></script>
+	<script src="../../resource/js/slides/js/slides.min.jquery.js"></script>
+	<script src="../../resource/js/fsn.js"></script>
+	<script src="../../resource_new/js/headerFooterTemplate.js"></script>
+	<script src="../../resource/js/upload/lims.js"></script>
+	<script src="../../resource/js/util.js"></script>
+	<script src="../../resource/js/fsn.i18n.js"></script>
+	<script src="../../resource/js/upload/lims.upload.js"></script>
+	<script src="../../resource/js/upload/list.js"></script>
+	<script src="../../resource/js/filter.js"></script>
+	<script src="../../resource/js/language/product_up_zh-cn.js"></script>
+	<script src="../../resource_new/js/common/jquery.md5.js"></script>
+	<script src="../../resource/js/product/list_destroy_record.js"></script>
+	<script>
 	$(document).ready(function() {
 		$("fieldset input").focus(function() {
 			$(this).parent().prev("label").hide();
@@ -49,56 +45,81 @@
 			}
 		});
 	});
-	
+
 	</script>
-<style type="text/css">
+	<style type="text/css">
 	td{white-space:nowrap;}
+	 a.k-button .k-icon {
+    margin-top: -2px;
+    vertical-align: middle;
+}
 </style>
 </head>
 <body id="home">
-
-            
-            <div class="fixfooter wi800 fl mt20"> 
-     <div class="fullview page_title mt50 wper100 ml20" id="status_bar"> 当前位置：问题产品处理记录 </div>
-   
-   <div class="wper100 mt15" > 
-   		<div class="row ml20">
-    		<div class=" wper100 last ">
-    			<div style="margin-left: 150px;margin-top:10px">
-			<span >查询处理记录：</span>
-						  
-				<input  type=text size="50" id="search_keyword" style="height: 30px;" placeholder="请输入查询条件，支持模糊查询产品名称/产品条形码等"/> 
-				<input type="button" id="search-btn" class="k-button" value="查询">
-				<a class="k-button " href="/fsn-core/views/erp_new/add_destroy_record.html" ><input type="button"  class="k-button"  value="新增"></a>
-			</div>
-				<script id="toolbar_template" type="text/x-kendo-template">
-				</script>
-				<div>
-					<!--<div style="text-align: left;" class="fl in-block ">
-						<strong class="fonttitle">我的产品</strong>
-					</div>-->
-    				<div id="product"></div>
-  			    </div>
-				<div id="ts_msg"></div>
+<div class="fixfooter wi1100 fl mt20">
+	<div class="fullview page_title mt50 wper100 ml20" id="status_bar">
+		<div class="container">
+			<div class="row">
+				<div class="column12">
+					<span>当前位置：问题产品处理记录</span><span style="color:red;">(处理记录一旦新增不可修改和删除)</span>
+				</div>
 			</div>
 		</div>
 	</div>
+	<div class="container clearfix wper100 last" id="content_container">
+		<div id="main" class="row ml20">
+			<div class="column12 last">
+				<div style="margin-left: 150px;margin-top:10px">
+					<span >查询处理记录：</span>
 
+					<input  type=text size="50" id="search_keyword" style="height: 30px;" placeholder="请输入查询条件，支持模糊查询产品名称/产品条形码等"/>
+					<input type="button" id="search-btn" class="k-button" value="查询">
+					<a class="k-button " href="/fsn-core/views/erp_new/add_destroy_record.html" ><input type="button"  class="k-button"  value="新增"></a>
+				</div>
+				<script id="toolbar_template" type="text/x-kendo-template">
+
+				</script>
+				<div id="product-contain" class="top ui-widget" style="margin-top: 10px;">
+					<div id='product' class='grid' style="margin-top: 5px; height: 100%;">
+					</div>
+				</div>
+				<!--		<div id="msg_success" class="msg success function_row" style="margin-top: 10px;">
+                        </div>-->
+			</div>
+		</div>
+	</div>
+	<div id="showQualifiedPopup" style="display: none;width: 900px;height: 700px" >
+		<div id="slides">
+		</div>
+	</div>
+	<div id="CONFIRM_COMMON_WIN" style="display:none;">
+		<div id="listView">
+			<div id="CONFIRM_MSG" style="text-align: center;">
+			</div>
+			<br/>
+			<div style="text-align: right;">
+				<button id="confirm_yes_btn"><span class="k-icon k-update"></span><label data-fsn-text="OK"></label></button> &nbsp;&nbsp;&nbsp;&nbsp;
+				<button id="confirm_no_btn"><span class="k-icon k-cancel"></span><label data-fsn-text="Cancel"></label></button>&nbsp;&nbsp;
+			</div>
+			<div id="msg_success" class="msg success function_row" style="margin-top: 10px;"></div>
+		</div>
+	</div>
+	<div class="push"></div>
 </div>
-<span id="RETURN_MES" style="display:none;"></span> 
-  <script id="errorTemplate" type="text/x-kendo-template">
-                <div class="wrong-pass">
-                    <img src="../../resource_new/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
-                    <img src="../../resource_new/img/error-icon.png" style="margin-top: 5px;" />
-                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
-                </div>
-    </script> 
-  <script id="successTemplate" type="text/x-kendo-template">
-                <div class="upload-success" >
-                    <img src="../../resource_new/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
-                    <img src="../../resource_new/img/success-icon.png" style="margin-top: 5px;"/>
-                    <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
-                </div>
-	</script>  
+<span id="RETURN_MES" style="display:none;"></span>
+<script id="errorTemplate" type="text/x-kendo-template">
+	<div class="wrong-pass">
+		<img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+		<img src="../../resource/img/error-icon.png" style="margin-top: 5px;" />
+		<h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+	</div>
+</script>
+<script id="successTemplate" type="text/x-kendo-template">
+	<div class="upload-success" >
+		<img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>
+		<img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/>
+		<h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
+	</div>
+</script>
 </body>
 </html>
