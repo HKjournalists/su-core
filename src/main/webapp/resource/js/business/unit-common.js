@@ -60,6 +60,7 @@
                 	attachments.length = 0;
 				}
                 attachments.push(e.response.results[0]);
+				 var imgData =attachments;
                 if(id=="upload_propaganda_files"){
                 	if(attachments.length>=3){
                 		$("#upload_propaganda_files").attr("disabled","disabled");
@@ -68,7 +69,42 @@
                 			lims.initNotificationMes('宣传照最多能传3张，请删掉多余的！',false);
                 		}
                 	}
-                }
+					if(attachments.length ==3){
+						$("#upload_propaganda_files_img_e").hide();
+					}else{
+						$("#upload_propaganda_files_img_e").show();
+						$("#upload_propaganda_files_img_s").show();
+
+						var div = document.getElementById("upload_propaganda_div");
+						while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+							div.removeChild(div.firstChild);
+						}
+
+					}
+
+					var img ="";
+					for(var k in imgData){
+						img+="<div id='upload_propaganda_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+						img+="<img id='upload_propaganda_files"+k+"' src='data:"+imgData[k].type.rtName+";base64,"+imgData[k].file+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+						img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectPropagandaImg("+k+",'"+imgData[k].file+"')>x";
+						img+="</div>";
+						img+="</div>";
+					}
+					$("#upload_propaganda_files_img").html(img);
+					$("#upload_propaganda_div ul").remove();
+					$("#upload_propaganda_files").removeAttr("disabled");
+					$("#upload_propaganda_div div.k-upload-button").removeClass("k-state-disabled");
+
+					$("#upload_propaganda_div").html("<input id='upload_propaganda_files' type='file' />");
+					business_unit.buildUpload("upload_propaganda_files", business_unit.aryPropagandaAttachments, "upload_propaganda_files_log");
+                }else{
+					/**
+					 * 显示当时长传的照片
+					 */
+					$("#"+id+"_img").attr("src","data:"+e.response.results[0].type.rtName+";base64,"+e.response.results[0].file);
+					$("#"+id+"_img_e").hide();
+					$("#"+id+"_img_s").show();
+				}
                 $("#"+msg).html("文件识别成功，可以保存!</br>(注意：为保证更流畅的体验，建议每次上传照片不超过1M!可支持文件格式：png .bmp .jpeg .jpg )");
              }else if(e.operation == "remove"){
                     lims.log(e.response);
@@ -98,7 +134,34 @@
             }
         });
     };
+	/**
+	 * 删除企业宣传照
+	 */
+	business_unit.delSelectPropagandaImg = function(k,url){
+        $("#upload_propaganda_files_img_"+k).hide();
+		$("#upload_propaganda_files_img_e").show();
+		if(business_unit.aryPropagandaAttachments != null&&business_unit.aryPropagandaAttachments){
+			for(var i in business_unit.aryPropagandaAttachments){
+				if((business_unit.aryPropagandaAttachments[i].file == null && business_unit.aryPropagandaAttachments[i].url==url) || (business_unit.aryPropagandaAttachments[i].url==null && business_unit.aryPropagandaAttachments[i].file == url)){
+					business_unit.aryPropagandaAttachments.pop(i);
+					//business_unit.aryPropagandaAttachments.remove(business_unit.aryPropagandaAttachments[i]) ;
+				}
 
+			}
+		}
+		var div = document.getElementById("upload_propaganda_div");
+		while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+			div.removeChild(div.firstChild);
+		}
+		$("#upload_propaganda_files").removeAttr("disabled");
+		$("#upload_propaganda_div div.k-upload-button").removeClass("k-state-disabled");
+
+		$("#upload_propaganda_div").html("<input id='upload_propaganda_files' type='file' />");
+		business_unit.buildUpload("upload_propaganda_files", business_unit.aryPropagandaAttachments, "upload_propaganda_files_log");
+       if(business_unit.aryPropagandaAttachments !=null&&business_unit.aryPropagandaAttachments.length==0){
+		   $("#upload_propaganda_files_img_s").hide();
+	   }
+	};
     /* 按控件id初始化上传按钮的显示文字 */
     business_unit.getShowName = function(id){
     	if(id=="upload_orgnization_files"){
@@ -126,6 +189,7 @@
 
     /* 从页面删除已有企业宣传照资源 */
     business_unit.removeProPaRes = function(url){
+
     	 var dataSource = new kendo.data.DataSource();
 		 if(business_unit.aryPropagandaAttachments){
 			 for(var i=0; i<business_unit.aryPropagandaAttachments.length; i++){
@@ -582,27 +646,51 @@
     
     /* 页面赋值操作 */
     business_unit.setValue = function(data, flag){
+
+
     	if(!data){return;}
+
+		$("#name_1").text((data.name).replace(/(^\s*)|(\s*$)/g, ""));
     	$("#name").val((data.name).replace(/(^\s*)|(\s*$)/g, ""));
+
+        $("#personInCharge_1").text(data.personInCharge);
         $("#personInCharge").val(data.personInCharge);
+
+        $("#contact_1").text(data.contact);
         $("#contact").val(data.contact);
+
+		$("#telephone_1").text(data.telephone);
         $("#telephone").val(data.telephone);
+
+        $("#postalCode_1").text(data.postalCode);
         $("#postalCode").val(data.postalCode);
-        $("#email").val(data.email);
+
+		$("#email_1").text(data.email);
+		$("#email").val(data.email);
+
+		$("#fax_1").text(data.fax);
         $("#fax").val(data.fax);
-        $("#product_about").val(data.about);
-        $("#website").val(data.website);
-		
+
+		$("#website_1").text(data.website);
+		$("#product_about").val(data.about);
+
+
+		$("#product_about_1").text(data.about);
+		$("#website").val(data.website);
+
 		/**
 		 * 税务登记证（销售系统）
 		 * @author HuangYong 2015/5/10
 		 */
 		if(data.taxRegister!=null ){
+			$("#taxName_1").text(data.taxRegister.taxerName);
 			$("#taxName").val(data.taxRegister.taxerName);
 			$("#taxId").val(data.taxRegister.id);
 		}
-		
+
+
         setAddressValue(data.address,data.otherAddress,"bus_mainAddr","bus_streetAddress");
+		setAddressValueWithHtmlType(data.address,data.otherAddress,"bus_mainAddr_1","bus_streetAddress_1","text")
 
         if(data.license != null){
         	$("#licenseNo").val(data.license.licenseNo);
@@ -613,10 +701,26 @@
             $("#registrationTime").data("kendoDatePicker").value(data.license.registrationTime!=null?data.license.registrationTime.substr(0, 10):"");
             $("#issuingAuthority").val(data.license.issuingAuthority);
             $("#subjectType").val(data.license.subjectType);
-            setAddressValue(data.license.businessAddress,data.license.otherAddress,
-            		"license_mainAddr","license_streetAddress");
+			setAddressValue(data.license.businessAddress,data.license.otherAddress,"license_mainAddr","license_streetAddress");
+
+
+            $("#licenseNo_1").text(data.license.licenseNo);
+            $("#licenseName_1").text(data.license.licensename);
+            $("#legalName_1").text(data.license.legalName);
+            $("#licenseStartTime_1").text(data.license.startTime!=null?data.license.startTime.substr(0, 10):"");
+            $("#licenseEndTime_1").text(data.license.endTime!=null?data.license.endTime.substr(0, 10):"");
+            $("#registrationTime_1").text(data.license.registrationTime!=null?data.license.registrationTime.substr(0, 10):"");
+            $("#issuingAuthority_1").text(data.license.issuingAuthority);
+			$("#subjectType_1").text(data.license.subjectType);
+			setAddressValueWithHtmlType(data.license.businessAddress,data.license.otherAddress,"license_mainAddr_1","license_streetAddress_1","text");
+
+
+
             $("#toleranceRange").val(data.license.toleranceRange);
             $("#registeredCapital").val(data.license.registeredCapital);
+
+            $("#toleranceRange_1").text(data.license.toleranceRange);
+            $("#registeredCapital_1").text(data.license.registeredCapital);
             if(data.license.licenseNo != null && data.license.licenseNo != ""){
             	$("#licenseNo").attr("readonly", "readonly");
             }
@@ -628,8 +732,18 @@
             $("#orgName").val(data.orgInstitution.orgName);
             $("#unitsAwarded").val(data.orgInstitution.unitsAwarded);
             $("#orgType").val(data.orgInstitution.orgType);
-            setAddressValue(data.orgInstitution.orgAddress,data.orgInstitution.otherAddress,
-            		"org_mainAddr","org_streetAddress");
+			setAddressValue(data.orgInstitution.orgAddress,data.orgInstitution.otherAddress,"org_mainAddr","org_streetAddress");
+
+			$("#orgCode_1").text(data.orgInstitution.orgCode);
+            $("#orgStartTime_1").text(data.orgInstitution.startTime!=null?data.orgInstitution.startTime.substr(0, 10):"");
+            $("#orgEndTime_1").text(data.orgInstitution.endTime!=null?data.orgInstitution.endTime.substr(0, 10):"");
+            $("#orgName_1").text(data.orgInstitution.orgName);
+            $("#unitsAwarded_1").text(data.orgInstitution.unitsAwarded);
+            $("#orgType_1").text(data.orgInstitution.orgType);
+
+
+			setAddressValueWithHtmlType(data.orgInstitution.orgAddress,data.orgInstitution.otherAddress,"org_mainAddr_1","org_streetAddress_1","text");
+
             if(data.orgInstitution.orgCode != null && data.orgInstitution.orgCode != ""){
             	$("#orgCode").attr("readonly", "readonly");
             }
@@ -678,17 +792,198 @@
         	$("#disStartTime").data("kendoDatePicker").value(data.distribution.startTime!=null?data.distribution.startTime.substr(0, 10):"");
         	$("#disEndTime").data("kendoDatePicker").value(data.distribution.endTime!=null?data.distribution.endTime.substr(0, 10):"");
         	$("#disSubjectType").val(data.distribution.subjectType);
-        	setAddressValue(data.distribution.businessAddress,data.distribution.otherAddress,
-             		"dis_mainAddr","dis_streetAddress");
-        	$("#disToleranceRange").val(data.distribution.toleranceRange);
+			setAddressValue(data.distribution.businessAddress,data.distribution.otherAddress,"dis_mainAddr","dis_streetAddress");
+
+        	$("#distributionNo_1").text(data.distribution.distributionNo);
+        	$("#licensingAuthority_1").text(data.distribution.licensingAuthority);
+        	$("#distributionName_1").text(data.distribution.licenseName);
+        	$("#disStartTime_1").text(data.distribution.startTime!=null?data.distribution.startTime.substr(0, 10):"");
+        	$("#disEndTime_1").text(data.distribution.endTime!=null?data.distribution.endTime.substr(0, 10):"");
+        	$("#disSubjectType_1").text(data.distribution.subjectType);
+
+
+			setAddressValueWithHtmlType(data.distribution.businessAddress,data.distribution.otherAddress,"dis_mainAddr_1","dis_streetAddress_1","text");
+
+			$("#disToleranceRange").val(data.distribution.toleranceRange);
         	$("#disLegalName").val(data.distribution.legalName);
+
+			$("#disToleranceRange_1").text(data.distribution.toleranceRange);
+        	$("#disLegalName_1").text(data.distribution.legalName);
         	if(data.disAttachments != null){
             	business_unit.setDisAttachments(data.disAttachments);
             }
         }
+		/**
+		 * 图片赋值
+		 */
+		business_unit.setImgResource(data);
     };
-    
-    /*验证某个字段时，添加或取消输入框的样式
+	//==============================================================================================================================================
+	//==============================================================================================================================================
+	//==============================================================================================================================================
+	business_unit.setImgResource = function(data) {
+		if (data.logoAttachments != null) {
+			$("#upload_logo_files_img_a").attr("src", data.logoAttachments[0].url);
+			$("#upload_logo_files_img").attr("src", data.logoAttachments[0].url);
+			$("#upload_logo_files_img_e").hide();
+			$("#upload_logo_files_img_s").show();
+		} else {
+			$("#upload_logo_files_img_e").show();
+			$("#upload_logo_files_img_s").hide();
+		}
+		if (data.licAttachments != null && data.licAttachments.length > 0) {
+			$("#upload_license_files_img_a").attr("src", data.licAttachments[0].url);
+			$("#upload_license_files_img").attr("src", data.licAttachments[0].url);
+
+
+			$("#upload_license_files_img_e").hide();
+			$("#upload_license_files_img_s").show();
+		} else {
+			$("#upload_license_files_img_e").show();
+			$("#upload_license_files_img_s").hide();
+		}
+		if (data.orgAttachments != null && data.orgAttachments.length > 0) {
+			$("#upload_orgnization_files_img_a").attr("src", data.orgAttachments[0].url);
+			$("#upload_orgnization_files_img").attr("src", data.orgAttachments[0].url);
+
+			$("#upload_orgnization_files_img_e").hide();
+			$("#upload_orgnization_files_img_s").show();
+		} else {
+			$("#upload_orgnization_files_img_e").show();
+			$("#upload_orgnization_files_img_s").hied();
+		}
+		if (data.taxRegAttachments != null && data.taxRegAttachments.length > 0) {
+			$("#upload_tax_files_img_a").attr("src", data.taxRegAttachments[0].url);
+			$("#upload_tax_files_img").attr("src", data.taxRegAttachments[0].url);
+
+			$("#upload_tax_files_img_e").hide();
+			$("#upload_tax_files_img_s").show();
+		} else {
+			$("#upload_tax_files_img_e").show();
+			$("#upload_tax_files_img_s").show();
+		}
+		if (data.qrAttachments != null && data.qrAttachments.length > 0) {
+			$("#upload_qr_files_img_a").attr("src", data.qrAttachments[0].url);
+			$("#upload_qr_files_img").attr("src", data.qrAttachments[0].url);
+
+			$("#upload_qr_files_img_e").hide();
+			$("#upload_qr_files_img_s").show();
+		} else {
+			$("#upload_qr_files_img_e").show();
+			$("#upload_qr_files_img_s").hide();
+		}
+		//=====================================================================
+
+
+		if(data.propagandaAttachments != null&&data.propagandaAttachments.length>0){
+			var imgData =data.propagandaAttachments;
+			var img_a = "";
+			for(var i in imgData){
+				img_a+="<div style='float: left;margin-left:10px;'><img id='show_license_img"+i+"' src='"+imgData[i].url+"' style='width: 128px;height:128px;' style='display:block;' onclick='fsn.business_unit.amplification(this.src)'></div>"
+			}
+			$("#upload_propaganda_files_img_a").html(img_a);
+
+			var img ="";
+			for(var k in imgData){
+				img+="<div id='upload_propaganda_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				img+="<img id='upload_propaganda_files"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectPropagandaImg("+k+",'"+imgData[k].url+"')>x";
+				img+="</div>";
+				img+="</div>";
+			}
+
+			if(imgData.length>=3){
+				$("#upload_propaganda_files_img_e").hide();
+			}
+			$("#upload_propaganda_files_img_s").show();
+			$("#upload_propaganda_files_img").html(img);
+		}else{
+			$("#upload_propaganda_files_img_a").html("<font color='red'>未上传企业宣传照</font>");
+			$("#upload_propaganda_files_img_s").hide();
+		}
+		//for(var k=0;k<3;k++){
+		//	img+="<div style='float: left;margin-left:10px;'><img id='show_license_img"+k+"' src='"+data.taxRegAttachments[0].url+"' width='128' height='128' style='display:block;'></div>"
+		//
+		//}
+		//=====================================================================
+	}
+	business_unit.delSelectImg = function(id) {
+			$("#" + id + "_img_e").show();
+			$("#" + id + "_img_s").hide();
+			if(id == 'upload_logo_files'){
+				if(business_unit.logoAttachments != null && business_unit.logoAttachments.length>0){
+					business_unit.logoAttachments.pop();
+				}
+				var div = document.getElementById("upload_logo_div"); //$("#upload_logo_div");
+				while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+					div.removeChild(div.firstChild);
+				}
+
+				/* 初始化上传控件 */
+				$("#upload_logo_div").html("<input id='"+id+"' type='file' />");
+				business_unit.buildUpload(id, business_unit.aryLogoAttachments, id+"_log");
+			}else if(id == 'upload_license_files' ){
+				if(business_unit.licAttachments != null && business_unit.licAttachments.length>0){
+					business_unit.licAttachments.pop();
+				}
+
+				var div = document.getElementById("upload_license_div"); //$("#upload_logo_div");
+				while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+					div.removeChild(div.firstChild);
+				}
+				/* 初始化上传控件 */
+				$("#upload_license_div").html("<input id='"+id+"' type='file' />");
+				business_unit.buildUpload(id, business_unit.aryLogoAttachments, id+"_log");
+			}else if(id == 'upload_orgnization_files'){
+				if(business_unit.orgAttachments != null && business_unit.orgAttachments.length>0){
+					business_unit.orgAttachments.pop();
+				}
+
+				var div = document.getElementById("upload_org_div"); //$("#upload_logo_div");
+				while(div.hasChildNodes()) {//当div下还存在子节点时 循环继续
+					div.removeChild(div.firstChild);
+				}
+				/* 初始化上传控件 */
+				$("#upload_org_div").html("<input id='"+id+"' type='file' />");
+				business_unit.buildUpload(id, business_unit.aryLogoAttachments, id+"_log");
+			}else if(id == 'upload_tax_files'){
+				if(business_unit.taxRegAttachments != null && business_unit.taxRegAttachments.length>0){
+					business_unit.taxRegAttachments.pop();
+				}
+
+				var div = document.getElementById("upload_tax_div"); //$("#upload_logo_div");
+				while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+					div.removeChild(div.firstChild);
+				}
+				/* 初始化上传控件 */
+				$("#upload_tax_div").html("<input id='"+id+"' type='file' />");
+				business_unit.buildUpload(id, business_unit.aryLogoAttachments, id+"_log");
+
+			}else if(id == 'upload_qr_files'){
+				if(business_unit.qrAttachments != null && business_unit.qrAttachments.length>0){
+					business_unit.qrAttachments.pop();
+				}
+				var div = document.getElementById("upload_qr_div"); //$("#upload_logo_div");
+				while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+					div.removeChild(div.firstChild);
+				}
+
+				/* 初始化上传控件 */
+				$("#upload_qr_div").html("<input id='"+id+"' type='file' />");
+				business_unit.buildUpload(id, business_unit.aryLogoAttachments, id+"_log");
+			}
+
+
+		};
+		business_unit.amplification = function(url){
+			//window.location.href = url;
+			window.open ( url, "_blank" );
+		};
+
+	//==============================================================================================================================================
+	//==============================================================================================================================================
+	//==============================================================================================================================================
+	/*验证某个字段时，添加或取消输入框的样式
      * formId:输入框的id，msg：提示信息，valiResult：验证结果，true或false 
      */
     business_unit.validateInputStyle=function(formId,msg,valiResult){
