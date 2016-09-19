@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by wb on 2016/9/13.
  */
-public interface FacilityMaintenanceRecordDAO extends BaseDAO<FacilityMaintenanceRecord>{
+public interface FacilityMaintenanceRecordDao extends BaseDAO<FacilityMaintenanceRecord>{
 
     /**
      * 根据设备信息ID获取养护记录信息
