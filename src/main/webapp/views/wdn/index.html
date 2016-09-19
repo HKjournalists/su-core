@@ -154,9 +154,9 @@
 								<button type="button" class="btn btn-orderBtn">期刊影响力<span class="glyphicon glyphicon-arrow-down"></span></button>
 							</div>
 						</div>
-						<div class="col-xs-4 col-md-push-3">
+						<div class="col-xs-4 col-md-push-3" style="left:23.5%">
 							<div class="btn-group">
-								<button type="button" id="pop" class="btn btn-orderBtn" title="Popover title"
+								<button type="button" id="pop" class="btn btn-orderBtn" onclick="fsn.wdn.openWeiXinWin()" title="Popover title"
 										data-container="body" data-toggle="popover" data-placement="bottom">
 									申请书架&nbsp;<span class="badge" id="badge_num">0</span>
 								</button>
@@ -194,47 +194,6 @@
 		</div>
 
 	</script>
-	<script id="pop_template" type="text/x-kendo-template">
-		<div>
-			<div>
-				<div id="popGrid"></div>
-			</div>
-			<p>
-			<div class="btnmit">
-				<div class="col-md-8 col-md-push-5 bt">
-					<a class="btn btn-success btn-sm" role="button" onclick="fsn.wdn.submitOrder()">提交申请 </a>
-				</div>
-			</div>
-		</div>
-	</script>
-
-	<script id="content-template" type="text/x-kendo-template">
-		<div style="padding: 10px 10px 10px;">
-			<div class="row">
-				<div class="col-md-6">
-					<h3>#: name #</h3>
-				</div>
-				<div class="col-md-3 col-md-push-3">
-					<a name="selectBtn" class="btn btn-success btn-xs">
-						申请文献
-					</a>
-				</div>
-			</div>
-		</div>
-	</script>
-
-	<script id="shoop-template" type="text/x-kendo-template">
-		<div class="row">
-			<div class="col-md-6">
-				<h4>#: title #</h4>
-			</div>
-			<div class="col-md-3 col-md-push-1" style="float:'none';">
-				<button type="button" class="btn btn-default btn-xs btn-danger flx" onclick="fsn.wdn.removeShop('#=id#')">
-					移除
-				</button>
-			</div>
-		</div>
-	</script>
 
 </div>
 <div class="push"></div>
@@ -249,5 +208,12 @@
 		<img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/><h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
 	</div>
 </script>
+<div id="wenxianListWindow" style="display:none;">
+	<div id="popGrid"></div>
+	<div style="text-align:right;padding-top:5px;">
+		<button class="btn btn-orderBtn" onclick="fsn.wdn.closeWenXianWin()">关闭</button>
+		<button class="btn btn-orderBtn" onclick="fsn.wdn.submitOrder()">提交申请</button>
+	</div>
+</div>
 </body>
 </html>
