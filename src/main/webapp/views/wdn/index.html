@@ -54,6 +54,32 @@
 	.btn-orderBtn:hover{
 		background:#05bf73;
 	}
+	.k-tooltip-closable .k-tooltip-content{
+		padding:0;
+	}
+	.k-tooltip-button .k-i-close{
+		
+		position:absolute;
+		right:6px;
+		top:12px;
+		z-index:100;
+	}
+	.flx{
+		position:absolute;
+		right:-65px;
+		top:0px;
+	}
+	.k-grid-header {
+    background: #fff;
+}
+.btnmit .bt{
+	left:0;
+	width:0;
+}
+.btnmit .bt a{
+	background-color: #05bf73;
+    border-color: #05bf73;
+}
 </style>
 	<script>
 	$(document).ready(function() {
@@ -159,7 +185,7 @@
 						</a>
 					</div>
 				</h4>
-				<p class="content">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期刊：Publication_Date:#:year# &nbsp;&nbsp;&nbsp;&nbsp; 责任者：#=authors# &nbsp;&nbsp;&nbsp;&nbsp;收录数据库：#:datasource#&nbsp;&nbsp;&nbsp;&nbsp;数据来源：#:datasource#</p>
+				<p class="content">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期刊：Publication_Date:#:year# <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;责任者：#=authors# <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收录数据库：#:datasource# <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据来源：#:datasource#</p>
 				<p class="content">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;摘要：#:abstract#</p>
 			</div>
 			<!--<div class="apply-btn">
@@ -169,13 +195,13 @@
 
 	</script>
 	<script id="pop_template" type="text/x-kendo-template">
-		<div class="container">
-			<div class="row">
+		<div>
+			<div>
 				<div id="popGrid"></div>
 			</div>
 			<p>
-			<div class="row">
-				<div class="col-md-8 col-md-push-5">
+			<div class="btnmit">
+				<div class="col-md-8 col-md-push-5 bt">
 					<a class="btn btn-success btn-sm" role="button" onclick="fsn.wdn.submitOrder()">提交申请 </a>
 				</div>
 			</div>
@@ -202,8 +228,8 @@
 			<div class="col-md-6">
 				<h4>#: title #</h4>
 			</div>
-			<div class="col-md-3 col-md-push-1">
-				<button type="button" class="btn btn-default btn-xs btn-danger" onclick="fsn.wdn.removeShop('#=id#')">
+			<div class="col-md-3 col-md-push-1" style="float:'none';">
+				<button type="button" class="btn btn-default btn-xs btn-danger flx" onclick="fsn.wdn.removeShop('#=id#')">
 					移除
 				</button>
 			</div>
