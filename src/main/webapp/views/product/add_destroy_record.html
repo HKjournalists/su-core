@@ -16,11 +16,13 @@
 <link rel="stylesheet" href="../../resource_new/css/notification.css" />
 <link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
 <link rel="stylesheet" href="../../resource/css/product/select_customer.css" />
+	<link rel="stylesheet" href="../../resource/js/slides/css/global.css" />
 <script src="../../resource_new/js/less.js" type="text/javascript"></script>
 <script src="../../resource_new/kendoui/js/jquery.min.js"></script>
 <script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
 <script src="../../resource_new/js/jquery.cookie.js"></script>
 <script src="../../resource_new/js/portal/common.js"></script>
+	<script src="../../resource/js/slides/js/slides.min.jquery.js"></script>
 <script src="../../resource_new/js/fsn.js"></script>
 <script src="../../resource_new/js/lims.js"></script>
 <script src="../../resource_new/js/headerFooterTemplate.js"></script>
@@ -346,6 +348,16 @@
 							</div>
 							</div>
 					</div>
+					<div class="div-tr">
+							<div class="div-td">
+								<div class="div-td-name">
+									<label for="remark"><span>备注：</span>：</label>
+								</div>
+								<div class="div-td-value">
+									<textarea class="k-input k-textbox lims-input" id="remark" ></textarea>
+								</div>
+							</div>
+						</div>
 				</div>
 						
 				<div class="div-tr">
@@ -363,6 +375,83 @@
 	  </div>
 	 </div>
  </div>
+	<div id="addConfirmPopup" style="display: none;">
+		<div class="necessary">请确定您填写的数据是否正确！保存后不能修改</div>
+		<div>
+			<div class="k-edit-form-container" style="float:left;">
+				<div class="k-edit-label user-edit_lable">
+					<label for="barcode_y" >条形码：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+					<span id="barcode_y" class="cspan"></span>
+				</div>
+				<div class="k-edit-label user-edit_lable">
+					<label for="name_y">产品名称：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+					<span id="name_y" class="cspan"></span>
+				</div>
+				<div class="k-edit-label user-edit_lable">
+					<label for="batch_y">批次：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+					<span id="batch_y" class="cspan"></span>
+				</div>
+				<div class="k-edit-label user-edit_lable">
+					<label for="number_y" >处理数量：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+					<span id="number_y" class="cspan"></span>
+				</div>
+				<div class="k-edit-label user-edit_lable">
+					<label for="problem_describe_y" >处理原因：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+					<span id="problem_describe_y" class="cspan"></span>
+				</div>
+				<div class="k-edit-label user-edit_lable">
+					<label for="process_time_y" >处理时间：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+					<span id="process_time_y" class="cspan"></span>
+				</div>
+				<div class="k-edit-label user-edit_lable">
+					<label for="deal_address_y" >处理地点：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+					<span id="deal_address_y" class="cspan"></span>
+				</div>
+				<div class="k-edit-label user-edit_lable">
+					<label for="deal_person_y" >处理人：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+					<span id="deal_person_y" class="cspan"></span>
+				</div>
+				<div class="k-edit-label user-edit_lable">
+					<label for="remark_y" >备注：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;">
+					<textarea class="k-input k-textbox lims-input" disabled id="remark_y" ></textarea>
+				</div>
+			</div>
+			<div id="slides_d" style="float:left;width: 400px;">
+				<div id="slides1">
+				</div>
+			</div>
+		</div>
+		<div class="k-edit-field">
+			<a id="saveConfirm" class="k-button k-button-confirm" href="javascript:void(0)">
+				<span class="k-icon k-update"> </span> <span >确定</span>
+			</a>
+			<a id="cancelConfirm" class="k-button k-button-cancel" href="javascript:void(0)">
+				<span class="k-icon k-cancel"> </span> <span>取消</span>
+			</a>
+		</div>
+
+	</div>
+	<div id="k_window">
+		<span id="winMsg">正在保存数据，请稍候....</span>
+	</div>
 <span id="RETURN_MES" style="display:none;"></span>
 <script id="errorTemplate" type="text/x-kendo-template">
   <div class="wrong-pass">

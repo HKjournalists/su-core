@@ -49,7 +49,8 @@ public class ProductDestroyRecordVo {
 	private String recieve_name; // 接收企业名称（只限退货）
 	
 	private String operation_user; // 操作者
-	
+
+	private String remark; // 备注
 	
 	/* 销毁证明上传  */
 	
@@ -118,7 +119,7 @@ public class ProductDestroyRecordVo {
 	public void setOperation_user(String operation_user) {
 		this.operation_user = operation_user;
 	}
-	
+
 	public Set<Resource> getRecAttachments() {
 		return recAttachments;
 	}
@@ -186,6 +187,11 @@ public class ProductDestroyRecordVo {
 	public void setDeal_person(String deal_person) {
 		this.deal_person = deal_person;
 	}
+    public String getRemark() {
+   		return remark;
+}
 
-
+    public void setRemark(String remark) {
+	   		this.remark = remark;
+}
 }
