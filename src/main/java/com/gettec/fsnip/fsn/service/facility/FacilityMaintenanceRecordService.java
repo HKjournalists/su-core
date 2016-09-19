@@ -1,6 +1,6 @@
 package com.gettec.fsnip.fsn.service.facility;
 
-import com.gettec.fsnip.fsn.dao.facility.FacilityMaintenanceRecordDAO;
+import com.gettec.fsnip.fsn.dao.facility.FacilityMaintenanceRecordDao;
 import com.gettec.fsnip.fsn.model.facility.FacilityMaintenanceRecord;
 import com.gettec.fsnip.fsn.service.common.BaseService;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by wb on 2016/9/13.
  * 养护记录service层
  */
-public interface FacilityMaintenanceRecordService extends BaseService<FacilityMaintenanceRecord,FacilityMaintenanceRecordDAO>{
+public interface FacilityMaintenanceRecordService extends BaseService<FacilityMaintenanceRecord,FacilityMaintenanceRecordDao>{
 
     /**
      * 根据设备信息ID获取养护记录信息

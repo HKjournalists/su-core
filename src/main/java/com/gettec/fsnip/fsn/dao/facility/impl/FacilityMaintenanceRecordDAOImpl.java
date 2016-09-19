@@ -2,7 +2,7 @@ package com.gettec.fsnip.fsn.dao.facility.impl;
 
 
 import com.gettec.fsnip.fsn.dao.common.impl.BaseDAOImpl;
-import com.gettec.fsnip.fsn.dao.facility.FacilityMaintenanceRecordDAO;
+import com.gettec.fsnip.fsn.dao.facility.FacilityMaintenanceRecordDao;
 import com.gettec.fsnip.fsn.exception.JPAException;
 import com.gettec.fsnip.fsn.model.facility.FacilityMaintenanceRecord;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ import java.util.List;
  *
  */
 @Repository("facilityMaintenanceRecordDAO")
-public class FacilityMaintenanceRecordDAOImpl extends BaseDAOImpl<FacilityMaintenanceRecord> implements FacilityMaintenanceRecordDAO {
+public class FacilityMaintenanceRecordDAOImpl extends BaseDAOImpl<FacilityMaintenanceRecord> implements FacilityMaintenanceRecordDao {
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
 

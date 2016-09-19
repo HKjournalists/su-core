@@ -1,6 +1,6 @@
 package com.gettec.fsnip.fsn.service.facility.impl;
 
-import com.gettec.fsnip.fsn.dao.facility.FacilityMaintenanceRecordDAO;
+import com.gettec.fsnip.fsn.dao.facility.FacilityMaintenanceRecordDao;
 import com.gettec.fsnip.fsn.exception.JPAException;
 import com.gettec.fsnip.fsn.model.facility.FacilityMaintenanceRecord;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
@@ -17,13 +17,13 @@ import java.util.List;
  * Created by wb on 2016/9/16.
  */
 @Service("facilityMaintenanceRecordService")
-public class FacilityMaintenanceRecordServiceImpl extends BaseServiceImpl<FacilityMaintenanceRecord, FacilityMaintenanceRecordDAO>
+public class FacilityMaintenanceRecordServiceImpl extends BaseServiceImpl<FacilityMaintenanceRecord, FacilityMaintenanceRecordDao>
         implements FacilityMaintenanceRecordService {
 
     @Autowired
-    private FacilityMaintenanceRecordDAO facilityMaintenanceRecordDAO;
+    private FacilityMaintenanceRecordDao facilityMaintenanceRecordDAO;
     @Override
-    public FacilityMaintenanceRecordDAO getDAO() {
+    public FacilityMaintenanceRecordDao getDAO() {
         return facilityMaintenanceRecordDAO;
     }
 
