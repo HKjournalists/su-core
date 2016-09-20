@@ -308,6 +308,7 @@ public class MkTestReportRESTService {
 	public View getTestReportListByConfigure(@PathVariable(value="page")int page, 
 			@PathVariable(value="pageSize") int pageSize, @PathVariable(value="pubFlag") char pubFlag,
 			@PathVariable(value="configure") String configure, @PathVariable(value="isPubUser") boolean isPubUser,
+			@RequestParam(value="isThird",required=false,defaultValue="false") boolean isThird,
 			HttpServletRequest req, HttpServletResponse resp,
 			Model model) {
 		ResultVO resultVO = new ResultVO();
@@ -315,6 +316,9 @@ public class MkTestReportRESTService {
 			/* 1 获取当前登录用户的组织机构id */
 			AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
 			Long currentUserOrganization = Long.parseLong(AccessUtils.getUserRealOrg().toString());
+			if(isThird){
+				currentUserOrganization=null;
+			}
 			long total;
 			List<TestResult> listOfReport;
 			configure = configure.replaceAll("\\\\0gan0\\\\", "/"); // 搜索条件可以包括特殊字符斜杠'/'
@@ -545,6 +549,7 @@ public class MkTestReportRESTService {
 		@RequestMapping( method = RequestMethod.GET , value = "/getAllBackRep/{page}/{pageSize}/{configure}/{isPubUser}")
 		public View getBackTestReportListByConfigure(@PathVariable(value="page")int page, 
 				@PathVariable(value="pageSize")int pageSize,@PathVariable(value="configure")String configure,
+				@RequestParam(value="isThird",required=false,defaultValue="false") boolean isThird,
 				@PathVariable(value="isPubUser") boolean isPubUser, HttpServletRequest req,
 				HttpServletResponse resp, Model model) {
 			ResultVO resultVO = new ResultVO();
@@ -554,6 +559,9 @@ public class MkTestReportRESTService {
 				configure = configure.replaceAll("%","\\\\%");
 				/* 1 获取当前登录用户的组织机构id */
 				Long currentUserOrganization=Long.parseLong(AccessUtils.getUserRealOrg().toString());
+				if(isThird){
+					currentUserOrganization=null;
+				}
 				Long total;
 				List<TestResult> listOfReport;
 				if(isPubUser){
@@ -641,6 +649,7 @@ public class MkTestReportRESTService {
 		public View getTestReportListByConfigure_(@PathVariable(value="page") int page, 
 				@PathVariable(value="pageSize") int pageSize, @PathVariable(value="publishFlag") char publishFlag, 
 				@PathVariable(value="configure") String configure, 
+				@RequestParam(value="isThird",required=false,defaultValue="false") boolean isThird,
 				HttpServletRequest req, HttpServletResponse resp, Model model) {
 			ResultVO resultVO = new ResultVO();
 			try {
@@ -648,6 +657,9 @@ public class MkTestReportRESTService {
 				configure=configure.replaceAll("\\\\0gan0\\\\", "/"); // 搜索条件可以包括特殊字符斜杠'/'
 				configure = configure.replaceAll("%","\\\\%");
 				Long currentUserOrganization=Long.parseLong(AccessUtils.getUserRealOrg().toString());
+				if(isThird){
+					currentUserOrganization=null;
+				}
 				long total = testReportService.countByIsCanPublish(currentUserOrganization, publishFlag, configure);
 				List<TestResult> listOfReport = testReportService.getListByIsCanPublish(currentUserOrganization,
 						page, pageSize, publishFlag, configure);
