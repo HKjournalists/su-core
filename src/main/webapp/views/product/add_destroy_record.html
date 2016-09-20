@@ -236,41 +236,41 @@
 							</div>
 							<div class="div-td-value">
 								<input style="width: 350px;" type="text" id="name"
-									name="name" class="my-textbox" disabled="disabled"> <font
-									class="necessary">*</font>
+									name="name" class="my-textbox" disabled="disabled">
 							</div>
 						</div>
 					</div>
 					<div class="div-tr">
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="format"><span>规格</span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input type="text" id="format" name="format"
+									   class="my-textbox" data-id-value="" style="width: 350px;" disabled="disabled">
+							</div>
+						</div>
 						<div class="div-td">
 							<div class="div-td-name">
 								<label for="batch"><span>批次</span>：</label>
 							</div>
 							<div class="div-td-value">
 								<input type="text" id="batch" name="batch"
-									class="my-textbox" data-id-value="" style="width: 350px;"><font
-									class="necessary">*</font>
+									class="my-textbox" data-id-value="" style="width: 350px;">
+								<font class="necessary">*</font>
 							</div>
 						</div>
+
+					</div>
+					<div class="div-tr">
 						<div class="div-td">
 							<div class="div-td-name">
 								<label for="number"><span>处理数量</span>：</label>
 							</div>
 							<div class="div-td-value">
-								<input style="width: 350px;" type="text" id="number" name="number" 
-									class="my-textbox" /> 
+								<input style="width: 350px;" type="text" id="number" name="number"
+									   class="my-textbox" />
 								<font class="necessary">*</font>
-							</div>
-						</div>
-					</div>
-					<div class="div-tr">
-						<div class="div-td">
-							<div class="div-td-name">
-								<label for="problem_describe"><span>处理原因</span>：</label>
-							</div>
-							<div class="div-td-value">
-								<input style="width: 350px;" type="text" id="problem_describe"
-									name="problem_describe" class="my-textbox">
 							</div>
 						</div>
 						
@@ -281,6 +281,7 @@
 							<div class="div-td-value">
 								<input style="width: 350px;" type="text" id="process_time"
 									name="process_time" class="my-textbox" placeholder="例如2016-08-01">
+								<font class="necessary">*</font>
 							</div>
 						</div>
 					</div>
@@ -292,6 +293,7 @@
 							<div class="div-td-value">
 								<input style="width: 350px;" type="text" id="deal_address"
 									name="deal_address" class="my-textbox">
+								<font class="necessary">*</font>
 							</div>
 						</div>
 						
@@ -302,6 +304,7 @@
 							<div class="div-td-value">
 								<input style="width: 350px;" type="text" id="deal_person"
 									name="deal_person" class="my-textbox">
+								<font class="necessary">*</font>
 							</div>
 						</div>
 					</div>
@@ -316,12 +319,33 @@
 									class="necessary">*</font>
 							</div>
 						</div>
-						
+						<div class="div-td">
+							<div class="div-td-name">
+								<label for="problem_describe"><span>处理原因</span>：</label>
+							</div>
+							<div class="div-td-value">
+								<input style="width: 350px;" type="text" id="problem_describe"
+									   name="problem_describe" class="my-textbox">
+								<font class="necessary">*</font>
+							</div>
+						</div>
+
+					</div>
+					<div class="div-tr">
+						<div class="div-td">
+								<div class="div-td-name">
+									<label for="remark"><span>备注</span>：</label>
+								</div>
+								<div class="div-td-value">
+									<textarea class="k-input k-textbox lims-input" id="remark" ></textarea>
+								</div>
+							</div>
 						<div class="div-td">
 							<div>
 								<div class="div-td-name" style='float:left;width:100px;'>
 									<label for="repAttachmentsListView"><span>处理证明</span>：</label>
 								</div>
+								<font class="necessary">*</font>
 								<div class="div-td-value" style='float:left;width:260px;'>
 									<input id=upload-other-img type='file'/>
 									<div style='margin-top:-30px;'>
@@ -329,34 +353,25 @@
 									</div>
 								</div>
 								<div style='clear:both;'></div>
+
 							</div>
-							
-							
+
+
 							<div id="repAttachmentsListView" data-role="listview"
-								class="k-widget k-listview" role="listbox">
+								 class="k-widget k-listview" role="listbox">
 								&nbsp;&nbsp;
 								<div id="check" style="display: none">
-								<p><a
-									href="#"
-									target="_blank"
-									role="option" >查看处理证明</a>
-								<button class="k-button"
-									onclick="removeRes()">
-									<span class="k-icon k-cancel">删除</span>
-								</button>
-								</p></div>
+									<p><a
+											href="#"
+											target="_blank"
+											role="option" >查看处理证明</a>
+										<button class="k-button"
+												onclick="removeRes()">
+											<span class="k-icon k-cancel">删除</span>
+										</button>
+									</p></div>
 							</div>
-							</div>
-					</div>
-					<div class="div-tr">
-							<div class="div-td">
-								<div class="div-td-name">
-									<label for="remark"><span>备注：</span>：</label>
-								</div>
-								<div class="div-td-value">
-									<textarea class="k-input k-textbox lims-input" id="remark" ></textarea>
-								</div>
-							</div>
+						</div>
 						</div>
 				</div>
 						
@@ -390,6 +405,12 @@
 				</div>
 				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
 					<span id="name_y" class="cspan"></span>
+				</div>
+				<div class="k-edit-label user-edit_lable">
+					<label for="format_y">规格：</label>
+				</div>
+				<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+					<span id="format_y" class="cspan"></span>
 				</div>
 				<div class="k-edit-label user-edit_lable">
 					<label for="batch_y">批次：</label>

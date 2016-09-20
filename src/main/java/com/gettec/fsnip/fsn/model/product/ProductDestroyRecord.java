@@ -48,6 +48,9 @@ public class ProductDestroyRecord extends Model{
 	@Column(name = "product_code")
 	private String barcode; // 产品条形码
 
+	@Column(name = "format")
+	private String format; // 规格
+
 	@Column(name = "batch")
 	private String batch; // 批次
 
@@ -229,5 +232,13 @@ public class ProductDestroyRecord extends Model{
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
 	}
 }
