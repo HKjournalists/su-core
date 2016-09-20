@@ -98,7 +98,7 @@ $(document).ready(function(){
 		});
 //		/* 检测报告grid初始化 */
 		portal.initTestPropertyGrid(root.gridDataSource);
-       
+		
     };
     
     /**
@@ -118,6 +118,7 @@ $(document).ready(function(){
 	};
    
     root.initialReportData = function(){
+    	$("#tri_testType").data("kendoDropDownList").dataSource.data([{text: "第三方检测",value: "第三方检测"}]);
     	// 生产企业信息赋值
         var currentBusiness = getCurrentBusiness();
         root.current_bus_vo = {
@@ -345,9 +346,9 @@ $(document).ready(function(){
     			new_flag: root.isNew
     	};
     	if(report_vo.testType=='第三方检测'){
-    		report_vo.reportImgList=root.reportImgList,
-    		report_vo.checkImgList=root.checkImgList,
-    		report_vo.buyImgList=root.buyImgList
+    		report_vo.reportImgList=root.reportImgList;
+    		report_vo.checkImgList=root.checkImgList;
+    		report_vo.buyImgList=root.buyImgList;
     	}else{
     		report_vo.reportImgList=[];
     		report_vo.checkImgList=[];
