@@ -48,6 +48,8 @@ var typeName="原材料来源客户";
 <style type="text/css">
 	td{white-space: nowrap;}
 	html .k-animation-container{z-index:100000;}
+	th{font-size:14px;}
+	td{font-size:12px;}
 </style>
 </head>
 <body>
@@ -59,7 +61,7 @@ var typeName="原材料来源客户";
    		<div class=" wper100 last ">
     		<div id="GRID_COUSTOMER" style="display:none;">
     		 <div style="margin-top: 20px">
-    		 	 <span style="margin-left: 100px;">原材料来源客户：</span>
+    		 	 <span>原材料来源客户：</span>
 						  
 						     <input  type=text size="50" id="search_keyword" style="height: 30px;" placeholder="请输入查询条件，支持模糊查询客户名称/客户营业执照号等"  onKeyDown="fsn.st_customer.getEnterPress(event)" /> 
 							 <input type="button" onclick="fsn.st_customer.initGridSearch()" class="k-button" value="查询">
@@ -112,7 +114,7 @@ var typeName="原材料来源客户";
   						<label id="label_name" for="name">Name</label><font color="red">*</font>
 						<input type="text" id="name" name="name" data-bind="value:name" class="my-textbox">
 						
-						<label id="label_license" for="license">License</label>
+						<label id="label_license" style="margin-left: 20px;" for="license">License</label>
 						<input type="text" class="k-input my-textbox" pattern="[A-Za-z0-9_]{15}|[A-Za-z0-9_]{13}|[A-Za-z0-9_]{18}" validationMessage="营业执照号为13,15或18位" id="license" name="license" data-bind="value:license">
 					</div>
 					
@@ -234,13 +236,13 @@ var typeName="原材料来源客户";
 								<label style="color: #000" id="detail_label_type_name">类型</label>
 								<label style="padding-left: 30px" id="detail_label_type_content"></label>
 								<!-- <label style="color: #000" id="detail_lable_base_remarks_name">备注</label>
-								<label style="padding-left: 47px" id="detail_lable_base_remarks_content"></label> -->
+								<label style="padding-left: 30px" id="detail_lable_base_remarks_content"></label> -->
 							</td>
 						</tr>
 						<tr height="50px">
 							<td width="350px">
 								<label style="color: #000" id="detail_lable_base_remarks_name">备注</label>
-								<label style="padding-left: 47px" id="detail_lable_base_remarks_content"></label>
+								<label style="padding-left: 30px" id="detail_lable_base_remarks_content"></label>
 							</td>
 						</tr>
 					</table>
