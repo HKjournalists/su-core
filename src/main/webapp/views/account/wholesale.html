@@ -39,13 +39,16 @@
 	color: gray;
 	background: #e5e5e5;
 	}
-	#content_container fieldset{
-		padding:10px;
-	}
+	
 	a.k-button .k-icon {
-    margin-top: -2px;
-    vertical-align: middle;
-}
+   	 	margin-top: -2px;
+    	vertical-align: middle;
+	}
+	#content_container fieldset {
+	    border:none;
+	    font-size:16px;
+	    padding:0 0 10px 0;
+	}
 </style>
 </head>
 <body>
@@ -54,7 +57,7 @@
 	<div class="fullview page_title mt50 wper100 ml20" id="status_bar">
 		<div class="container">
 			<div class="row">
-				<div class="column12">
+				<div class="column12" style="margin-left:0;">
 					<span >当前位置:台账管理>>批发台账</span>
 				</div>
 			</div>
@@ -62,7 +65,7 @@
 	</div>
 	<div class="container clearfix wper100 last" id="content_container">
 		<div id="main" class="row ml20">
-				<fieldset style="border-color:#39AA2B;">
+				<fieldset>
 					<!-- <label>单据标号：</label><input type="text" id="number" class="k-textbox div-input-value"  />&nbsp;&nbsp;&nbsp; -->
 					<label>购货商执照号 | 购货商名称 ：</label><input type="text" id="licOrName" class="k-textbox div-input-value" />&nbsp;&nbsp;
 					<a onclick="return fsn.wholesale.check()"  class="k-button"><span class="k-icon k-search"></span>查询</a> &nbsp;&nbsp;

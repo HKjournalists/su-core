@@ -50,7 +50,7 @@ q:before, q:after {
 a {
     margin:0;
     padding:0;
-    font-size:80%;
+    font-size:100%;
     vertical-align:baseline;
     background:transparent;
 }
@@ -97,3 +97,7 @@ hr {
 input, select {
     vertical-align:middle;
 }
+th{font-size:14px;}
+th a{font-size:14px;}
+td{font-size:12px;}
+td label{font-size:16px;}

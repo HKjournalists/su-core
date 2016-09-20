@@ -50,7 +50,7 @@
 	.show-area {width: 80%;margin-left: 16%;}
 	.grid-font-size{font-size: 12px;}
 	.line{margin-left: -20px;}
-	.cond{margin-left: 15px;margin-top: 10px;margin-bottom: 10px;}
+	.cond{margin-top: 10px;margin-bottom: 10px;font-size:16px;}
 	.necessary {
 		color: #f00
 	}
@@ -84,6 +84,9 @@
 		color: white;
 		cursor: pointer;
 	}
+	#content_container fieldset {
+	    border:none;
+	}
 </style>
 </head>
 <body>
@@ -104,7 +107,7 @@
 			<div id="main" class="row show-area">
 
 					<div>
-						<fieldset style="border-color:#05BF73;">
+						<fieldset>
 							<div class="cond">
 								<label>原辅料名称：</label><input type="text" id="name_query" class="k-textbox div-input-value" />&nbsp;&nbsp;
 								<a onclick="return fsn.packaging.check()"  class="k-button"><span class="k-button inputbtn">查询</span></a> &nbsp;&nbsp;
