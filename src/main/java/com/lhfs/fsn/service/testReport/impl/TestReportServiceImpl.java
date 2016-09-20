@@ -1088,6 +1088,9 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 			if(field.equals("sample_product_name")){
 				return FilterUtils.getConditionStr("sample.product.name",mark,value);
 			}
+			if(field.equals("testType")){
+				return FilterUtils.getConditionStr("testType",mark,value);
+			}
 			if(field.equals("mkPublishFlag")){
 				if(value.equals("发布")){
 					value = "1";
