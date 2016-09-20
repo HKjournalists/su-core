@@ -480,11 +480,10 @@ public class TestResultServiceImpl extends BaseServiceImpl<TestResult, TestResul
 		String testType = testResultsVO.getTestType();
 		if(testType.equals("云平台委托检测")){
 			report.setTestType("第三方检测");
-			report.setPublishFlag('1');
 		}else{
 			report.setTestType(testType);
-			report.setPublishFlag('0');
 		}
+		report.setPublishFlag('0');
 		/* 主要仪器 */
 		report.setEquipment(testResultVO.getEquipment());
 		/* 执行标准 */
