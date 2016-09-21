@@ -16,22 +16,24 @@ public interface FacilityInfoService extends BaseService<FacilityInfo,FacilityIn
      * 更加条件获取设备信息集合
      * @author wb
      * @date 2016.9.14
+     * @param busniessId 企业ID
      * @param facilityName 查询参数
      * @param page 页码
      * @param pageSize  每页显示条数
      * @return 返回List集合
      */
-    List<FacilityInfo> getFacilityInfoList(int page, int pageSize, String facilityName);
+    List<FacilityInfo> getFacilityInfoList(Long busniessId,int page, int pageSize, String facilityName);
 
     /**
      *
      * 更加条件获取设备信息集合
      * @author wb
      * @date 2016.9.14
+     *  @param busniessId 企业ID
      * @param facilityName 查询参数
      * @return 返回数据总条数
      */
-    Long getFacilityCount(String facilityName);
+    Long getFacilityCount(Long busniessId,String facilityName);
 
 
     /**

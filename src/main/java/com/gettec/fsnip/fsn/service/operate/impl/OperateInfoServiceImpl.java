@@ -35,13 +35,8 @@ public class OperateInfoServiceImpl extends BaseServiceImpl<OperateInfo,OperateI
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public OperateInfo getFindByIdOperateInfo(Long id) {
-        try {
-            OperateInfo operateInfo = operateInfoDAO.findById(id);
+            OperateInfo operateInfo = operateInfoDAO.findBusinessId(id);
             return operateInfo;
-        } catch (JPAException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
