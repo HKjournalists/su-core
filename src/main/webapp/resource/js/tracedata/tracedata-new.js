@@ -27,9 +27,11 @@ $(document).ready(function(){
 	};
 	var id=getUrlParam("id");
 	if(id!=null){
+	    var _barcode=null
 		$.get(fsn.getHttpPrefix()+"/traceData/getTraceDataById",{id:id},function(rs){
-			
-			$("#productID").data("kendoDropDownList").value(rs.traceData.productID);
+			_barcode=root.getbarcodeByProductId(rs.traceData.productID);
+			$("#barcode").val(_barcode);
+			$("#name").val(rs.traceData.productName);
 			$("#sourceArea").val(rs.traceData.sourceArea);
 			$("#sourceDate").val(fsn.formatGridDate(rs.traceData.sourceDate));
 			$("#processor").val(rs.traceData.processor);
@@ -201,13 +203,28 @@ $(document).ready(function(){
     		 root.judgeProductByBarcode(barcode);
 
     	});
-    	root.onSelectBarcode = function(e){
+    root.onSelectBarcode = function(e){
         		$("#name").val("");
         		 root.initBarcode = this.dataItem(e.item.index());
         		 $("#barcode").val(root.initBarcode);
         		 root.judgeProductByBarcode(root.initBarcode);
         		// portal.codeFlag = false;
         	};
+    root.getbarcodeByProductId=function(productid){
+         var productbarcode=null;
+        $.ajax({
+                	         url: fsn.getHttpPrefix() + "/product/" + productid,
+                	         type: "GET",
+                	         dataType: "json",
+                	         async: false,
+                	         success: function(returnValue) {
+                	             if (returnValue.result.status == "true") {
+                	             	productbarcode = returnValue.data.barcode;
+                	             }
+                	         }
+                	     });
+                	     return productbarcode;
+    }
     root.judgeProductByBarcode = function(barcode){
     		/*条形码为空不进行判断*/
     		if(barcode==""){
