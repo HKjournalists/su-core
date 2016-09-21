@@ -43,11 +43,13 @@ public class TestReportDaoImpl extends BaseDAOImpl<TestResult> implements TestRe
 	 * @throws DaoException 
 	 */
 	@Override
-	public long countByConditionIsCanPublish(Map<String, Object> map) throws DaoException{
+	public long countByConditionIsCanPublish(Map<String, Object> map,boolean isThird) throws DaoException{
 		try {
 			String condition = (String) map.get("condition");
 			Object[] params = (Object[]) map.get("params");
-			condition += " AND e.repAttachments IS NOT EMPTY";
+			if(!isThird){
+				condition += " AND e.repAttachments IS NOT EMPTY";
+			}
 			return this.count(condition, params);
 		} catch (Exception e) {
 			throw new DaoException("【DAO-error】按查询条件获取有pdf的报告总条数，出现异常", e);
@@ -59,11 +61,14 @@ public class TestReportDaoImpl extends BaseDAOImpl<TestResult> implements TestRe
 	 * @throws DaoException 
 	 */
 	@Override
-	public List<TestResult> getListByIsHavePdfWithPage(int page, int pageSize, Map<String, Object> map) throws DaoException{
+	public List<TestResult> getListByIsHavePdfWithPage(int page, int pageSize, Map<String, Object> map,boolean isThird) throws DaoException{
 		try {
 			String condition = (String) map.get("condition");
 			Object[] params = (Object[]) map.get("params");
-			condition += " AND e.repAttachments IS NOT EMPTY order by e.lastModifyTime desc";
+			if(!isThird){
+				condition += " AND e.repAttachments IS NOT EMPTY ";
+			}
+			condition += " order by e.lastModifyTime desc";
 			return this.getListByPage(page, pageSize, condition, params);
 		} catch (JPAException jpae) {
 			throw new DaoException("【DAO-error】按查询条件获取有pdf的报告集合，出现异常", jpae.getException());

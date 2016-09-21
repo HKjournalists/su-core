@@ -237,7 +237,7 @@ $(function(){
                     	 var url = '/fsn-core/views/market/manager_addReport.html';
                 	    	fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "publish_testreport.html");
                  	    },
-                  },], title: "操作", width: 60 }];
+                  }], title: "操作", width: 60 }];
 	
 	
 	root.backColumn = [	
@@ -272,7 +272,13 @@ $(function(){
 		                   	    	var	currentItem = this.dataItem($(e.currentTarget).closest("tr"));
 		                   	    	viewReportInfo(currentItem.id);
 		                   	    },
-		                   	 },], title: "操作", width: 40 }];
+		                   	 },{name:"edit",
+		                  	    text:"<span class='k-edit'></span>" + "编辑", 
+		                 	    click:function(e){
+		                    	 var url = '/fsn-core/views/market/manager_addReport.html';
+		                	    	fsn.edit(this.dataItem($(e.currentTarget).closest("tr")), url, "publish_testreport.html");
+		                 	    },
+		                  }], title: "操作", width: 100 }];
 	
     root.sign = function(){
     	var size = $("#report_publish_grid").data("kendoGrid").select().length;
