@@ -37,18 +37,18 @@ public class OperateInfoRESETService  extends BaseRESTService{
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/findById")
-    public View getFindByIdOperateInfoI(@RequestParam(value = "id",required = false,defaultValue = "") String id,Model model){
+    public View getFindByIdOperateInfoI(Model model){
 
-        OperateInfo operateInfo = null;
-        if(id != null && !"".equals(id)){
-            operateInfo = operateInfoService.getFindByIdOperateInfo(Long.parseLong(id));
+        try {
+            Long currentUserOrganization = Long.parseLong(AccessUtils.getUserRealOrg().toString());
+            Long fromBusId = businessUnitService.findIdByOrg(currentUserOrganization);
+            OperateInfo operateInfo = operateInfoService.getFindByIdOperateInfo(fromBusId);
+            model.addAttribute("data",operateInfo);
+            model.addAttribute("status",true);
+        } catch (ServiceException e) {
+            model.addAttribute("status",false);
+            e.printStackTrace();
         }
-        boolean flag = false;
-        if(operateInfo != null){
-            flag = true;
-        }
-        model.addAttribute("data",operateInfo);
-        model.addAttribute("status",flag);
         return JSON;
     }
 

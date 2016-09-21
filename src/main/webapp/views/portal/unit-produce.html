@@ -180,10 +180,10 @@
       <!--======企业基本信息====开始===========================-->
       <div style="background-color: #f9fdf1">
        <div id="A_show_button" style="display: block;" align="right">
-         <button class="k-button inputbtn" onclick="fsn.facility.editBusiness(0)">编辑</button>
+         <button class="k-button inputbtn" onclick="fsn.facility.editBusinessInfo(0)">编辑</button>
        </div>
        <div id="A_hide_button" style="display: none;" align="right">
-         <button class="k-button inputbtn" onclick="fsn.facility.editBusiness(1)">返回</button>
+         <button class="k-button inputbtn" onclick="fsn.facility.editBusinessInfo(1)">返回</button>
        </div>
        <div id ="A_show" style="display: block;width: 1000px;">
            <div  style="border: 1px solid #0f941a;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;">
@@ -688,7 +688,7 @@
             <fieldset>
               <div class="div-tr">
                <div class="div-td">
-                <button class="k-button inputbtn" id="sasaveInfove"><span class="k-icon k-save"></span><span class="ui-button-text">保存</span></button>
+                <button class="k-button inputbtn" id="saveInfove"><span class="k-icon k-save"></span><span class="ui-button-text">保存</span></button>
                 <!-- <button class="k-button"><span class="k-icon k-update"></span><span class="ui-button-text" data-fsn-text="Upload">提交</span></button> -->
                </div>
               </div>
@@ -706,10 +706,10 @@
       <!--======证照信息====开始===========================-->
       <div style="background-color: #f9fdf1">
        <div id="B_show_button" style="display: block;" align="right">
-        <button class="k-button inputbtn" onclick="fsn.facility.editBusiness(0)">编辑</button>
+        <button class="k-button inputbtn" onclick="fsn.facility.editBusinessInfo(2)">编辑</button>
        </div>
        <div id="B_hide_button" style="display: none;" align="right">
-        <button class="k-button inputbtn" onclick="fsn.facility.editBusiness(1)">返回</button>
+        <button class="k-button inputbtn" onclick="fsn.facility.editBusinessInfo(3)">返回</button>
        </div>
 
        <div id="B_show" style="display: block">
@@ -922,7 +922,7 @@
          <!--</div>-->
          <div class="div-tr">
           <div class="div-td">
-            <div class="div-td-name" style="width: 150px;">
+            <div class="div-td-name" style="width: 170px;">
                组织机构代码证件
            </div>
           </div>
@@ -1248,7 +1248,7 @@
          <div id="upload_orgnization_files_img_s">
           <div  class="div-tr">
            <div class="div-td">
-            <div class="div-td-name">
+            <div class="div-td-name" style="width: 170px;">
             组织机构代码证件
              </div>
            </div>
@@ -1434,7 +1434,7 @@
          </div>
         </div>
         <div align="center">
-         <button class="k-button inputbtn" onclick="fsn.facility.submitOperateInfo()">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
+         <button class="k-button inputbtn" id="submitOperateInfo">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
          <button class="k-button inputbtn" onclick="fsn.facility.cleanOperateInfo()">重置</button>
         </div>
        </fieldset>
@@ -1515,7 +1515,7 @@
            <label for="remark">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;</label>
            <textarea id="remark" name="remark"  cols="58" rows="3"></textarea><br><br>
 
-        <div id="upload_facility_img" style="display: none">
+        <div id="upload_facility_img" style="display:block;">
           <input type="file" id="facilityResourceId" name="facilityImgUrl" class="k-textbox" /><br><br>
         </div>
         <div id="show_facility_img" style="display: none">
@@ -1528,7 +1528,7 @@
          <br><br>
         </div>
            <div align="center">
-            <button class="k-button inputbtn" onclick="fsn.facility.submitFacilityInfo()">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="k-button inputbtn" id="submitFacilityInfo">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
             <button class="k-button inputbtn" onclick="fsn.facility.closeAddFacilityInfo(0)">取消</button>
            </div>
         </fieldset>
@@ -1558,7 +1558,7 @@
 
 
            <div align="center">
-            <button class="k-button inputbtn" onclick="fsn.facility.submitMaintenanceInfo()">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="k-button inputbtn" id="submitMaintenanceInfo">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
             <button class="k-button inputbtn" onclick="fsn.facility.closeAddFacilityInfo(1)">取消</button>
            </div>
         <div id="DIV_IMG_WIN">
@@ -1639,7 +1639,7 @@
        <div class="honor-win" id = "certIcon" style="float: left;display:inline;">
         <div id="honorIconListView" style="position: relative; left: 145px; top: 0px;width:180px;">
          <div id="honorIconAttachmentsListView" class="long_sl"></div>
-         <button id="btn_clearHonorIconFiles" onclick="return fsn.business_unit.clearHonorIconFiles()" class="k-button" 
+         <button id="btn_clearHonorIconFiles" onclick="return fsn.business_unit.clearHonorIconFiles()" class="k-button"
          	style="display: flex; left: -30px; position: relative; top: -20px; width: 30px;"><span class="k-icon k-cancel"></span></button>
         </div>
         <div id="upload_honorIcon_div" style="width: 260px;height: 70px;"></div>
@@ -1753,8 +1753,15 @@
     </div>
    </div>
   </div>
-  <div id="addProLicWindow"> 
-   <fieldset class="_previewFieldset">
+
+  <div id="addProLicWindow">
+   <div style="border: 1px solid #0f941a;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;">
+    <div class="header" style="width:160px">
+     <span>生产许可证信息</span>
+    </div>
+
+   <fieldset style="padding: 0 10px">
+    <input type="hidden" id="qs_id">
    <label id="qs_msg"></label><br><br>
    <div class="div-tr"> 
     <div class="div-td-name">
@@ -1774,7 +1781,7 @@
        <label id="showQsFormat">QS</label> 
        <input type="text" id="qsNo" class="k-textbox" style="width:320px;" onkeydown="fsn.business_unit.formatQsNo(this,this.value)" />
       </div> 
-      <span id="isLicenseNo" class="necessary"></span> 
+      <span id="isLicenseNo" class="necessary"></span>
      </div> 
      <div class="div-td"> 
       <div class="div-td-name">
@@ -1784,7 +1791,7 @@
       <div class="div-td-value">
        <input type="text" id="busunitName" class="k-textbox" style="width:425px;"/>
       </div> 
-      <span id="isLicenseNo" class="necessary"></span> 
+      <span id="isLicenseNo" class="necessary"></span>
      </div> 
     </div> 
     <div class="div-tr"> 
@@ -1796,7 +1803,7 @@
       <div class="div-td-value"> 
        <input type="text" id="productName" style="width:370px" /> 
       </div> 
-      <span id="isLicenseNo" class="necessary"></span> 
+      <span  class="necessary"></span>
      </div> 
      <div class="div-td"> 
       <div class="div-td-name">
@@ -1810,7 +1817,7 @@
     <div class="div-tr"> 
      <div class="div-td"> 
       <div class="div-td-name">
-       <label for="accommodation">住所：</label>
+       <label>住所：</label>
       </div> 
       <div class="div-td-value"> 
        <input id="accommodation_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:150px;" class="k-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" /> 
@@ -1820,7 +1827,7 @@
      </div> 
      <div class="div-td"> 
       <div class="div-td-name">
-       <label for="qsBusinessAddress">生产地址：</label>
+       <label>生产地址：</label>
        <font class="necessary">*</font>
       </div> 
       <div class="div-td-value"> 
@@ -1839,7 +1846,9 @@
        <input type="text" id="checkType" class="k-textbox" />
       </div> 
      </div> 
-    </div> 
+    </div>
+
+    <div id="upload_qs_files_img_e">
     <div class="div-tr"> 
      <div class="div-td"> 
       <div class="div-td-value"> 
@@ -1853,30 +1862,43 @@
        <!-- <input type="file" id="upload_qs_files"/> --> 
       </div> 
      </div> 
-    </div> 
-   </fieldset> 
-   <div class="div-tr"> 
-    <div class="div-td"> 
-     <div id="logListView"> 
-      <div id="qsAttachmentsListView"></div> 
-     </div> 
-    </div> 
-   </div> 
-   <div class="div_tr" style="text-align: right;"> 
-    <div class="div-td">
-     &nbsp;&nbsp;&nbsp;&nbsp;
-    </div> 
-    <div class="div-td">
-     <button class="k-button" id="saveProLic"><span class="k-icon k-save"></span>确定</button>
-    </div> 
-   </div> 
-   <!--删除提示框--> 
+    </div>
+
+    <!--<div class="div-tr">-->
+     <!--<div class="div-td">-->
+      <!--<div id="logListView">-->
+       <!--<div id="qsAttachmentsListView"></div>-->
+      <!--</div>-->
+     <!--</div>-->
+    <!--</div>-->
+
+    </div>
+
+    <div id="upload_qs_files_img_s">
+     <div  class="div-tr">
+      <div  class="div-td" style="width: 100%">
+       <div id="upload_qs_files_img"></div>
+      </div>
+     </div>
+    </div>
+
+    <div align="center">
+     <div class="div-td">
+      &nbsp;&nbsp;&nbsp;&nbsp;
+     </div>
+     <div class="div-td">
+      <button class="k-button inputbtn" id="saveProLic"><span class="k-icon k-save"></span>确定</button><br><br>
+     </div>
+    </div>
+   </fieldset>
+    </div>
+   <!--删除提示框-->
    <div id="PromptWindow" style="display: none"> 
     <div align="center">
      <label>确定删除吗？删除后点击保存才能生效！</label>
     </div> 
     <div style="padding-top: 20px" align="center"> 
-     <button id="confirmWindow" class="k-button"><span class="k-icon k-update"></span>确定</button> 
+     <button id="confirmWindow" class="k-button"><span class="k-icon k-update"></span>确定</button>
      <button id="cancelWindow" class="k-button"><span class="k-icon k-delete"></span>取消</button> 
     </div> 
    
@@ -1905,7 +1927,10 @@
 	</div>
 	<!-- 查看qs认领申请提示框 End -->
    
-   <script src="../../resource/js/city/citypublic.js"></script> 
-  </div>
+   <script src="../../resource/js/city/citypublic.js"></script>
+
+
+
+ </div>
  </body>
 </html>

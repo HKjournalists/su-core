@@ -65,6 +65,8 @@
 					$("#upload_certification_div div strong").css("font-size","10px");
 					$("#upload_certification_div div strong").css("heigth","40px");
 					$("#upload_certification_div div ul strong").css("line-height","3.7em");
+
+
 				}
                 if(attachments != null) {
 					 attachments.push(e.response.results[0]);
