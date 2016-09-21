@@ -1712,7 +1712,7 @@ $(document).ready(function() {
      * TMP_STDCERT_RES 全局变量，用来暂存 标准认证信息资源
      * @author huangyong 2015/05/07 
      */
-    function addUploadStdCertRes(attachments){
+    business_unit.addUploadStdCertRes = function(attachments){
         if(attachments == null || attachments.length < 1){
             return;
         }
@@ -1745,7 +1745,7 @@ $(document).ready(function() {
      * TMP_HONORCERT_RES 全局变量，用来暂存荣誉认证小图标资源
      * @author huangyong 2015/05/07
      */
-    function addUploadHonorIconCertRes(attachments){
+    business_unit.addUploadHonorIconCertRes = function(attachments){
         if(attachments == null || attachments.length < 1){
             return;
         }
@@ -1764,10 +1764,11 @@ $(document).ready(function() {
     business_unit.clearCertificationFiles = function(){
     	// 一旦调用了此方法，说明标准认证资源已经被删除，需要将清空标记 clearCert 设置为 true
         if(DELSTATUS != null) DELSTATUS.clearCert = true;
-        $("#certificationAttachmentsListView").html("");
-        $("#btn_clearCertificationFiles").hide();
+        //$("#certificationAttachmentsListView").html("");
+        //$("#btn_clearCertificationFiles").hide();
         // 设置荣誉认证资源上传控件的上传状态为true 即允许上传，认证信息图片只能上传一张
         setStdCertUploadStatus(true);
+
     };
 
     /**
@@ -1781,14 +1782,14 @@ $(document).ready(function() {
         $("#btn_clearHonorIconFiles").hide();
         // 设置荣誉认证图标资源上传控件的上传状态为true 即允许上传，认证信息图片只能上传一张
         setStdHonorCertUploadStatus(true);
-        $("#upload_honorIcon_files_img_s").hide();
+        //$("#upload_honorIcon_files_img_s").hide();
     };
         
     /**
      * kendoupload上传控件 删除资源的回调方法 删除荣誉认证小图标
      * @author tangxin 2015/05/15
      */
-    function kendoDelHonorIconFile(file) {
+    business_unit.kendoDelHonorIconFile = function(file) {
     	// 资源已被删除，将暂存荣誉认证小图标资源的变量设置为空
     	TMP_HONORCERT_RES = null;
     	// 一旦调用了此方法，说明荣誉认证图标资源已经被删除，需要将清空标记 clearHonor 设置为 true
@@ -1801,7 +1802,7 @@ $(document).ready(function() {
      * kendoupload上传控件 删除资源的回调方法 删除认证证照资源
      * @author tangxin 2015/05/15
      */
-    function kendoDelCertificationFile(file) {
+    business_unit.kendoDelCertificationFile  = function(file) {
     	// 认证证照资源已被删除，将暂认证证照资源的变量设置为空
     	TMP_STDCERT_RES = null;
     	// 一旦调用了此方法，说明认证证照资源已经被删除，需要将清空标记 clearCert 设置为 true
@@ -1923,29 +1924,37 @@ $(document).ready(function() {
             business_unit.changeCheckBox();
             // 编辑时，认证信息资源的展示处理
             if(SAVE_CERT_MODE.certResource != null) {
-                var url = SAVE_CERT_MODE.certResource.url ? SAVE_CERT_MODE.certResource.url : "";
-                if(url == ""){
-                    $("#upload_certification_img_s").hide();
-                }else{
-                    $("#upload_certification_img_s").show();
-                    $("#upload_certification_img").attr("src",url);
-                }
-
-
-
-                var filename = SAVE_CERT_MODE.certResource.fileName ? SAVE_CERT_MODE.certResource.fileName : "";
-                var a_href = (url == null || url == "" ? "": 'href="'+url+'" target="_blank"');
-                // 自定义展示样式
-                var strHTML = '<a '+ a_href + ' >' + filename + '</a>';
-                $("#certificationAttachmentsListView").html(strHTML);
-                if (filename != "") {
-                    $("#btn_clearCertificationFiles").show();
-                }
+                var imgData = SAVE_CERT_MODE.certResource
+                var url = imgData.url ? imgData.url : "";
+                    if(url != ""){
+                        $("#upload_certification_files_img").attr("src",url);
+                    }else{
+                        url =  imgData.file ? imgData.file : "";
+                        if(url != ""){
+                            $("#").attr("src","data:"+url);
+                            $("#upload_certification_files_img").attr("src","data:"+imgData.type.rtName+";base64,"+imgData.file);
+                        }
+                    }
+                    if(url != ""){
+                        $("#upload_certification_files_img_e").hide();
+                        $("#upload_certification_files_img_s").show();
+                    }else{
+                        $("#upload_certification_files_img_e").show();
+                        $("#upload_certification_files_img_s").hide();
+                    }
+                //var filename = SAVE_CERT_MODE.certResource.fileName ? SAVE_CERT_MODE.certResource.fileName : "";
+                //var a_href = (url == null || url == "" ? "": 'href="'+url+'" target="_blank"');
+                //// 自定义展示样式
+                //var strHTML = '<a '+ a_href + ' >' + filename + '</a>';
+                //$("#certificationAttachmentsListView").html(strHTML);
+                //if (filename != "") {
+                //    $("#btn_clearCertificationFiles").show();
+                //}
             }
         }
         /* 初始化认证资源的上传控件 */
         $("#upload_certification_div").html("<input id='upload_certification_files' type='file' />");
-        saleskendoUtil.buildUpload("upload_certification_files", null,'上传证书','.jpeg,.jpg,.png,.bmp',false, addUploadStdCertRes, kendoDelCertificationFile);
+        saleskendoUtil.buildUpload("upload_certification_files", null,'上传证书','.jpeg,.jpg,.png,.bmp',false, business_unit.addUploadStdCertRes, business_unit.kendoDelCertificationFile);
         // 打开 认证信息 新增/编辑 窗口
         $("#addCertWindow").data("kendoWindow").open().center();
         if(!isNew && SAVE_CERT_MODE.certResource != null) {
@@ -2043,10 +2052,10 @@ $(document).ready(function() {
         }
         /* 初始化上传荣誉认证证照控件 */
         $("#upload_certification_div").html("<input id='upload_certification_files' type='file' />");
-        saleskendoUtil.buildUpload("upload_certification_files", null,'上传证书','.jpeg,.jpg,.png,.bmp',false, addUploadStdCertRes, kendoDelCertificationFile);
+        saleskendoUtil.buildUpload("upload_certification_files", null,'上传证书','.jpeg,.jpg,.png,.bmp',false, business_unit.addUploadStdCertRes, business_unit.kendoDelCertificationFile);
         /* 初始化上传荣誉图标控件 */
         $("#upload_honorIcon_div").html("<input id='upload_honorIcon_files' type='file' />");
-        saleskendoUtil.buildUpload("upload_honorIcon_files", null,'上传图标', '.jpeg,.jpg,.png,.bmp',false, addUploadHonorIconCertRes, kendoDelHonorIconFile);
+        saleskendoUtil.buildUpload("upload_honorIcon_files", null,'上传图标', '.jpeg,.jpg,.png,.bmp',false, business_unit.addUploadHonorIconCertRes, business_unit.kendoDelHonorIconFile);
         // 打开 荣誉认证信息 新增/编辑 窗口
         $("#addCertWindow").data("kendoWindow").open().center();
         if (!isNew && SAVE_CERT_MODE.certResource != null) {

@@ -25,7 +25,7 @@
                 statusUploading: lims.l("uploading",'upload'),
                 uploadSelectedFiles: lims.l("Upload files",'upload')
             },
-            multiple:(id == "upload_qr_files") ? false : true,
+            multiple:(id == "upload_qr_files"||id=="upload_logo_files") ? false : true,
             upload: function(e){
 
 
@@ -100,29 +100,37 @@
 
 					$("#upload_propaganda_div").html("<input id='upload_propaganda_files' type='file' />");
 					business_unit.buildUpload("upload_propaganda_files", business_unit.aryPropagandaAttachments, "upload_propaganda_files_log");
-                }else if(id=upload_qs_files){
+                }else if(id="upload_license_files"){
 
-					var div = document.getElementById("upload_qs_div"); //$("#upload_logo_div");
-					while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
-						div.removeChild(div.firstChild);
-					}
+
 					//var propagandaImg = '<img src="../../resource/img/portal/tupian.jpg"/  style="width: 128px;height:128px;">';
 					//if(qsAttachments.length>0){
                     //
 					//}
 					var img = "";
 					for(var k in imgData){
-						img+="<div id='upload_propaganda_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
-						img+="<img id='upload_propaganda_files"+k+"' src='data:"+imgData[k].type.rtName+";base64,"+imgData[k].file+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
-						img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectQsImg("+k+",'"+imgData[k].file+"')>x";
+						var url = imgData[k].url;
+						var  fileUrl = url;
+						if(url == null){
+							fileUrl = imgData[k].file;
+							url = "data:"+imgData[k].type.rtName+";base64,"+imgData[k].file+""
+						}
+						img+="<div id='"+id+"_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+						img+="<img id='"+id+"_"+k+"' src='"+url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+						img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectLicenseImg('"+id+"_"+k+"','"+fileUrl+"')>x";
 						img+="</div>";
 						img+="</div>";
 					  }
-						$("#upload_qs_files_img_s").show();
-						$("#upload_qs_files_img").html(img);
+					var div = document.getElementById("upload_license_div"); //$("#upload_logo_div");
+					while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+						div.removeChild(div.firstChild);
+					  }
+					$("#"+id+"_img_e").show();
+					$("#"+id+"_img_s").show();
+					$("#"+id+"_img").html(img);
 					/* 初始化上传控件 */
-					$("#upload_qs_div").html("<input id='upload_qs_files' type='file' />");
-					business_unit.buildUpload("upload_qs_files", business_unit.aryQsAttachments, "proFileMsgQs", "product");
+					$("#upload_license_div").html("<input id='"+id+"' type='file' />");
+					business_unit.buildUpload(id, business_unit.aryLicenseAttachments, "upload_license_files_log");
 				}else{
 					/**
 					 * 显示当时长传的照片
@@ -223,6 +231,24 @@
        if(business_unit.aryQsAttachments !=null&&business_unit.aryQsAttachments.length==0){
 		   $("#upload_qs_files_img_s").hide();
 	   }
+	};
+	/**
+	 * 删除营业执照
+	 */
+	business_unit.delSelectLicenseImg = function(id,url){
+		//$("#upload_propaganda_files_img_e").show();
+		if(business_unit.aryLicenseAttachments != null&&business_unit.aryLicenseAttachments.length>0){
+			for(var s in business_unit.aryLicenseAttachments){
+				if((business_unit.aryLicenseAttachments[s].file == null && business_unit.aryLicenseAttachments[s].url==url) || (business_unit.aryLicenseAttachments[s].url==null && business_unit.aryLicenseAttachments[s].file == url)){
+					$.extend(business_unit.aryLicenseAttachments[s],business_unit.aryLicenseAttachments[business_unit.aryLicenseAttachments.length-1]);
+					business_unit.aryLicenseAttachments.pop();
+					break;
+				}
+
+			}
+		}
+		$("img[id='"+id+"']").parent().remove();
+		return false;
 	};
     /* 按控件id初始化上传按钮的显示文字 */
     business_unit.getShowName = function(id){
@@ -896,12 +922,30 @@
 		}
 		//营业执照
 		if (data.licAttachments != null && data.licAttachments.length > 0) {
-			$("#upload_license_files_img_a").attr("src", data.licAttachments[0].url);
-			$("#upload_license_files_img").attr("src", data.licAttachments[0].url);
+			var imgData  = data.licAttachments;
 
+			var img = "";
+			for(var k in imgData){
+				img+="<div id='upload_license_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				img+="<img id='upload_license_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				img+="</div>";
+			}
 
-			$("#upload_license_files_img_e").hide();
+			var imgs = "";
+			for(var k in imgData){
+				imgs+="<div id='upload_license_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				imgs+="<img id='upload_license_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectLicenseImg("+k+",'"+imgData[k].url+"')>x";
+				imgs+="</div>";
+				imgs+="</div>";
+			}
+			$("#upload_license_files_img_a").html(img);
+			$("#upload_license_files_img").html(imgs);
+			$("#upload_license_files_img_e").show();
 			$("#upload_license_files_img_s").show();
+			/* 初始化上传控件 */
+			$("#upload_license_div").html("<input id='upload_license_files' type='file' />");
+			business_unit.buildUpload("upload_license_files", business_unit.aryLicenseAttachments, "upload_license_files_log");
 		} else {
 			$("#upload_license_files_img_a").attr("src", "../../resource/img/portal/tupian.jpg");
 			$("#upload_license_files_img_e").show();
@@ -917,7 +961,7 @@
 		} else {
 			$("#upload_orgnization_files_img_a").attr("src", "../../resource/img/portal/tupian.jpg");
 			$("#upload_orgnization_files_img_e").show();
-			$("#upload_orgnization_files_img_s").hied();
+			$("#upload_orgnization_files_img_s").hide();
 		}
 
 		//税务登记证
