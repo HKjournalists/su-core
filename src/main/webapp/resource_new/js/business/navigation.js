@@ -248,7 +248,7 @@ $(function() {
 	/**
 	 * 导航拖动
 	 */
-	$( "#sortable" ).sortable({
+	$( "#addDiv" ).sortable({
 	      //revert: true
 	   }); 
 	
