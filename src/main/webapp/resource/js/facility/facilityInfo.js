@@ -660,6 +660,9 @@ $(document).ready(function() {
         });
     };
     facility.setOperateInfo = function(data){
+        if(data == undefined || data == null){
+          return false;
+        }
         $("#operate_id").val(data.id);
         $("#operateType").val(data.operateType);
         $("#operateScope").val(data.operateScope);
