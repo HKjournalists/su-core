@@ -123,10 +123,10 @@ table, caption, tbody, tfoot, thead, tr, th, td
 	z-index:999;
 }
 .fonttitle{
-	font-size:16px;
-	color:#05bf73;
-	font-weight:bold;
-	font-family:"微软雅黑";
+	font-size: 16px;
+    color: #05bf73;
+    font-weight: bold;
+    font-family: "微软雅黑";
 }
 .contain{
 
