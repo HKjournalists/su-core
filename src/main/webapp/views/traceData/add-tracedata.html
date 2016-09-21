@@ -132,10 +132,12 @@ width:300px;
 				</div>
 				<table class="_previewFieldset ml20">
 					<tr>
-						<td align="left"><label>产品选择</label> <span class='red_xing'>*</span>：</td>
-						<td style="width: 250px;"><select id="productID"></select></td>
-						<td></td>
-						<td></td>
+						<td align="left"><label for="barcode"><span>条形码</span>:</label> <span class='red_xing'>*</span>：</td>
+						<td ><input id="barcode" class="k-textbox" type="text"
+									style="width: 250px" name="barcode"></td>
+						<td class="pl50"><label for="name"><span>产品名称</span>:</label> <span class='red_xing'>*</span>：</td>
+						<td><input id="name" class="k-textbox" type="text"
+								   style="width: 250px" name="name"></td>
 					</tr>
 					<tr>
 						<td>原料来源区域：<span class='red_xing'>*</span></td>
@@ -143,7 +145,7 @@ width:300px;
 							style="width: 250px" name="sourceArea"></td>
 						<td class="pl50">原材料其他证明：</td>
 						<td>
-							<div id="upload_source">
+							<div id="upload_source" style="margin-top:20px">
 								<span id='uploadZone'> 
 									<input type="file" id="upload-other-img" />
 								</span>
@@ -159,7 +161,7 @@ width:300px;
 					<tr>
 						<td class="text-css">原材料入仓时间：<span class='red_xing'>*</span></td>
 						<td><input id="sourceDate" name="sourceDate" style="width: 250px;" type="text"
-							value=""  onchange="fsn.setDateValue();" /></td>
+							value=""   /></td>
 						<td class="pl50">加工者名称：<span class='red_xing'>*</span></td>
 						<td><input id="processor" class="k-textbox" type="text"
 							style="width: 250px" data-required-msg='不能为空' required='required'></td>
@@ -170,17 +172,16 @@ width:300px;
 							style="width: 250px" ></td>
 						<td class="pl50">入库时间：</td>
 						<td><input id="warehouseDate" style="width: 250px;"
-							type="text" value="" onchange="fsn.setDateValue();"  /></td>
+							type="text" value="" "  /></td>
 					</tr>
 					<tr>
 						<td>生产时间</label><span class='red_xing'>*</span>：
 						</td>
 						<td><input id="productDate" name="productDate" style="width: 250px;" type="text"
-							value="" 
-							onchange="fsn.setDateValue();" /></td>
+							value=""  /></td>
 						<td class="pl50">出厂时间：</td>
 						<td><input id="leaveDate" style="width: 250px;" type="text"
-							value="" onchange="fsn.setDateValue();"  /></td>
+							value=""   /></td>
 					</tr>
 					<tr>
 						<td>生长环境展示：</td>
