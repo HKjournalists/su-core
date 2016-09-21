@@ -50,10 +50,16 @@ public class FacilityInfoRESTService extends BaseRESTService {
     @RequestMapping(method = RequestMethod.GET, value = "/facilityList/{page}/{pageSize}")
     public View getFacilityList(@PathVariable(value="page") int page,@PathVariable(value="pageSize") int pageSize,@RequestParam(value="facilityParam") String facilityName,
                                 Model model){
-            List<FacilityInfo> facilityList = facilityInfoService.getFacilityInfoList(page,pageSize,facilityName);
-            Long total = facilityInfoService.getFacilityCount(facilityName);
+        try {
+            Long currentUserOrganization = Long.parseLong(AccessUtils.getUserRealOrg().toString());
+            Long fromBusId = businessUnitService.findIdByOrg(currentUserOrganization);
+            List<FacilityInfo> facilityList = facilityInfoService.getFacilityInfoList(fromBusId,page,pageSize,facilityName);
+            Long total = facilityInfoService.getFacilityCount(fromBusId,facilityName);
             model.addAttribute("data",facilityList);
             model.addAttribute("total",total);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
         return JSON;
     }
 

@@ -21,7 +21,7 @@ public interface FacilityInfoDAO extends BaseDAO<FacilityInfo> {
      * @param pageSize  每页显示条数
      * @return 返回List集合
      */
-    List<FacilityInfo> getFacilityInfoList(int page, int pageSize, String facilityName) throws JPAException;
+    List<FacilityInfo> getFacilityInfoList(Long busniessId,int page, int pageSize, String facilityName) throws JPAException;
 
     /**
      *
@@ -31,5 +31,5 @@ public interface FacilityInfoDAO extends BaseDAO<FacilityInfo> {
      * @param facilityName 查询参数
      * @return 返回数据总条数
      */
-    Long getFacilityCount(String facilityName) throws JPAException;
+    Long getFacilityCount(Long busniessId,String facilityName) throws JPAException;
 }

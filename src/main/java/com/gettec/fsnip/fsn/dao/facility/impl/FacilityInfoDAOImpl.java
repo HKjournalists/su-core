@@ -25,13 +25,13 @@ public class FacilityInfoDAOImpl extends BaseDAOImpl<FacilityInfo> implements Fa
      * @return 返回List集合
      */
     @Override
-    public List<FacilityInfo> getFacilityInfoList(int page, int pageSize, String facilityName) throws JPAException {
-        String condition = "";
+    public List<FacilityInfo> getFacilityInfoList(Long busniessId,int page, int pageSize, String facilityName) throws JPAException {
+        String condition = " where e.businessId = ?1 ";
         if(facilityName !=null&&!"".equals(facilityName)){
-            condition = " where e.facilityName like '%"+facilityName+"%' ";
+            condition += " AND  e.facilityName like '%"+facilityName+"%' ";
         }
         condition+=" ORDER BY e.createTime desc";
-        return this.getListByPage(page,pageSize,condition);
+        return this.getListByPage(page,pageSize,condition,new Object[]{busniessId});
     }
 
     /**
@@ -43,11 +43,11 @@ public class FacilityInfoDAOImpl extends BaseDAOImpl<FacilityInfo> implements Fa
      * @return 返回数据总条数
      */
     @Override
-    public Long getFacilityCount(String facilityName) throws JPAException {
-        String condition = null;
+    public Long getFacilityCount(Long busniessId,String facilityName) throws JPAException {
+        String condition = " WHERE e.businessId = ?1 ";
         if(facilityName !=null&&!"".equals(facilityName)){
-            condition = " where e.facilityName like '%"+facilityName+"%' ";
+            condition += " AND  e.facilityName like '%"+facilityName+"%' ";
         }
-        return this.count(condition);
+        return this.count(condition,new Object[]{busniessId});
     }
 }

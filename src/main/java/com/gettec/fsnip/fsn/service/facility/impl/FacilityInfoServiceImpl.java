@@ -55,10 +55,10 @@ public class FacilityInfoServiceImpl extends BaseServiceImpl<FacilityInfo,Facili
     */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public List<FacilityInfo> getFacilityInfoList(int page, int pageSize, String facilityName) {
+    public List<FacilityInfo> getFacilityInfoList(Long busniessId,int page, int pageSize, String facilityName) {
         List<FacilityInfo> facilityInfoList = null;
         try {
-            facilityInfoList = facilityInfoDAO.getFacilityInfoList(page,pageSize,facilityName);
+            facilityInfoList = facilityInfoDAO.getFacilityInfoList(busniessId,page,pageSize,facilityName);
         } catch (JPAException e) {
             e.printStackTrace();
         }
@@ -74,10 +74,10 @@ public class FacilityInfoServiceImpl extends BaseServiceImpl<FacilityInfo,Facili
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public Long getFacilityCount(String facilityName) {
+    public Long getFacilityCount(Long busniessId,String facilityName) {
         Long total = null;
         try {
-            total = facilityInfoDAO.getFacilityCount(facilityName);
+            total = facilityInfoDAO.getFacilityCount(busniessId,facilityName);
         } catch (JPAException e) {
             e.printStackTrace();
         }
@@ -94,14 +94,21 @@ public class FacilityInfoServiceImpl extends BaseServiceImpl<FacilityInfo,Facili
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean facilitySaveOrEdit(FacilityInfo facilityInfo) {
+
         try {
-            this.deleteResource(facilityInfo.getResource());
-            Resource rs = this.getImgResource(facilityInfo.getResource());
             if(facilityInfo.getId()==null || "".equals(facilityInfo.getId())){
+                Resource rs = this.getImgResource(facilityInfo.getResource());
                 facilityInfo.setCreateTime( new Date());
                 facilityInfo.setResource(rs);
                 facilityInfoDAO.persistent(facilityInfo);
-            }else{
+            }else {
+                Resource rs = null;
+                if (facilityInfo.getResource() != null && facilityInfo.getResource().getId() != null) {
+                    rs = resourceService.findById(facilityInfo.getResource().getId());
+                }
+                if (rs == null) {
+                    rs = this.getImgResource(facilityInfo.getResource());
+                }
                 FacilityInfo e = facilityInfoDAO.findById(facilityInfo.getId());
                 e.setFacilityName(facilityInfo.getFacilityName());
                 e.setManufacturer(facilityInfo.getManufacturer());
@@ -115,10 +122,13 @@ public class FacilityInfoServiceImpl extends BaseServiceImpl<FacilityInfo,Facili
             return true;
         } catch (JPAException e) {
             e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
         }
+
         return false;
     }
-
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     private void deleteResource(Resource resource) {
         try {
             if(resource!=null){
@@ -156,6 +166,8 @@ public class FacilityInfoServiceImpl extends BaseServiceImpl<FacilityInfo,Facili
                 resource.setUrl(url);
                 resource.setName(name);
             }
+        }else{
+            return null;
         }
         return resource;
     }

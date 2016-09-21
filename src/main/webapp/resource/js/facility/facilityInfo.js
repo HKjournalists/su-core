@@ -2,9 +2,12 @@ $(document).ready(function() {
     var fsn = window.fsn = window.fsn || {};
     var facility = window.fsn.facility = window.fsn.facility || {};
     var portal = fsn.portal = fsn.portal || {}; // portal命名空间
+    var business_unit = window.fsn.business_unit = window.fsn.business_unit || {};
         portal.HTTP_PREFIX = fsn.getHttpPrefix(); // 业务请求前缀
         facility.imgResource  = new Array();
-    facility.initialize = function(){
+
+
+        facility.initialize = function(){
         /**
          * 初始化企业页码tabStrip
          */
@@ -13,6 +16,10 @@ $(document).ready(function() {
         facility.initEquipmentInfoGrid("MAINTENANCE_RECORD_GRID",facility.maintenance_columns);
         facility.buildUploadFacility("facilityResourceId", facility.imgResource , "error_img");
 
+
+        $("#submitFacilityInfo").bind("click", facility.submitFacilityInfo);
+        $("#submitMaintenanceInfo").bind("click", facility.submitMaintenanceInfo);
+        $("#submitOperateInfo").bind("click", facility.submitOperateInfo);
         /**
          * 初始化规模信息
          */
@@ -383,12 +390,10 @@ $(document).ready(function() {
 
         if(facilityId != undefined){
             var grid = $("#MAINTENANCE_RECORD_GRID").data("kendoGrid");
-            console.log(grid)
             grid.setDataSource(dataSource);
             grid.refresh();
         }else{
             var grid = $("#FACILITY_INVENTORY_GRID").data("kendoGrid");
-            console.log(grid)
             grid.setDataSource(dataSource);
             grid.refresh();
 
@@ -399,8 +404,7 @@ $(document).ready(function() {
         $("#maintenanceTime").val("");
     };
     facility.addFacilityInfo = function(data,status){
-        console.log(data)
-        if(data != undefined && data != 0 && status==1){
+    if(data != undefined && data != 0 && status==1){
             $("#facilityInfo_id").val(data.id);
             $("#facility_Name").val(data.facilityName);
             $("#manufacturer").val(data.manufacturer);
@@ -409,7 +413,12 @@ $(document).ready(function() {
             $("#buyingTime").val(fsn.formatGridDate(data.buyingTime));
             $("#application").val(data.application);
             $("#remark").val(data.remark);
-            if(data.resource != undefined && data.resource !=null){
+
+        if(data.resource != undefined && data.resource !=null){
+                if(facility.imgResource!=null){
+                    facility.imgResource.pop();
+                }
+                facility.imgResource.push(data.resource);
                 $("#facilityImg").attr("src",data.resource.url);
                 $("#upload_facility_img").hide();
                 $("#show_facility_img").show();
@@ -426,17 +435,33 @@ $(document).ready(function() {
             $("#buyingTime").val("");
             $("#application").val("");
             $("#remark").val("");
-            $("#upload_facility_img ul").remove();
+
             $("#upload_facility_img").show();
             $("#show_facility_img").hide();
-
+            var div = document.getElementById("upload_facility_img"); //$("#upload_logo_div");
+            while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+                div.removeChild(div.firstChild);
+            }
+            if(facility.imgResource!=null){
+                facility.imgResource.pop();
+            }
         }
+        $("#upload_facility_img").html("<input type='file' id='facilityResourceId' name='facilityImgUrl' class='k-textbox'/><br><br>");
+        facility.buildUploadFacility("facilityResourceId", facility.imgResource , "error_img");
         $("#ADDFACILITYINFO_WIN").data("kendoWindow").open().center()
     };
     facility.facilityDelImg = function(){
         $("#upload_facility_img").show();
         $("#show_facility_img").hide();
-        $("#upload_facility_img ul").remove();
+        var div = document.getElementById("upload_facility_img"); //$("#upload_logo_div");
+        while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+            div.removeChild(div.firstChild);
+        }
+        if(facility.imgResource!=null){
+            facility.imgResource.pop();
+        }
+        $("#upload_facility_img").html("<input type='file' id='facilityResourceId' name='facilityImgUrl' class='k-textbox'/><br><br>");
+        facility.buildUploadFacility("facilityResourceId", facility.imgResource , "error_img");
     };
     facility.closeAddFacilityInfo = function(status){
         if(status==0){
@@ -518,7 +543,7 @@ $(document).ready(function() {
     facility.createFacilityInfo = function(){
         var facilityImg = facility.imgResource.length>0?facility.imgResource[0]:{};
         var facilityInfo = {
-            id:$("#m_facility_id").val(),
+            id:$("#facilityInfo_id").val(),
             facilityName:$("#facility_Name").val(),
             manufacturer:$("#manufacturer").val(),
             facilityType:$("#facilityType").val(),
@@ -546,13 +571,13 @@ $(document).ready(function() {
 
     facility.addMaintenanceInfo = function(data,status){
         if(data != undefined && data != 0 && status==1){
-            $("#facilityInfo_id").val(data.id);
+            $("#m_id").val(data.id);
             $("#maintenanceName").val(data.maintenanceName);
             $("#m_maintenanceTime").val(fsn.formatGridDate(data.maintenanceTime));
             $("#maintenanceContent").val(data.maintenanceContent);
             $("#m_remark").val(data.remark);
         }else{
-            $("#facilityInfo_id").val("");
+            $("#m_id").val("");
             $("#maintenanceName").val("");
             $("#m_maintenanceTime").val("");
             $("#maintenanceContent").val("");
@@ -560,10 +585,10 @@ $(document).ready(function() {
         }
         $("#MAINTENANCEINFO_WIN").data("kendoWindow").open().center();
     }
-    var facilityId = $("#m_facility_id").val();
+
     facility.createMaintenanceInfo = function(facilityId){
         var maintenanceInfo = {
-            id:$("#facilityInfo_id").val(),
+            id:$("#m_id").val(),
             facilityId:facilityId,
             maintenanceName:$("#maintenanceName").val(),
             maintenanceTime:$("#m_maintenanceTime").val(),
@@ -589,7 +614,7 @@ $(document).ready(function() {
             fsn.initNotificationMes("养护内容不能为空!", false);
             return;
         }
-
+        var facilityId = $("#m_facility_id").val();
         var maintenanceInfo = facility.createMaintenanceInfo(facilityId);
         $.ajax({
             url: portal.HTTP_PREFIX + "/facility/maintenanceSaveOrEdit",
@@ -623,15 +648,12 @@ $(document).ready(function() {
      * 初始化规模信息
      */
     facility.initOperateInfo = function(){
-        var id = $("operate_id").val();
         $.ajax({
             url: portal.HTTP_PREFIX + "/operate/findById",
             type: "GET",
-            data: {id:id},
             contentType: "application/json; charset=utf-8",
             success: function (returnVal) {
                 if (returnVal.status == true) {
-                    fsn.initNotificationMes("养护记录保存成功!", true);
                     facility.setOperateInfo(returnVal.data);
                 }
             }
@@ -686,8 +708,8 @@ $(document).ready(function() {
                 if (returnVal.status == true) {
                     fsn.initNotificationMes("规模信息保存成功!", true);
                     facility.setOperateInfo(returnVal.data);
-                    facility.tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
-                    facility.tabStrip.select(3);        // Select by jQuery selector
+                    //facility.tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
+                    //facility.tabStrip.select(3);        // Select by jQuery selector
                 }
             }
         });
@@ -705,28 +727,30 @@ $(document).ready(function() {
         };
         return operateInfo;
     };
-    facility.editBusiness = function(status){
-      if(status == 0){
+    facility.editBusinessInfo = function(status){
+        if(status == 0){
           $("#A_show_button").hide();
           $("#A_hide_button").show();
-
-          $("#A_show").hide();
-          $("#A_edit").show();
-
+            $("#A_show").hide();
+            $("#A_edit").show();
+        }else if(status == 1){
+            business_unit.setValue(business_unit.editBusiness, "produce");
+            $("#A_show_button").show();
+            $("#A_hide_button").hide();
+            $("#A_show").show();
+            $("#A_edit").hide();
+      }else if(status == 2){
           $("#B_show_button").hide();
           $("#B_hide_button").show();
           $("#B_show").hide();
           $("#B_edit").show();
       }else{
-          $("#A_show_button").show();
-          $("#A_hide_button").hide();
-          $("#A_show").show();
-          $("#A_edit").hide();
+            business_unit.setValue(business_unit.editBusiness, "produce");
+            $("#B_show").show();
+            $("#B_edit").hide();
+            $("#B_show_button").show();
+            $("#B_hide_button").hide();
 
-          $("#B_show_button").show();
-          $("#B_hide_button").hide();
-          $("#B_show").show();
-          $("#B_edit").hide();
       }
     };
     facility.initialize();

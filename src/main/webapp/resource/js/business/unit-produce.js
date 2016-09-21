@@ -2,6 +2,7 @@ $(document).ready(function() {
     var fsn = window.fsn = window.fsn || {};
     var business_unit = window.fsn.business_unit = window.fsn.business_unit || {};
     var portal = fsn.portal = fsn.portal || {}; // portal命名空间
+    var facility = window.fsn.facility = window.fsn.facility || {};
     portal.HTTP_PREFIX = fsn.getHttpPrefix(); // 业务请求前缀
     business_unit.id = null;
     business_unit.name = null;
@@ -107,7 +108,7 @@ $(document).ready(function() {
     
     business_unit.initWindow = function(){
     	business_unit.initKendoWindow("k_window", "保存状态", "300px", "60px", false);
-        business_unit.initKendoWindow("addProLicWindow", "", "1300px", "550px", false);
+        business_unit.initKendoWindow("addProLicWindow", "", "1300px",  "auto", false);
         business_unit.initKendoWindow("PromptWindow", "删除提示框", "450px", "100px", false);
         fsn.initKendoWindow("qs_delete_confirm_window","友情提示","300px","190px",false, []);
         /**
@@ -129,7 +130,7 @@ $(document).ready(function() {
     };
     
     business_unit.bindClick = function(){
-    	$("#sasaveInfove").bind("click", business_unit.save);
+    	$("#saveInfove").bind("click", business_unit.saveInfove);
     	$("#saveCertificate").bind("click", business_unit.saveCertificate);
         $("#reset").bind("click", business_unit.reset);
         $("#addProLic").bind("click", business_unit.addProLic);
@@ -331,6 +332,7 @@ $(document).ready(function() {
     function changePropagandaAndQrcodeUploadStatus(){
     	// 企业宣传照资源集合
     	var pubRes = business_unit.aryPropagandaAttachments;
+
     	// 企业二维码资源集合
     	var qrcodeRes = business_unit.aryQrAttachments;
     	// 首先移除 上传控件的 disabled 属性
@@ -439,20 +441,17 @@ $(document).ready(function() {
 	    	var tag = "";
 	    	if(e.can_eidt){
 	    		// 可以编辑
-	    		tag += "<a  class='k-button k-button-icontext k-grid-edit onclick='return fsn.operateQsInfo(" + e.qsId + ",\"" + e.qsno +  "\"," + e.claimed + ",\"edit\")' " +
-	    				"class='k-button'><span class='k-icon k-edit'> " +
-	    				"</span>编辑</a>";
+                tag +="<a class=\"k-button k-button-icontext k-grid-edit\" onclick=\"fsn.business_unit.operateQsInfo('" + e.qsId + "','"+ e.qsno +"','" + e.claimed + "','edit')\">";
+                tag += "<span class='k-icon k-i-search k-ViewDetail'></span>编辑</a>";
 	    	}else{
 	    		// 可以预览
-	    		tag += "<a  class='k-button k-button-icontext k-grid-ViewDetail onclick='return fsn.operateQsInfo(" + e.qsId + ",\"" + e.qsno + "\",null,\"view\")' " +
-	    				"class='k-button'><span class='k-icon k-i-search k-ViewDetail'> " +
-	    				"</span>预览</a>";
+	    		tag += "<a  class=\"k-button k-button-icontext k-grid-ViewDetail\" onclick=\"fsn.business_unit.operateQsInfo('" + e.qsId + "','" + e.qsno + "',null,'view')\" >" ;
+                tag +='<span class="k-icon k-i-search k-ViewDetail"></span>预览</a>';
 	    	}
 	    	/*if(!e.claimed || e.local){*/
 	    		// 可以删除
-	    		tag += "<a class='k-button k-button-icontext k-grid-delete onclick='return fsn.delQsInfo(" + e.qsId + "," + e.local + ")' " +
-					   "class='k-button'><span class='k-icon k-delete'> " +
-					   "</span>删除</a>";
+	    		tag += "<a class=\"k-button k-button-icontext k-grid-delete\" onclick=\"fsn.business_unit.delQsInfo('" + e.qsId + "','" + e.local + "')\" >" ;
+                tag += "<span class='k-icon k-delete'> </span>删除</a>";
 	    	/*}*/
 			return tag;
 	      }
@@ -481,7 +480,7 @@ $(document).ready(function() {
      * @author ZhangHui 2015/5/25
      */
     business_unit.addProLic = function() {
-    	fsn.operateQsInfo(null, null, null, "add_new_record");
+    	fsn.business_unit.operateQsInfo(null, null, null, "add_new_record");
     };
     
     /**
@@ -493,7 +492,14 @@ $(document).ready(function() {
      *           view 代表 预览
      * @author ZhangHui 2015/5/20
      */
-    fsn.operateQsInfo = function(qsId, qsno, claimed, operate){
+    fsn.business_unit.operateQsInfo = function(qsId, qsno, claimed, operate){
+        if(qsId != null){
+            $("#qs_id").val(qsId);
+        }else{
+            $("#qs_id").val("");
+        }
+
+
     	$("#addProLicWindow").data("kendoWindow").open().center();
     	$("#qs_msg").hide();
     	$("#proFileMsgQs").html("(注意：为保证更流畅的体验，建议每次上传照片不超过1M!可支持文件格式：png .bmp .jpeg .jpg )");
@@ -518,6 +524,7 @@ $(document).ready(function() {
     		
     		business_unit.is_add_new_record_Of_qs = true;
         	business_unit.aryQsAttachments.length = 0;
+            $("#upload_qs_files_img_s").hide();
     	}
 		
 		// 获取qs详细信息（包括qs图片）
@@ -534,13 +541,32 @@ $(document).ready(function() {
     			}
     		});
     		business_unit.setQsInfoValue(currentQsInfo);
+            if(currentQsInfo !=null){
+                business_unit.qsAttachmentsImg(currentQsInfo);
+            }
+
     	}
-    	
+
+
     	if(operate == "view"){
     		business_unit.setQsInfoReadOnly();
     	}
     };
-    
+
+    //显示qs图片
+    business_unit.qsAttachmentsImg= function(data){
+        // qsAttachments: business_unit.aryQsAttachments,
+        if(data != null&&data.qsAttachments != null&&data.qsAttachments.length>0) {
+            var imgData = data.qsAttachments;
+            var img_a = "";
+            //for(var i in imgData){
+            for (var i = 0; i < imgData.length; i++) {
+                img_a += "<div style='float: left;margin-left:10px;'><img id='show_qs_img" + i + "' src='" + imgData[0].url + "' style='width: 128px;height:128px;' style='display:block;' onclick='fsn.business_unit.amplification(this.src)'></div>"
+            }
+            $("#upload_qs_files_img_s").show();
+            $("#upload_qs_files_img").html(img_a);
+        }
+    };
     /**
      * qs新增/编辑时，移除input readonly
      * @author ZhangHui 2015/5/25
@@ -630,7 +656,7 @@ $(document).ready(function() {
      * 功能描述：qs删除
      * @author ZhangHui 2015/5/22
      */
-    fsn.delQsInfo = function(qsId, local){
+    fsn.business_unit.delQsInfo = function(qsId, local){
     	business_unit.del_qsId = qsId;
     	
     	var isAuthorized = false;
@@ -1076,7 +1102,6 @@ $(document).ready(function() {
                 id: $("#taxId").val().trim()!=""?$("#taxId").val().trim():null,
                 taxerName: $("#taxName").val().trim()
             };
-        
         var subBusiness = {
             id: business_unit.id,
             name: $("#name").val().trim(),
@@ -1100,18 +1125,23 @@ $(document).ready(function() {
             propagandaAttachments: business_unit.aryPropagandaAttachments,// 企业宣传照
             qrAttachments: business_unit.aryQrAttachments, // 二维码图片
             taxRegAttachments: business_unit.aryTaxAttachments, // 税务登记证图片
-            taxRegister: taxRegisterVO, //税务登记证vo
+            taxRegister: taxRegisterVO //税务登记证vo
         };
         return subBusiness;
     };
 
     business_unit.saveCertificate = function() {
-        business_unit.save();
-        var tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
-            tabStrip.select(2);        // Select by jQuery selector
+        business_unit.save(3);
+        //var tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
+        //    tabStrip.select(2);        // Select by jQuery selector
+
     }
+    business_unit.saveInfove  = function(){
+        business_unit.save(1);
+
+    };
     /* 保存 */
-    business_unit.save = function() {
+    business_unit.save = function(status) {
         /* 校验数据的有效性  */
         fsn.clearErrorStyle();
         if (!business_unit.validateFormat()) {
@@ -1129,18 +1159,21 @@ $(document).ready(function() {
             success: function(returnVal) {
                 $("#k_window").data("kendoWindow").close();
                 if (returnVal.result.status == "true") {
+
                     fsn.initNotificationMes("企业信息修改成功", true);
-                    business_unit.setOrgAttachments(returnVal.data.orgAttachments);
-                    business_unit.setLicenseAttachments(returnVal.data.licAttachments);
-                    business_unit.setQsAttachments(returnVal.data.qsAttachments);
-                    business_unit.setLogoAttachments(returnVal.data.logoAttachments);
+
+                    //business_unit.setOrgAttachments(returnVal.data.orgAttachments);
+                    //business_unit.setLicenseAttachments(returnVal.data.licAttachments);
+                    //business_unit.setQsAttachments(returnVal.data.qsAttachments);
+                    //business_unit.setLogoAttachments(returnVal.data.logoAttachments);
+                    //// 给企业宣传照 listView 赋值
+                    //business_unit.setPropagandaAttachments(returnVal.data.propagandaAttachments);
+                    //// 给企业二维码资源的 listView 赋值
+                    //business_unit.setQrAttachments(returnVal.data.qrAttachments);
+                    //// 给企业税务登记证的 listView 赋值
+                    //business_unit.setTaxAttachments(returnVal.data.taxRegAttachments);
+
                     $("#productionLic").data("kendoGrid").dataSource.data(returnVal.data.productionLicenses);
-                    // 给企业宣传照 listView 赋值
-                    business_unit.setPropagandaAttachments(returnVal.data.propagandaAttachments);
-                    // 给企业二维码资源的 listView 赋值
-                    business_unit.setQrAttachments(returnVal.data.qrAttachments);
-                    // 给企业税务登记证的 listView 赋值
-                    business_unit.setTaxAttachments(returnVal.data.taxRegAttachments);
                     $("#productionLic").data("kendoGrid").refresh();
                     fsn.initialCertification(returnVal.data==undefined?[]:returnVal.data.listOfCertification);
                     /**
@@ -1151,11 +1184,15 @@ $(document).ready(function() {
                      */
                     changePropagandaAndQrcodeUploadStatus();
 
+                    //var tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
+                    //var index = tabStrip.select().index();
+                    //      index = index+1
+                    //      tabStrip.select(index);        // Select by jQuery selector
 
-                    var tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
-                    var index = tabStrip.select().index();
-                          index = index+1
-                          tabStrip.select(index);        // Select by jQuery selector
+                    //保存成功后，重新初始化页面
+                    //business_unit.initView();
+                    business_unit.editBusiness = returnVal.data;
+                    facility.editBusinessInfo(status);
                 } else {
                     fsn.initNotificationMes("企业信息修改失败", false);
                 }
@@ -1665,7 +1702,7 @@ $(document).ready(function() {
         	// stdStatus 的值为 1 编辑荣誉认证
             business_unit.addCertHonor(false, rowIndex);
         } else {
-        	// stdStatus 的值为 0  编辑标准认证
+            // stdStatus 的值为 0  编辑标准认证
             business_unit.addCertOrdinary(false, rowIndex);
         }
     };
@@ -1744,6 +1781,7 @@ $(document).ready(function() {
         $("#btn_clearHonorIconFiles").hide();
         // 设置荣誉认证图标资源上传控件的上传状态为true 即允许上传，认证信息图片只能上传一张
         setStdHonorCertUploadStatus(true);
+        $("#upload_honorIcon_files_img_s").hide();
     };
         
     /**
@@ -1884,8 +1922,19 @@ $(document).ready(function() {
             document.getElementById("longValid").checked = (endDate.indexOf("2200-01-01")>-1 ? true : false);
             business_unit.changeCheckBox();
             // 编辑时，认证信息资源的展示处理
+            console.log(SAVE_CERT_MODE.certResource)
             if(SAVE_CERT_MODE.certResource != null) {
                 var url = SAVE_CERT_MODE.certResource.url ? SAVE_CERT_MODE.certResource.url : "";
+                alert(url)
+                if(url == ""){
+                    $("#upload_certification_img_s").hide();
+                }else{
+                    $("#upload_certification_img_s").show();
+                    $("#upload_certification_img").attr("src",url);
+                }
+
+
+
                 var filename = SAVE_CERT_MODE.certResource.fileName ? SAVE_CERT_MODE.certResource.fileName : "";
                 var a_href = (url == null || url == "" ? "": 'href="'+url+'" target="_blank"');
                 // 自定义展示样式
@@ -1955,6 +2004,13 @@ $(document).ready(function() {
             // 编辑时，认证证照资源的展示处理
             if (SAVE_CERT_MODE.certResource != null) {
                 var url = SAVE_CERT_MODE.certResource.url ? SAVE_CERT_MODE.certResource.url : "";
+                //if(url == ""){
+                //    $("#upload_honorIcon_files_img_s").hide();
+                //}else{
+                //    $("#upload_honorIcon_files_img_s").show();
+                //    $("#upload_honorIcon_files_img").attr("src",url);
+                //}
+
                 var filename = SAVE_CERT_MODE.certResource.fileName ? SAVE_CERT_MODE.certResource.fileName : "";
                 var a_href = (url == null || url == "" ? "": 'href="'+url+'" target="_blank"');
                 // 自定义展示样式

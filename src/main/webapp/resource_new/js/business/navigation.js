@@ -4,7 +4,6 @@ $(function() {
     var portal = fsn.portal = fsn.portal || {}; // portal命名空间
     portal.HTTP_PREFIX = fsn.getHttpPrefix(); // 业务请求前缀
      var List = [];
-     var navigations = [];
      var currentBusinessID = null;
      var smallData = [];
      /**
@@ -43,7 +42,7 @@ $(function() {
     	 $("#smallOption").kendoDropDownList({
 	 		    dataTextField: "text",
 	 		    dataValueField: "id",
-	 		   dataSource : List[0].items,
+	 		   dataSource : List[0].items
 	 		});
     	 //获取当前用户的快速导航
     	navigation.getNavigationList();
@@ -54,11 +53,11 @@ $(function() {
       * 获取第二个选框的数据
       */
      navigation.getSmallOptionDateSource=function(id){
-    	 $.each(List,function(n,big){
-    		 if(big.id == id){
-    			 smallData=big.items;
-    		 }
-    	 });
+		 for(var i=0;i<List.length;i++){
+			 if(List[i].id == id){
+				 smallData=List[i].items;
+			 }
+		 }
     	 return smallData;
      };
      
@@ -76,8 +75,6 @@ $(function() {
             		 $("#businessAbout").html(returnValue.data.about);
             		 var logos = returnValue.data.logoAttachments;
             		 $("#businessLogo").attr("src",logos[0].url);
-//            		 $.each(logos,function(n,value){
-//            		 });
             	 }
              }
          });
@@ -107,24 +104,7 @@ $(function() {
 	 				}
 	 			},
 	 		});
-//    	 return new kendo.data.DataSource({
-// 			transport: {
-// 	            read: {
-// 	            	url : function(){
-// 	            		return portal.HTTP_PREFIX + "/business/getNavigationList";
-// 					},
-// 					type : "GET",
-// 	                dataType : "json",
-// 	                contentType : "application/json"
-// 	            },
-// 	        },
-// 	        schema: {
-// 	        	 data : function(data) {
-// 	                 return data.data;//响应到页面的数据
-// 	             }
-// 	        }
-// 		});
-    	 
+
     	
     	 };
      /**
@@ -141,8 +121,6 @@ $(function() {
 	 				var objs = result.menubar;
 	 				if(objs != undefined && objs != null){
 	 					List=objs;
-	 					//弹窗开始
-	 					//navigation.openWindow(objs);
 	 				}
 	 			},
 	 		});
@@ -155,62 +133,29 @@ $(function() {
     	 $("#CONFIRM_COMMON_WIN").data("kendoWindow").center().open();
      });
      
-
-     /**
-      * 弹框
-      */
-     navigation.openWindow = function (objs){
-    	var bigName = null;
-    	var bigId = null;
-    	var smallName = null;
-    	var smallId = null;
-    	var navigationUrl = null;
-    	
-    	//获取当前企业的权限列表
-    	$.each(objs,function(n,big){
-    		var item = big.items;
-    		bigName = big.text;
-    		bigId = big.id;
-    		$("#bigOption").kendoDropDownList({
-        		dataTextField: "parentName",
-        		dataValueField: "parentId",
-        		dataSource : { parentName: bigName, parentId: bigId }
-        	});
-    		$.each(item,function(n,small){
-    			smallName = small.text;
-    			smallId = small.id;
-    			navigationUrl = small.url;
-    			$("#smallOption").kendoDropDownList({
-    	 			cascadeFrom: "bigOption",
-    	 		    dataTextField: "childName",
-    	 		    dataValueField: "childId",
-    	 		    dataSource: [
-    	 		        { childName: smallName, childId: smallId, parentId: bigId }
-    	 		    ]
-    	 		});
-    		});
- 			$("#CONFIRM_COMMON_WIN").data("kendoWindow").center().open();
-    	});
- 	};
-     
  	/**
  	 * 添加快速访问页面
  	 */
  	$("#confirm_yes_btn").bind("click",function(){
- 		//要获取选中的权限，指定URL，获取当前企业ID，组装为BusinessNavigation对象
-// 		var check = $("#smallOption").data("kendoDropDownList");
-// 		var smallOptionName = check.text();
-// 		var bigOption = $("#bigOption").val().trim();
- 		var smallOption = $("#smallOption").val().trim();
- 		var url = null;
- 		 $.each(smallData,function(n,small){
-    		 if(smallOption == small.id){
-    			 url = small.url;
-    		 }
-    	 });
- 		var navigation = createNavigation(url);
- 		addNavigation(navigation);
- 		
+		var url="";
+		var smallOptionName="";
+ 		var smallOption = $("#smallOption").data("kendoDropDownList").dataItem();
+		if(!smallOption){
+			url=$("#bigOption").data("kendoDropDownList").dataItem().url;
+			smallOptionName= $("#bigOption").data("kendoDropDownList").text();
+		} else{
+			url= smallOption.url;
+			smallOptionName=$("#smallOption").data("kendoDropDownList").text();
+		}
+		var businessNavigation = {
+			bigOption : $("#bigOption").data("kendoDropDownList").text(),
+			smallOption : smallOptionName,
+			//根据选中的值-动态的设置URL
+			navigationURL : url,
+			//获取当前登录的企业ID
+			businessID : currentBusinessID
+		};
+ 		addNavigation(businessNavigation);
 		close();
 	});
 	
@@ -278,17 +223,7 @@ $(function() {
         $("#sortable").append(btn);
 	};
 	
-	
-	/**
-	 * 删除快速导航
-	 */
-	$("#delete").click(function(){
-		var navigationId = $("#hidden").val().trim();
-		alert(navigationId + "要删除阿");
-		deleteNavigation(navigationId);
-	});
-	
-	deleteNavigation = function(navigationId){
+	 deleteNavigation = function(navigationId){
 		$.ajax({
 			// /fsn-core/service/business/deleteNavigation/43"
             url: portal.HTTP_PREFIX + "/business/deleteNavigation/" + navigationId,
