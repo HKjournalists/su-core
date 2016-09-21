@@ -74,7 +74,9 @@ $(function() {
             	 if(returnValue.data != null){
             		 $("#businessAbout").html(returnValue.data.about);
             		 var logos = returnValue.data.logoAttachments;
-            		 $("#businessLogo").attr("src",logos[0].url);
+					 if(logos.length>0){
+						 $("#businessLogo").attr("src",logos[0].url);
+					 }
             	 }
              }
          });
@@ -130,6 +132,7 @@ $(function() {
       * 点击添加快速访问页面按钮时，
       */
      $("#addNavigation").click(function(){
+		 $("#bigOption").data("kendoDropDownList").select(0);
     	 $("#CONFIRM_COMMON_WIN").data("kendoWindow").center().open();
      });
      
