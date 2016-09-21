@@ -100,3 +100,5 @@ input, select {
 .row .column12{
 	margin-left:0;
 }
+th[data-title],th[class="k-header"]{font-size:14px;}
+td[role]{font-size:13px;}
