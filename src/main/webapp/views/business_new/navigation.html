@@ -44,6 +44,25 @@
 #container ul li{float:left;}
 #container ul li a
 </style>
+	<script>
+	$(function(){
+		/* 企业简介展示 */
+			var $case = $("#case a");
+			var $txt = $case.text();
+			var k = "[展开]";
+			$case.click(function(){
+					if($txt == k){
+						$(this).parents("div").addClass("caseTxt");
+						k = "[关闭]";
+						$case.text(k);
+					}else{
+						$(this).parents("div").removeClass("caseTxt");
+						k = "[展开]";
+						$case.text(k);
+					}				
+				})			
+			})
+	</script>
 </head>
 <body>
 	<div class="fixfooter wi1100 fl mt20">
@@ -63,7 +82,10 @@
 				</div>
 				<div class="txt fl">
 					<span>企业简介：</span>
-					<p id="businessAbout"></p>
+					<span id="case"><a href="javascript:void(0)">[展开]</a></span>
+					<p id="businessAbout">
+						
+					</p>
 				</div>
 			</div>
 			<div class="column12 brief" >
