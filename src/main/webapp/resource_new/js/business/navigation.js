@@ -271,11 +271,11 @@ $(function() {
 	 * 在页面动态的创建超链接
 	 */
 	var createButton = function(smallOptionName,url,id){
-		var btn = $("<div class='item' id='item_"+id+"'><ul id='sortable'><li>" +
-				"<a id='speed' href='"+url+"'>"+smallOptionName+"</a></li></ul>" +
+		var btn = $("<div class='item' id='item_"+id+"'><li>" +
+				"<a id='speed' href='"+url+"'>"+smallOptionName+"</a></li>" +
 				"<span class='close' onclick='return deleteNavigation("+id+");'></span>" +
 				"</div>");
-        $("#addDiv").append(btn);
+        $("#sortable").append(btn);
 	};
 	
 	
@@ -307,12 +307,6 @@ $(function() {
         });
 	};
 	
-	/**
-	 * 导航拖动
-	 */
-	$( "#sortable" ).sortable({
-	      //revert: true
-	   }); 
 	
 	
 	
