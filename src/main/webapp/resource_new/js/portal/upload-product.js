@@ -765,6 +765,11 @@ $(document).ready(function() {
 	portal.validateProduct = function () {	
 		//验证品牌
 		var barcode = $("#barcode").val().replace("N",3);
+		if(barcode.indexOf(" ")!=-1){
+			lims.initNotificationMes("条形码不能有空格！", false);
+			$("#barcode").focus();
+			return false;
+		}
 		if($("#businessBrand").data("kendoComboBox")){
 			/* 生产企业 */
 			var businessBrand = $("#businessBrand").data("kendoComboBox").dataSource.data();
