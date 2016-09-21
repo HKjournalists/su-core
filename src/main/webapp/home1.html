@@ -35,6 +35,7 @@
 	    ||window.location.href.indexOf("/report_new/") > 1
 		  ) {
 			$.get("menu_new.html", function(data){
+				$("#menu").hide();
 				$("#menu").html(data);
 				var href = $("ul li:eq(6) a").attr("href");
 				if (href != "#" && href != undefined) {
@@ -47,6 +48,8 @@
 		else {
 		
 			$.get("menu.html", function(data){
+				$("#menu").hide();
+				$("#nav_search_bar").hide();
 				$("#menu").html(data);
 				var href = $("ul li:eq(6) a").attr("href");
 				if (href != "#" && href != undefined) {
