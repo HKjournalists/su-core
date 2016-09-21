@@ -1922,10 +1922,8 @@ $(document).ready(function() {
             document.getElementById("longValid").checked = (endDate.indexOf("2200-01-01")>-1 ? true : false);
             business_unit.changeCheckBox();
             // 编辑时，认证信息资源的展示处理
-            console.log(SAVE_CERT_MODE.certResource)
             if(SAVE_CERT_MODE.certResource != null) {
                 var url = SAVE_CERT_MODE.certResource.url ? SAVE_CERT_MODE.certResource.url : "";
-                alert(url)
                 if(url == ""){
                     $("#upload_certification_img_s").hide();
                 }else{
