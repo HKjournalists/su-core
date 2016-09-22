@@ -67,6 +67,8 @@ $(document).ready(function() {
          */
         initQsClaimMsgItemGrid("qs_applicant_grid");
 
+        fsn.initKendoWindow("k_window","保存状态","300px","60px",false,'[]');
+
     };
     
     business_unit.initUpload = function(){
