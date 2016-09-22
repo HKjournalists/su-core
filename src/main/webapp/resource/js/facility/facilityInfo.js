@@ -486,6 +486,7 @@ $(document).ready(function() {
         if(!facility.verifyFacilityInfo()){
             return ;
         }
+        $("#k_window").data("kendoWindow").open().center();
         var facilityInfo = facility.createFacilityInfo();
         $.ajax({
             url: portal.HTTP_PREFIX + "/facility/facilitySaveOrEdit",
@@ -493,6 +494,7 @@ $(document).ready(function() {
             data:JSON.stringify(facilityInfo),
             contentType: "application/json; charset=utf-8",
             success: function(returnVal){
+                $("#k_window").data("kendoWindow").close();
                 if(returnVal.status == true){
                     fsn.initNotificationMes("设备信息保存成功!", true);
                     facility.closeAddFacilityInfo(0);
@@ -614,6 +616,7 @@ $(document).ready(function() {
             fsn.initNotificationMes("养护内容不能为空!", false);
             return;
         }
+        $("#k_window").data("kendoWindow").open().center();
         var facilityId = $("#m_facility_id").val();
         var maintenanceInfo = facility.createMaintenanceInfo(facilityId);
         $.ajax({
@@ -622,6 +625,7 @@ $(document).ready(function() {
             data: JSON.stringify(maintenanceInfo),
             contentType: "application/json; charset=utf-8",
             success: function (returnVal) {
+                $("#k_window").data("kendoWindow").close();
                 if (returnVal.status == true) {
                     fsn.initNotificationMes("养护记录保存成功!", true);
                     facility.closeAddFacilityInfo(1);
@@ -700,7 +704,7 @@ $(document).ready(function() {
             fsn.initNotificationMes("占地面积不能为空!", false);
             return;
         }
-
+        $("#k_window").data("kendoWindow").open().center();
         var OperateInfo = facility.createOperateInfo();
         $.ajax({
             url: portal.HTTP_PREFIX + "/operate/saveOrEdit",
@@ -708,6 +712,7 @@ $(document).ready(function() {
             data: JSON.stringify(OperateInfo),
             contentType: "application/json; charset=utf-8",
             success: function (returnVal) {
+                $("#k_window").data("kendoWindow").close();
                 if (returnVal.status == true) {
                     fsn.initNotificationMes("规模信息保存成功!", true);
                     facility.setOperateInfo(returnVal.data);
