@@ -30,6 +30,7 @@ $(document).ready(function(){
 	    var _barcode=null
 		$.get(fsn.getHttpPrefix()+"/traceData/getTraceDataById",{id:id},function(rs){
 			_barcode=root.getbarcodeByProductId(rs.traceData.productID);
+			productId=rs.traceData.productID;
 			$("#barcode").val(_barcode);
 			$("#name").val(rs.traceData.productName);
 			$("#sourceArea").val(rs.traceData.sourceArea);
@@ -94,6 +95,7 @@ $(document).ready(function(){
 			}else{
 			   $("#logListView3").hide();
 			}
+            $("#barcode").attr("disabled","disabled");
 			$("#save").find("span:last-child").html('更新');
 		},'json');
 	
@@ -220,6 +222,7 @@ $(document).ready(function(){
                 	         success: function(returnValue) {
                 	             if (returnValue.result.status == "true") {
                 	             	productbarcode = returnValue.data.barcode;
+                	             	console.log(productbarcode);
                 	             }
                 	         }
                 	     });
@@ -301,7 +304,6 @@ $(document).ready(function(){
                        	         dataType: "json",
                        	         success: function(returnValue) {
                        	             	var name = returnValue.product;
-                       	             	var format=returnValue.format;
                        	             	//console.log(name);
                        	             	if(name == null){
                        	                	/* 1.1 该条形码系统不存在，则引导用户跳转至产品新增界面 */
@@ -310,7 +312,6 @@ $(document).ready(function(){
                        	                }
                        	             	else{
                        	             		$("#name").val(name);
-                       	             		$("#format").val(format);
 
                        	            	}
                        	         }
