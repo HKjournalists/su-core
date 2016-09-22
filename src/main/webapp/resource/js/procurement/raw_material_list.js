@@ -79,7 +79,8 @@ $(function(){
 			dataTextField: "name",
 			dataValueField: "id",
 			optionLabel:"--请选择--",
-			dataSource: procurement.getDataSet()
+			dataSource: procurement.getDataSet(),
+			filter: "contains"
 		});
 
 		//初始化采购数量NumericTextBox控件
