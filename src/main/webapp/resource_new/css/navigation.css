@@ -10,12 +10,15 @@
 	margin-right:100px;	
 }
 .txt{
-	width:50%;
-	height:224px;
-	overflow:hidden;
+	width:50%;	
 	position:relative;
 }
+.caseT{
+	height:224px;
+	overflow:hidden;
+}
 .caseTxt{
+	
 	height:auto;
 	overflow:visible;
 }
@@ -28,6 +31,7 @@
 	background:#F9FDF1;
 	text-align:center;
 	line-height:25px;
+	display:none;
 }
 .txt p{
 	width:100%;

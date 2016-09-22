@@ -37,6 +37,19 @@
 			fsn.procurement.typeName="添加剂";
 			fsn.procurement.recordUrl=fsn.getContextPath()+"/views/procurement/additive_record_list.html?id=";
 			fsn.procurement.initialize();
+			
+			/* tab背景 */
+			var $a = $("#tabstrip > ul > li > a.k-link");
+			var $a1 = $("#tab1 > a.k-link");
+				$a1.css({"background-color":"#00A878",
+				"color":"#fff"});
+				$a.click(function(){
+					$(this).css({"background-color":"#00A878",
+								"color":"#fff"})
+					.parent("li").siblings("li").children("a.k-link")
+						.css({"background-color":"#fff",
+								"color":"#00A878"});
+				})
 		});
 	</script>
 
@@ -106,7 +119,7 @@
 			<div id="main" class="row show-area">
 				<div id="tabstrip">
 					<ul>
-						<li class="k-state-active">添加剂台账</li>
+						<li class="k-state-active" id="tab1">添加剂台账</li>
 						<li>后续处理</li>
 					</ul>
 					<div>
