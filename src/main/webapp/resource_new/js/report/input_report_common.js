@@ -1776,12 +1776,12 @@ root.setTriPorDate = function(value,inputDay){
 	var yearNum = ed.getYear() - sd.getYear();
 	var monthNum = ed.getMonth()- sd.getMonth();
 	var monn = ((yearNum*12+monthNum)*30+ed.getDate()-sd.getDate()+1);
-	if(monn > inputDay){
+	if(inputDay!=''&&monn > inputDay){
 		$("#saving_msg").html("");
 		 $("#toSaveWindow").data("kendoWindow").open().close();
 		 fsn.initNotificationMes("已过期，不能保存,更新或提交操作!", false);
 		 return false;
-	}
+	} 
 	return true;
 }
 
