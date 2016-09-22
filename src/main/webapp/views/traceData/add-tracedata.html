@@ -59,7 +59,6 @@
 	line-height: 35px;
 	clear: right;
 }
-
 </style>
 <script>
 	$(document).ready(function() {
@@ -71,6 +70,9 @@
 				$(this).parent().prev("label").show();
 			}
 		});
+		
+		/* 布局调整 */
+		
 	});
 	
 </script>
@@ -117,14 +119,32 @@ td{
     line-height: 30px;
     background: none;
 }
-
+table._previewFieldset{padding-right:20px;}
+table._previewFieldset,table._previewFieldset tbody,table._previewFieldset tbody tr{width:980px;display:block;}
+#barcode,#name,#sourceArea,#sourceDate,#processor,#packagePlant,#warehouseDate,
+#productDate,#leaveDate{width:250px; height:30px;}
+#upload-other-img{width:100%;height:100%;margin:0;padding:0;}
+#logListView0,#proAttachmentsListView1,#proAttachmentsListView2,#proAttachmentsListView3{width:250px;overflow:auto;}
+#proAttachmentsListView0,#proAttachmentsListView1,#proAttachmentsListView2,#proAttachmentsListView3{position:relative;}
+#proAttachmentsListView0 button.k-button,#proAttachmentsListView1 button.k-button
+,#proAttachmentsListView2 button.k-button,#proAttachmentsListView3 button.k-button{position:absolute; left:0; top:-5px;}
+#upload_source{margin-bottom:10px;}
+#name,#processor{margin-left:35px;}
+.mr50 span.k-header{margin-left:50px;}
+#uploadZone div.k-header{width:250px;}
+#uploadZone div.k-header div.k-dropzone{width:100%;}
+#uploadZone div.k-header ul.k-upload-files{width:250px;}
+#uploadZone div.k-header ul.k-upload-files li.k-file{width:100%;}
+#uploadZone div.k-header ul.k-upload-files li.k-file span.k-progress{width:100%;}
+#uploadZone div.k-header ul.k-upload-files li.k-file span.k-filename{width:40%;}
+#menu_bar{z-index: 800;}
 </style>
 </head>
 <body>
 	<!-- 顶部导航 -->
 	<div class="fixfooter wi800 fl mt20">
 		<div class="fullview page_title mt50 wper100 ml20" id="status_bar">
-			<div class="container">
+			<div class="container wi800">
 				<div class="row">
 					<div class="column12">
 						<span>当前位置：追溯信息&raquo;新增/修改</span>
@@ -151,7 +171,7 @@ td{
 						<td>原料来源区域：<span class='red_xing'>*</span></td>
 						<td><input id="sourceArea" class="k-textbox" type="text"
 							style="width: 250px" name="sourceArea"></td>
-						<td class="pl50">原材料其他证明：</td>
+						<td class="pl50" style="width:200px;">原材料其他证明：</td>
 						<td>
 							<div id="upload_source" style="margin-top:20px">
 								<span id='uploadZone'> 
@@ -179,19 +199,19 @@ td{
 						<td><input id="packagePlant" class="k-textbox" type="text"
 							style="width: 250px" ></td>
 						<td class="pl50">入库时间：</td>
-						<td><input id="warehouseDate" style="width: 250px;"
+						<td class="mr50"><input id="warehouseDate" style="width: 250px;"
 							type="text" value="" "  /></td>
 					</tr>
-					<tr>
+					<tr style="margin-bottom: 20px;">
 						<td>生产时间</label><span class='red_xing'>*</span>：
 						</td>
 						<td><input id="productDate" name="productDate" style="width: 250px;" type="text"
 							value=""  /></td>
 						<td class="pl50">出厂时间：</td>
-						<td><input id="leaveDate" style="width: 250px;" type="text"
+						<td class="mr50"><input id="leaveDate" style="width: 250px;" type="text"
 							value=""   /></td>
 					</tr>
-					<tr>
+					<tr id="growth">
 						<td>生长环境展示：</td>
 						<td>
 							<div id="upload_source">
@@ -206,7 +226,7 @@ td{
 								<label id="szFileMsg" style="font-size: 12px; color: red;">您可以：上传图片文件,仅限png,jpg图片格式</label>
 							</div>
 						</td>
-						<td class="pl50">购买链接二维码：</td>
+						<td class="pl50" style="padding-left: 37px;">购买链接二维码：</td>
 						<td>
 							<div id="upload_source">
 								<span id='uploadZone'> 
