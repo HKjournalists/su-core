@@ -1,10 +1,68 @@
 package com.gettec.fsnip.fsn.service.market.impl;
 
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_BRAND_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_CERT_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_DESTROY_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_DISHSNO_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_DIS_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_LICENSE_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_LIQUOR_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_LOGO_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_ORG_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_PRODEP_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_PRODUCT_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_QS_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_REPORT_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WASTE_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_BRAND_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_CERT_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_DESTROY_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_DISHSNO_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_DIS_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_LICENSE_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_LIQUOR_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_LOGO_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_ORG_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_PRODEP_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_PRODUCT_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_QS_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_REPORT_PATH;
+import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_WASTE_PATH;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+
+import org.apache.axis.encoding.Base64;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
 import com.gettec.fsnip.fsn.dao.market.MkTestResourceDAO;
 import com.gettec.fsnip.fsn.exception.DaoException;
 import com.gettec.fsnip.fsn.exception.JPAException;
 import com.gettec.fsnip.fsn.exception.ServiceException;
-import com.gettec.fsnip.fsn.model.business.*;
+import com.gettec.fsnip.fsn.model.business.BusinessBrand;
+import com.gettec.fsnip.fsn.model.business.BusinessUnit;
+import com.gettec.fsnip.fsn.model.business.EnterpriseRegiste;
+import com.gettec.fsnip.fsn.model.business.LiutongFieldValue;
+import com.gettec.fsnip.fsn.model.business.ProducingDepartment;
+import com.gettec.fsnip.fsn.model.business.ProductionLicenseInfo;
 import com.gettec.fsnip.fsn.model.dishs.DishsNo;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.model.market.ResourceType;
@@ -16,7 +74,11 @@ import com.gettec.fsnip.fsn.model.test.ImportedProductTestResult;
 import com.gettec.fsnip.fsn.model.test.TestProperty;
 import com.gettec.fsnip.fsn.model.test.TestResult;
 import com.gettec.fsnip.fsn.model.waste.WasteDisposa;
-import com.gettec.fsnip.fsn.service.business.*;
+import com.gettec.fsnip.fsn.service.business.BusinessBrandService;
+import com.gettec.fsnip.fsn.service.business.EnterpriseRegisteService;
+import com.gettec.fsnip.fsn.service.business.LiutongFieldValueService;
+import com.gettec.fsnip.fsn.service.business.ProducingDepartmentService;
+import com.gettec.fsnip.fsn.service.business.ProductionLicenseService;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.service.dishs.DishsNoService;
 import com.gettec.fsnip.fsn.service.market.ResourceService;
@@ -31,30 +93,15 @@ import com.gettec.fsnip.fsn.util.MKReportNOUtils;
 import com.gettec.fsnip.fsn.util.PropertiesUtil;
 import com.gettec.fsnip.fsn.util.UploadUtil;
 import com.lhfs.fsn.service.testReport.TestReportService;
+
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 
-import org.apache.axis.encoding.Base64;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.*;
-
 @Service(value = "testResourceService")
 public class ResourceServiceImpl extends
-		BaseServiceImpl<Resource, MkTestResourceDAO> implements
-		ResourceService {
+BaseServiceImpl<Resource, MkTestResourceDAO> implements
+ResourceService {
 	@Autowired private MkTestResourceDAO testResourceDAO;
 	@Autowired private ResourceTypeService resourceTypeService;
 	@Autowired private ProductService productService;
@@ -345,7 +392,7 @@ public class ResourceServiceImpl extends
 							}else{
 								certIconRes.setUrl(webUrl + "/" + fileName);
 							}
-							
+
 							certIconRes.setFileName(certIconRes.getName());
 							certIconRes.setName(certIconRes.getName());
 						}
@@ -916,9 +963,9 @@ public class ResourceServiceImpl extends
 					enReg.setLiquorAttachments(addPro);
 				}
 			}
-			
+
 			enReg.addLicResources(addLics);
-//			enReg.addOrgResources(addOrgs);
+			//			enReg.addOrgResources(addOrgs);
 			enterpriseService.update(enReg);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -993,11 +1040,11 @@ public class ResourceServiceImpl extends
 				ftpPath = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_PRODUCT_PATH) + "/" + barcode;
 				webUrl = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_WEB_PRODUCT_PATH) + "/" + barcode;
 			}
-			 else if (type.equals("record")) { // 上传销毁记录图片
-					ftpPath = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_DESTROY_PATH) ;
-					webUrl = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_WEB_DESTROY_PATH) ;
-				}
-			
+			else if (type.equals("record")) { // 上传销毁记录图片
+				ftpPath = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_DESTROY_PATH) ;
+				webUrl = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_WEB_DESTROY_PATH) ;
+			}
+
 			Set<Resource> adds = new HashSet<Resource>();
 			for (Resource resource : attachments) {
 				/* 1.图片已存在 */
@@ -1147,7 +1194,7 @@ public class ResourceServiceImpl extends
 		}
 		return removes;
 	}
-	
+
 	/**
 	 * 获取新增resource的集合
 	 * @author ZhangHui 2015/6/3
@@ -1157,14 +1204,14 @@ public class ResourceServiceImpl extends
 		if (nowAttachments == null) {
 			return null;
 		}
-		
+
 		Set<Resource> adds = new HashSet<Resource>();
 		for (Resource resource : nowAttachments) {
 			if (resource.getFile() != null) {
 				adds.add(resource);
 			}
 		}
-		
+
 		return adds;
 	}
 
@@ -1177,36 +1224,59 @@ public class ResourceServiceImpl extends
 		if (resource == null) {
 			return null;
 		}
-		List<TestProperty> items = null;
+		List<TestProperty> items = new ArrayList<TestProperty>();
 		try {
-			WorkbookSettings ws = new WorkbookSettings();
-			ws.setEncoding("iso-8859-1");
-			Workbook wb = Workbook.getWorkbook(new ByteArrayInputStream(
-					resource.getFile()), ws);
-			Sheet sheet = wb.getSheet(0);
-			items = new ArrayList<TestProperty>();
-			if (sheet.getRows() < 1) {
-				return null;
-			}
-			for (int i = 1; i < sheet.getRows(); i++) {
-				if (sheet.getCell(0, i).getContents().trim().length() < 1
-						|| sheet.getCell(3, i).getContents().trim().length() < 1) {
-					continue;
+			if(resource.getFileName().toUpperCase().endsWith("XLS")){
+				WorkbookSettings ws = new WorkbookSettings();
+				ws.setEncoding("iso-8859-1");
+				Workbook wb = Workbook.getWorkbook(new ByteArrayInputStream(
+						resource.getFile()), ws);
+				Sheet sheet = wb.getSheet(0);
+				if (sheet.getRows() < 1) {
+					return null;
 				}
-				TestProperty itm = new TestProperty();
-				itm.setName(sheet.getCell(0, i).getContents().trim());
-				itm.setUnit(sheet.getCell(1, i).getContents().trim());
-				itm.setTechIndicator(sheet.getCell(2, i).getContents().trim());
-				itm.setResult(sheet.getCell(3, i).getContents().trim());
-				itm.setAssessment("合格");
-				if (sheet.getCell(4, i).getContents().trim().contains("不")) {
-					itm.setAssessment("不合格");
+				for (int i = 1; i < sheet.getRows(); i++) {
+					if (sheet.getCell(0, i).getContents().trim().length() < 1
+							|| sheet.getCell(3, i).getContents().trim().length() < 1) {
+						continue;
+					}
+					TestProperty itm = new TestProperty();
+					itm.setName(sheet.getCell(0, i).getContents().trim());
+					itm.setUnit(sheet.getCell(1, i).getContents().trim());
+					itm.setTechIndicator(sheet.getCell(2, i).getContents().trim());
+					itm.setResult(sheet.getCell(3, i).getContents().trim());
+					itm.setAssessment("合格");
+					if (sheet.getCell(4, i).getContents().trim().contains("不")) {
+						itm.setAssessment("不合格");
+					}
+					itm.setStandard(sheet.getCell(5, i).getContents().trim());
+					items.add(itm);
 				}
-				itm.setStandard(sheet.getCell(5, i).getContents().trim());
-				items.add(itm);
-			}
-			if (wb != null) {
-				wb.close();
+				if (wb != null) {
+					wb.close();
+				}
+			}else{
+		        XSSFRow row = null;  
+				XSSFWorkbook xwb = new XSSFWorkbook(new ByteArrayInputStream(resource.getFile()));
+				XSSFSheet sheet = xwb.getSheetAt(0);  
+				for (int i = sheet.getFirstRowNum(); i <= sheet  
+		                .getPhysicalNumberOfRows(); i++) {
+					row = sheet.getRow(i);  
+		            if (row == null||row.getCell(0).toString().trim().length()<1||row.getCell(3).toString().trim().length()<1) {  
+		                continue;  
+		            }  
+					TestProperty itm = new TestProperty();
+					itm.setName(row.getCell(0).toString().trim());
+					itm.setUnit(row.getCell(1).toString().trim());
+					itm.setTechIndicator(row.getCell(2).toString().trim());
+					itm.setResult(row.getCell(3).toString().trim());
+					itm.setAssessment("合格");
+					if (row.getCell(4).toString().trim().contains("不")) {
+						itm.setAssessment("不合格");
+					}
+					itm.setStandard(row.getCell(5).toString().trim());
+					items.add(itm);
+				}
 			}
 		} catch (Exception e) {
 			throw new ServiceException(
@@ -1345,12 +1415,12 @@ public class ResourceServiceImpl extends
 		String imgUrls = "http://qa.fsnrec.com/portal/img/product/temp/temp.jpg";
 		String webUrl = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_WEB_PRODUCT_PATH) + "/" + barcode;
 		for (String imgurl : split) {
-			
+
 			if(imgurl==null||"".equals(imgurl)||"null".equals(imgurl))
 			{
-			  continue;
+				continue;
 			}
-			
+
 			Resource resource = new Resource();
 			randomStr = sdf.format(new Date())+ (new Random().nextInt(1000) + 1);
 			/* 获取图片的格式  */
@@ -1390,7 +1460,7 @@ public class ResourceServiceImpl extends
 			product.setImgUrl(imgUrls);
 		}
 		return product;
-		
+
 	}
 
 	/**
@@ -1420,7 +1490,7 @@ public class ResourceServiceImpl extends
 			}
 		}
 	}
-	
+
 	/**
 	 * 保存进口食品中文标签图片资源
 	 * @author longxianzhen 2015/05/27
@@ -1444,22 +1514,22 @@ public class ResourceServiceImpl extends
 				if (resource.getId() != null) {
 					continue;
 				}
-					/* 2.3 中文标签图片是页面新增图片 */
-					String ftpPath = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_PRODUCT_PATH) + "/" + pro.getBarcode()+"/lab";
-					UploadUtil uploadUtil = new UploadUtil();
-					boolean success_upload = uploadUtil.uploadFile(resource.getFile(), ftpPath, fileName);
-					if(success_upload){
-						String webUrl = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_WEB_PRODUCT_PATH) + "/" + pro.getBarcode()+"/lab";
-						if(UploadUtil.IsOss()){
-							resource.setUrl(uploadUtil.getOssSignUrl(ftpPath + "/" + fileName));
-						}else{
-							resource.setUrl(webUrl + "/" + fileName);
-						}
-						//resource.setFileName(fileName);
-						//resource.setName(fileName);
-						create(resource);
-						adds.add(resource);
+				/* 2.3 中文标签图片是页面新增图片 */
+				String ftpPath = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_PRODUCT_PATH) + "/" + pro.getBarcode()+"/lab";
+				UploadUtil uploadUtil = new UploadUtil();
+				boolean success_upload = uploadUtil.uploadFile(resource.getFile(), ftpPath, fileName);
+				if(success_upload){
+					String webUrl = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_WEB_PRODUCT_PATH) + "/" + pro.getBarcode()+"/lab";
+					if(UploadUtil.IsOss()){
+						resource.setUrl(uploadUtil.getOssSignUrl(ftpPath + "/" + fileName));
+					}else{
+						resource.setUrl(webUrl + "/" + fileName);
 					}
+					//resource.setFileName(fileName);
+					//resource.setName(fileName);
+					create(resource);
+					adds.add(resource);
+				}
 			}
 			/* 3.更新进口产品信息 */
 			if (impProduct.getId() != null) {
@@ -1486,7 +1556,7 @@ public class ResourceServiceImpl extends
 				if (!CollectionUtils.isEmpty(adds)) {
 					origImpProduct.addResources(adds);
 				}
-	
+
 				importedProductService.update(origImpProduct);
 			}
 		} catch (ServiceException e) {
@@ -1518,22 +1588,22 @@ public class ResourceServiceImpl extends
 				if (resource.getId() != null) {
 					continue;
 				}
-					/* 2.3 进口食品卫生证书图片是页面新增图片 */
-					String ftpPath = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_REPORT_PATH) + "/" + impProductTestResult.getSanitaryCertNo();
-					UploadUtil uploadUtil = new UploadUtil();
-					boolean success_upload = uploadUtil.uploadFile(resource.getFile(), ftpPath, fileName);
-					if(success_upload){
-						if(UploadUtil.IsOss()){
-							resource.setUrl(uploadUtil.getOssSignUrl(ftpPath + "/" + fileName));
-						}else{
-							String webUrl = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_WEB_REPORT_PATH) + "/" + impProductTestResult.getSanitaryCertNo();
-							resource.setUrl(webUrl + "/" + fileName);
-						}
-						//resource.setFileName(fileName);
-						//resource.setName(fileName);
-						create(resource);
-						adds.add(resource);
+				/* 2.3 进口食品卫生证书图片是页面新增图片 */
+				String ftpPath = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_REPORT_PATH) + "/" + impProductTestResult.getSanitaryCertNo();
+				UploadUtil uploadUtil = new UploadUtil();
+				boolean success_upload = uploadUtil.uploadFile(resource.getFile(), ftpPath, fileName);
+				if(success_upload){
+					if(UploadUtil.IsOss()){
+						resource.setUrl(uploadUtil.getOssSignUrl(ftpPath + "/" + fileName));
+					}else{
+						String webUrl = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_WEB_REPORT_PATH) + "/" + impProductTestResult.getSanitaryCertNo();
+						resource.setUrl(webUrl + "/" + fileName);
 					}
+					//resource.setFileName(fileName);
+					//resource.setName(fileName);
+					create(resource);
+					adds.add(resource);
+				}
 			}
 			/* 3.更新进口产品报告信息 */
 			if (impProductTestResult.getId() != null) {
@@ -1560,7 +1630,7 @@ public class ResourceServiceImpl extends
 				if (!CollectionUtils.isEmpty(adds)) {
 					origImpProTset.addResources(adds);
 				}
-	
+
 				importedProductTestResultService.update(origImpProTset);
 			}
 		} catch (ServiceException e) {
@@ -1569,7 +1639,7 @@ public class ResourceServiceImpl extends
 			throw new ServiceException("删除资源，出现异常", e);
 		}
 	}
-	
+
 	/**
 	 * 保存进口食品卫生证书PDF资源
 	 * @author longxianzhen 2015/05/27
@@ -1613,7 +1683,7 @@ public class ResourceServiceImpl extends
 				if (!CollectionUtils.isEmpty(adds)) {
 					origImpProTset.addPdfResources(adds);
 				}
-	
+
 				importedProductTestResultService.update(origImpProTset);
 			}
 		} catch (ServiceException e) {
@@ -1636,7 +1706,7 @@ public class ResourceServiceImpl extends
 			throw new ServiceException(e.getMessage()+"删除资源，出现异常", e.getException());
 		}
 	}
-	
+
 	public List<Resource> getRebackImgListByreportId(Long reportId)
 			throws ServiceException {
 		try {
@@ -1804,15 +1874,15 @@ public class ResourceServiceImpl extends
 			if (!CollectionUtils.isEmpty(removes)) {
 				productDestroyRecord.removerecResources(removes);
 				for (Resource resource : removes) {
-	//				BigInteger resId = BigInteger.valueOf(resource.getId());
+					//				BigInteger resId = BigInteger.valueOf(resource.getId());
 					delete(resource);
 				}
 			}
 			if (!CollectionUtils.isEmpty(adds)) {
-			//	productDestroyRecord.addrecResources(adds);
+				//	productDestroyRecord.addrecResources(adds);
 				recAttachments= adds;
 			}
-		//	productDestroyRecordService.update(productDestroyRecord);
+			//	productDestroyRecordService.update(productDestroyRecord);
 		} catch (ServiceException e) {
 			throw e;
 		} catch (Exception e) {
@@ -1820,7 +1890,7 @@ public class ResourceServiceImpl extends
 		}
 		return recAttachments;
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteResourceByResultId(long resultId){
 		this.getDAO().deleteResourceByResultId(resultId);
