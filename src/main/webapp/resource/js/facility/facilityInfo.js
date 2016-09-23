@@ -147,13 +147,12 @@ $(document).ready(function() {
                 }
                 if (e.operation == "upload") {
                     attachments.push(e.response.results[0]);
-                    console.log(e.response.results[0]);
-                    console.log(attachments.length);
+
                     if(attachments!=null&&attachments.length>0){
                         var img ="";
                         for(var k =0 ;k<attachments.length;k++){
-                            var fileUrl = ""
-                            var url = ""
+                            var fileUrl = "";
+                            var url = "" ;
                                if(attachments[k].type !=undefined&&attachments[k].file !=undefined&&attachments[k].file!=null){
                                    fileUrl =attachments[k].file;
                                    url = "data:"+attachments[k].type.rtName+";base64,"+attachments[k].file
@@ -170,12 +169,16 @@ $(document).ready(function() {
                             }else{
                                 break;
                             }
-                        };
+                        }
                         $("#"+id+"_img_s").show();
                         $("#"+id+"_img_s").html(img);
                         $("#"+id+"_img_e").show();
-                        $("#"+id+"_div").html("<input id='"+id+"' type='file' />");
-                        facility.buildUploadFacility(id, facility.imgResource, id+"_log");
+
+                        $("#upload_facility_files_div").find("ul").remove();
+                        $("#upload_facility_files_div").find("em").remove();
+                        $("#upload_facility_files_div").find("strong ").remove();
+                       /* $("#"+id+"_div").html("<input id='"+id+"' type='file' />");
+                        facility.buildUploadFacility(id, facility.imgResource, id+"_log");*/
                     }
                     $("#"+msg).html("文件识别成功，可以保存!</br>(注意：为保证更流畅的体验，建议每次上传照片不超过1M!可支持文件格式：png .bmp .jpeg .jpg )");
                 }else if(e.operation == "remove"){
@@ -452,7 +455,7 @@ $(document).ready(function() {
             $("#application").val("");
             $("#remark").val("");
         }
-        $("#upload_facility_files_div").html("<input type='file' id='upload_facility_files'>")
+        $("#upload_facility_files_div").html("<input type='file' id='upload_facility_files'>");
         facility.buildUploadFacility("upload_facility_files", facility.imgResource , "upload_facility_files_log");
         $("#ADDFACILITYINFO_WIN").data("kendoWindow").open().center();
     };
@@ -465,7 +468,7 @@ $(document).ready(function() {
         for(var k = 0 ;k < attachments.length;k++){
             facility.imgResource.push(attachments[k]);
             var url = attachments[k].url;
-            var fileUrl = "";
+            var fileUrl = url;
                 if(attachments[k].url == null || attachments[k].url == ""){
                     if(attachments[k].type != undefined && attachments[k].file!=null){
                         url = "data:"+attachments[k].type.rtName+";base64,"+attachments[k].file;
@@ -485,15 +488,31 @@ $(document).ready(function() {
        // return attachments;
     };
     facility.delSelectFacilityImg = function(id,url){
-        if(facility.imgResource != null&&facility.imgResource.length>0){
+        alert(facility.imgResource.length);
+
+      /*  if(facility.imgResource != null&&facility.imgResource.length>0){
             for(var s = 0 ;s < facility.imgResource.length;s++){
+                if((facility.imgResource[s].file == null && facility.imgResource[s].url==url) || (facility.imgResource[s].url==null && facility.imgResource[s].file == url)){
+                    alert(facility.imgResource.length);
+                    $.extend(facility.imgResource[s],facility.imgResource[facility.imgResource.length-1]);
+                    facility.imgResource.pop();
+                    alert(facility.imgResource.length);
+                    break;
+                }
+            }
+        }*/
+
+        if(facility.imgResource != null&&facility.imgResource.length>0){
+            for(var s in facility.imgResource){
                 if((facility.imgResource[s].file == null && facility.imgResource[s].url==url) || (facility.imgResource[s].url==null && facility.imgResource[s].file == url)){
                     $.extend(facility.imgResource[s],facility.imgResource[facility.imgResource.length-1]);
                     facility.imgResource.pop();
                     break;
                 }
+
             }
         }
+        alert(facility.imgResource.length);
         $("img[id='"+id+"']").parent().remove();
       return false;
     };
