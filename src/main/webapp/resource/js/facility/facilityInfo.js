@@ -280,47 +280,22 @@ $(document).ready(function() {
         { field: "facilityArry", title:"养护记录", width: 30, filterable:false,
             template: function(e) {
                 var checked = e.buyingTime;
-                var tag = "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.facility.facility_dataSource("+ e.id +",'"+checked+"')>查看</a>";
+                var  checked_s=fsn.formatGridDate(e.buyingTime);
+                var tag = "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.facility.facility_dataSource("+ e.id +",'"+checked+"','"+checked_s+"')>查看</a>";
                 return tag;
             }
         },
-        { field: "resourceId", title:"设备图片", width: 30, filterable:false,
-            //template: function(e) {
-            //    var tag ="";
-            //    if(e.resource!=null&&e.resource.url!=null){
-            //        tag = "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.facility.seefacilityImg('"+ e.resource.url +"')>查看</a>";
-            //    }else{
-            //        tag = "无图片"
-            //    }
-            //    return tag;
-            //}
-            command: [
-                {
-                    name: "review",
-                    text: "<span class='k-icon k-review'></span>" + fsn.l("查看"),
-                    click: function (e) {
-                        e.preventDefault();
-                        // 当前选中的认证信息所在的行 从 0 开始计 ，在验证认证信息是否重复时需要该标记
-                        //var rowIndex = $(e.currentTarget).closest("tr").index();
-                        var delItem = this.dataItem($(e.currentTarget).closest("tr"));
 
-
-                        facility.seefacilityImg(delItem.facilityArry,1);
-                    }
-                }]
-        },
         {title: fsn.l("Operation"),
-            width: 58,
+            width: 88,
         command: [
         {
             name: "edit",
             text: "<span class='k-icon k-edit'></span>" + fsn.l("Edit"),
             click: function (e) {
                 e.preventDefault();
-                // 当前选中的认证信息所在的行 从 0 开始计 ，在验证认证信息是否重复时需要该标记
-                //var rowIndex = $(e.currentTarget).closest("tr").index();
-                var delItem = this.dataItem($(e.currentTarget).closest($(e.currentTarget).closest("tr")));
-                console.log(delItem.facilityArry)
+                var delItem = this.dataItem($(e.currentTarget).closest("tr"));
+               //  alert(delItem.facilityArry.length);
                 facility.addFacilityInfo(delItem,1);
             }
         },{
@@ -332,6 +307,18 @@ $(document).ready(function() {
                     var delItem = this.dataItem($(e.currentTarget).closest("tr"));
                     facility.deleteFacilityInfo(delItem.id);
 
+                }
+            },{
+                name: "review",
+                text: "<span class='k-icon k-review'></span>" + fsn.l("设备图片"),
+                click: function (e) {
+                    e.preventDefault();
+                    // 当前选中的认证信息所在的行 从 0 开始计 ，在验证认证信息是否重复时需要该标记
+                    //var rowIndex = $(e.currentTarget).closest("tr").index();
+                    var delItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+
+                    facility.seefacilityImg(delItem.facilityArry,1);
                 }
             }]
         }
@@ -374,7 +361,7 @@ $(document).ready(function() {
                 }]
         }
     ]
-    facility.facility_dataSource  = function(facilityId,checkedDate){
+    facility.facility_dataSource  = function(facilityId,checkedDate,checked_s){
         var facilityParam = $("#facilityName").val();
         if(facilityId != undefined){
             $("#maintenance_id").show();
@@ -382,6 +369,7 @@ $(document).ready(function() {
             $("#m_facility_id").val(facilityId);
             if(checkedDate != undefined){
                 $("#date_temp").val(checkedDate);
+                $("#date_temp_s").html(checked_s);
             }
             facilityParam = $("#maintenanceTime").val();
         }else{
@@ -451,7 +439,9 @@ $(document).ready(function() {
             $("#application").val(data.application);
             $("#remark").val(data.remark);
             if(data.facilityArry != undefined && data.facilityArry !=null&&data.facilityArry.length>0) {
-                facility.imgResource = facility.setFacilityArryData(data.facilityArry, 'upload_facility_files');
+                 facility.setFacilityArryData(data.facilityArry, 'upload_facility_files');
+            } else{
+                $("#upload_facility_files_img_s").html("");
             }
         }else{
             $("#upload_facility_files_img_s").hide();
@@ -466,7 +456,7 @@ $(document).ready(function() {
         }
         $("#upload_facility_files_div").html("<input type='file' id='upload_facility_files'>")
         facility.buildUploadFacility("upload_facility_files", facility.imgResource , "upload_facility_files_log");
-        $("#ADDFACILITYINFO_WIN").data("kendoWindow").open().center()
+        $("#ADDFACILITYINFO_WIN").data("kendoWindow").open().center();
     };
     /**
      * 给图片对象初始化赋值
@@ -494,7 +484,7 @@ $(document).ready(function() {
                   $("#"+id+"_img_s").html(img);
               }
         };
-        return attachments;
+       // return attachments;
     };
     facility.delSelectFacilityImg = function(id,url){
         if(facility.imgResource != null&&facility.imgResource.length>0){
@@ -675,8 +665,9 @@ $(document).ready(function() {
         var  maintenanceTimeTemp = new Date(maintenanceTime).getTime();
 
         var facilityDateTemp = $("#date_temp").val();
-        if(maintenanceTimeTemp>=facilityDateTemp){
-            lims.initNotificationMes("养护时间必须大于或者等于采购时间!", false);
+        var checked_s=$("#date_temp_s").html();
+        if(maintenanceTimeTemp<=facilityDateTemp){
+            lims.initNotificationMes("当前采购时间为："+checked_s+"养护时间必须大于或者等于采购时间!", false);
             return false;
         }
         var maintenanceContent = $("#maintenanceContent").val();
@@ -814,7 +805,6 @@ $(document).ready(function() {
             $("#A_show").hide();
             $("#A_edit").show();
         }else if(status == 1){
-            business_unit.setValue(business_unit.editBusiness, "produce");
             $("#A_show_button").show();
             $("#A_hide_button").hide();
             $("#A_show").show();
@@ -825,7 +815,6 @@ $(document).ready(function() {
           $("#B_show").hide();
           $("#B_edit").show();
       }else{
-            business_unit.setValue(business_unit.editBusiness, "produce");
             $("#B_show").show();
             $("#B_edit").hide();
             $("#B_show_button").show();
@@ -846,7 +835,7 @@ $(document).ready(function() {
         '<a href="#" class="next"><img src="../../resource/js/slides/img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>';
         slides.html(img);
         $('#slides').slides();
-        $("#DIV_IMG_WIN").data("kendoWindow").open();
+        $("#DIV_IMG_WIN").data("kendoWindow").open().center();
 
         //window.parent.location.href = imgUrl;
         //window.open ( imgUrl, "_blank" );

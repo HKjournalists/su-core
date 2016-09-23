@@ -1,13 +1,5 @@
 package com.gettec.fsnip.fsn.service.business;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import net.sf.json.JSONObject;
-
-import org.springframework.ui.Model;
-
 import com.gettec.fsnip.fsn.dao.business.BusinessUnitDAO;
 import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.business.BusinessUnit;
@@ -23,6 +15,11 @@ import com.gettec.fsnip.sso.client.vo.AuthenticateInfo;
 import com.lhfs.fsn.vo.BusinessUnitVO;
 import com.lhfs.fsn.vo.business.BussinessUnitVOToPortal;
 import com.lhfs.fsn.vo.business.LightBusUnitVO;
+import net.sf.json.JSONObject;
+import org.springframework.ui.Model;
+
+import java.util.List;
+import java.util.Map;
 
 public interface BusinessUnitService extends BaseService<BusinessUnit, BusinessUnitDAO>{
 	public boolean checkUniqueName(String name) throws ServiceException;
@@ -280,6 +277,13 @@ public interface BusinessUnitService extends BaseService<BusinessUnit, BusinessU
 	public List<BussinessUnitVOToPortal> getBuVOToPortalByBarcode(String barcode);
 	
 	public BusinessUnit getBusinessUnitByCondition(String businessName,String qsNo,String licenseNo);
-	
+	/**
+	 * 保存企业基本信息
+	 * @param businessUnit
+	 */
+	public void updateBusinessBasic(BusinessUnit businessUnit, AuthenticateInfo info)throws ServiceException;
+
+	public void updateBusinessCert(BusinessUnit businessUnit,
+			AuthenticateInfo info)throws ServiceException;
 
 }

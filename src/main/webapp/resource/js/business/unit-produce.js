@@ -1133,15 +1133,115 @@ $(document).ready(function() {
     };
 
     business_unit.saveCertificate = function() {
-        business_unit.save(3);
-        //var tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
-        //    tabStrip.select(2);        // Select by jQuery selector
+        //business_unit.save(3);
+        fsn.clearErrorStyle();
+        if (!business_unit.validateCertificationInfo()) {
+            return;
+        }
 
+        // 数据封装
+        var subBusiness = business_unit.createInstance();
+        $("#k_window").data("kendoWindow").open().center();
+        $.ajax({
+            url: portal.HTTP_PREFIX + "/business/saveBusinessbasCert",
+            type: "PUT",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(subBusiness),
+            success: function(returnVal) {
+                $("#k_window").data("kendoWindow").close();
+                if (returnVal.result.status == "true") {
 
-    }
+                    fsn.initNotificationMes("保存成功", true);
+                    business_unit.initView();
+                    facility.editBusinessInfo(3);
+                } else {
+                    fsn.initNotificationMes("保存失败", false);
+                }
+            }
+        });
+    };
+
     business_unit.saveInfove  = function(){
-        business_unit.save(1);
+        //business_unit.save(1);
+        fsn.clearErrorStyle();
+        if(business_unit.aryLogoAttachments.length<1){
+            lims.initNotificationMes('请上传企业logo图片！',false);
+            business_unit.wrong("upload_logo_files","select");
+            return false;
+        }
 
+        if (!$("#name").kendoValidator().data("kendoValidator").validate()) {
+            lims.initNotificationMes('【企业基本信息】中的企业名称不能为空！', false);
+            business_unit.wrong("name", "text");
+            return false;
+        }
+        if (!$("#personInCharge").kendoValidator().data("kendoValidator").validate()) {
+            lims.initNotificationMes('【企业基本信息】中的法定代表人不能为空！', false);
+            business_unit.wrong("personInCharge", "text");
+            return false;
+        }
+        if (!$("#bus_mainAddr").kendoValidator().data("kendoValidator").validate()) {
+            lims.initNotificationMes('【企业基本信息】中的企业地址不能为空！', false);
+            business_unit.wrong("bus_mainAddr", "text");
+            return false;
+        }
+        if (!$("#bus_streetAddress").kendoValidator().data("kendoValidator").validate()) {
+            lims.initNotificationMes('【企业基本信息】中的企业地址的街道地址不能为空！', false);
+            business_unit.wrong("bus_streetAddress", "text");
+            return false;
+        }
+        if (!$("#email").kendoValidator().data("kendoValidator").validate()) {
+            lims.initNotificationMes('【企业基本信息】中的邮箱不能为空！', false);
+            business_unit.wrong("email", "text");
+            return false;
+        }
+        /* 验证企业宣传照数量最多3张 */
+        if(business_unit.aryPropagandaAttachments.length>3&&status==1){
+            lims.initNotificationMes('宣传照最多能传3张，请删掉多余的！',false);
+            return false;
+        }
+
+        if(!business_unit.validaTetelephone()){
+            lims.initNotificationMes('联系电话无效！',false);
+            return false;
+        }
+        if(!business_unit.validaPostalCode()){
+            lims.initNotificationMes('邮政编码无效！',false);
+            return false;
+        }
+        if(!business_unit.validateEmail()){
+            lims.initNotificationMes('邮箱格式不正确！',false);
+            return false;
+        }
+        if(!business_unit.validateFax()){
+            lims.initNotificationMes("请输入正确的传真:传真号码格式为国家代码(2到3位)-区号(2到3位)-电话号码(7到8位)-分机号(3位)，" +
+                "例如:0851-1234567",false);
+            return false;
+        }
+
+        // 数据封装
+        var subBusiness = business_unit.createInstance();
+        $("#k_window").data("kendoWindow").open().center();
+        $.ajax({
+            url: portal.HTTP_PREFIX + "/business/saveBusinessbasBasic",
+            type: "PUT",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(subBusiness),
+            success: function(returnVal) {
+                $("#k_window").data("kendoWindow").close();
+                if (returnVal.result.status == "true") {
+
+                    fsn.initNotificationMes("保存成功", true);
+                    business_unit.initView();
+                    facility.editBusinessInfo(1);
+
+                } else {
+                    fsn.initNotificationMes("保存失败", false);
+                }
+            }
+        });
     };
     /* 保存 */
     business_unit.save = function(status) {
@@ -1152,12 +1252,7 @@ $(document).ready(function() {
         }
         // 数据封装
         var subBusiness = business_unit.createInstance();
-        $("#k_window").data("kendoWindow").open().center()
-        //if(status == 1) {
-        //    $("#saveInfove").unbind("click");
-        //}else{
-        //    $("#saveCertificate").unbind("click");
-        //}
+        $("#k_window").data("kendoWindow").open().center();
         $.ajax({
             url: portal.HTTP_PREFIX + "/business/business-unit",
             type: "PUT",

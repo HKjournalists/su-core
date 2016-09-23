@@ -1896,4 +1896,82 @@ ResourceService {
 		this.getDAO().deleteResourceByResultId(resultId);
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void saveBusinessCert(BusinessUnit businessUnit) throws ServiceException {
+		try {
+			EnterpriseRegiste orig_enterprise = enterpriseService.findbyEnterpriteName(businessUnit.getName());
+			Set<Resource> orgAttachments= businessUnit.getOrgAttachments();
+
+			if (!(orgAttachments == null || orgAttachments.size() < 1)) {
+				/* 1.获取已删除的[组织机构代码证件]资源列表 */
+				Set<Resource> removes = getListOfRemoves(orig_enterprise == null ? null : orig_enterprise.getOrgAttachments(),orgAttachments);
+				/* 2.对图片集合进行循环 */
+				Set<Resource> adds = operationResources(orgAttachments, "org", null);
+				/* 3.保存资源 */
+				if (!CollectionUtils.isEmpty(removes)) {
+					orig_enterprise.removeOrgResources(removes);
+					for (Resource resource : removes) {
+						delete(resource);
+					}
+				}
+				if (!CollectionUtils.isEmpty(adds)) {
+					orig_enterprise.addOrgResources(adds);
+				}
+
+			}
+
+			Set<Resource> licAttachments = businessUnit.getLicAttachments();
+
+			if (!(licAttachments == null || licAttachments.size() < 1)) {
+				/* 1.获取已删除的[营业执照]资源列表 */
+				Set<Resource> removes1 = getListOfRemoves(
+						orig_enterprise.getLicAttachments(), licAttachments);
+				/* 2.对图片集合进行循环 */
+				Set<Resource> adds1 = operationResources(licAttachments, "license",
+						null);
+				/* 3.保存资源 */
+				if (!CollectionUtils.isEmpty(removes1)) {
+					orig_enterprise.removeLicenseResources(removes1);
+					for (Resource resource : removes1) {
+						delete(resource);
+					}
+				}
+				if (!CollectionUtils.isEmpty(adds1)) {
+					orig_enterprise.addLicResources(adds1);
+				}
+
+			}
+
+			Set<Resource> taxRegAttachments=businessUnit.getTaxRegAttachments();
+
+			if (!(taxRegAttachments == null || taxRegAttachments.size() < 1)) {
+				/* 1.获取已删除的[税务登记证信息]资源列表 */
+				Set<Resource> removes2 = getListOfRemoves(
+						orig_enterprise.getTaxRegAttachments(), taxRegAttachments);
+				/* 2.对图片集合进行循环 */
+				Set<Resource> adds2 = operationResources(taxRegAttachments,
+						"taxReg", null);
+				/* 3.保存资源 */
+				if (!CollectionUtils.isEmpty(removes2)) {
+					orig_enterprise.removeTaxRegResources(removes2);
+					for (Resource resource : removes2) {
+						delete(resource);
+					}
+				}
+				if (!CollectionUtils.isEmpty(adds2)) {
+					orig_enterprise.addTaxRegResources(adds2);
+				}
+			}
+
+			enterpriseService.update(orig_enterprise);
+
+		} catch (ServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new ServiceException("删除资源，出现异常", e);
+		}
+	}
+
+
 }
