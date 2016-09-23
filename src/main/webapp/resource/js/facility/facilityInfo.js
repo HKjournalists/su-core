@@ -14,7 +14,7 @@ $(document).ready(function() {
         facility.initTabStrip();
         facility.initFacilityInfoGrid("FACILITY_INVENTORY_GRID",facility.facility_columns);
         facility.initEquipmentInfoGrid("MAINTENANCE_RECORD_GRID",facility.maintenance_columns);
-        facility.buildUploadFacility("facilityResourceId", facility.imgResource , "error_img");
+        //facility.buildUploadFacility("upload_facility_files", facility.imgResource , "upload_facility_files_log");
 
 
         $("#submitFacilityInfo").bind("click", facility.submitFacilityInfo);
@@ -63,14 +63,15 @@ $(document).ready(function() {
             modal: true
         });
         $("#DIV_IMG_WIN").kendoWindow({
-            width: "700",
-            height:"660",
+            width: "900",
+            height:"700",
             title: "设备图片",
             visible: false,
             resizable: false,
             draggable:false,
             modal: true
         });
+            $("#operateScope").kendoComboBox();
     };
     facility.initTabStrip = function(){
         facility.tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
@@ -103,7 +104,7 @@ $(document).ready(function() {
                 removeField:"fileNames",
                 saveField:"attachments"
             },localization: {
-                select: lims.l("请选择上传设备图片"),
+                select: lims.l(id),
                 retry:lims.l("retry",'upload'),
                 remove:lims.l("remove",'upload'),
                 cancel:lims.l("cancel",'upload'),
@@ -113,7 +114,7 @@ $(document).ready(function() {
                 statusUploading: lims.l("uploading",'upload'),
                 uploadSelectedFiles: lims.l("Upload files",'upload')
             },
-            multiple:false,
+            multiple:true,
             upload: function(e){
                 var files = e.files;
                 $.each(files, function () {
@@ -145,14 +146,35 @@ $(document).ready(function() {
                 }
                 if (e.operation == "upload") {
                     attachments.push(e.response.results[0]);
-                    var resource = e.response.results[0];
-                    if(resource!=null&&resource.file!=null){
-                        $("#facilityImg").attr("src","data:image/jpg;base64,"+resource.file);
-                        $("#upload_facility_img").hide();
-                        $("#show_facility_img").show();
-                    }else{
-                        $("#upload_facility_img").show();
-                        $("#show_facility_img").hide();
+                    console.log(e.response.results[0]);
+                    console.log(attachments.length);
+                    if(attachments!=null&&attachments.length>0){
+                        var img ="";
+                        for(var k =0 ;k<attachments.length;k++){
+                            var fileUrl = ""
+                            var url = ""
+                               if(attachments[k].type !=undefined&&attachments[k].file !=undefined&&attachments[k].file!=null){
+                                   fileUrl =attachments[k].file;
+                                   url = "data:"+attachments[k].type.rtName+";base64,"+attachments[k].file
+                               }else if(attachments[k].url != null && attachments[k].url !=''){
+                                   url = attachments[k].url;
+                                   fileUrl =url;
+                               }
+                            if(url != ""){
+                                img+="<div id='"+id+"_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+                                img+="<img id='"+id+"_"+k+"' src='"+url+"' style='width: 128px;height:128px;' >";
+                                img+="<div class=deleteBtn onclick=fsn.facility.delSelectFacilityImg('"+id+"_"+k+"','"+fileUrl+"')>x";
+                                img+="</div>";
+                                img+="</div>";
+                            }else{
+                                break;
+                            }
+                        };
+                        $("#"+id+"_img_s").show();
+                        $("#"+id+"_img_s").html(img);
+                        $("#"+id+"_img_e").show();
+                        $("#"+id+"_div").html("<input id='"+id+"' type='file' />");
+                        facility.buildUploadFacility(id, facility.imgResource, id+"_log");
                     }
                     $("#"+msg).html("文件识别成功，可以保存!</br>(注意：为保证更流畅的体验，建议每次上传照片不超过1M!可支持文件格式：png .bmp .jpeg .jpg )");
                 }else if(e.operation == "remove"){
@@ -255,22 +277,37 @@ $(document).ready(function() {
         { field: "buyingTime", title:"采购时间", width: 38,template : '#= fsn.formatGridDate(buyingTime)#', filterable:false},
         { field: "application", title:"用途", width: 30, filterable:false},
         { field: "remark", title:"备注", width: 30, filterable:false},
-        { field: "maintenanceRecord", title:"养护记录", width: 30, filterable:false,
+        { field: "facilityArry", title:"养护记录", width: 30, filterable:false,
             template: function(e) {
-                var tag = "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.facility.facility_dataSource("+ e.id +")>查看</a>";
+                var checked = e.buyingTime;
+                var tag = "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.facility.facility_dataSource("+ e.id +",'"+checked+"')>查看</a>";
                 return tag;
             }
         },
         { field: "resourceId", title:"设备图片", width: 30, filterable:false,
-            template: function(e) {
-                var tag ="";
-                if(e.resource!=null&&e.resource.url!=null){
-                    tag = "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.facility.seefacilityImg('"+ e.resource.url +"')>查看</a>";
-                }else{
-                    tag = "无图片"
-                }
-                return tag;
-            }
+            //template: function(e) {
+            //    var tag ="";
+            //    if(e.resource!=null&&e.resource.url!=null){
+            //        tag = "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick=fsn.facility.seefacilityImg('"+ e.resource.url +"')>查看</a>";
+            //    }else{
+            //        tag = "无图片"
+            //    }
+            //    return tag;
+            //}
+            command: [
+                {
+                    name: "review",
+                    text: "<span class='k-icon k-review'></span>" + fsn.l("查看"),
+                    click: function (e) {
+                        e.preventDefault();
+                        // 当前选中的认证信息所在的行 从 0 开始计 ，在验证认证信息是否重复时需要该标记
+                        //var rowIndex = $(e.currentTarget).closest("tr").index();
+                        var delItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+
+                        facility.seefacilityImg(delItem.facilityArry,1);
+                    }
+                }]
         },
         {title: fsn.l("Operation"),
             width: 58,
@@ -282,7 +319,8 @@ $(document).ready(function() {
                 e.preventDefault();
                 // 当前选中的认证信息所在的行 从 0 开始计 ，在验证认证信息是否重复时需要该标记
                 //var rowIndex = $(e.currentTarget).closest("tr").index();
-                var delItem = this.dataItem($(e.currentTarget).closest("tr"));
+                var delItem = this.dataItem($(e.currentTarget).closest($(e.currentTarget).closest("tr")));
+                console.log(delItem.facilityArry)
                 facility.addFacilityInfo(delItem,1);
             }
         },{
@@ -299,12 +337,7 @@ $(document).ready(function() {
         }
     ]
 
-    facility.seefacilityImg = function(imgUrl){
-        //window.parent.location.href = imgUrl;
-        window.open ( imgUrl, "_blank" );
-        //$("#DIV_IMG_ID").attr("src",imgUrl);
-        //$("#DIV_IMG_WIN").data("kendoWindow").open().center()
-    };
+
     /**
      * 养护记录列表
      * wb 2016.9.14
@@ -341,12 +374,15 @@ $(document).ready(function() {
                 }]
         }
     ]
-    facility.facility_dataSource  = function(facilityId){
+    facility.facility_dataSource  = function(facilityId,checkedDate){
         var facilityParam = $("#facilityName").val();
         if(facilityId != undefined){
             $("#maintenance_id").show();
             $("#facility_id").hide();
             $("#m_facility_id").val(facilityId);
+            if(checkedDate != undefined){
+                $("#date_temp").val(checkedDate);
+            }
             facilityParam = $("#maintenanceTime").val();
         }else{
             $("#facility_id").show();
@@ -404,7 +440,8 @@ $(document).ready(function() {
         $("#maintenanceTime").val("");
     };
     facility.addFacilityInfo = function(data,status){
-    if(data != undefined && data != 0 && status==1){
+        facility.imgResource.length = 0;
+        if(data != undefined && data != 0 && status==1){
             $("#facilityInfo_id").val(data.id);
             $("#facility_Name").val(data.facilityName);
             $("#manufacturer").val(data.manufacturer);
@@ -413,20 +450,11 @@ $(document).ready(function() {
             $("#buyingTime").val(fsn.formatGridDate(data.buyingTime));
             $("#application").val(data.application);
             $("#remark").val(data.remark);
-
-        if(data.resource != undefined && data.resource !=null){
-                if(facility.imgResource!=null){
-                    facility.imgResource.pop();
-                }
-                facility.imgResource.push(data.resource);
-                $("#facilityImg").attr("src",data.resource.url);
-                $("#upload_facility_img").hide();
-                $("#show_facility_img").show();
-            }else{
-                $("#upload_facility_img").show();
-                $("#show_facility_img").hide();
+            if(data.facilityArry != undefined && data.facilityArry !=null&&data.facilityArry.length>0) {
+                facility.imgResource = facility.setFacilityArryData(data.facilityArry, 'upload_facility_files');
             }
         }else{
+            $("#upload_facility_files_img_s").hide();
             $("#facilityInfo_id").val("");
             $("#facility_Name").val("");
             $("#manufacturer").val("");
@@ -435,33 +463,51 @@ $(document).ready(function() {
             $("#buyingTime").val("");
             $("#application").val("");
             $("#remark").val("");
-
-            $("#upload_facility_img").show();
-            $("#show_facility_img").hide();
-            var div = document.getElementById("upload_facility_img"); //$("#upload_logo_div");
-            while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
-                div.removeChild(div.firstChild);
-            }
-            if(facility.imgResource!=null){
-                facility.imgResource.pop();
-            }
         }
-        $("#upload_facility_img").html("<input type='file' id='facilityResourceId' name='facilityImgUrl' class='k-textbox'/><br><br>");
-        facility.buildUploadFacility("facilityResourceId", facility.imgResource , "error_img");
+        $("#upload_facility_files_div").html("<input type='file' id='upload_facility_files'>")
+        facility.buildUploadFacility("upload_facility_files", facility.imgResource , "upload_facility_files_log");
         $("#ADDFACILITYINFO_WIN").data("kendoWindow").open().center()
     };
-    facility.facilityDelImg = function(){
-        $("#upload_facility_img").show();
-        $("#show_facility_img").hide();
-        var div = document.getElementById("upload_facility_img"); //$("#upload_logo_div");
-        while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
-            div.removeChild(div.firstChild);
+    /**
+     * 给图片对象初始化赋值
+     * @param attachments
+     */
+    facility.setFacilityArryData = function(attachments,id){
+        var img ="";
+        for(var k = 0 ;k < attachments.length;k++){
+            facility.imgResource.push(attachments[k]);
+            var url = attachments[k].url;
+            var fileUrl = "";
+                if(attachments[k].url == null || attachments[k].url == ""){
+                    if(attachments[k].type != undefined && attachments[k].file!=null){
+                        url = "data:"+attachments[k].type.rtName+";base64,"+attachments[k].file;
+                        fileUrl = attachments[k].file;
+                    }
+                }
+              if(url != null && url!=""){
+                  img+="<div id='"+id+"_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+                  img+="<img id='"+id+"_"+k+"' src='"+url+"' style='width: 128px;height:128px;'>";
+                  img+="<div class=deleteBtn onclick=fsn.facility.delSelectFacilityImg('"+id+"_"+k+"','"+fileUrl+"')>x";
+                  img+="</div>";
+                  img+="</div>";
+                  $("#"+id+"_img_s").show();
+                  $("#"+id+"_img_s").html(img);
+              }
+        };
+        return attachments;
+    };
+    facility.delSelectFacilityImg = function(id,url){
+        if(facility.imgResource != null&&facility.imgResource.length>0){
+            for(var s = 0 ;s < facility.imgResource.length;s++){
+                if((facility.imgResource[s].file == null && facility.imgResource[s].url==url) || (facility.imgResource[s].url==null && facility.imgResource[s].file == url)){
+                    $.extend(facility.imgResource[s],facility.imgResource[facility.imgResource.length-1]);
+                    facility.imgResource.pop();
+                    break;
+                }
+            }
         }
-        if(facility.imgResource!=null){
-            facility.imgResource.pop();
-        }
-        $("#upload_facility_img").html("<input type='file' id='facilityResourceId' name='facilityImgUrl' class='k-textbox'/><br><br>");
-        facility.buildUploadFacility("facilityResourceId", facility.imgResource , "error_img");
+        $("img[id='"+id+"']").parent().remove();
+      return false;
     };
     facility.closeAddFacilityInfo = function(status){
         if(status==0){
@@ -487,6 +533,7 @@ $(document).ready(function() {
             return ;
         }
         $("#k_window").data("kendoWindow").open().center();
+        //$("#submitFacilityInfo").unbind("click");
         var facilityInfo = facility.createFacilityInfo();
         $.ajax({
             url: portal.HTTP_PREFIX + "/facility/facilitySaveOrEdit",
@@ -528,9 +575,17 @@ $(document).ready(function() {
             fsn.initNotificationMes("设备数量不能为空!", false);
             return false;
         }
-        var buyingTime =$("#buyingTime").val();
+
+        var buyingTime = $("#buyingTime").val().trim();
+
         if(buyingTime == null || buyingTime == ''){
             fsn.initNotificationMes("采购时间不能为空!", false);
+            return false;
+        }
+
+        var result = buyingTime.match(/((^((1[8-9]\d{2})|([2-9]\d{3}))(-)(10|12|0?[13578])(-)(3[01]|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))(-)(11|0?[469])(-)(30|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))(-)(0?2)(-)(2[0-8]|1[0-9]|0?[1-9])$)|(^([2468][048]00)(-)(0?2)(-)(29)$)|(^([3579][26]00)(-)(0?2)(-)(29)$)|(^([1][89][0][48])(-)(0?2)(-)(29)$)|(^([2-9][0-9][0][48])(-)(0?2)(-)(29)$)|(^([1][89][2468][048])(-)(0?2)(-)(29)$)|(^([2-9][0-9][2468][048])(-)(0?2)(-)(29)$)|(^([1][89][13579][26])(-)(0?2)(-)(29)$)|(^([2-9][0-9][13579][26])(-)(0?2)(-)(29)$))/);
+        if(result==null){
+            lims.initNotificationMes("日期格式不正确!", false);
             return false;
         }
         var application = $("#application").val();
@@ -543,7 +598,6 @@ $(document).ready(function() {
     };
 
     facility.createFacilityInfo = function(){
-        var facilityImg = facility.imgResource.length>0?facility.imgResource[0]:{};
         var facilityInfo = {
             id:$("#facilityInfo_id").val(),
             facilityName:$("#facility_Name").val(),
@@ -553,7 +607,7 @@ $(document).ready(function() {
             buyingTime:$("#buyingTime").val(),
             application:$("#application").val(),
             remark:$("#remark").val(),
-            resource:facilityImg
+            facilityArry:facility.imgResource
         };
         return facilityInfo;
     };
@@ -611,28 +665,45 @@ $(document).ready(function() {
             fsn.initNotificationMes("养护时间不能为空!", false);
             return;
         }
+
+        var result = maintenanceTime.match(/((^((1[8-9]\d{2})|([2-9]\d{3}))(-)(10|12|0?[13578])(-)(3[01]|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))(-)(11|0?[469])(-)(30|[12][0-9]|0?[1-9])$)|(^((1[8-9]\d{2})|([2-9]\d{3}))(-)(0?2)(-)(2[0-8]|1[0-9]|0?[1-9])$)|(^([2468][048]00)(-)(0?2)(-)(29)$)|(^([3579][26]00)(-)(0?2)(-)(29)$)|(^([1][89][0][48])(-)(0?2)(-)(29)$)|(^([2-9][0-9][0][48])(-)(0?2)(-)(29)$)|(^([1][89][2468][048])(-)(0?2)(-)(29)$)|(^([2-9][0-9][2468][048])(-)(0?2)(-)(29)$)|(^([1][89][13579][26])(-)(0?2)(-)(29)$)|(^([2-9][0-9][13579][26])(-)(0?2)(-)(29)$))/);
+        if(result==null){
+            fsn.initNotificationMes("日期格式不正确!", false);
+            return false;
+        }
+
+        var  maintenanceTimeTemp = new Date(maintenanceTime).getTime();
+
+        var facilityDateTemp = $("#date_temp").val();
+        if(maintenanceTimeTemp>=facilityDateTemp){
+            lims.initNotificationMes("养护时间必须大于或者等于采购时间!", false);
+            return false;
+        }
         var maintenanceContent = $("#maintenanceContent").val();
         if(maintenanceContent == null || maintenanceContent == ''){
             fsn.initNotificationMes("养护内容不能为空!", false);
             return;
         }
+
         $("#k_window").data("kendoWindow").open().center();
+
         var facilityId = $("#m_facility_id").val();
         var maintenanceInfo = facility.createMaintenanceInfo(facilityId);
-        $.ajax({
-            url: portal.HTTP_PREFIX + "/facility/maintenanceSaveOrEdit",
-            type: "POST",
-            data: JSON.stringify(maintenanceInfo),
-            contentType: "application/json; charset=utf-8",
-            success: function (returnVal) {
-                $("#k_window").data("kendoWindow").close();
-                if (returnVal.status == true) {
-                    fsn.initNotificationMes("养护记录保存成功!", true);
-                    facility.closeAddFacilityInfo(1);
-                    facility.facility_dataSource(facilityId);
+            $.ajax({
+                url: portal.HTTP_PREFIX + "/facility/maintenanceSaveOrEdit",
+                type: "POST",
+                data: JSON.stringify(maintenanceInfo),
+                contentType: "application/json; charset=utf-8",
+                success: function (returnVal) {
+                    $("#k_window").data("kendoWindow").close();
+                    if (returnVal.status == true) {
+                        facility.imgResource.length = 0;
+                        fsn.initNotificationMes("养护记录保存成功!", true);
+                        facility.closeAddFacilityInfo(1);
+                        facility.facility_dataSource(facilityId);
+                    }
                 }
-            }
-        });
+            });
     };
     facility.deleteMaintenanceInfo = function(id){
         $.ajax({
@@ -705,6 +776,7 @@ $(document).ready(function() {
             return;
         }
         $("#k_window").data("kendoWindow").open().center();
+        //$("#submitOperateInfo").unbind("click");
         var OperateInfo = facility.createOperateInfo();
         $.ajax({
             url: portal.HTTP_PREFIX + "/operate/saveOrEdit",
@@ -761,5 +833,29 @@ $(document).ready(function() {
 
       }
     };
+    facility.seefacilityImg = function(imgs){
+
+        var slides = $("#slides");
+        var img ="<div class=\"slides_container\">";
+        for(var i=0;i<imgs.length; i++)
+        {
+            img =img+ '<div class="slide"><img style="width: 849px;height: 638px" src="'+imgs[i].url+'"/></div>';
+
+        }
+        img =img+ '</div><a href="#" class="prev"><img src="../../resource/js/slides/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>'+
+        '<a href="#" class="next"><img src="../../resource/js/slides/img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>';
+        slides.html(img);
+        $('#slides').slides();
+        $("#DIV_IMG_WIN").data("kendoWindow").open();
+
+        //window.parent.location.href = imgUrl;
+        //window.open ( imgUrl, "_blank" );
+        //$("#DIV_IMG_ID").attr("src",imgUrl);
+        //$("#DIV_IMG_WIN").data("kendoWindow").open().center()
+    };
+
+    //procurement.showQualifiedImg=function (imgs) {
+    //
+    //};
     facility.initialize();
 })

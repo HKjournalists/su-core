@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_PRODUCT_PATH;
 import static com.gettec.fsnip.fsn.util.SystemDefaultInterface.FSN_FTP_UPLOAD_WEB_PRODUCT_PATH;
@@ -69,15 +70,16 @@ public class FacilityInfoServiceImpl extends BaseServiceImpl<FacilityInfo,Facili
      * 更加条件获取设备信息集合
      * @author wb
      * @date 2016.9.14
+     * @param businessId 企业ID
      * @param facilityName 查询参数
      * @return 返回数据总条数
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public Long getFacilityCount(Long busniessId,String facilityName) {
+    public Long getFacilityCount(Long businessId,String facilityName) {
         Long total = null;
         try {
-            total = facilityInfoDAO.getFacilityCount(busniessId,facilityName);
+            total = facilityInfoDAO.getFacilityCount(businessId,facilityName);
         } catch (JPAException e) {
             e.printStackTrace();
         }
@@ -95,19 +97,25 @@ public class FacilityInfoServiceImpl extends BaseServiceImpl<FacilityInfo,Facili
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean facilitySaveOrEdit(FacilityInfo facilityInfo) {
 
+
         try {
             if(facilityInfo.getId()==null || "".equals(facilityInfo.getId())){
-                Resource rs = this.getImgResource(facilityInfo.getResource());
+                Set<Resource> setList = facilityInfo.getFacilityArry();
+                for(Resource res : setList){
+                    this.getImgResource(res);
+                }
                 facilityInfo.setCreateTime( new Date());
-                facilityInfo.setResource(rs);
+                facilityInfo.setFacilityArry(setList);
                 facilityInfoDAO.persistent(facilityInfo);
             }else {
-                Resource rs = null;
-                if (facilityInfo.getResource() != null && facilityInfo.getResource().getId() != null) {
-                    rs = resourceService.findById(facilityInfo.getResource().getId());
-                }
-                if (rs == null) {
-                    rs = this.getImgResource(facilityInfo.getResource());
+                Set<Resource> setList = facilityInfo.getFacilityArry();
+                for(Resource re : setList){
+                    if (re != null && re.getId() != null) {
+                        Resource res = resourceService.findById(re.getId());
+                        this.deleteResource(res);
+                    }
+                    re.setId(null);
+                    this.getImgResource(re);
                 }
                 FacilityInfo e = facilityInfoDAO.findById(facilityInfo.getId());
                 e.setFacilityName(facilityInfo.getFacilityName());
@@ -116,7 +124,7 @@ public class FacilityInfoServiceImpl extends BaseServiceImpl<FacilityInfo,Facili
                 e.setFacilityCount(facilityInfo.getFacilityCount());
                 e.setApplication(facilityInfo.getApplication());
                 e.setBuyingTime(facilityInfo.getBuyingTime());
-                e.setResource(rs);
+                e.setFacilityArry(setList);
                 e.setRemark(facilityInfo.getRemark());
             }
             return true;
@@ -125,7 +133,6 @@ public class FacilityInfoServiceImpl extends BaseServiceImpl<FacilityInfo,Facili
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-
         return false;
     }
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

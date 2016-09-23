@@ -26,6 +26,8 @@
   <link rel="stylesheet" href="../../resource_new/css/notification.css" />
   <link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
   <link rel="stylesheet" href="../../resource/css/product/select_customer.css" />
+  <link rel="stylesheet" href="../../resource/js/slides/css/global.css" />
+
   <script src="../../resource_new/js/less.js" type="text/javascript"></script>
 
   <script src="../../resource/js/jquery-1.8.0.min.js"></script> 
@@ -43,7 +45,8 @@
   <script src="../../resource/js/language/list_product_addQs_zh-cn.js"></script> 
   <script src="../../resource/js/market/data_entry_zh_cn.js"></script> 
   <script src="../../resource/js/language/unit_up_zh-cn.js"></script>
-  <script src="../../resource_new/js/upload/lims.upload.js"></script> 
+  <script src="../../resource_new/js/upload/lims.upload.js"></script>
+  <script src="../../resource/js/slides/js/slides.min.jquery.js"></script>
   <script type="text/javascript" src="../../resource/js/business/unit-common.js"></script> 
   <script src="../../resource/js/business/qs_busname_load.js"></script>
   <script src="../../resource/js/facility/facilityInfo.js"></script>
@@ -144,7 +147,7 @@
     html .k-filename{display: block; overflow: hidden;position: relative; text-overflow: ellipsis; top: 0; white-space: nowrap;width: 100px;}
     html .long_sl{display: block; overflow: hidden;white-space: nowrap;width: 180px;}
     html .k-animation-container{z-index:100000;}
-    html span.v_hide{display:none;}
+    html span.v_hide{display:none;}  .li_clolr{
 
 </style> 
  </head> 
@@ -170,15 +173,15 @@
      <!--==========开始===========================-->
 
 
-     <div id="tabstrip" style="border-color: #05740f;margin-bottom:100px;background-color: #f9fdf1">
+     <div id="tabstrip" style="border-color: #05740f;margin-bottom:100px;background-color: #f9fdf1;">
       <ul>
-       <li style="background-color: #f9fdf1;"><strong><font  style="font-size:16px;color: #008000;">企业基本信息</font></strong></li>
-       <li style="background-color: #f9fdf1"><strong><font  style="font-size:16px;color: #008000;">证照信息</font></strong></li>
-       <li style="background-color: #f9fdf1"><strong><font  style="font-size:16px;color: #008000;">规模信息</font></strong></li>
-       <li style="background-color: #f9fdf1"><strong><font  style="font-size:16px;color: #008000;">设备信息</font></strong></li>
+       <li style="background-color: #f9fdf1;border-top: 0px solid #008000;border-right: 1px solid #008000;border-left: 1px solid #008000;"><strong><font  style="font-size:16px;color: #008000;">企业基本信息</font></strong></li>
+       <li style="background-color: #f9fdf1;border-top: 0px solid #008000;border-right: 1px solid #008000;border-left: 1px solid #008000;"><strong><font  style="font-size:16px;color: #008000;">证照信息</font></strong></li>
+       <li style="background-color: #f9fdf1;border-top: 0px solid #008000;border-right: 1px solid #008000;border-left: 1px solid #008000;"><strong><font  style="font-size:16px;color: #008000;">规模信息</font></strong></li>
+       <li style="background-color: #f9fdf1;border-top: 0px solid #008000;border-right: 1px solid #008000;border-left: 1px solid #008000;"><strong><font  style="font-size:16px;color: #008000;">设备信息</font></strong></li>
       </ul>
       <!--======企业基本信息====开始===========================-->
-      <div style="background-color: #f9fdf1">
+      <div style="background-color: #f9fdf1;border: 1px solid #008000;">
        <div id="A_show_button" style="display: block;" align="right">
          <button class="k-button inputbtn" onclick="fsn.facility.editBusinessInfo(0)">编辑</button>
        </div>
@@ -704,7 +707,7 @@
 
 
       <!--======证照信息====开始===========================-->
-      <div style="background-color: #f9fdf1">
+      <div style="background-color: #f9fdf1;border: 1px solid #008000;">
        <div id="B_show_button" style="display: block;" align="right">
         <button class="k-button inputbtn" onclick="fsn.facility.editBusinessInfo(2)">编辑</button>
        </div>
@@ -1367,7 +1370,7 @@
 
 
       <!--======规模信息====开始===========================-->
-      <div style="background-color: #f9fdf1">
+      <div style="background-color: #f9fdf1;border: 1px solid #008000;">
 
        <div style="border: 1px solid #0f941a;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;">
        <div class="header">
@@ -1395,7 +1398,7 @@
            <font class="necessary">*</font>
           </div>
           <div class="div-td-value">
-           <select id ="operateScope" style="width: 140px;">
+           <select id ="operateScope" style="width:300px;"  placeholder="请选择...">
              <option value="">请选择</option>
              <option value="大型">大型</option>
              <option value="中型">中型</option>
@@ -1464,7 +1467,7 @@
       </div>
       <!--====规模信息======结束===========================-->
       <!--======设备信息====开始===========================-->
-      <div style="background-color: #f9fdf1">
+      <div style="background-color: #f9fdf1;border: 1px solid #008000;">
         <div id="facility_id" style="border: 1px solid #0f941a;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;display: none">
          <div class="header">
           设备信息
@@ -1490,7 +1493,7 @@
          <fieldset style="border:1px solid #05BF73;margin: 20px 20px 20px 20px;padding-top: 10px;ext-indent: 2em;">
 
           <label for="maintenanceTime">&nbsp;&nbsp;&nbsp;&nbsp;养护时间：</label>
-
+          <input id="date_temp" type="hidden" >
           <input type="text" id="maintenanceTime"   placeholder="例如：2016-01-01"/>
           <button class="k-button inputbtn" onclick="fsn.facility.facility_dataSource($('#m_facility_id').val())">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
           <button class="k-button inputbtn" onclick="fsn.facility.addMaintenanceInfo(0,0)">新增</button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1503,6 +1506,11 @@
       </div>
 
       <!--====设备信息======结束===========================-->
+     </div>
+
+     <div id="DIV_IMG_WIN" style="display: none;width: 900px;height: 700px" >
+      <div id="slides">
+      </div>
      </div>
 
       <!-- ========新增设备信息=====开始======-->
@@ -1536,24 +1544,23 @@
 
            <label for="remark">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;</label>
            <textarea id="remark" name="remark"  cols="58" rows="3"></textarea><br><br>
-
-        <div id="upload_facility_img" style="display:block;">
-          <input type="file" id="facilityResourceId" name="facilityImgUrl" class="k-textbox" /><br><br>
-        </div>
-        <div id="show_facility_img" style="display: none">
-          <label for="facilityResourceId">设备图片：</label>
-
-         <div style="position: relative;width: 128px;height: 128px;">
-           <img class="imgFiles" id="facilityImg" src="" style="width: 128px;height:128px;"  onclick="fsn.business_unit.amplification(this.src)">
-           <div class="deleteBtn" onclick="fsn.facility.facilityDelImg('facilityImg')">x</div>
+        <div id="upload_facility_files_img_e">
+           <div id="upload_facility_files_div">
+            <input type="file" id="upload_facility_files">
+           </div>
          </div>
+         <div id="upload_facility_files_img_s" style="display: none">
+         <!--<div style="position: relative;width: 128px;height: 128px;">-->
+           <!--<img class="imgFiles" id="facilityImg" src="" style="width: 128px;height:128px;"  onclick="fsn.business_unit.amplification(this.src)">-->
+           <!--<div class="deleteBtn" onclick="fsn.facility.facilityDelImg('facilityImg')">x</div>-->
+         <!--</div>-->
          <br><br>
         </div>
-           <div align="center">
-            <button class="k-button inputbtn" id="submitFacilityInfo">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="k-button inputbtn" onclick="fsn.facility.closeAddFacilityInfo(0)">取消</button>
-           </div>
         </fieldset>
+       <div align="center">
+        <button class="k-button inputbtn" id="submitFacilityInfo">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="k-button inputbtn" onclick="fsn.facility.closeAddFacilityInfo(0)">取消</button>
+       </div>
       </div>
 
       <!-- ========新增设备信息=====结束======-->
@@ -1583,9 +1590,6 @@
             <button class="k-button inputbtn" id="submitMaintenanceInfo">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
             <button class="k-button inputbtn" onclick="fsn.facility.closeAddFacilityInfo(1)">取消</button>
            </div>
-        <div id="DIV_IMG_WIN">
-         <img id="DIV_IMG_ID" src="" width="680" height="600">
-        </div>
        </fieldset>
       </div>
       <!-- ========新增养护信息=====结束======-->

@@ -27,9 +27,6 @@
             },
             multiple:(id == "upload_qr_files"||id=="upload_logo_files") ? false : true,
             upload: function(e){
-
-
-
                 var files = e.files;
                  $.each(files, function () {
                 	 if(this.name.length > 100){
@@ -100,7 +97,7 @@
 
 					$("#upload_propaganda_div").html("<input id='upload_propaganda_files' type='file' />");
 					business_unit.buildUpload("upload_propaganda_files", business_unit.aryPropagandaAttachments, "upload_propaganda_files_log");
-                }else if(id="upload_license_files"){
+                }else if(id=="upload_license_files"){
 
 
 					//var propagandaImg = '<img src="../../resource/img/portal/tupian.jpg"/  style="width: 128px;height:128px;">';
@@ -1335,11 +1332,11 @@
     };
     
     /* 验证数据有效性 */
-    business_unit.validateCommon = function(){
+    business_unit.validateCommon = function(status){
     	/* 基本数据 */
-        if (!business_unit.validateCommonData()){ return false; }
+        if (!business_unit.validateCommonData(status)){ return false; }
         /* 日期 */
-        if(!business_unit.validateCommonDate()){ return false; }
+        if(!business_unit.validateCommonDate(status)){ return false; }
         /* 图片 */
         if(!business_unit.validateCommonPhoto()){ return false; }
         return true;
@@ -1366,116 +1363,134 @@
     };
     
     /* 验证日期 */
-    business_unit.validateCommonDate = function(){
-    	if(!fsn.validateMustDate("licenseStartTime","营业执照的起始日期")){return false;}
-    	if(!fsn.validateMustDate("licenseEndTime","营业执照的截止日期")){return false;}
-//    	if(!fsn.validateMustDate("orgStartTime","组织机构证件的起始日期")){return false;}
-//    	if(!fsn.validateMustDate("orgEndTime","组织机构证件的截止日期")){return false;}
-    	if(!fsn.validateDateFormat("registrationTime","营业执照的注册日期")){return false;} // 非必填项
-    	
-        var startDate=$("#licenseStartTime").data("kendoDatePicker").value();
-        var endDate=$("#licenseEndTime").data("kendoDatePicker").value();
-        if((endDate-startDate)<0){
-        	lims.initNotificationMes('营业执照的起始日期不能大于截止日期！',false);
-        	return false;
-        }
-//        startDate=$("#orgStartTime").data("kendoDatePicker").value();
-//        endDate=$("#orgEndTime").data("kendoDatePicker").value();
-//        if((endDate-startDate)<0){
-//        	lims.initNotificationMes('组织机构证件的起始日期不能大于截止日期！',false);
-//        	return false;
-//        }
+    business_unit.validateCommonDate = function(status){
+		if(status == 3) {
+
+			if (!fsn.validateMustDate("licenseStartTime", "营业执照的起始日期")) {
+				return false;
+			}
+			if (!fsn.validateMustDate("licenseEndTime", "营业执照的截止日期")) {
+				return false;
+			}
+			if (!fsn.validateMustDate("orgStartTime", "组织机构证件的起始日期")) {
+				return false;
+			}
+			if (!fsn.validateMustDate("orgEndTime", "组织机构证件的截止日期")) {
+				return false;
+			}
+			if (!fsn.validateDateFormat("registrationTime", "营业执照的注册日期")) {
+				return false;
+			} // 非必填项
+
+			var startDate = $("#licenseStartTime").data("kendoDatePicker").value();
+			var endDate = $("#licenseEndTime").data("kendoDatePicker").value();
+			if ((endDate - startDate) < 0) {
+				lims.initNotificationMes('营业执照的起始日期不能大于截止日期！', false);
+				return false;
+			}
+			startDate = $("#orgStartTime").data("kendoDatePicker").value();
+			endDate = $("#orgEndTime").data("kendoDatePicker").value();
+			if ((endDate - startDate) < 0) {
+				lims.initNotificationMes('组织机构证件的起始日期不能大于截止日期！', false);
+				return false;
+			}
+		}
     	return true;
     };
     
-    business_unit.validateCommonData = function(){
-    	if(!$("#name").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的企业名称不能为空！',false);
-			business_unit.wrong("name","text");
-    		return false;
-    	}
-    	if(!$("#personInCharge").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的法定代表人不能为空！',false);	
-			business_unit.wrong("personInCharge","text");	
-    		return false;
-    	}
-    	if(!$("#bus_mainAddr").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的企业地址不能为空！',false);
-			business_unit.wrong("bus_mainAddr","text");	
-    		return false;
-    	}
-    	if(!$("#bus_streetAddress").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的企业地址的街道地址不能为空！',false);
-			business_unit.wrong("bus_streetAddress","text");	
-    		return false;
-    	}
-    	if(!$("#email").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的邮箱不能为空！',false);
-			business_unit.wrong("email","text");
-    		return false;
-    	}
-    	if(!$("#licenseNo").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的营业执照注册号不能为空！',false);
-			business_unit.wrong("licenseNo","text");
-    		return false;
-    	}
-    	if(!$("#licenseName").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的经营主体名称不能为空！',false);
-			business_unit.wrong("licenseName","text");
-    		return false;
-    	}
-    	if(!$("#legalName").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的法人代表(负责人)不能为空！',false);
-			business_unit.wrong("legalName","text");
-    		return false;
-    	}
-    	if(!$("#license_mainAddr").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的经营场所(企业地址)不能为空！',false);
-			business_unit.wrong("license_mainAddr","text");
-    		return false;
-    	}
-    	if(!$("#license_streetAddress").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的经营场所的街道地址不能为空！',false);
-			business_unit.wrong("license_streetAddress","text");
-    		return false;
-    	}
-//    	if(!$("#orgCode").kendoValidator().data("kendoValidator").validate()){
-//    		lims.initNotificationMes('【组织机构代码证件】中的组织机构代码不能为空！',false);
-//			business_unit.wrong("orgCode","text");
-//    		return false;
-//    	}
-//    	if(!$("#orgName").kendoValidator().data("kendoValidator").validate()){
-//    		lims.initNotificationMes('【组织机构代码证件】中的组织机构名称不能为空！',false);
-//			business_unit.wrong("orgName","text");
-//    		return false;
-//    	}
-//    	if(!$("#org_mainAddr").kendoValidator().data("kendoValidator").validate()){
-//    		lims.initNotificationMes('【组织机构代码证件】中的组织机构地址不能为空！',false);
-//			business_unit.wrong("org_mainAddr","text");
-//    		return false;
-//    	}
-//    	if(!$("#org_streetAddress").kendoValidator().data("kendoValidator").validate()){
-//    		lims.initNotificationMes('【组织机构代码证件】中的组织机构地址的街道地址不能为空！',false);
-//			business_unit.wrong("org_streetAddress","text");
-//    		return false;
-//    	}
-    	if(!business_unit.validaTetelephone()){
-        	lims.initNotificationMes('联系电话无效！',false);
-        	return false;
-        }
-        if(!business_unit.validaPostalCode()){
-        	lims.initNotificationMes('邮政编码无效！',false);
-        	return false;
-        }
-        if(!business_unit.validateEmail()){
-        	lims.initNotificationMes('邮箱格式不正确！',false);
-        	return false;
-        }
-        if(!business_unit.validateFax()){
-        	lims.initNotificationMes("请输入正确的传真:传真号码格式为国家代码(2到3位)-区号(2到3位)-电话号码(7到8位)-分机号(3位)，" +
-        			"例如:0851-1234567",false);
-        	return false;
-        }
+    business_unit.validateCommonData = function(status) {
+		if (status == 3) {
+			if(!$("#orgCode").kendoValidator().data("kendoValidator").validate()){
+				lims.initNotificationMes('【组织机构代码证件】中的组织机构代码不能为空！',false);
+				business_unit.wrong("orgCode","text");
+				return false;
+			}
+
+			if (!$("#name").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【企业基本信息】中的企业名称不能为空！', false);
+				business_unit.wrong("name", "text");
+				return false;
+			}
+			if (!$("#personInCharge").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【企业基本信息】中的法定代表人不能为空！', false);
+				business_unit.wrong("personInCharge", "text");
+				return false;
+			}
+			if (!$("#bus_mainAddr").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【企业基本信息】中的企业地址不能为空！', false);
+				business_unit.wrong("bus_mainAddr", "text");
+				return false;
+			}
+			if (!$("#bus_streetAddress").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【企业基本信息】中的企业地址的街道地址不能为空！', false);
+				business_unit.wrong("bus_streetAddress", "text");
+				return false;
+			}
+			if (!$("#email").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【企业基本信息】中的邮箱不能为空！', false);
+				business_unit.wrong("email", "text");
+				return false;
+			}
+			if (!$("#licenseNo").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【营业执照信息】中的营业执照注册号不能为空！', false);
+				business_unit.wrong("licenseNo", "text");
+				return false;
+			}
+			if (!$("#licenseName").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【营业执照信息】中的经营主体名称不能为空！', false);
+				business_unit.wrong("licenseName", "text");
+				return false;
+			}
+			if (!$("#legalName").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【营业执照信息】中的法人代表(负责人)不能为空！', false);
+				business_unit.wrong("legalName", "text");
+				return false;
+			}
+			if (!$("#license_mainAddr").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【营业执照信息】中的经营场所(企业地址)不能为空！', false);
+				business_unit.wrong("license_mainAddr", "text");
+				return false;
+			}
+			if (!$("#license_streetAddress").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes('【营业执照信息】中的经营场所的街道地址不能为空！', false);
+				business_unit.wrong("license_streetAddress", "text");
+				return false;
+			}
+
+			if(!$("#orgName").kendoValidator().data("kendoValidator").validate()){
+				lims.initNotificationMes('【组织机构代码证件】中的组织机构名称不能为空！',false);
+				business_unit.wrong("orgName","text");
+				return false;
+			}
+			if(!$("#org_mainAddr").kendoValidator().data("kendoValidator").validate()){
+				lims.initNotificationMes('【组织机构代码证件】中的组织机构地址不能为空！',false);
+				business_unit.wrong("org_mainAddr","text");
+				return false;
+			}
+			if(!$("#org_streetAddress").kendoValidator().data("kendoValidator").validate()){
+				lims.initNotificationMes('【组织机构代码证件】中的组织机构地址的街道地址不能为空！',false);
+				business_unit.wrong("org_streetAddress","text");
+				return false;
+			}
+		}else{
+			if(!business_unit.validaTetelephone()){
+				lims.initNotificationMes('联系电话无效！',false);
+				return false;
+			}
+			if(!business_unit.validaPostalCode()){
+				lims.initNotificationMes('邮政编码无效！',false);
+				return false;
+			}
+			if(!business_unit.validateEmail()){
+				lims.initNotificationMes('邮箱格式不正确！',false);
+				return false;
+			}
+			if(!business_unit.validateFax()){
+				lims.initNotificationMes("请输入正确的传真:传真号码格式为国家代码(2到3位)-区号(2到3位)-电话号码(7到8位)-分机号(3位)，" +
+				"例如:0851-1234567",false);
+				return false;
+			}
+
 //      if(!business_unit.verificationName()){
 //        	lims.initNotificationMes('企业名称无效！',false);
 //        	return false;
@@ -1484,11 +1499,12 @@
 //        	lims.initNotificationMes("组织结构代码必须由8位数字(或大写字母)和一位数字(或者大写字母)组成！例如：1111AAAA-A",false);
 //        	return false;
 //        }
-        var about = $('#product_about').val().trim();
-        if(about.length>2000){
-        	lims.initNotificationMes("企业简介请控制在2000字以内！",false);
-        	return false;
-        }
+			var about = $('#product_about').val().trim();
+			if(about.length>2000){
+				lims.initNotificationMes("企业简介请控制在2000字以内！",false);
+				return false;
+			}
+		}
     	return true;
     };
     

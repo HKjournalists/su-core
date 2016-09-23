@@ -132,7 +132,7 @@ $(document).ready(function() {
     };
     
     business_unit.bindClick = function(){
-    	$("#saveInfove").bind("click", business_unit.saveInfove);
+        $("#saveInfove").bind("click", business_unit.saveInfove);
     	$("#saveCertificate").bind("click", business_unit.saveCertificate);
         $("#reset").bind("click", business_unit.reset);
         $("#addProLic").bind("click", business_unit.addProLic);
@@ -1137,6 +1137,7 @@ $(document).ready(function() {
         //var tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
         //    tabStrip.select(2);        // Select by jQuery selector
 
+
     }
     business_unit.saveInfove  = function(){
         business_unit.save(1);
@@ -1146,12 +1147,17 @@ $(document).ready(function() {
     business_unit.save = function(status) {
         /* 校验数据的有效性  */
         fsn.clearErrorStyle();
-        if (!business_unit.validateFormat()) {
+        if (!business_unit.validateFormat(status)) {
             return;
         }
         // 数据封装
         var subBusiness = business_unit.createInstance();
-        $("#k_window").data("kendoWindow").open().center();
+        $("#k_window").data("kendoWindow").open().center()
+        //if(status == 1) {
+        //    $("#saveInfove").unbind("click");
+        //}else{
+        //    $("#saveCertificate").unbind("click");
+        //}
         $.ajax({
             url: portal.HTTP_PREFIX + "/business/business-unit",
             type: "PUT",
@@ -1203,16 +1209,16 @@ $(document).ready(function() {
     };
 
     /* 校验数据的有效性 */
-    business_unit.validateFormat = function() {
-        if (!business_unit.validateCommon()) {
+    business_unit.validateFormat = function(status) {
+        if (!business_unit.validateCommon(status)) {
             return false;
         }
         /* 验证企业税务登记证 */
-        if(!business_unit.validaTax()){
+        if(!business_unit.validaTax()&&status==3){
             return false;
         }
         /* 验证企业宣传照数量最多3张 */
-        if(business_unit.aryPropagandaAttachments.length>3){
+        if(business_unit.aryPropagandaAttachments.length>3&&status==1){
         	lims.initNotificationMes('宣传照最多能传3张，请删掉多余的！',false);
             return false;
         }

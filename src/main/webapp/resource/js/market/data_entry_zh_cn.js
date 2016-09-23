@@ -6,6 +6,7 @@
 	}
 
 	$.extend(true, lims.zh, {
+		"upload_facility_files":"请上传设备信息图片",
 		"Food info":"产品信息",
 		"Bar code":"条形码",
 		"food_Name":"名称",
