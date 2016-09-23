@@ -1,18 +1,8 @@
 package com.gettec.fsnip.fsn.service.market;
 
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.gettec.fsnip.fsn.dao.market.MkTestResourceDAO;
 import com.gettec.fsnip.fsn.exception.ServiceException;
-import com.gettec.fsnip.fsn.model.business.BusinessBrand;
-import com.gettec.fsnip.fsn.model.business.BusinessUnit;
-import com.gettec.fsnip.fsn.model.business.EnterpriseRegiste;
-import com.gettec.fsnip.fsn.model.business.LiutongFieldValue;
-import com.gettec.fsnip.fsn.model.business.ProductionLicenseInfo;
+import com.gettec.fsnip.fsn.model.business.*;
 import com.gettec.fsnip.fsn.model.dishs.DishsNo;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.model.product.ImportedProduct;
@@ -23,6 +13,12 @@ import com.gettec.fsnip.fsn.model.test.TestProperty;
 import com.gettec.fsnip.fsn.model.test.TestResult;
 import com.gettec.fsnip.fsn.model.waste.WasteDisposa;
 import com.gettec.fsnip.fsn.service.common.BaseService;
+
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface ResourceService extends BaseService<Resource, MkTestResourceDAO>{
 
@@ -136,4 +132,7 @@ public interface ResourceService extends BaseService<Resource, MkTestResourceDAO
 	List<Resource> getQsResourceByQsId(Long qsId)throws ServiceException;
 	
 	void deleteResourceByResultId(long resultId);
+
+	void saveBusinessCert(BusinessUnit businessUnit)throws ServiceException;
+
 }

@@ -474,6 +474,7 @@ $(document).ready(function() {
 						portal.setQcAttachments(returnValue.data.qcAttachments); // 从业资格证图片
 						portal.setHnAttachments(returnValue.data.hnAttachments); // 荣誉证书图片
 						$("ul.k-upload-files").remove();
+						location.href="member_list.html";
 						
 					}else{
 						lims.initNotificationMes(returnValue.result.errorMessage, false);
