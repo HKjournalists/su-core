@@ -9,7 +9,6 @@ $(function() {
     var smallData = [];
 	var CONFIRM = null;
 	var deleteId = null;
-	var address = [];
      /**
       * 初始化页面
       */

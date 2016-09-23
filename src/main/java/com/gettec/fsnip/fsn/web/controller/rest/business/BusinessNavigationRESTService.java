@@ -63,9 +63,7 @@ public class BusinessNavigationRESTService extends BaseRESTService{
 			Long currentUserOrganization = Long.parseLong(AccessUtils.getUserRealOrg().toString());
 			Long businessId = businessUnitService.findIdByOrg(currentUserOrganization);
 			List<BusinessNavigation> navigationList = navigationService.getNavigationList(businessId);
-
 			addressId = navigationList.size() + 1;
-
 			navigation.setOrganization(currentUserOrganization);
 			navigation.setAddressId(addressId);
 			if (navigation != null) {
