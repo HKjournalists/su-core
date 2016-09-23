@@ -177,16 +177,16 @@ public class WdnRestService {
 			String content = null;
 			if (!hasEmail && !hasPhone) {
 				draftMessage = "{0} 用户 {1}提交了文献申请, 国科图将发送到邮箱 " + SUPPORT_EMAIL
-						+ ",收到后请转发给用户,系统暂无联系信息";
+						+ ",收到后请转发给用户,系统暂无联系信息 [订单编号:"+ orderId + "]";
 			} else if (hasEmail && !hasPhone) {
 				draftMessage = "{0} 用户 {1}提交了文献申请, 国科图将发送到邮箱 " + SUPPORT_EMAIL
-						+ ",收到后请转发到用户邮箱{2}";
+						+ ",收到后请转发到用户邮箱{2} [订单编号:"+ orderId + "]";
 			} else if (!hasEmail && hasPhone) {
 				draftMessage = "{0} 用户 {1}提交了文献申请, 国科图将发送到邮箱 " + SUPPORT_EMAIL
-						+ ",收到后请电话联系用户{2}";
+						+ ",收到后请电话联系用户{2} [订单编号:"+ orderId + "]";
 			} else if (hasEmail && hasPhone) {
 				draftMessage = "{0} 用户 {1}提交了文献申请, 国科图将发送到邮箱 " + SUPPORT_EMAIL
-						+ ",收到后请转发到用户邮箱{2}, 联系电话{3}";
+						+ ",收到后请转发到用户邮箱{2}, 联系电话{3} [订单编号:"+ orderId + "]";
 			}
 
 			if (!hasEmail && hasPhone) {
