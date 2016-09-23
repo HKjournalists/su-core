@@ -488,19 +488,6 @@ $(document).ready(function() {
        // return attachments;
     };
     facility.delSelectFacilityImg = function(id,url){
-        alert(facility.imgResource.length);
-
-      /*  if(facility.imgResource != null&&facility.imgResource.length>0){
-            for(var s = 0 ;s < facility.imgResource.length;s++){
-                if((facility.imgResource[s].file == null && facility.imgResource[s].url==url) || (facility.imgResource[s].url==null && facility.imgResource[s].file == url)){
-                    alert(facility.imgResource.length);
-                    $.extend(facility.imgResource[s],facility.imgResource[facility.imgResource.length-1]);
-                    facility.imgResource.pop();
-                    alert(facility.imgResource.length);
-                    break;
-                }
-            }
-        }*/
 
         if(facility.imgResource != null&&facility.imgResource.length>0){
             for(var s in facility.imgResource){
@@ -512,7 +499,6 @@ $(document).ready(function() {
 
             }
         }
-        alert(facility.imgResource.length);
         $("img[id='"+id+"']").parent().remove();
       return false;
     };
