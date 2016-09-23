@@ -1476,7 +1476,6 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 				if(orig_testee != null){
 					updateRecordOfTestee(report_vo.getId(), orig_testee.getId());
 				}
-				
 				updateReport(report_vo, info, isStructed);
 			}
 		} catch (ServiceException e) {
@@ -1619,7 +1618,9 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	 */
 	private void setReportValue(TestResult report, ReportOfMarketVO report_vo, AuthenticateInfo info) {
 		report.setDbflag(report_vo.getDbflag());
-		report.setEdition("easy");
+		if(report.getEdition()==null||report.getEdition().equals("")){
+			report.setEdition("easy");
+		}
 		
 		report.setLastModifyUserName(info.getUserName());
 		report.setLastModifyTime(new Date());
