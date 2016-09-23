@@ -3,13 +3,17 @@ $(function() {
     var navigation = window.fsn.navigation = window.fsn.navigation ||{};
     var portal = fsn.portal = fsn.portal || {}; // portal命名空间
     portal.HTTP_PREFIX = fsn.getHttpPrefix(); // 业务请求前缀
-     var List = [];
-     var currentBusinessID = null;
-     var smallData = [];
+	navigation.navigationArry = new Array();
+    var List = [];
+    var currentBusinessID = null;
+    var smallData = [];
+	var CONFIRM = null;
+	var deleteId = null;
      /**
       * 初始化页面
       */
      navigation.initialize = function(){
+		 CONFIRM = initKendoWindow("CONFIRM_COMMON","300px", "100px", "删除提示！", false,true,false,["Close"],null,"");
     	 //弹窗初始化
     	 $("#CONFIRM_COMMON_WIN").kendoWindow({
 				width: "480",
@@ -104,7 +108,7 @@ $(function() {
 	 						createButton(returnSmallOption,returnUrl,returnId);
 	 					});
 	 				}
-	 			},
+	 			}
 	 		});
 
     	
@@ -124,7 +128,7 @@ $(function() {
 	 				if(objs != undefined && objs != null){
 	 					List=objs;
 	 				}
-	 			},
+	 			}
 	 		});
      };
      
@@ -174,8 +178,10 @@ $(function() {
 	function close(){
 		$("#CONFIRM_COMMON_WIN").data("kendoWindow").close();
 	};
-	
- 	
+
+	cancel = function(){
+		CONFIRM.close();
+	};
 	/**
 	 * 创建页面BusinessNavigation对象
 	 */
@@ -186,7 +192,7 @@ $(function() {
 				//根据选中的值-动态的设置URL
 				navigationURL : url,
 				//获取当前登录的企业ID
-				businessID : currentBusinessID,
+				businessID : currentBusinessID
 		};
 		return businessNavigation;
 	};
@@ -219,45 +225,101 @@ $(function() {
 	 * 在页面动态的创建超链接
 	 */
 	var createButton = function(smallOptionName,url,id){
-		var btn = $("<div class='item' id='item_"+id+"'><ul id='sortable'><li>" +
-				"<a id='speed' href='"+url+"'>"+smallOptionName+"</a></li></ul>" +
-				"<span class='close' onclick='return deleteNavigation("+id+");'></span>" +
-				"</div>");
+		var i = 1;
+		var btn = $("<div class='item' id='item_"+id+"'><ul  id='sortable'><li>" +
+		"<a id='"+id+"' sort='"+ i + 1 +"' href='"+url+"'>"+smallOptionName+"</a></li></ul>" +
+		"<span class='close' id='remove' onclick='return deleteNavigation("+id+");'></span>" +
+		"</div>");
+
         $("#addDiv").append(btn);
 	};
-	
+
 	 deleteNavigation = function(navigationId){
-		$.ajax({
-			// /fsn-core/service/business/deleteNavigation/43"
-            url: portal.HTTP_PREFIX + "/business/deleteNavigation/" + navigationId,
-            type: "DELETE",
-            dataType: "json",
-            async: false,
-            contentType: "application/json; charset=utf-8",
-            success: function(returnValue) {
-            	if(returnValue.data == true){
-            		fsn.initNotificationMes("删除成功", true);
-            		$("#item_"+navigationId).remove();
-            	}else {
-            		fsn.initNotificationMes("删除失败", false);
-				}
-            }
-        });
+		deleteId = navigationId;
+		CONFIRM.open().center();
 	};
-	
+
+
+	remove = function(){
+		$.ajax({
+			url: portal.HTTP_PREFIX + "/business/deleteNavigation/" + deleteId,
+			type: "DELETE",
+			dataType: "json",
+			async: false,
+			contentType: "application/json; charset=utf-8",
+			success: function(returnValue) {
+				if(returnValue.data == true){
+					fsn.initNotificationMes("删除成功", true);
+					CONFIRM.close();
+					$("#item_"+deleteId).remove();
+				}else {
+					fsn.initNotificationMes("删除失败", false);
+				}
+			}
+		});
+	};
+
+
 	/**
 	 * 导航拖动
 	 */
 	$( "#addDiv" ).sortable({
-	      //revert: true
-	   }); 
-	
-	
-	
-	
-	
-	
-	
+	      revert: true,
+		  stop: function( event, ui ) {
+			  $("#sortable li").each(function(i){
+				if(i+1!=$(this).find("a").attr("sort")){
+					var nowAddressId = i + 1;
+					var id =$(this).find("a").attr("id");
+					var navigationData = {
+						navigationId :id,
+						addressId : nowAddressId
+					};
+						updateAddress(navigationData);
+					$(this).find("a").attr("sort",i+1);
+				}
+			});
+		}
+	});
+
+
+	/**
+	 * 拖动修改导航位置
+	 */
+	updateAddress = function(data){
+		var dataVo = {
+			navigationArray:data
+		}
+		$.ajax({
+			url: portal.HTTP_PREFIX + "/business/updateAddress",
+			type: "PUT",
+			dataType: "json",
+			async: false,
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(data),
+			traditional: true,
+			success : function(rusult){
+			}
+		});
+	};
+
+	/**
+	 * 初始化提示弹出框
+	 */
+	function initKendoWindow(formId, width, heigth, title,visible, modal, resizable, actions, mesgLabelId, message){
+		if(mesgLabelId != null) {
+			$("#"+mesgLabelId).html(message);
+		}
+		$("#"+formId).kendoWindow({
+			width:width,
+			height:heigth,
+			visible:visible,
+			title:title,
+			modal: modal,
+			resizable:resizable,
+			actions:actions
+		});
+		return $("#"+formId).data("kendoWindow");
+	};
 	
 	
 	navigation.initialize();
