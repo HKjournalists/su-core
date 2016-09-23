@@ -5,7 +5,24 @@ $(function() {
 	var product = upload.product = upload.product || {};
 	portal.HTTP_PREFIX = fsn.getHttpPrefix(); // 业务请求前缀
 	portal.edit_id = null;
-	
+    fsn.upload.product.addProductMange=function(){
+        	       $.ajax({
+            					url:portal.HTTP_PREFIX + "/business/business-brand/getMyBrandsAll",
+            					type:"GET",
+            					dataType:"json",
+            					async:false,
+            					success:function(returnValue){
+            						if(returnValue.result.status == "true"){
+            								 if(returnValue.data.length>0){
+            								  location.href="/fsn-core/views/portal/product.html";
+            								 }else{
+            								 fsn.initNotificationMes("您尚未添加品牌信息，请先到品牌管理页面添加相关品牌信息！", false);
+            								 }
+            						}
+            					},
+            				});
+            				return false;
+        	};
 	//判断cookie不为空时设置为空
 	 try {
 		portal.edit_id = $.cookie("user_0_edit_product").id;
@@ -138,8 +155,8 @@ $(function() {
 		}
 		return productList;
 	};
-	
-	
+
+
 	$("#main").on("click","#batchDelete",function(){
 		var _productIds="",_checkItem=$("input.checkboxes:checked");
 		if(_checkItem.length==0){
