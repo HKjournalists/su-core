@@ -59,7 +59,7 @@
                 if(id=="upload_qr_files"){
                 	attachments.length = 0;
 				}
-                attachments.push(e.response.results[0]);
+				 attachments.push(e.response.results[0]);
 				 var imgData =attachments;
                 if(id=="upload_propaganda_files"){
                 	if(attachments.length>=3){
@@ -75,28 +75,39 @@
 						$("#upload_propaganda_files_img_e").show();
 						$("#upload_propaganda_files_img_s").show();
 
-						var div = document.getElementById("upload_propaganda_div");
+						/*var div = document.getElementById("upload_propaganda_div");
 						while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
 							div.removeChild(div.firstChild);
-						}
+						}*/
 
 					}
 
 					var img ="";
 					for(var k in imgData){
-						img+="<div id='upload_propaganda_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
-						img+="<img id='upload_propaganda_files"+k+"' src='data:"+imgData[k].type.rtName+";base64,"+imgData[k].file+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
-						img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectPropagandaImg("+k+",'"+imgData[k].file+"')>x";
+						var url = imgData[k].url;
+						var  fileUrl = url;
+						if(url == null){
+							fileUrl = imgData[k].file;
+							url = "data:"+imgData[k].type.rtName+";base64,"+imgData[k].file+""
+						}
+
+						img+="<div id='"+id+"_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+						img+="<img id='"+id+"_"+k+"' src='"+url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+						img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectPropagandaImg('"+id+"_"+k+"','"+fileUrl+"')>x";
 						img+="</div>";
 						img+="</div>";
 					}
 					$("#upload_propaganda_files_img").html(img);
-					$("#upload_propaganda_div ul").remove();
+
 					$("#upload_propaganda_files").removeAttr("disabled");
 					$("#upload_propaganda_div div.k-upload-button").removeClass("k-state-disabled");
 
-					$("#upload_propaganda_div").html("<input id='upload_propaganda_files' type='file' />");
-					business_unit.buildUpload("upload_propaganda_files", business_unit.aryPropagandaAttachments, "upload_propaganda_files_log");
+					$("#upload_propaganda_div").find("ul").remove();
+					$("#upload_propaganda_div").find("em").remove();
+					$("#upload_propaganda_div").find("strong ").remove();
+
+				/*	$("#upload_propaganda_div").html("<input id='upload_propaganda_files' type='file' />");
+					business_unit.buildUpload("upload_propaganda_files", business_unit.aryPropagandaAttachments, "upload_propaganda_files_log");*/
                 }else if(id=="upload_license_files"){
 
 
@@ -105,7 +116,7 @@
                     //
 					//}
 					var img = "";
-					for(var k in imgData){
+					for(var k=0;k<imgData.length;k++){
 						var url = imgData[k].url;
 						var  fileUrl = url;
 						if(url == null){
@@ -118,17 +129,67 @@
 						img+="</div>";
 						img+="</div>";
 					  }
-					var div = document.getElementById("upload_license_div"); //$("#upload_logo_div");
+					/*var div = document.getElementById("upload_license_div"); //$("#upload_logo_div");
 					while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
 						div.removeChild(div.firstChild);
-					  }
+					  }*/
 					$("#"+id+"_img_e").show();
 					$("#"+id+"_img_s").show();
 					$("#"+id+"_img").html(img);
+					$("#upload_license_div").find("ul").remove();
+					$("#upload_license_div").find("em").remove();
+					$("#upload_license_div").find("strong ").remove();
 					/* 初始化上传控件 */
-					$("#upload_license_div").html("<input id='"+id+"' type='file' />");
-					business_unit.buildUpload(id, business_unit.aryLicenseAttachments, "upload_license_files_log");
-				}else{
+					//$("#upload_license_div").html("<input id='"+id+"' type='file' />");
+					//business_unit.buildUpload(id, business_unit.aryLicenseAttachments, "upload_license_files_log");
+				}else if(id=="upload_orgnization_files"){
+					var img = "";
+					for(var k=0;k<imgData.length;k++){
+						var url = imgData[k].url;
+						var  fileUrl = url;
+						if(url == null){
+							fileUrl = imgData[k].file;
+							url = "data:"+imgData[k].type.rtName+";base64,"+imgData[k].file+""
+						}
+						img+="<div id='"+id+"_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+						img+="<img id='"+id+"_"+k+"' src='"+url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+						img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectOrgImg('"+id+"_"+k+"','"+fileUrl+"')>x";
+						img+="</div>";
+						img+="</div>";
+					}
+					/*var div = document.getElementById("upload_license_div"); //$("#upload_logo_div");
+					 while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
+					 div.removeChild(div.firstChild);
+					 }*/
+					$("#"+id+"_img_e").show();
+					$("#"+id+"_img_s").show();
+					$("#"+id+"_img").html(img);
+					$("#upload_org_div").find("ul").remove();
+					$("#upload_org_div").find("em").remove();
+					$("#upload_org_div").find("strong ").remove();
+				} else if(id=="upload_tax_files"){
+					var img = "";
+					for(var k=0;k<imgData.length;k++){
+						var url = imgData[k].url;
+						var  fileUrl = url;
+						if(url == null){
+							fileUrl = imgData[k].file;
+							url = "data:"+imgData[k].type.rtName+";base64,"+imgData[k].file+""
+						}
+						img+="<div id='"+id+"_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+						img+="<img id='"+id+"_"+k+"' src='"+url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+						img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectTaxImg('"+id+"_"+k+"','"+fileUrl+"')>x";
+						img+="</div>";
+						img+="</div>";
+					}
+					$("#"+id+"_img_e").show();
+					$("#"+id+"_img_s").show();
+					$("#"+id+"_img").html(img);
+					$("#upload_tax_div").find("ul").remove();
+					$("#upload_tax_div").find("em").remove();
+					$("#upload_tax_div").find("strong ").remove();
+				}
+				else{
 					/**
 					 * 显示当时长传的照片
 					 */
@@ -168,30 +229,28 @@
 	/**
 	 * 删除企业宣传照
 	 */
-	business_unit.delSelectPropagandaImg = function(k,url){
-        $("#upload_propaganda_files_img_"+k).hide();
-		$("#upload_propaganda_files_img_e").show();
+	business_unit.delSelectPropagandaImg = function(id,url){
+		//$("#upload_propaganda_files_img_e").show();
 		if(business_unit.aryPropagandaAttachments != null&&business_unit.aryPropagandaAttachments.length>0){
-			for(var i in business_unit.aryPropagandaAttachments){
-				if((business_unit.aryPropagandaAttachments[i].file == null && business_unit.aryPropagandaAttachments[i].url==url) || (business_unit.aryPropagandaAttachments[i].url==null && business_unit.aryPropagandaAttachments[i].file == url)){
-					business_unit.aryPropagandaAttachments.pop(i);
-					//business_unit.aryPropagandaAttachments.remove(business_unit.aryPropagandaAttachments[i]) ;
+			for(var s in business_unit.aryPropagandaAttachments){
+				if((business_unit.aryPropagandaAttachments[s].file == null && business_unit.aryPropagandaAttachments[s].url==url) || (business_unit.aryPropagandaAttachments[s].url==null && business_unit.aryPropagandaAttachments[s].file == url)){
+					$.extend(business_unit.aryPropagandaAttachments[s],business_unit.aryPropagandaAttachments[business_unit.aryPropagandaAttachments.length-1]);
+					business_unit.aryPropagandaAttachments.pop();
+					break;
 				}
 
 			}
 		}
-		var div = document.getElementById("upload_propaganda_div");
-		while(div.hasChildNodes()){ //当div下还存在子节点时 循环继续
-			div.removeChild(div.firstChild);
+		$("img[id='"+id+"']").parent().remove();
+		if(business_unit.aryPropagandaAttachments.length<3){
+			$("#upload_propaganda_files_img_e").show();
+			$("#upload_propaganda_files").removeAttr("disabled");
+			$("#upload_propaganda_div div.k-upload-button").removeClass("k-state-disabled");
 		}
-		$("#upload_propaganda_files").removeAttr("disabled");
-		$("#upload_propaganda_div div.k-upload-button").removeClass("k-state-disabled");
-
-		$("#upload_propaganda_div").html("<input id='upload_propaganda_files' type='file' />");
-		business_unit.buildUpload("upload_propaganda_files", business_unit.aryPropagandaAttachments, "upload_propaganda_files_log");
-       if(business_unit.aryPropagandaAttachments !=null&&business_unit.aryPropagandaAttachments.length==0){
-		   $("#upload_propaganda_files_img_s").hide();
-	   }
+		if(business_unit.aryPropagandaAttachments.length==0){
+			$("#upload_propaganda_files_img_s").hide();
+		}
+		return false;
 	};
 	/**
 	 * 删除企业宣传照
@@ -233,6 +292,7 @@
 	 * 删除营业执照
 	 */
 	business_unit.delSelectLicenseImg = function(id,url){
+
 		//$("#upload_propaganda_files_img_e").show();
 		if(business_unit.aryLicenseAttachments != null&&business_unit.aryLicenseAttachments.length>0){
 			for(var s in business_unit.aryLicenseAttachments){
@@ -247,6 +307,46 @@
 		$("img[id='"+id+"']").parent().remove();
 		return false;
 	};
+
+	/**
+	 * 删除组织机构图片
+	 */
+	business_unit.delSelectOrgImg = function(id,url){
+		//$("#upload_propaganda_files_img_e").show();
+		if(business_unit.aryOrgAttachments != null&&business_unit.aryOrgAttachments.length>0){
+			for(var s in business_unit.aryOrgAttachments){
+				if((business_unit.aryOrgAttachments[s].file == null && business_unit.aryOrgAttachments[s].url==url) || (business_unit.aryOrgAttachments[s].url==null && business_unit.aryOrgAttachments[s].file == url)){
+					$.extend(business_unit.aryOrgAttachments[s],business_unit.aryOrgAttachments[business_unit.aryOrgAttachments.length-1]);
+					business_unit.aryOrgAttachments.pop();
+					break;
+				}
+
+			}
+		}
+		$("img[id='"+id+"']").parent().remove();
+		return false;
+	};
+
+	/**
+	 * 删除税务图片
+	 */
+	business_unit.delSelectTaxImg = function(id,url){
+		//$("#upload_propaganda_files_img_e").show();
+		if(business_unit.aryTaxAttachments != null&&business_unit.aryTaxAttachments.length>0){
+			for(var s in business_unit.aryTaxAttachments){
+				if((business_unit.aryTaxAttachments[s].file == null && business_unit.aryTaxAttachments[s].url==url) || (business_unit.aryTaxAttachments[s].url==null && business_unit.aryTaxAttachments[s].file == url)){
+					$.extend(business_unit.aryTaxAttachments[s],business_unit.aryTaxAttachments[business_unit.aryTaxAttachments.length-1]);
+					business_unit.aryTaxAttachments.pop();
+					break;
+				}
+
+			}
+		}
+		$("img[id='"+id+"']").parent().remove();
+		return false;
+	};
+
+
     /* 按控件id初始化上传按钮的显示文字 */
     business_unit.getShowName = function(id){
     	if(id=="upload_orgnization_files"){
@@ -932,7 +1032,7 @@
 			for(var k in imgData){
 				imgs+="<div id='upload_license_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
 				imgs+="<img id='upload_license_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
-				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectLicenseImg("+k+",'"+imgData[k].url+"')>x";
+				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectLicenseImg('upload_license_files_"+k+"','"+imgData[k].url+"')>x";
 				imgs+="</div>";
 				imgs+="</div>";
 			}
@@ -941,8 +1041,8 @@
 			$("#upload_license_files_img_e").show();
 			$("#upload_license_files_img_s").show();
 			/* 初始化上传控件 */
-			$("#upload_license_div").html("<input id='upload_license_files' type='file' />");
-			business_unit.buildUpload("upload_license_files", business_unit.aryLicenseAttachments, "upload_license_files_log");
+			/*$("#upload_license_div").html("<input id='upload_license_files' type='file' />");
+			business_unit.buildUpload("upload_license_files", business_unit.aryLicenseAttachments, "upload_license_files_log");*/
 		} else {
 			$("#upload_license_files_img_a").attr("src", "../../resource/img/portal/tupian.jpg");
 			$("#upload_license_files_img_e").show();
@@ -950,11 +1050,43 @@
 		}
 		//组织机构代码证件
 		if (data.orgAttachments != null && data.orgAttachments.length > 0) {
-			$("#upload_orgnization_files_img_a").attr("src", data.orgAttachments[0].url);
+
+			var imgData  = data.orgAttachments;
+
+			var img = "";
+			var imgs = "";
+			for(var k in imgData){
+
+				img+="<div id='upload_orgnization_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				img+="<img id='upload_orgnization_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				img+="</div>";
+
+
+				imgs+="<div id='upload_orgnization_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				imgs+="<img id='upload_orgnization_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectOrgImg('upload_orgnization_files_"+k+"','"+imgData[k].url+"')>x";
+				imgs+="</div>";
+				imgs+="</div>";
+			}
+			$("#upload_orgnization_files_img_a").html(img);
+			$("#upload_orgnization_files_img").html(imgs);
+
+			$("#upload_orgnization_files_img_e").show();
+			$("#upload_orgnization_files_img_s").show();
+
+		/*	/!* 初始化上传控件 *!/
+			$("#upload_license_div").html("<input id='upload_license_files' type='file' />");
+			business_unit.buildUpload("upload_license_files", business_unit.aryLicenseAttachments, "upload_license_files_log");*/
+
+
+
+
+
+			/*$("#upload_orgnization_files_img_a").attr("src", data.orgAttachments[0].url);
 			$("#upload_orgnization_files_img").attr("src", data.orgAttachments[0].url);
 
 			$("#upload_orgnization_files_img_e").hide();
-			$("#upload_orgnization_files_img_s").show();
+			$("#upload_orgnization_files_img_s").show();*/
 		} else {
 			$("#upload_orgnization_files_img_a").attr("src", "../../resource/img/portal/tupian.jpg");
 			$("#upload_orgnization_files_img_e").show();
@@ -963,10 +1095,28 @@
 
 		//税务登记证
 		if (data.taxRegAttachments != null && data.taxRegAttachments.length > 0) {
-			$("#upload_tax_files_img_a").attr("src", data.taxRegAttachments[0].url);
-			$("#upload_tax_files_img").attr("src", data.taxRegAttachments[0].url);
 
-			$("#upload_tax_files_img_e").hide();
+			var imgData  = data.taxRegAttachments;
+
+			var img = "";
+			var imgs = "";
+			for(var k in imgData){
+
+				img+="<div id='upload_tax_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				img+="<img id='upload_tax_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				img+="</div>";
+
+
+				imgs+="<div id='upload_tax_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				imgs+="<img id='upload_tax_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectTaxImg('upload_tax_files_"+k+"','"+imgData[k].url+"')>x";
+				imgs+="</div>";
+				imgs+="</div>";
+			}
+			$("#upload_tax_files_img_a").html(img);
+			$("#upload_tax_files_img").html(imgs);
+
+			$("#upload_tax_files_img_e").show();
 			$("#upload_tax_files_img_s").show();
 		} else {
 			$("#upload_tax_files_img_a").attr("src", "../../resource/img/portal/tupian.jpg");
@@ -999,8 +1149,8 @@
 			var img ="";
 			for(var k in imgData){
 				img+="<div id='upload_propaganda_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
-				img+="<img id='upload_propaganda_files"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
-				img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectPropagandaImg("+k+",'"+imgData[k].url+"')>x";
+				img+="<img id='upload_propaganda_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectPropagandaImg('upload_propaganda_files_"+k+"','"+imgData[k].url+"')>x";
 				img+="</div>";
 				img+="</div>";
 			}
@@ -1341,7 +1491,113 @@
         if(!business_unit.validateCommonPhoto()){ return false; }
         return true;
     };
-    
+
+	/**
+	 *验证企业认证页面
+     */
+	business_unit.validateCertificationInfo = function(){
+		if (!fsn.validateMustDate("licenseStartTime", "营业执照的起始日期")) {
+			return false;
+		}
+		if (!fsn.validateMustDate("licenseEndTime", "营业执照的截止日期")) {
+			return false;
+		}
+		if (!fsn.validateMustDate("orgStartTime", "组织机构证件的起始日期")) {
+			return false;
+		}
+		if (!fsn.validateMustDate("orgEndTime", "组织机构证件的截止日期")) {
+			return false;
+		}
+		if (!fsn.validateDateFormat("registrationTime", "营业执照的注册日期")) {
+			return false;
+		} // 非必填项
+
+		var startDate = $("#licenseStartTime").data("kendoDatePicker").value();
+		var endDate = $("#licenseEndTime").data("kendoDatePicker").value();
+		if ((endDate - startDate) < 0) {
+			lims.initNotificationMes('营业执照的起始日期不能大于截止日期！', false);
+			return false;
+		}
+		startDate = $("#orgStartTime").data("kendoDatePicker").value();
+		endDate = $("#orgEndTime").data("kendoDatePicker").value();
+		if ((endDate - startDate) < 0) {
+			lims.initNotificationMes('组织机构证件的起始日期不能大于截止日期！', false);
+			return false;
+		}
+		if(!$("#orgCode").kendoValidator().data("kendoValidator").validate()){
+			lims.initNotificationMes('【组织机构代码证件】中的组织机构代码不能为空！',false);
+			business_unit.wrong("orgCode","text");
+			return false;
+		}
+
+		if (!$("#licenseNo").kendoValidator().data("kendoValidator").validate()) {
+			lims.initNotificationMes('【营业执照信息】中的营业执照注册号不能为空！', false);
+			business_unit.wrong("licenseNo", "text");
+			return false;
+		}
+		if (!$("#licenseName").kendoValidator().data("kendoValidator").validate()) {
+			lims.initNotificationMes('【营业执照信息】中的经营主体名称不能为空！', false);
+			business_unit.wrong("licenseName", "text");
+			return false;
+		}
+		if (!$("#legalName").kendoValidator().data("kendoValidator").validate()) {
+			lims.initNotificationMes('【营业执照信息】中的法人代表(负责人)不能为空！', false);
+			business_unit.wrong("legalName", "text");
+			return false;
+		}
+		if (!$("#license_mainAddr").kendoValidator().data("kendoValidator").validate()) {
+			lims.initNotificationMes('【营业执照信息】中的经营场所(企业地址)不能为空！', false);
+			business_unit.wrong("license_mainAddr", "text");
+			return false;
+		}
+		if (!$("#license_streetAddress").kendoValidator().data("kendoValidator").validate()) {
+			lims.initNotificationMes('【营业执照信息】中的经营场所的街道地址不能为空！', false);
+			business_unit.wrong("license_streetAddress", "text");
+			return false;
+		}
+
+		if(!$("#orgName").kendoValidator().data("kendoValidator").validate()){
+			lims.initNotificationMes('【组织机构代码证件】中的组织机构名称不能为空！',false);
+			business_unit.wrong("orgName","text");
+			return false;
+		}
+		if(!$("#org_mainAddr").kendoValidator().data("kendoValidator").validate()){
+			lims.initNotificationMes('【组织机构代码证件】中的组织机构地址不能为空！',false);
+			business_unit.wrong("org_mainAddr","text");
+			return false;
+		}
+		if(!$("#org_streetAddress").kendoValidator().data("kendoValidator").validate()){
+			lims.initNotificationMes('【组织机构代码证件】中的组织机构地址的街道地址不能为空！',false);
+			business_unit.wrong("org_streetAddress","text");
+			return false;
+		}
+
+		if(business_unit.aryLicenseAttachments.length<1){
+			lims.initNotificationMes('请上传营业执照证件图片！',false);
+			business_unit.wrong("upload_license_files","select");
+			return false;
+		}
+		if(business_unit.aryOrgAttachments.length<1){
+			lims.initNotificationMes('请上传组织机构代码证件图片！',false);
+			business_unit.wrong("upload_orgnization_files","select");
+			return false;
+		}
+
+		// 纳税人名称
+		var taxName = $("#taxName").val().trim();
+		// 如果用户填写了纳税人名称而为上传附件，则应提示 请上传税务登记证
+		if(taxName != "" && business_unit.aryTaxAttachments.length < 1){
+			lims.initNotificationMes("请上传税务登记证",false);
+			return false;
+		}
+		// 如果用户只上传附件而没有填写纳税人名称，则应提示 请填写纳税人名称
+		if(business_unit.aryTaxAttachments.length > 0 && taxName == ""){
+			lims.initNotificationMes("请填写纳税人名称",false);
+			return false;
+		}
+		return true;
+
+	};
     /* 验证图片 */
     business_unit.validateCommonPhoto = function(){
     	if(business_unit.aryLogoAttachments.length<1){

@@ -19,6 +19,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gettec.fsnip.fsn.service.market.ResourceService;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
@@ -120,6 +121,7 @@ public class BusinessUnitRESTService extends BaseRESTService{
     @Autowired protected BusinessSalesInfoService businessSalesInfoService;
     @Autowired private ProductTobusinessUnitService productToBusinessUnitService;
     @Autowired private StatisticsClient staClient;
+	 @Autowired protected ResourceService testResourceService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "business-unit/{id}")
 	public BusinessUnit get(@PathVariable Long id) {
@@ -216,6 +218,91 @@ public class BusinessUnitRESTService extends BaseRESTService{
 		model.addAttribute("result", resultVO);
 		return JSON;
 	}
+
+	 /**
+	  * 保存企业基本信息
+	  * @param businessUnit
+	  * @param model
+	  * @param req
+	  * @param resp
+      * @return
+      */
+	 @RequestMapping(method = RequestMethod.PUT, value = "/saveBusinessbasBasic")
+	 public View updateBasic(@RequestBody BusinessUnit businessUnit,
+						Model model,HttpServletRequest req,HttpServletResponse resp) {
+		 ResultVO resultVO = new ResultVO();
+		 AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
+		 String errorMsg="";//定义错误消息 报错时 记录到日志表
+		 try {
+			 businessUnitService.updateBusinessBasic(businessUnit,info); // 保存企业基本信息
+			 model.addAttribute("data", businessUnit);
+		 } catch(ServiceException sex){
+			 resultVO.setStatus(SERVER_STATUS_FAILED);
+			 resultVO.setSuccess(false);
+			 resultVO.setErrorMessage(sex.getMessage());
+			 ((Throwable) sex.getException()).printStackTrace();
+			 errorMsg=((Throwable) sex.getException()).getMessage();
+		 }catch(Exception e){
+			 e.printStackTrace();
+			 resultVO.setStatus(SERVER_STATUS_FAILED);
+			 resultVO.setSuccess(false);
+			 errorMsg=errorMsg+"&&&&"+e.getMessage();
+		 }finally{
+
+			 /**
+			  * 记录企业日志
+			  * @author longxianzhen 2015/06/04
+			  */
+			 BusinessUnitInfoLog logData=new BusinessUnitInfoLog(info.getUserName(), "进行更新企业操作",errorMsg, HttpUtils.getIpAddr(req),businessUnit);
+			 staClient.offer(logData);//记录企业日志异步的
+
+		 }
+		 model.addAttribute("result", resultVO);
+		 return JSON;
+	 }
+
+	 /**
+	  * 保存企业证照信息
+	  * @param businessUnit
+	  * @param model
+	  * @param req
+	  * @param resp
+      * @return
+      */
+	 @RequestMapping(method = RequestMethod.PUT, value = "/saveBusinessbasCert")
+	 public View saveBusinessbasCert(@RequestBody BusinessUnit businessUnit,
+							 Model model,HttpServletRequest req,HttpServletResponse resp) {
+		 ResultVO resultVO = new ResultVO();
+		 AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
+		 String errorMsg="";//定义错误消息 报错时 记录到日志表
+		 try {
+			 businessUnitService.updateBusinessCert(businessUnit,info); // 保存企业证照信息
+			 testResourceService.saveBusinessCert(businessUnit);
+			 model.addAttribute("data", businessUnit);
+		 } catch(ServiceException sex){
+			 resultVO.setStatus(SERVER_STATUS_FAILED);
+			 resultVO.setSuccess(false);
+			 resultVO.setErrorMessage(sex.getMessage());
+			 ((Throwable) sex.getException()).printStackTrace();
+			 errorMsg=((Throwable) sex.getException()).getMessage();
+		 }catch(Exception e){
+			 e.printStackTrace();
+			 resultVO.setStatus(SERVER_STATUS_FAILED);
+			 resultVO.setSuccess(false);
+			 errorMsg=errorMsg+"&&&&"+e.getMessage();
+		 }finally{
+
+			 /**
+			  * 记录企业日志
+			  * @author longxianzhen 2015/06/04
+			  */
+			 BusinessUnitInfoLog logData=new BusinessUnitInfoLog(info.getUserName(), "进行更新企业操作",errorMsg, HttpUtils.getIpAddr(req),businessUnit);
+			 staClient.offer(logData);//记录企业日志异步的
+
+		 }
+		 model.addAttribute("result", resultVO);
+		 return JSON;
+	 }
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "business-unit/{id}")
 	public RESTResult<BusinessUnit> delte(@PathVariable("id") Long id) {

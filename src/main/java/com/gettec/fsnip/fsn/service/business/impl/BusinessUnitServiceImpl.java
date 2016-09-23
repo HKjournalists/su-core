@@ -1,26 +1,5 @@
 package com.gettec.fsnip.fsn.service.business.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-
 import com.gettec.fsnip.fsn.dao.business.BusinessUnitDAO;
 import com.gettec.fsnip.fsn.exception.DaoException;
 import com.gettec.fsnip.fsn.exception.JPAException;
@@ -28,15 +7,7 @@ import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.base.District;
 import com.gettec.fsnip.fsn.model.base.Office;
 import com.gettec.fsnip.fsn.model.base.SysArea;
-import com.gettec.fsnip.fsn.model.business.BusinessBrand;
-import com.gettec.fsnip.fsn.model.business.BusinessMarket;
-import com.gettec.fsnip.fsn.model.business.BusinessUnit;
-import com.gettec.fsnip.fsn.model.business.CirculationPermitInfo;
-import com.gettec.fsnip.fsn.model.business.EnterpriseRegiste;
-import com.gettec.fsnip.fsn.model.business.FieldValue;
-import com.gettec.fsnip.fsn.model.business.LicenseInfo;
-import com.gettec.fsnip.fsn.model.business.OrganizingInstitution;
-import com.gettec.fsnip.fsn.model.business.ProducingDepartment;
+import com.gettec.fsnip.fsn.model.business.*;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.model.product.BusinessCertification;
 import com.gettec.fsnip.fsn.model.product.ProductInstance;
@@ -44,18 +15,7 @@ import com.gettec.fsnip.fsn.model.sales.BusinessSalesInfo;
 import com.gettec.fsnip.fsn.service.base.DistrictService;
 import com.gettec.fsnip.fsn.service.base.OfficeService;
 import com.gettec.fsnip.fsn.service.base.SysAreaService;
-import com.gettec.fsnip.fsn.service.business.BusinessBrandService;
-import com.gettec.fsnip.fsn.service.business.BusinessMarketService;
-import com.gettec.fsnip.fsn.service.business.BusinessUnitService;
-import com.gettec.fsnip.fsn.service.business.CirculationPermitService;
-import com.gettec.fsnip.fsn.service.business.EnterpriseRegisteService;
-import com.gettec.fsnip.fsn.service.business.FieldValueService;
-import com.gettec.fsnip.fsn.service.business.LicenseService;
-import com.gettec.fsnip.fsn.service.business.LiquorSalesLicenseService;
-import com.gettec.fsnip.fsn.service.business.MarketToBusinessPKService;
-import com.gettec.fsnip.fsn.service.business.OrgInstitutionService;
-import com.gettec.fsnip.fsn.service.business.ProducingDepartmentService;
-import com.gettec.fsnip.fsn.service.business.TaxRegisterService;
+import com.gettec.fsnip.fsn.service.business.*;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.service.market.ResourceService;
 import com.gettec.fsnip.fsn.service.product.BusinessCertificationService;
@@ -65,12 +25,7 @@ import com.gettec.fsnip.fsn.transfer.BusinessUnitTransfer;
 import com.gettec.fsnip.fsn.util.AnalysisExlUtil;
 import com.gettec.fsnip.fsn.util.FilterUtils;
 import com.gettec.fsnip.fsn.util.HttpUtils;
-import com.gettec.fsnip.fsn.vo.business.AccountBusinessVO;
-import com.gettec.fsnip.fsn.vo.business.BatchAddSubsidiatyVO;
-import com.gettec.fsnip.fsn.vo.business.BusinessTreeDetail;
-import com.gettec.fsnip.fsn.vo.business.BusinessTreeNode;
-import com.gettec.fsnip.fsn.vo.business.EnterpriseRegisteSSO;
-import com.gettec.fsnip.fsn.vo.business.ExlVO;
+import com.gettec.fsnip.fsn.vo.business.*;
 import com.gettec.fsnip.fsn.vo.business.report.BusinessUnitOfReportVO;
 import com.gettec.fsnip.fsn.vo.common.OrganizationVO;
 import com.gettec.fsnip.fsn.vo.common.UserVO;
@@ -79,6 +34,19 @@ import com.gettec.fsnip.sso.client.vo.AuthenticateInfo;
 import com.lhfs.fsn.vo.BusinessUnitVO;
 import com.lhfs.fsn.vo.business.BussinessUnitVOToPortal;
 import com.lhfs.fsn.vo.business.LightBusUnitVO;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * BusinessUnit service implementation
@@ -2323,5 +2291,86 @@ public class BusinessUnitServiceImpl extends BaseServiceImpl<BusinessUnit, Busin
 	public List<BussinessUnitVOToPortal> getBuVOToPortalByBarcode(String barcode) {
 		
 		return businessUnitDAO.getBuVOToPortalByBarcode(barcode);
+	}
+	/**
+	 * 保存企业基本信息
+	 */
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void updateBusinessBasic(BusinessUnit businessUnit, AuthenticateInfo info)
+			throws ServiceException {
+		try {
+			BusinessUnit orig_businessUnit = findById(businessUnit.getId());
+			orig_businessUnit.setAddress(businessUnit.getAddress());
+			orig_businessUnit.setOtherAddress(businessUnit.getOtherAddress());
+			orig_businessUnit.setPersonInCharge(businessUnit.getPersonInCharge());
+			orig_businessUnit.setContact(businessUnit.getContact());
+			orig_businessUnit.setTelephone(businessUnit.getTelephone());
+			orig_businessUnit.setPostalCode(businessUnit.getPostalCode());
+			orig_businessUnit.setEmail(businessUnit.getEmail());
+			orig_businessUnit.setFax(businessUnit.getFax());
+			orig_businessUnit.setAbout(businessUnit.getAbout());
+			orig_businessUnit.setWebsite(businessUnit.getWebsite());
+			
+			update(orig_businessUnit);
+			
+			/* 5.企业Logo图片 */
+			testResourceService.saveLogoResource(businessUnit.getLogoAttachments(), businessUnit.getName());
+			
+			/* 保存销售系统中的 宣传片片和业业二码码*/
+			businessSalesInfoService.save(businessUnit,info);
+			
+			//同布更新企业注册时所填写的基本信息
+			EnterpriseRegiste orig_enterprise = enterpriseService.findbyEnterpriteName(businessUnit.getName());
+			if(orig_enterprise!=null){
+				orig_enterprise.setEnterptiteAddress(businessUnit.getAddress());
+				orig_enterprise.setLegalPerson(businessUnit.getPersonInCharge());
+				orig_enterprise.setEmail(businessUnit.getEmail());
+				orig_enterprise.setTelephone(businessUnit.getTelephone());
+				enterpriseService.update(orig_enterprise);
+			}
+			
+		} catch (Exception e) {
+			throw new ServiceException("【service-error】更新该企业在FSN的信息，出现异常。", e);
+		}
+		
+	}
+	/**
+	 * 保存企业证照信息
+	 */
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void updateBusinessCert(BusinessUnit businessUnit,
+			AuthenticateInfo info) throws ServiceException {
+		try {	
+			/* 2.1 保存营业执照信息 */
+			licenseService.save(businessUnit.getLicense());
+			/* 2.2 保存织机构代码信息  */
+			orgInstitutionService.save(businessUnit.getOrgInstitution(), true);
+			/* 2.6 保存税务登记证信息 */
+			taxRegisterService.save(businessUnit.getTaxRegister());
+			
+			/* 2.5保存企业其他认证信息*/
+			businessCertificationService.save(businessUnit);
+			
+			
+			BusinessUnit orig_businessUnit = findById(businessUnit.getId());
+			
+			setBusinessUnitValue(orig_businessUnit, businessUnit);
+			if(businessUnit.getTaxRegister()!=null){
+				orig_businessUnit.setTaxRegister(taxRegisterService.findById(businessUnit.getTaxRegister().getId()));
+			}
+			if(businessUnit.getLicense()!=null){
+				orig_businessUnit.setLicense(licenseService.getDAO().findById(businessUnit.getLicense().getLicenseNo()));				
+			}
+			if(businessUnit.getOrgInstitution()!=null){
+				orig_businessUnit.setOrgInstitution(orgInstitutionService.findByOrgCode(businessUnit.getOrgInstitution().getOrgCode()));
+			}
+			
+			update(orig_businessUnit);
+
+		} catch (Exception e) {
+			throw new ServiceException("【service-error】更新该企业在FSN的信息，出现异常。", e);
+		}
 	}
 }

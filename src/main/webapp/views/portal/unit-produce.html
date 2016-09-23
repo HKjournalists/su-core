@@ -975,9 +975,10 @@
            </div>
           </div>
          </div>
+
          <div class="div-tr">
           <div class="div-td">
-          <img id="upload_orgnization_files_img_a" src="" style="width: 128px;height:128px;" onclick="fsn.business_unit.amplification(this.src)">
+           <div id="upload_orgnization_files_img_a"></div>
           </div>
          </div>
 
@@ -1015,7 +1016,7 @@
          </div>
          <div class="div-tr">
           <div class="div-td">
-           <img id="upload_tax_files_img_a" src="" style="width: 128px;height:128px;" onclick="fsn.business_unit.amplification(this.src)">
+           <div id="upload_tax_files_img_a"></div>
           </div>
          </div>
 
@@ -1301,11 +1302,11 @@
           </div>
           <div  class="div-tr">
            <div class="div-td">
-
-            <div style="position: relative;width: 128px;height: 128px;">
+            <div id="upload_orgnization_files_img"></div>
+            <!--<div style="position: relative;width: 128px;height: 128px;">
              <img class="imgFiles" id="upload_orgnization_files_img" src="" style="width: 128px;height:128px;" onclick="fsn.business_unit.amplification(this.src)">
              <div class="deleteBtn" onclick="fsn.business_unit.delSelectImg('upload_orgnization_files')">x</div>
-            </div>
+            </div>-->
            </div>
           </div>
          </div>
@@ -1363,10 +1364,11 @@
          </div>
          <div class="div-tr">
           <div class="div-td">
-           <div style="position: relative;width: 128px;height: 128px;">
+           <div id="upload_tax_files_img"></div>
+           <!--<div style="position: relative;width: 128px;height: 128px;">
             <img class="imgFiles" id="upload_tax_files_img" src="" style="width: 128px;height:128px;" onclick="fsn.business_unit.amplification(this.src)">
             <div class="deleteBtn" onclick="fsn.business_unit.delSelectImg('upload_tax_files')">x</div>
-           </div>
+           </div>-->
 
           </div>
          </div>
@@ -1544,7 +1546,7 @@
          <fieldset style="border:1px solid #05BF73;margin: 20px 20px 20px 20px;padding-top: 10px;ext-indent: 2em;">
 
           <label for="maintenanceTime">&nbsp;&nbsp;&nbsp;&nbsp;养护时间：</label>
-          <input id="date_temp" type="hidden" >
+          <input id="date_temp" type="hidden" > <span id="date_temp_s" style="display: none" ></span>
           <input type="text" id="maintenanceTime"   placeholder="例如：2016-01-01"/>
           <button class="k-button inputbtn" onclick="fsn.facility.facility_dataSource($('#m_facility_id').val())">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
           <button class="k-button inputbtn" onclick="fsn.facility.addMaintenanceInfo(0,0)">新增</button>&nbsp;&nbsp;&nbsp;&nbsp;
