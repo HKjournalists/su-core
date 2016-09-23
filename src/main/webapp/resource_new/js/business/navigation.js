@@ -267,21 +267,15 @@ $(function() {
 	$( "#addDiv" ).sortable({
 	      revert: true,
 		  stop: function( event, ui ) {
-			 var len = $("#sortable li").length;
-			  navigation.navigationArry.length = 0;
 			  $("#sortable li").each(function(i){
 				if(i+1!=$(this).find("a").attr("sort")){
 					var nowAddressId = i + 1;
 					var id =$(this).find("a").attr("id");
-					var url = $(this).find("a").attr("href");
-					var name = $(this).find("a").text();
 					var navigationData = {
 						navigationId :id,
 						addressId : nowAddressId
 					};
 						updateAddress(navigationData);
-					//console.log("当前ID【"+id+"】"+"第"+$(this).find("a").attr("sort")+"个位置移动到了"+(i+1)+"========name==="+$(this).find("a").text());
-                    //var data = "第"+$(this).find("a").attr("sort")+"个位置移动到了"+(i+1)
 					$(this).find("a").attr("sort",i+1);
 				}
 			});
@@ -293,7 +287,6 @@ $(function() {
 	 * 拖动修改导航位置
 	 */
 	updateAddress = function(data){
-		//console.log(data)
 		var dataVo = {
 			navigationArray:data
 		}
@@ -328,6 +321,7 @@ $(function() {
 		});
 		return $("#"+formId).data("kendoWindow");
 	};
+	
 	
 	navigation.initialize();
 });

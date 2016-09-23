@@ -70,6 +70,18 @@ a
 			var k = "[展开]";
 			$case.click(function(){
 					if($txt == k){
+		    var $btn = $("#case");
+			var $case = $("#case a");
+			var $btnCont = $case.text();
+			var $txt = $(".txt");
+			var k = "[展开]";
+			var h = $txt.height(); 
+			if(h >= 224){
+				$btn.show();
+				$txt.addClass("caseT");
+			}
+			$case.click(function(){
+					if($btnCont == k){
 						$(this).parents("div").addClass("caseTxt");
 						k = "[关闭]";
 						$case.text(k);
