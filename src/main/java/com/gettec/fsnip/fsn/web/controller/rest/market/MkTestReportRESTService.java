@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
 
 import com.gettec.fsnip.fsn.exception.ServiceException;
+import com.gettec.fsnip.fsn.model.market.MkTempReport;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.model.product.ImportedProduct;
 import com.gettec.fsnip.fsn.model.product.Product;
@@ -47,6 +48,7 @@ import com.gettec.fsnip.fsn.model.test.TestResult;
 import com.gettec.fsnip.fsn.service.business.BusinessUnitService;
 import com.gettec.fsnip.fsn.service.market.FtpService;
 import com.gettec.fsnip.fsn.service.market.MkCategoryService;
+import com.gettec.fsnip.fsn.service.market.MkTempReportService;
 import com.gettec.fsnip.fsn.service.market.MkTestTemplateService;
 import com.gettec.fsnip.fsn.service.market.ResourceTypeService;
 import com.gettec.fsnip.fsn.service.market.UpdataReportService;
@@ -76,6 +78,7 @@ import com.lhfs.fsn.service.testReport.TestReportService;
 @RequestMapping("/testReport")
 public class MkTestReportRESTService {
 	@Autowired private TestReportService testReportService;
+	@Autowired private MkTempReportService  tempReportService;
 	@Autowired private MkCategoryService categoryService;
 	@Autowired private ProductCategoryInfoService productCategoryInfoService;
 	@Autowired private TestPropertyService testPropertyService;
@@ -221,15 +224,15 @@ public class MkTestReportRESTService {
 			List<TestResult> listOfReport;
 			if(isPubUser){
 				/* 2.1 当前登录用户是发布人员时 */
-				total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, null, pubFlag, null,false);
+				total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, null, pubFlag, null);
 				listOfReport = testReportService.getReportsByOrgIdAndUserRealNameWithPage(currentUserOrganization,
-						null, page, pageSize, pubFlag, null,false);
+						null, page, pageSize, pubFlag, null);
 			}else{
 				/* 2.2 当前登录用户是报告录入人员时 */
 				String userName = info.getUserName();
-				total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, userName, pubFlag, null,false);
+				total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, userName, pubFlag, null);
 				listOfReport = testReportService.getReportsByOrgIdAndUserRealNameWithPage(currentUserOrganization,
-						userName, page, pageSize, pubFlag, null,false);
+						userName, page, pageSize, pubFlag, null);
 			}
 			Map map = new HashMap();
 			map.put("listOfReport", listOfReport);
@@ -269,7 +272,7 @@ public class MkTestReportRESTService {
 
 			/* 2 当前登录用户是报告录入人员时 */
 			String userName = info.getUserName();
-			total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, userName, pubFlag, configure,false);
+			total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, userName, pubFlag, configure);
 			listOfReport = testReportService.getReportsByOrgIdAndUserNameFromSCWithPage(currentUserOrganization,
 					userName, page, pageSize, pubFlag, configure);	
 			Map map = new HashMap();
@@ -322,14 +325,14 @@ public class MkTestReportRESTService {
 			configure = configure.replaceAll("%","\\\\%");
 			if(isPubUser){
 				/* 2.1 当前登录用户是发布人员时 */
-				total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, null, pubFlag, configure,isThird);
+				total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, null, pubFlag, configure);
 				listOfReport = testReportService.getReportsByOrgIdAndUserRealNameWithPage(currentUserOrganization,
-						null, page, pageSize, pubFlag, configure,isThird);
+						null, page, pageSize, pubFlag, configure);
 			}else{
 				/* 2.2 当前登录用户是报告录入人员时 */
-				total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, info.getUserName(), pubFlag, configure,isThird);
+				total = testReportService.countByOrgIdAndUserRealName(currentUserOrganization, info.getUserName(), pubFlag, configure);
 				listOfReport = testReportService.getReportsByOrgIdAndUserRealNameWithPage(currentUserOrganization,
-						info.getUserName(), page, pageSize, pubFlag, configure,isThird);
+						info.getUserName(), page, pageSize, pubFlag, configure);
 			}
 			Map map = new HashMap();
 			map.put("listOfReport", listOfReport);
@@ -505,15 +508,15 @@ public class MkTestReportRESTService {
 				if(isPubUser){
 					/* 2.1 当前登录用户是发布人员时 */
 					total = testReportService.countByOrgNameAndUserRealNameAndBackFlag(currentUserOrganization,
-							null, '2', null,false);
+							null, '2', null);
 					listOfReport = testReportService.getReportsByOrgIdAndUserRealNameWithPage(currentUserOrganization,
-							null, page, pageSize, '2', null,false);
+							null, page, pageSize, '2', null);
 				}else{
 					/* 2.2 当前登录用户是报告录入人员时 */
 					total = testReportService.countByOrgNameAndUserRealNameAndBackFlag(currentUserOrganization,
-							info.getUserName(), '2', null,false);
+							info.getUserName(), '2', null);
 					listOfReport = testReportService.getReportsByOrgIdAndUserRealNameWithPage(currentUserOrganization,
-							info.getUserName(), page, pageSize, '2', null,false);
+							info.getUserName(), page, pageSize, '2', null);
 				}
 				Map map = new HashMap();
 				map.put("listOfReport", listOfReport);
@@ -564,15 +567,15 @@ public class MkTestReportRESTService {
 				if(isPubUser){
 					/* 2.1 当前登录用户是发布人员时 */
 					total = testReportService.countByOrgNameAndUserRealNameAndBackFlag(currentUserOrganization,
-							null, '2', configure,isThird);
+							null, '2', configure);
 					listOfReport = testReportService.getReportsByOrgIdAndUserRealNameWithPage(currentUserOrganization,
-							null, page, pageSize, '2', configure,isThird);
+							null, page, pageSize, '2', configure);
 				}else{
 					/* 2.2 当前登录用户是报告录入人员时 */
 					total = testReportService.countByOrgNameAndUserRealNameAndBackFlag(currentUserOrganization,
-							info.getUserName(), '2', configure,isThird);
+							info.getUserName(), '2', configure);
 					listOfReport = testReportService.getReportsByOrgIdAndUserRealNameWithPage(currentUserOrganization,
-							info.getUserName(), page, pageSize, '2', configure,isThird);
+							info.getUserName(), page, pageSize, '2', configure);
 				}
 				Map map = new HashMap();
 				map.put("listOfReport", listOfReport);
@@ -610,9 +613,9 @@ public class MkTestReportRESTService {
 			try {
 				AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
 				Long currentUserOrganization = Long.parseLong(AccessUtils.getUserRealOrg().toString());
-				long total = testReportService.countByIsCanPublish(currentUserOrganization, publishFlag, null,false);
+				long total = testReportService.countByIsCanPublish(currentUserOrganization, publishFlag, null);
 				List<TestResult> listOfReport = testReportService.getListByIsCanPublish(currentUserOrganization,
-						page, pageSize, publishFlag, null,false);
+						page, pageSize, publishFlag, null);
 				Map map = new HashMap();
 				map.put("listOfReport", listOfReport);
 				map.put("counts", total);
@@ -654,9 +657,12 @@ public class MkTestReportRESTService {
 				configure=configure.replaceAll("\\\\0gan0\\\\", "/"); // 搜索条件可以包括特殊字符斜杠'/'
 				configure = configure.replaceAll("%","\\\\%");
 				Long currentUserOrganization=Long.parseLong(AccessUtils.getUserRealOrg().toString());
-				long total = testReportService.countByIsCanPublish(currentUserOrganization, publishFlag, configure,isThird);
+				if(isThird){
+					currentUserOrganization=null;
+				}
+				long total = testReportService.countByIsCanPublish(currentUserOrganization, publishFlag, configure);
 				List<TestResult> listOfReport = testReportService.getListByIsCanPublish(currentUserOrganization,
-						page, pageSize, publishFlag, configure,isThird);
+						page, pageSize, publishFlag, configure);
 				Map map = new HashMap();
 				map.put("listOfReport", listOfReport);
 				map.put("counts", total);
@@ -990,8 +996,8 @@ public class MkTestReportRESTService {
 			try {
 				AuthenticateInfo info = SSOClientUtil.validUser(req, resp);
 				
-				long total = testReportService.countOfPasePdf(info.getUserName(), configure,false);
-				List<TestResult> listOfReport = testReportService.getListOfPasePdfByPage(info.getUserName(), page, pageSize, configure,false);
+				long total = testReportService.countOfPasePdf(info.getUserName(), configure);
+				List<TestResult> listOfReport = testReportService.getListOfPasePdfByPage(info.getUserName(), page, pageSize, configure);
 				
 				Map map = new HashMap();
 				map.put("listOfReport", listOfReport);

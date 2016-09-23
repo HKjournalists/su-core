@@ -10,28 +10,8 @@
 	margin-right:100px;	
 }
 .txt{
-	width:50%;	
-	position:relative;
-}
-.caseT{
-	height:224px;
-	overflow:hidden;
-}
-.caseTxt{
-	
-	height:auto;
-	overflow:visible;
-}
-#case{
-	position:absolute;
-	right:0px;
-	bottom:10px;
-	width:50px;
-	height:25px;
-	background:#F9FDF1;
-	text-align:center;
-	line-height:25px;
-	display:none;
+	width:50%;
+	height:230px;
 }
 .txt p{
 	width:100%;
@@ -58,13 +38,11 @@
 .item span{
 	display:block;
 	background:url("../img/close.png")no-repeat;
-	background-size:100% 100%;
-	width:24px;
-	height:24px;
+	width:12px;
+	height:12px;
 	position: absolute;
 	right:5px;
 	top:5px;
-	cursor:pointer;
 }
 .add{
 	border:2px dashed #ccc;	

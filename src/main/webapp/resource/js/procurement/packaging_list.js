@@ -45,7 +45,7 @@ $(function(){
 	 */
 	packaging.initWidget = function() {
 		/* 初始化时间控件  */
-	    $("#procurementDate,#productionDate").kendoDatePicker({
+	    $("#procurementDate,#expireDate").kendoDatePicker({
 	        format: "yyyy-MM-dd",
 	        height: 30,
 	        culture: "zh-CN",
@@ -62,12 +62,11 @@ $(function(){
 	    });
 	    
 	    //初始化供应商下拉框
-		$("#provider").kendoComboBox({
+		$("#provider").kendoDropDownList({
 			dataTextField: "name",
 			dataValueField: "id",
 			optionLabel:"--请选择--",
-			dataSource: packaging.getDataSet(),
-			filter: "contains"
+			dataSource: packaging.getDataSet()
 		});
 
 		//初始化采购数量NumericTextBox控件
@@ -76,11 +75,7 @@ $(function(){
 			 format: "n0",
 			 placeholder: "采购数量只能为数字"
          });
-		$("#expiration").kendoNumericTextBox({
-			spinners: false,
-			format: "n0",
-			placeholder: "保质期为天数只能为数字"
-		});
+
 	};
 
 	/**
@@ -199,11 +194,10 @@ $(function(){
 		$("#name").val("");
 		$("#format").val("");
 		$("#batch").val("");
-		$("#provider").data("kendoComboBox").text("");
+		$("#provider").data("kendoDropDownList").value(0);
 		$("#procurementNum").data("kendoNumericTextBox").value("");
 		$("#procurementDate").data("kendoDatePicker").value("");
-		$("#productionDate").data("kendoDatePicker").value("");
-		$("#expiration").data("kendoNumericTextBox").value("");
+		$("#expireDate").data("kendoDatePicker").value("");
 		$("#remark").val("");
 		packaging.qualifiedAttachments.length=0;
 		$("#addPopup").data("kendoWindow").open();
@@ -226,14 +220,10 @@ $(function(){
 			 lims.initNotificationMes('名称不能为空!', false);
 			 return;
 		 }
-		 if(""==$("#provider").data("kendoComboBox").value()){
+		 if(""==$("#provider").data("kendoDropDownList").value().trim()){
 			 lims.initNotificationMes('供应商不能为空!', false);
 			 return;
 		 }
-		if($("#provider").data("kendoComboBox").select()<0){
-			lims.initNotificationMes('请选择供应商，不能手动输入!', false);
-			return;
-		}
 		 if(""==$("#format").val().trim()){
 			 lims.initNotificationMes('规格不能为空!', false);
 			 return;
@@ -254,20 +244,12 @@ $(function(){
 			 lims.initNotificationMes('请选择采购时间!', false);
 			 return;
 		 }
-		if(!$("#productionDate").data("kendoDatePicker").value()){
-			lims.initNotificationMes('请选择生产日期!', false);
-			return;
-		}
-		if($("#productionDate").data("kendoDatePicker").value()>$("#procurementDate").data("kendoDatePicker").value()){
-			lims.initNotificationMes('采购时间不能小于生产日期!', false);
-			return;
-		}
-		if(!$("#expiration").data("kendoNumericTextBox").value()){
-			lims.initNotificationMes('保质期不能为空!', false);
-			return;
-		}
-		if($("#expiration").data("kendoNumericTextBox").value()<0){
-			lims.initNotificationMes('保质期不能小于0', false);
+		 if(!$("#expireDate").data("kendoDatePicker").value()){
+			 lims.initNotificationMes('请选择过期时间!', false);
+			 return;
+		 }
+		if($("#expireDate").data("kendoDatePicker").value()-$("#procurementDate").data("kendoDatePicker").value()<=0){
+			lims.initNotificationMes('过期时间不能小于采购时间!', false);
 			return;
 		}
 		 if(packaging.qualifiedAttachments.length==0){
@@ -285,11 +267,10 @@ $(function(){
 		$("#name_c").html($("#name").val());
 		$("#format_c").html($("#format").val());
 		$("#batch_c").html($("#batch").val());
-		$("#provider_c").html($("#provider").data("kendoComboBox").text());
+		$("#provider_c").html($("#provider").data("kendoDropDownList").text());
 		$("#procurementNum_c").html($("#procurementNum").data("kendoNumericTextBox").value());
 		$("#procurementDate_c").html($("#procurementDate").val());
-		$("#productionDate_c").html($("#productionDate").val());
-		$("#expiration_c").html($("#expiration").data("kendoNumericTextBox").value()+"天");
+		$("#expireDate_c").html($("#expireDate").val());
 		$("#remark_c").val($("#remark").val());
 
 		var slides = $("#slides1");
@@ -312,14 +293,13 @@ $(function(){
 		$("#k_window").data("kendoWindow").open().center();
 		var vo={
 			name:$("#name").val().trim(),
-			providerId:$("#provider").data("kendoComboBox").value(),
-			providerName:$("#provider").data("kendoComboBox").text(),
+			providerId:$("#provider").data("kendoDropDownList").value(),
+			providerName:$("#provider").data("kendoDropDownList").text(),
 			format:$("#format").val().trim(),
 			batch:$("#batch").val().trim(),
 			procurementNum:$("#procurementNum").data("kendoNumericTextBox").value(),
 			procurementDate:$("#procurementDate").data("kendoDatePicker").value(),
-			productionDate:$("#productionDate").data("kendoDatePicker").value(),
-			expiration:$("#expiration").data("kendoNumericTextBox").value(),
+			expireDate:$("#expireDate").data("kendoDatePicker").value(),
 			remark:$("#remark").val().trim(),
 			hgAttachments:packaging.qualifiedAttachments
 		};

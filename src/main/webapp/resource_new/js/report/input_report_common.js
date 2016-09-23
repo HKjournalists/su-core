@@ -123,7 +123,8 @@ root.initComponent = function(){
     	}else{
 		   dataSource = [{text: "企业自检",value: "企业自检"},
 		    		  {text: "企业送检",value: "企业送检"},
-		    		  {text: "政府抽检",value: "政府抽检"}];
+		    		  {text: "政府抽检",value: "政府抽检"},
+		    		  {text: "第三方检测",value: "第三方检测"}];
        }
 
     $("#tri_testType").kendoDropDownList({
@@ -1775,12 +1776,12 @@ root.setTriPorDate = function(value,inputDay){
 	var yearNum = ed.getYear() - sd.getYear();
 	var monthNum = ed.getMonth()- sd.getMonth();
 	var monn = ((yearNum*12+monthNum)*30+ed.getDate()-sd.getDate()+1);
-	if(inputDay!=''&&monn > inputDay){
+	if(monn > inputDay){
 		$("#saving_msg").html("");
 		 $("#toSaveWindow").data("kendoWindow").open().close();
 		 fsn.initNotificationMes("已过期，不能保存,更新或提交操作!", false);
 		 return false;
-	} 
+	}
 	return true;
 }
 

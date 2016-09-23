@@ -8,7 +8,6 @@ import com.gettec.fsnip.fsn.model.procurement.ProcurementUsageRecord;
 import com.gettec.fsnip.fsn.service.procurement.ProcurementDisposeService;
 import com.gettec.fsnip.fsn.service.procurement.ProcurementInfoService;
 import com.gettec.fsnip.fsn.service.procurement.ProcurementUsageRecordService;
-import com.gettec.fsnip.fsn.util.DateUtil;
 import com.gettec.fsnip.fsn.util.PropertiesUtil;
 import com.gettec.fsnip.fsn.util.UploadUtil;
 import com.gettec.fsnip.fsn.web.controller.rest.BaseRESTService;
@@ -178,7 +177,6 @@ public class ProcurementRESTService extends BaseRESTService{
 			procurementInfo.setCreator(userName);
 			procurementInfo.setSurplusNum(procurementInfo.getProcurementNum());
 			procurementInfo.setCreateDate(new Date());
-			procurementInfo.setExpireDate(DateUtil.addDays(procurementInfo.getProductionDate(),procurementInfo.getExpiration())) ;
 			UploadUtil uploadUtil = new UploadUtil();
 			String ftpPath = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_MEMBER_PATH);
 			String webUrl = PropertiesUtil.getProperty(FSN_FTP_UPLOAD_WEB_MEMBER_PATH); 

@@ -126,9 +126,7 @@ $(function(){
 			selectLocal=fsn.l("上传'生产许可证'");
 		}else if(id.indexOf("upload_disImg_files")!=-1){
 			selectLocal=fsn.l("上传'食品流通许可证'或<br>'食品经营许可证'");
-		}else if(id=="return_file"){
-         	selectLocal=fsn.l("上传退回原因");
-        }
+		}
 		$("#"+id).kendoUpload({
        	 async: {
                 saveUrl: portal.HTTP_PREFIX + "/resource/kendoUI/addResources/" + flag,

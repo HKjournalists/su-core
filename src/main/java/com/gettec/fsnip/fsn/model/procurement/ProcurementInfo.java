@@ -44,12 +44,6 @@ public class ProcurementInfo extends Model{
 	@Column(name = "procurement_date")
 	private Date procurementDate;   // 采购日期
 	
-	@Column(name = "production_date")
-	private Date productionDate;   // 生产日期
-
-	@Column(name = "expiration")
-	private Integer expiration;   // 保质期 天
-
 	@Column(name = "expire_date")
 	private Date expireDate;   // 过期日期
 
@@ -266,20 +260,5 @@ public class ProcurementInfo extends Model{
 	public void setSurplusNum(Integer surplusNum) {
 		this.surplusNum = surplusNum;
 	}
-
-	public Date getProductionDate() {
-		return productionDate;
-	}
-
-	public void setProductionDate(Date productionDate) {
-		this.productionDate = productionDate;
-	}
-
-	public Integer getExpiration() {
-		return expiration;
-	}
-
-	public void setExpiration(Integer expiration) {
-		this.expiration = expiration;
-	}
+	
 }

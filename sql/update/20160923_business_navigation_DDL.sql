@@ -1,0 +1,1 @@
+ALTER TABLE business_navigation ADD COLUMN `addressId` INT(11) NULL COMMENT '导航移动后的位置' AFTER `organization`; 

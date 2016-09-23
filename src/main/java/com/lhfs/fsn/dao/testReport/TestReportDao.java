@@ -54,12 +54,12 @@ public interface TestReportDao extends BaseDAO<TestResult>{
 	boolean verifyExist(String barcode, String batchSeriaNo, String serviceOrder);
 
 	List<TestResult> getListByIsHavePdfWithPage(int page, int pageSize,
-			Map<String, Object> map,boolean isThird) throws DaoException;
+			Map<String, Object> map) throws DaoException;
 
 	List<TestResult> getListByConditionWithPage(char pubFlag,
 			int page, int pageSize, Map<String, Object> map) throws DaoException;
 
-	long countByConditionIsCanPublish(Map<String, Object> configure,boolean isThird) throws DaoException;
+	long countByConditionIsCanPublish(Map<String, Object> configure) throws DaoException;
 	
 	long countByProductIdAndTestType(Long productId,String testType) throws DaoException;
 

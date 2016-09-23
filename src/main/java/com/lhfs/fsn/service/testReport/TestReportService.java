@@ -39,24 +39,24 @@ public interface TestReportService  extends BaseService<TestResult, TestReportDa
 	String getIDsByProductInstanceID(Long id);
 
 	long countByOrgIdAndUserRealName(Long organizationId, String userRealName,
-			char pubFlag, String configure,boolean isThird) throws ServiceException;
+			char pubFlag, String configure) throws ServiceException;
 
 	List<TestResult> getReportsByOrgIdAndUserRealNameWithPage(
 			Long organizationId, String userRealName, int page, int pageSize,
-			char pubFlag, String configure,boolean isThird) throws ServiceException;
+			char pubFlag, String configure) throws ServiceException;
 
 	TestResult editTips(Long reportId, String tipTextValue) throws ServiceException;
 
 	void deleteTestReport(ResultVO resultVO, Long id) throws ServiceException;
 
 	Long countByOrgNameAndUserRealNameAndBackFlag(Long organizationId, String userRealName,
-			char pubFlag, String condition,boolean isThird) throws ServiceException;
+			char pubFlag, String condition) throws ServiceException;
 
 	long countByIsCanPublish(Long organizationId, char pubFlag, 
-			String condition,boolean isThird) throws ServiceException;
+			String condition) throws ServiceException;
 
 	List<TestResult> getListByIsCanPublish(Long organizationId, int page,
-			int pageSize, char pubFlag, String condition,boolean isThird) throws ServiceException;
+			int pageSize, char pubFlag, String condition) throws ServiceException;
 
 	List<Resource> addTestResources(Collection<Resource> resources) throws ServiceException;
 
@@ -172,7 +172,7 @@ public interface TestReportService  extends BaseService<TestResult, TestReportDa
 	 * @author ZhangHui 2015/6/18
 	 * @throws ServiceException 
 	 */
-	public long countOfPasePdf(String userName, String configure,boolean isThird) throws ServiceException;
+	public long countOfPasePdf(String userName, String configure) throws ServiceException;
 
 	/**
 	 * 功能描述：查找用户通过解析pdf生成的报告
@@ -180,7 +180,7 @@ public interface TestReportService  extends BaseService<TestResult, TestReportDa
 	 * @throws ServiceException 
 	 */
 	public List<TestResult> getListOfPasePdfByPage(String userName, int page,
-			int pageSize, String configure,boolean isThird) throws ServiceException;
+			int pageSize, String configure) throws ServiceException;
 
 	/**
 	 * 功能描述：获取所有退回给当前登陆供应商的报告数量

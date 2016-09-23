@@ -35,12 +35,9 @@
 	    ||window.location.href.indexOf("/report_new/") > 1
 		  ) {
 			$.get("menu_new.html", function(data){
-				$("#menu").hide();
 				$("#menu").html(data);
 				var href = $("ul li:eq(6) a").attr("href");
 				if (href != "#" && href != undefined) {
-					window.location.href = $("ul li:eq(6) a").attr("href");
-				} else{
 					window.location.href = $("ul li:eq(6) a").attr("href");
 				}
 			});
@@ -48,19 +45,15 @@
 		else {
 		
 			$.get("menu.html", function(data){
-				$("#menu").hide();
-				$("#nav_search_bar").hide();
 				$("#menu").html(data);
 				var href = $("ul li:eq(6) a").attr("href");
 				if (href != "#" && href != undefined) {
 					window.location.href = $("ul li:eq(6) a").attr("href");
-				} else{
-					window.location.href = $("ul li:eq(5) a").attr("href");
 				}
 			});
 		}
 
-
+		
 		
 	});
 </script>

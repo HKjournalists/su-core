@@ -3,28 +3,20 @@ package com.gettec.fsnip.fsn.web.controller.rest.business;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import com.gettec.fsnip.fsn.model.business.NavigationAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.View;
 
 import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.business.BusinessNavigation;
 import com.gettec.fsnip.fsn.service.business.BusinessNavigationService;
 import com.gettec.fsnip.fsn.service.business.BusinessUnitService;
-import com.gettec.fsnip.fsn.vo.erp.PagingSimpleModelVO;
 import com.gettec.fsnip.fsn.web.controller.rest.BaseRESTService;
 import com.gettec.fsnip.sso.client.util.AccessUtils;
-import com.gettec.fsnip.sso.client.util.SSOClientUtil;
-import com.gettec.fsnip.sso.client.vo.AuthenticateInfo;
 
 import static com.gettec.fsnip.fsn.web.IWebUtils.JSON;
 
@@ -67,8 +59,13 @@ public class BusinessNavigationRESTService extends BaseRESTService{
 	@RequestMapping(method = RequestMethod.POST,value = "/addNavigation")
 	public View addNavigation(@RequestBody BusinessNavigation navigation,Model model){
 		try {
+			int addressId = 0;
 			Long currentUserOrganization = Long.parseLong(AccessUtils.getUserRealOrg().toString());
+			Long businessId = businessUnitService.findIdByOrg(currentUserOrganization);
+			List<BusinessNavigation> navigationList = navigationService.getNavigationList(businessId);
+			addressId = navigationList.size() + 1;
 			navigation.setOrganization(currentUserOrganization);
+			navigation.setAddressId(addressId);
 			if (navigation != null) {
 				BusinessNavigation newNavigation = navigationService.create(navigation);
 				model.addAttribute("newNavigation", newNavigation);
@@ -80,12 +77,42 @@ public class BusinessNavigationRESTService extends BaseRESTService{
 		return JSON;
 	}
 
+	/**
+	 * 拖动修改导航位置
+	 */
+	@RequestMapping(method = RequestMethod.PUT,value = "/updateAddress")
+	public View updateAddress(@RequestBody NavigationAddress  navigationData,Model model){
+
+		try {
+			Long currentUserOrganization = Long.parseLong(AccessUtils.getUserRealOrg().toString());
+			Long businessId = businessUnitService.findIdByOrg(currentUserOrganization);
+			navigationService.updateNavigationList(navigationData);
+
+//			List<BusinessNavigation> navigationList = navigationService.getNavigationList(businessId);
+//			for (BusinessNavigation businessNavigation : navigationList) {
+//				long oldNavigationId = businessNavigation.getId();
+//				long newNavigationId = addresses.getNavigationId();
+//				int oldAddressId = businessNavigation.getAddressId();
+//				int newAddressId = addresses.getAddressId();
+//				if (oldNavigationId == newNavigationId && oldAddressId != newAddressId) {
+//					businessNavigation.setAddressId(newAddressId);
+//				}
+//				navigationService.update(businessNavigation);
+			model.addAttribute("status",true);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
+		return JSON;
+	}
+
+
+
 
 	/**
 	 * 删除快速导航
 	 * @param id
 	 * @param model
-	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.DELETE,value = "/deleteNavigation/{id}")
 	public View deleteNavigation(@PathVariable("id") long id,Model model){
@@ -99,5 +126,5 @@ public class BusinessNavigationRESTService extends BaseRESTService{
 		return JSON;
 	}
 	
-	
+
 }

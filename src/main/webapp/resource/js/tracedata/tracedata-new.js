@@ -5,19 +5,29 @@ $(document).ready(function(){
 	root.aryGeAttachments = new Array();
 	root.aryByAttachments = new Array();
 	root.aryBusinessAttachments = new Array();
-	var productId=null;
 	root.initialize=function(){
 		root.upload1("upload-other-img", root.aryRepAttachments ,"otherEroMsg", "IMG");
 		root.upload1("upload-ge-img", root.aryGeAttachments ,"szEroMsg", "IMG");
 		root.upload1("upload-by-img", root.aryByAttachments ,"erEroMsg", "IMG");
 		root.upload1("upload-business-img", root.aryBusinessAttachments ,"cnEroMsg", "IMG");
 		
-		 $("#barcode").kendoAutoComplete({
-        	            dataSource: lims.getAutoLoadDsByUrl("/product/getAllBarCode?businessType=生产企业"),
-        	            filter: "startswith",
-        	            placeholder: "搜索...",
-        	            select: root.onSelectBarcode,
-        	        });
+		$("#productID").kendoDropDownList({
+			dataSource:{
+				transport: {
+					read: {
+						url: fsn.getHttpPrefix()+"/product/getAllProductsByOrg",
+						dataType: "json"
+					}
+				},
+				schema: {
+					data: function(response) {
+						return response.productList; 
+					}
+				}
+			},
+			dataTextField: "name",
+			dataValueField: "id"
+		});
 		$("#sourceDate,#warehouseDate,#productDate,#leaveDate").kendoDatePicker({
 			format: "yyyy-MM-dd",
 			height:30,
@@ -27,12 +37,9 @@ $(document).ready(function(){
 	};
 	var id=getUrlParam("id");
 	if(id!=null){
-	    var _barcode=null
 		$.get(fsn.getHttpPrefix()+"/traceData/getTraceDataById",{id:id},function(rs){
-			_barcode=root.getbarcodeByProductId(rs.traceData.productID);
-			productId=rs.traceData.productID;
-			$("#barcode").val(_barcode);
-			$("#name").val(rs.traceData.productName);
+			
+			$("#productID").data("kendoDropDownList").value(rs.traceData.productID);
 			$("#sourceArea").val(rs.traceData.sourceArea);
 			$("#sourceDate").val(fsn.formatGridDate(rs.traceData.sourceDate));
 			$("#processor").val(rs.traceData.processor);
@@ -95,7 +102,6 @@ $(document).ready(function(){
 			}else{
 			   $("#logListView3").hide();
 			}
-            $("#barcode").attr("disabled","disabled");
 			$("#save").find("span:last-child").html('更新');
 		},'json');
 	
@@ -194,134 +200,11 @@ $(document).ready(function(){
 	            },
 	      });
 		};
-	$("#barcode").blur(function() {
-        	var barcode = $("#barcode").val();
 
-    		$("#name").val("");
-        	/*条形码为空不进行判断*/
-        	if(barcode==""){
-        		return;
-        	}
-    		 root.judgeProductByBarcode(barcode);
-
-    	});
-    root.onSelectBarcode = function(e){
-        		$("#name").val("");
-        		 root.initBarcode = this.dataItem(e.item.index());
-        		 $("#barcode").val(root.initBarcode);
-        		 root.judgeProductByBarcode(root.initBarcode);
-        		// portal.codeFlag = false;
-        	};
-    root.getbarcodeByProductId=function(productid){
-         var productbarcode=null;
-        $.ajax({
-                	         url: fsn.getHttpPrefix() + "/product/" + productid,
-                	         type: "GET",
-                	         dataType: "json",
-                	         async: false,
-                	         success: function(returnValue) {
-                	             if (returnValue.result.status == "true") {
-                	             	productbarcode = returnValue.data.barcode;
-                	             	console.log(productbarcode);
-                	             }
-                	         }
-                	     });
-                	     return productbarcode;
-    }
-    root.judgeProductByBarcode = function(barcode){
-    		/*条形码为空不进行判断*/
-    		if(barcode==""){
-    			return;
-    		}
-    		root.queryCheckByBarcode(barcode);
-    		/* 1 验证产品条形码是否为系统已存在产品 */
-            productId = root.queryProductIdByBarcode(barcode);
-            console.log(productId);
-            if(productId==null){
-            	/* 1.1 系统中不存在 */
-            	fsn.initNotificationMes("系统中不存在该产品！", false);
-    			return;
-            }
-        	else{
-        		/* 1.2.2 是引进产品或者是自己新增的产品，则进行正常录报告流程 */
-        	//	root.current_barcode_can_use = true;
-        		root.initPageData(productId);
-        	}
-    	};
-    root.queryCheckByBarcode = function(barcode){
-        		$.ajax({
-        	         url: fsn.getHttpPrefix() + "/product/query/getCheckProductId/" + barcode,
-        	         type: "GET",
-        	         dataType: "json",
-        	         async: false,
-        	         success: function(returnValue) {
-        	             if (returnValue.result.status == "true") {
-        	             	productId = returnValue.data;
-        	             	if(productId == null){
-        	                	/* 1.1 该条形码系统不存在，则引导用户跳转至产品新增界面 */
-        	                	root.current_barcode_can_use = false;
-        	        			$("#create_product_warn_window").data("kendoWindow").open().center();
-        	        			return;
-        	                }
-        	             	var count = returnValue.count;
-        	            	if(count == 0){
-        	            		/* 1.2.1 不是引进产品，则引导用户填写销往客户 */
-        	            		root.current_barcode_can_use = false;
-        	            		$("#lead_product_warn_window").data("kendoWindow").open().center();
-        	            	}else{
-        	            		/* 1.2.2 是引进产品或者是自己新增的产品，则进行正常录报告流程 */
-        	            		root.current_barcode_can_use = true;
-        	            		//root.initPageData(productId);
-        	            	}
-        	             }
-        	         }
-        	     });
-        	},
-    root.queryProductIdByBarcode = function(barcode){
-            	 		/*条形码为空不进行判断*/
-            	 		if(barcode==""){
-            	 			return;
-            	 		}
-            	 		var productId = null;
-            	 	 	$.ajax({
-            	 	         url: fsn.getHttpPrefix() + "/product/query/getProductId/" + barcode,
-            	 	         type: "GET",
-            	 	         dataType: "json",
-            	 	         async: false,
-            	 	         success: function(returnValue) {
-            	 	             if (returnValue.result.status == "true") {
-            	 	             	productId = returnValue.data;
-            	 	             }
-            	 	         }
-            	 	     });
-            	 	 	 return productId;
-            	 	 };
-    root.initPageData = function(productId){
-                           //  root.initBarcode = barcode;
-                     		$.ajax({
-                     	         url: fsn.getHttpPrefix() + "/product/getAllProductsByOrgandId?id="+productId,
-                       	         type: "GET",
-                       	         dataType: "json",
-                       	         success: function(returnValue) {
-                       	             	var name = returnValue.product;
-                       	             	//console.log(name);
-                       	             	if(name == null){
-                       	                	/* 1.1 该条形码系统不存在，则引导用户跳转至产品新增界面 */
-                       	             		fsn.initNotificationMes("您的列表中不存在该产品！", false);
-                       	        			return;
-                       	                }
-                       	             	else{
-                       	             		$("#name").val(name);
-
-                       	            	}
-                       	         }
-
-                     	     });
-                     };
 	$("#save").click(function(){
 		var data={};
 		data.id=getUrlParam("id");
-		data.productID=productId;
+		data.productID=$("#productID").data("kendoDropDownList").value();
 		data.sourceArea=$("#sourceArea").val();
 		data.sourceDate=$("#sourceDate").val();
 		data.processor=$("#processor").val();
@@ -329,7 +212,7 @@ $(document).ready(function(){
 		data.warehouseDate=$("#warehouseDate").val();
 		data.productDate=$("#productDate").val();
 		data.leaveDate=$("#leaveDate").val();
-		data.productName=$("#name").val();
+		data.productName=$("#productID").data("kendoDropDownList").text();
 		if(data.sourceArea==""){
 			lims.initNotificationMes('原材料来源区域不能为空',false);
 			return false;

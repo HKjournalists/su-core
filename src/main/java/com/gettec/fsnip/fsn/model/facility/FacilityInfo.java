@@ -5,8 +5,6 @@ import com.gettec.fsnip.fsn.model.market.Resource;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by wb on 2016/9/13.
@@ -41,14 +39,9 @@ public class FacilityInfo extends Model{
     @Column(name = "application")
     private String application;      //用途
 
-//    @OneToOne(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
-//    @JoinColumn(name="RESOURCE_ID")
-//    private Resource resource;  // 营业执照图片
-//
-
-    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    @JoinTable(name="facility_to_resource",joinColumns={@JoinColumn(name="facility_id")}, inverseJoinColumns = {@JoinColumn(name="resource_id")})
-    private Set<Resource> facilityArry = new HashSet<Resource>();
+    @OneToOne(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    @JoinColumn(name="RESOURCE_ID")
+    private Resource resource;  // 营业执照图片
 
     @Column(name = "remark")
     private String remark;           //备注
@@ -123,21 +116,12 @@ public class FacilityInfo extends Model{
         this.application = application;
     }
 
-//    public Resource getResource() {
-//        return resource;
-//    }
-//
-//    public void setResource(Resource resource) {
-//        this.resource = resource;
-//    }
-
-
-    public Set<Resource> getFacilityArry() {
-        return facilityArry;
+    public Resource getResource() {
+        return resource;
     }
 
-    public void setFacilityArry(Set<Resource> facilityArry) {
-        this.facilityArry = facilityArry;
+    public void setResource(Resource resource) {
+        this.resource = resource;
     }
 
     public String getRemark() {

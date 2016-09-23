@@ -2,7 +2,7 @@
 	var fsn = window.fsn = window.fsn || {};
 	fsn.HTTP_PREFIX = fsn.getHttpPrefix();
 	var saleskendoUtil = window.saleskendoUtil = window.saleskendoUtil || {};
-	var business_unit = window.fsn.business_unit = window.fsn.business_unit || {};
+		
 	/* 初始化上传控件  */
 	saleskendoUtil.buildUpload = function(formId, attachments, btnText, extension, isMultiple, successCallBackFun, delCallBackFun){
    	 $("#"+formId).kendoUpload({
@@ -66,16 +66,7 @@
 					$("#upload_certification_div div strong").css("heigth","40px");
 					$("#upload_certification_div div ul strong").css("line-height","3.7em");
 
-					var div = document.getElementById("upload_certification_div"); //$("#upload_logo_div");
-					//while(div.hasChildNodes()) { //当div下还存在子节点时 循环继续
-					//	div.removeChild(div.firstChild);
-					//}
-					///* 初始化认证资源的上传控件 */
-					//$("#upload_certification_div").html("<input id='upload_certification_files' type='file' />");
-					//saleskendoUtil.buildUpload("upload_certification_files", null,'上传证书','.jpeg,.jpg,.png,.bmp',false, business_unit.addUploadStdCertRes, business_unit.kendoDelCertificationFile);
-					//$("#"+formId+"_img").attr("src","data:"+e.response.results[0].type.rtName+";base64,"+e.response.results[0].file);
-					//$("#"+formId+"_img_e").hide();
-					//$("#"+formId+"_img_s").show();
+
 				}
                 if(attachments != null) {
 					 attachments.push(e.response.results[0]);
