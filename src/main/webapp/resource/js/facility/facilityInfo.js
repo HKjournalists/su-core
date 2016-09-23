@@ -20,6 +20,7 @@ $(document).ready(function() {
         $("#submitFacilityInfo").bind("click", facility.submitFacilityInfo);
         $("#submitMaintenanceInfo").bind("click", facility.submitMaintenanceInfo);
         $("#submitOperateInfo").bind("click", facility.submitOperateInfo);
+
         /**
          * 初始化规模信息
          */
@@ -288,14 +289,23 @@ $(document).ready(function() {
 
         {title: fsn.l("Operation"),
             width: 88,
-        command: [
+        command: [{
+            name: "review",
+            text: "<span class='k-icon k-review'></span>" + fsn.l("设备图片"),
+            click: function (e) {
+                e.preventDefault();
+                // 当前选中的认证信息所在的行 从 0 开始计 ，在验证认证信息是否重复时需要该标记
+                //var rowIndex = $(e.currentTarget).closest("tr").index();
+                var delItem = this.dataItem($(e.currentTarget).closest("tr"));
+                facility.seefacilityImg(delItem.facilityArry,1);
+            }
+        },
         {
             name: "edit",
             text: "<span class='k-icon k-edit'></span>" + fsn.l("Edit"),
             click: function (e) {
                 e.preventDefault();
                 var delItem = this.dataItem($(e.currentTarget).closest("tr"));
-               //  alert(delItem.facilityArry.length);
                 facility.addFacilityInfo(delItem,1);
             }
         },{
@@ -307,18 +317,6 @@ $(document).ready(function() {
                     var delItem = this.dataItem($(e.currentTarget).closest("tr"));
                     facility.deleteFacilityInfo(delItem.id);
 
-                }
-            },{
-                name: "review",
-                text: "<span class='k-icon k-review'></span>" + fsn.l("设备图片"),
-                click: function (e) {
-                    e.preventDefault();
-                    // 当前选中的认证信息所在的行 从 0 开始计 ，在验证认证信息是否重复时需要该标记
-                    //var rowIndex = $(e.currentTarget).closest("tr").index();
-                    var delItem = this.dataItem($(e.currentTarget).closest("tr"));
-
-
-                    facility.seefacilityImg(delItem.facilityArry,1);
                 }
             }]
         }
@@ -602,16 +600,24 @@ $(document).ready(function() {
         return facilityInfo;
     };
     facility.deleteFacilityInfo = function(id){
-        $.ajax({
-            url: portal.HTTP_PREFIX + "/facility/deleteFacilityInfo/"+id,
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            success: function(returnVal){
-                if(returnVal.status == true){
-                    fsn.initNotificationMes("设备信息删除成功!", true);
-                    facility.facility_dataSource();
+        var message = "您确定要删除设备信息吗?"
+        facility.initkendoWindow("div_window","450px","auto","设备信息",message );
+        $("#no_button").bind("click",facility.closeInfo);
+        $("#div_window").data("kendoWindow").center().open();
+        $("#yes_button").unbind("click");
+        $("#yes_button").bind("click",function() {
+            $.ajax({
+                url: portal.HTTP_PREFIX + "/facility/deleteFacilityInfo/" + id,
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                success: function (returnVal) {
+                    if (returnVal.status == true) {
+                        fsn.initNotificationMes("设备信息删除成功!", true);
+                        facility.facility_dataSource();
+                        $("#div_window").data("kendoWindow").close();
+                    }
                 }
-            }
+            });
         });
     };
 
@@ -666,8 +672,8 @@ $(document).ready(function() {
 
         var facilityDateTemp = $("#date_temp").val();
         var checked_s=$("#date_temp_s").html();
-        if(maintenanceTimeTemp<=facilityDateTemp){
-            lims.initNotificationMes("当前采购时间为："+checked_s+"养护时间必须大于或者等于采购时间!", false);
+        if(maintenanceTimeTemp<facilityDateTemp){
+            lims.initNotificationMes("当前采购时间为："+checked_s+"养护时间必须大于采购时间!", false);
             return false;
         }
         var maintenanceContent = $("#maintenanceContent").val();
@@ -697,18 +703,26 @@ $(document).ready(function() {
             });
     };
     facility.deleteMaintenanceInfo = function(id){
-        $.ajax({
-            url: portal.HTTP_PREFIX + "/facility/delMaintenanceInfo/"+id,
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            success: function(returnVal){
-                if(returnVal.status == true){
-                    fsn.initNotificationMes("养护记录删除成功!", true);
-                    var facilityId = $("#m_facility_id").val();
-                    facility.facility_dataSource(facilityId);
-                }
-            }
-        });
+            var message = "您确定要删除养护记录吗?"
+            facility.initkendoWindow("div_window","450px","auto","养护记录",message );
+             $("#no_button").bind("click",facility.closeInfo);
+            $("#div_window").data("kendoWindow").center().open();
+             $("#yes_button").unbind("click");
+            $("#yes_button").bind("click",function(){
+                $.ajax({
+                    url: portal.HTTP_PREFIX + "/facility/delMaintenanceInfo/" + id,
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (returnVal) {
+                        if (returnVal.status == true) {
+                            fsn.initNotificationMes("养护记录删除成功!", true);
+                            var facilityId = $("#m_facility_id").val();
+                            facility.facility_dataSource(facilityId);
+                        }
+                    }
+                });
+                $("#div_window").data("kendoWindow").close();
+            });
     };
     /**
      * 初始化规模信息
@@ -836,15 +850,21 @@ $(document).ready(function() {
         slides.html(img);
         $('#slides').slides();
         $("#DIV_IMG_WIN").data("kendoWindow").open().center();
-
-        //window.parent.location.href = imgUrl;
-        //window.open ( imgUrl, "_blank" );
-        //$("#DIV_IMG_ID").attr("src",imgUrl);
-        //$("#DIV_IMG_WIN").data("kendoWindow").open().center()
     };
-
-    //procurement.showQualifiedImg=function (imgs) {
-    //
-    //};
+    facility.closeInfo = function(){
+        $("#div_window").data("kendoWindow").close();
+    };
+    facility.initkendoWindow = function(id,width,height,title,message ){
+        $("#"+id+"_message").html(message);
+        $("#"+id).kendoWindow({
+            width: width,
+            height:height,
+            title: title,
+            visible: false,
+            resizable: false,
+            draggable:false,
+            modal: true
+        });
+    }
     facility.initialize();
 })
