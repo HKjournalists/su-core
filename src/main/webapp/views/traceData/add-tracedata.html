@@ -71,7 +71,10 @@
 			}
 		});
 		
-		/* 布局调整 */
+		/* 保存弹出窗口效果 */
+		$("#save").click(function(){
+			$(".ui-dialog-body").css({"background":"#fff","color":"#00A878","font-size":"16px","text-align":"center"});
+		})
 		
 	});
 	
@@ -138,6 +141,7 @@ table._previewFieldset,table._previewFieldset tbody,table._previewFieldset tbody
 #uploadZone div.k-header ul.k-upload-files li.k-file span.k-progress{width:100%;}
 #uploadZone div.k-header ul.k-upload-files li.k-file span.k-filename{width:40%;}
 #menu_bar{z-index: 800;}
+.ui-dialog-body{background:#fff;color:#00A878;font-size:16px;}
 </style>
 </head>
 <body>
