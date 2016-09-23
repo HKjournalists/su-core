@@ -1262,7 +1262,7 @@ ResourceService {
 				for (int i = sheet.getFirstRowNum(); i <= sheet  
 		                .getPhysicalNumberOfRows(); i++) {
 					row = sheet.getRow(i);  
-		            if (row == null||row.getCell(0).toString().trim().length()<1||row.getCell(3).toString().trim().length()<1) {  
+		            if (row == null||row.getCell(0)==null||row.getCell(0).toString().trim().length()<1||row.getCell(3).toString().trim().length()<1) {  
 		                continue;  
 		            }  
 					TestProperty itm = new TestProperty();
