@@ -188,6 +188,27 @@
 					$("#upload_tax_div").find("ul").remove();
 					$("#upload_tax_div").find("em").remove();
 					$("#upload_tax_div").find("strong ").remove();
+				} else if(id=="upload_qs_files"){
+					var img = "";
+					for(var k=0;k<imgData.length;k++){
+						var url = imgData[k].url;
+						var  fileUrl = url;
+						if(url == null){
+							fileUrl = imgData[k].file;
+							url = "data:"+imgData[k].type.rtName+";base64,"+imgData[k].file+""
+						}
+						img+="<div id='"+id+"_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+						img+="<img id='"+id+"_"+k+"' src='"+url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+						img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectQsImg('"+id+"_"+k+"','"+fileUrl+"')>x";
+						img+="</div>";
+						img+="</div>";
+					}
+					$("#"+id+"_img_e").show();
+					$("#"+id+"_img_s").show();
+					$("#"+id+"_img").html(img);
+					$("#upload_qs_div").find("ul").remove();
+					$("#upload_qs_div").find("em").remove();
+					$("#upload_qs_div").find("strong ").remove();
 				}
 				else{
 					/**
@@ -255,8 +276,23 @@
 	/**
 	 * 删除企业宣传照
 	 */
-	business_unit.delSelectQsImg = function(k,url){
-		$("#upload_propaganda_files_img_e").show();
+	business_unit.delSelectQsImg = function(id,url){
+
+		//$("#upload_propaganda_files_img_e").show();
+		if(business_unit.aryQsAttachments != null&&business_unit.aryQsAttachments.length>0){
+			for(var s in business_unit.aryQsAttachments){
+				if((business_unit.aryQsAttachments[s].file == null && business_unit.aryQsAttachments[s].url==url) || (business_unit.aryQsAttachments[s].url==null && business_unit.aryQsAttachments[s].file == url)){
+					$.extend(business_unit.aryQsAttachments[s],business_unit.aryQsAttachments[business_unit.aryQsAttachments.length-1]);
+					business_unit.aryQsAttachments.pop();
+					break;
+				}
+
+			}
+		}
+		$("img[id='"+id+"']").parent().remove();
+		return false;
+
+		/*$("#upload_propaganda_files_img_e").show();
 		if(business_unit.aryQsAttachments != null&&business_unit.aryQsAttachments.length>0){
 			for(var s in business_unit.aryQsAttachments){
 				if((business_unit.aryQsAttachments[s].file == null && business_unit.aryQsAttachments[s].url==url) || (business_unit.aryQsAttachments[s].url==null && business_unit.aryQsAttachments[s].file == url)){
@@ -286,7 +322,7 @@
 		business_unit.buildUpload("upload_qs_files", business_unit.aryQsAttachments, "proFileMsgQs", "product");
        if(business_unit.aryQsAttachments !=null&&business_unit.aryQsAttachments.length==0){
 		   $("#upload_qs_files_img_s").hide();
-	   }
+	   }*/
 	};
 	/**
 	 * 删除营业执照

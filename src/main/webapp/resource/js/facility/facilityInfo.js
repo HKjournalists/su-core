@@ -745,7 +745,8 @@ $(document).ready(function() {
         }
         $("#operate_id").val(data.id);
         $("#operateType").val(data.operateType);
-        $("#operateScope").val(data.operateScope);
+        //$("#operateScope").val(data.operateScope);
+        $("#operateScope").data("kendoComboBox").text(data.operateScope);
         $("#personCount").val(data.personCount);
         $("#floorArea").val(data.floorArea);
     };
