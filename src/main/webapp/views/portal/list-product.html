@@ -34,8 +34,7 @@
 <script src="../../resource/js/filter.js"></script>
 <script src="../../resource/js/language/product_up_zh-cn.js"></script>
 <script src="../../resource_new/js/common/jquery.md5.js"></script>
-<script src="../../resource/js/upload/list_product.js"></script>
-<script>
+<script src="../../resource/js/upload/list_product.js"></script><script>
 	$(document).ready(function() {
 		$("fieldset input").focus(function() {
 			$(this).parent().prev("label").hide();
@@ -55,6 +54,9 @@
     margin-top: -5px;
     vertical-align: middle;
     }
+    a.k-button{
+		padding:3px;
+	}
 </style>
 </head>
 <body id="home">
@@ -72,8 +74,8 @@
 		<div id="main" class="row ml20">
 			<div class="column12 last">
 				<script id="toolbar_template" type="text/x-kendo-template">
-					<a class="k-button k-button-icontext k-grid-add" href="/fsn-core/views/portal/product.html" >
-					<span class="k-icon k-add"></span>新增</a>
+					<a id="add" class="k-button k-button-icontext k-grid-add"  onclick="fsn.upload.product.addProductMange()" >
+					<span class="k-icon k-add" ></span>新增</a>
 					<a class="k-button k-button-icontext k-grid-add" target="_blank" href="https://shop129098631.taobao.com/?spm=2013.1.0.0.ENn21p&qq-pf-to=pcqq.c2c" >
 					<span class="k-icon"></span>服务</a>
 				</script>
@@ -114,6 +116,8 @@
                     <img src="../../resource/img/success-icon.png" style="margin-top: 5px;"/>
                     <h3 style="width:240px; margin-top: -35px;margin-left: 40px;">#= message #</h3>
                 </div>
-	</script>  
+	</script>
+
+<script src="../../resource/js/upload/list_product.js"></script>
 </body>
 </html>

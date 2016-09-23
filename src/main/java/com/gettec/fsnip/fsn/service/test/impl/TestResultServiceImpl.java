@@ -36,6 +36,7 @@ import com.gettec.fsnip.fsn.model.test.TestRptJson;
 import com.gettec.fsnip.fsn.service.business.EnterpriseRegisteService;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.service.market.ResourceService;
+import com.gettec.fsnip.fsn.service.market.ResourceTypeService;
 import com.gettec.fsnip.fsn.service.product.ProductCategoryInfoService;
 import com.gettec.fsnip.fsn.service.test.TestPropertyService;
 import com.gettec.fsnip.fsn.service.test.TestResultService;
@@ -74,6 +75,7 @@ public class TestResultServiceImpl extends BaseServiceImpl<TestResult, TestResul
 	@Autowired private ResourceService resourceService;
 	@Autowired private ProductDao productLFDAO;
 	@Autowired private ProductCategoryInfoService productCategoryInfoService;
+	@Autowired private ResourceTypeService resourceTypeService;
 
 	@Override
 	public TestResultDAO getDAO() {
@@ -485,6 +487,7 @@ public class TestResultServiceImpl extends BaseServiceImpl<TestResult, TestResul
 			report.setTestType(testType);
 			report.setPublishFlag('0');
 		}
+		
 		/* 主要仪器 */
 		report.setEquipment(testResultVO.getEquipment());
 		/* 执行标准 */
@@ -514,8 +517,18 @@ public class TestResultServiceImpl extends BaseServiceImpl<TestResult, TestResul
 		report.setCreate_user(testResultsVO.getPublisher());
 		report.setCheckOrgName("");
 		try {
+			Resource resource=new Resource();
+			resource.setUrl(fullPdfPath);
+			String _url=fullPdfPath.substring(0, fullPdfPath.lastIndexOf("?"));
+			String fileName=_url.substring(_url.lastIndexOf("/")+1);
+			resource.setFileName(fileName);
+			resource.setName(fileName);
+			resource.setType(resourceTypeService.findById(3L));
+			Set<Resource> resourceList=new HashSet<Resource>();
+			resourceList.add(resource);
+			report.setRepAttachments(resourceList);
 			testResultDAO.persistent(report);
-		} catch (JPAException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("msg", "报告保存失败");
 			map.put("status", "false");

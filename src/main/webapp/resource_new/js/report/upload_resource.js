@@ -99,8 +99,8 @@ root.buildUpload = function(id, attachments, msg, flag){
                                 }
                                 return;
                         }
-                    } else if (extension != ".xls") {
-                            lims.initNotificationMes('请确保你上传的是Excel文件，并且是2003版本。', false);
+                    } else if (extension != ".xls"&&extension != ".xlsx") {
+                            lims.initNotificationMes('请确保你上传的是Excel文件。', false);
                             e.preventDefault();
                             return;
                     }

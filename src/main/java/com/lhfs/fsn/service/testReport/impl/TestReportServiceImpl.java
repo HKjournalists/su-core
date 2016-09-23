@@ -498,10 +498,10 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
 	public long countByOrgIdAndUserRealName(Long organizationId, String userRealName, 
-			char pubFlag, String configure) throws ServiceException {
+			char pubFlag, String configure,boolean isThird) throws ServiceException {
 		try {
 			Map<String, Object> map;
-			map = getConfigure(organizationId, userRealName, pubFlag, '0', configure, false, null);
+			map = getConfigure(organizationId, userRealName, pubFlag, '0', configure, false, null,isThird);
 			String condition = (String) map.get("condition");
 			Object[] params = (Object[]) map.get("params");
 			return testReportDao.count(condition, params);
@@ -605,11 +605,11 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
 	public List<TestResult> getReportsByOrgIdAndUserRealNameWithPage(Long organizationId, String userRealName,
-			int page, int pageSize, char pubFlag, String condition) throws ServiceException{
+			int page, int pageSize, char pubFlag, String condition,boolean isThird) throws ServiceException{
 		try {
 			List<TestResult> reports = null;
 			Map<String, Object> map;
-			map = getConfigure(organizationId, userRealName, pubFlag, '0', condition, false, null);
+			map = getConfigure(organizationId, userRealName, pubFlag, '0', condition, false, null,isThird);
 			reports =  testReportDao.getListByConditionWithPage(pubFlag, page, pageSize, map);
 			if(reports == null){return null;}
 			TestResultTransfer.transfer(reports);
@@ -667,9 +667,9 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	 * @throws ServiceException 
 	 */
 	public Long countByOrgNameAndUserRealNameAndBackFlag(Long organizationId, String userRealName,
-			char pubFlag, String configure) throws ServiceException{
+			char pubFlag, String configure,boolean isThird) throws ServiceException{
 		try {
-			Map<String, Object> map = getConfigure(organizationId, userRealName, pubFlag, '0', configure, false, null);
+			Map<String, Object> map = getConfigure(organizationId, userRealName, pubFlag, '0', configure, false, null,isThird);
 			String condition = (String) map.get("condition");
 			Object[] params = (Object[]) map.get("params");
 			return testReportDao.count(condition, params);
@@ -684,9 +684,9 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	 */
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
-	public long countByIsCanPublish(Long organizationId, char pubFlag, String condition) throws ServiceException {
+	public long countByIsCanPublish(Long organizationId, char pubFlag, String condition,boolean isThird) throws ServiceException {
 		try {
-			return testReportDao.countByConditionIsCanPublish(getConfigure(organizationId, null, pubFlag, '0', condition, false, null));
+			return testReportDao.countByConditionIsCanPublish(getConfigure(organizationId, null, pubFlag, '0', condition, false, null,isThird),isThird);
 		} catch (DaoException dex) {
 			throw new ServiceException("TestReportServiceImpl.countByIsCanPublish()-->" + dex.getMessage(), dex.getException());
 		}
@@ -698,10 +698,10 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
 	public List<TestResult> getListByIsCanPublish(Long organizationId, int page, int pageSize, 
-			char pubFlag, String condition) throws ServiceException{
+			char pubFlag, String condition,boolean isThird) throws ServiceException{
 		try {
 			List<TestResult> testResultList= testReportDao.getListByIsHavePdfWithPage(page, pageSize, getConfigure(organizationId,
-						null, pubFlag, '0', condition, false, null));
+						null, pubFlag, '0', condition, false, null,isThird),isThird);
 			TestResultTransfer.transfer(testResultList);
 			return testResultList;
 		} catch(DaoException dex) {
@@ -949,9 +949,9 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	 * @author ZhangHui 2015/6/18
 	 */
 	@Override
-	public long countOfPasePdf(String userName, String configure) throws ServiceException {
+	public long countOfPasePdf(String userName, String configure,boolean isThird) throws ServiceException {
 		try {
-			return testReportDao.countOfPasePdf(userName, getConfigure(null, null, '3', '4', configure, false, null));
+			return testReportDao.countOfPasePdf(userName, getConfigure(null, null, '3', '4', configure, false, null,isThird));
 		} catch (DaoException dex) {
 			throw new ServiceException("TestReportServiceImpl.countByUserNameAndMkdbflag()-->" + dex.getMessage(), dex.getException());
 		}
@@ -963,11 +963,11 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	 * @throws ServiceException 
 	 */
 	@Override
-	public List<TestResult> getListOfPasePdfByPage(String userName, int page, int pageSize, String configure) 
+	public List<TestResult> getListOfPasePdfByPage(String userName, int page, int pageSize, String configure,boolean isThird) 
 			throws ServiceException {
 		try {
 			return testReportDao.getListOfPasePdfByPage(userName, 
-					page, pageSize, getConfigure(null, null, '3', '4', configure, false, null));
+					page, pageSize, getConfigure(null, null, '3', '4', configure, false, null,isThird));
 		} catch (DaoException dex) {
 			throw new ServiceException("TestReportServiceImpl.getListByByUserNameAndMkdbflagWithPage()-->" + dex.getMessage(),dex.getException());
 		}
@@ -981,10 +981,11 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	 * @param backFlag 是否退回
 	 * @param dbFlag 数据源
 	 * @param flag 内部开关标记
+	 * @param isThird 第三方检测报告
 	 * @return
 	 */
 	private Map<String, Object> getConfigure(Long organizationId, String realUserName, 
-			char pubFlag, char dbFlag, String condition, boolean isLoadAllDealerOfPass, String organizationName) throws ServiceException{
+			char pubFlag, char dbFlag, String condition, boolean isLoadAllDealerOfPass, String organizationName,boolean isThird) throws ServiceException{
 		try {
 			String new_configure = getConfigure(condition);
 			
@@ -995,7 +996,13 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 			}else if(isLoadAllDealerOfPass && pubFlag == '6'){
 				new_configure += " AND publishFlag IN ('0','1','2','3',?1)";
 			}else{
-				new_configure += " AND publishFlag = ?1 AND  DATEDIFF(e.sample.expirationDate, SYSDATE()) > 0 ";
+				new_configure += " AND publishFlag = ?1 ";
+				if(!isThird){
+					new_configure += " AND  DATEDIFF(e.sample.expirationDate, SYSDATE()) > 0 ";
+				}
+			}
+			if(isThird){
+				organizationId=null;
 			}
 			params[0] = pubFlag;
 			
@@ -1469,7 +1476,6 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 				if(orig_testee != null){
 					updateRecordOfTestee(report_vo.getId(), orig_testee.getId());
 				}
-				
 				updateReport(report_vo, info, isStructed);
 			}
 		} catch (ServiceException e) {
@@ -1612,7 +1618,9 @@ public class TestReportServiceImpl extends BaseServiceImpl<TestResult, TestRepor
 	 */
 	private void setReportValue(TestResult report, ReportOfMarketVO report_vo, AuthenticateInfo info) {
 		report.setDbflag(report_vo.getDbflag());
-		report.setEdition("easy");
+		if(report.getEdition()==null||report.getEdition().equals("")){
+			report.setEdition("easy");
+		}
 		
 		report.setLastModifyUserName(info.getUserName());
 		report.setLastModifyTime(new Date());

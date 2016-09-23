@@ -39,37 +39,14 @@
 .fixfooter {
 	padding-bottom: 60px;
 }
-
-#container {
-	width: 800px;
-	height:
-}
-
-#container ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-#container ul li {
-	float: left;
-}
-#container
- 
-ul
- 
-li
- 
-a
+#container{width:800px;height:}
+#container ul{list-style:none;margin:0;padding:0;}
+#container ul li{float:left;}
+#container ul li a
 </style>
 	<script>
 	$(function(){
 		/* 企业简介展示 */
-			var $case = $("#case a");
-			var $txt = $case.text();
-			var k = "[展开]";
-			$case.click(function(){
-					if($txt == k){
 		    var $btn = $("#case");
 			var $case = $("#case a");
 			var $btnCont = $case.text();
@@ -105,7 +82,6 @@ a
 				</div>
 			</div>
 		</div>
-
 		<div class="container clearfix wper100" id="content_container">
 			<div class="column12 brief">
 				<div class="image fl">
@@ -114,13 +90,16 @@ a
 				<div class="txt fl">
 					<span>企业简介：</span>
 					<span id="case"><a href="javascript:void(0)">[展开]</a></span>
-					<p id="businessAbout"></p>
+					<p id="businessAbout">
+						
+					</p>
 				</div>
 			</div>
-			<div class="column12 brief">
+			<div class="column12 brief" >
 
-				<div id="addDiv">
-				</div>
+		        <div id = "addDiv">
+		        
+		        </div>
 				<div class="item add" id="addNavigation">
 					<a href="javascript:void(0);">+</a>
 				</div>
@@ -146,17 +125,7 @@ a
 			</div>
 		</div>
 	</div>
-	<div id="CONFIRM_COMMON" style="display:none;">
-		<div id="">
-			<div style="text-align: center;">您确定要删除吗?</div>
-			<br/>
-			<div style="text-align: right;">
-				<a onclick="return remove()" id="save"  class="k-button"><span class="k-button inputbtn">确定</span></a> &nbsp;&nbsp;&nbsp;&nbsp;
-				<a onclick="return cancel()" id="cancel" class="k-button"><span class="k-button inputbtn">取消</span></a> &nbsp;&nbsp;&nbsp;&nbsp;
-			</div>
-		</div>
-	</div>
-	<span id="RETURN_MES" style="display: none;"></span>
+	<span id="RETURN_MES" style="display:none;"></span>
 	<script id="errorTemplate" type="text/x-kendo-template">
                 <div class="wrong-pass">
                     <img src="../../resource/img/error-icon.png" style="display: inline-block;margin-left: 300px; margin-top: 10px;text-align: center;" width="20px" heigth= "20px"/><br/>

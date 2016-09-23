@@ -1,11 +1,14 @@
 package com.gettec.fsnip.fsn.model.business;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 
 
 import com.gettec.fsnip.fsn.model.common.Model;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/16.
@@ -38,18 +41,7 @@ public class BusinessNavigation extends Model{
 	
 	@Column(name = "organization")
 	private Long organization;  // 组织机构ID
-
-	@Column(name = "addressId")
-	private int addressId;
-
-	public int getAddressId() {
-		return addressId;
-	}
-
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
-	}
-
+	
 	public Long getOrganization() {
 		return organization;
 	}

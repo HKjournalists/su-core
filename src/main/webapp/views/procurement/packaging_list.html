@@ -92,11 +92,11 @@
 <body>
  
 <div class="fixfooter">
-	<div class="fullview" id="status_bar">
+	<div class="fullview" >
 		<div class="container">
 			<div class="row show-area">
 				<div class="column12">
-					<div class="fullview page_title mt50 wper100 line" id="status_bar"> 采购管理>>包装材料管理 </div>
+					<div class="fullview page_title mt50 wper100" id="status_bar"> 采购管理>>包装材料管理 </div>
 				</div>
 			</div>
 		</div>
@@ -168,10 +168,18 @@
 				<font class="necessary">*</font>
 			</div>
 			<div class="k-edit-label user-edit_lable">
-				<label for="expireDate" >过期日期：</label>
+				<label for="productionDate" >生产日期：</label>
 			</div>
 			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="expireDate" type="text" />
+				<input class="k-input k-textbox lims-input" id="productionDate" type="text" />
+				<font class="necessary">*</font>
+			</div>
+			<div class="k-edit-label user-edit_lable">
+				<label for="expiration" >保质期：</label>
+			</div>
+			<div class="k-edit-field" style="float: left;margin-left: 4px;">
+				<input class="k-input k-textbox lims-input" id="expiration" type="text" />
+				天
 				<font class="necessary">*</font>
 			</div>
 			<div class="k-edit-label user-edit_lable">
@@ -240,10 +248,16 @@
 			<span id="procurementDate_c" class="cspan"></span>
 		</div>
 		<div class="k-edit-label user-edit_lable">
-			<label for="expireDate_c" >过期日期：</label>
+			<label for="productionDate_c" >生产日期：</label>
 		</div>
 		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
-			<span id="expireDate_c" class="cspan"></span>
+			<span id="productionDate_c" class="cspan"></span>
+		</div>
+		<div class="k-edit-label user-edit_lable">
+			<label for="expiration_c" >保质期：</label>
+		</div>
+		<div class="k-edit-field" style="float: left;margin-left: 4px;padding: 0.4em 0 1em;">
+			<span id="expiration_c" class="cspan"></span>
 		</div>
 		<div class="k-edit-label user-edit_lable">
 			<label for="remark_c" >备注：</label>

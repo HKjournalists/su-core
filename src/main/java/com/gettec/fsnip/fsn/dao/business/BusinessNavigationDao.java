@@ -9,6 +9,4 @@ public interface BusinessNavigationDao extends BaseDAO<BusinessNavigation>{
 
 	List<BusinessNavigation> getNavigationList(Long businessID);
 
-	int getCount(Long currentUserOrganization);
-
 }
