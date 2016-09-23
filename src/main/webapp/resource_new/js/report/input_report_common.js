@@ -123,8 +123,7 @@ root.initComponent = function(){
     	}else{
 		   dataSource = [{text: "企业自检",value: "企业自检"},
 		    		  {text: "企业送检",value: "企业送检"},
-		    		  {text: "政府抽检",value: "政府抽检"},
-		    		  {text: "第三方检测",value: "第三方检测"}];
+		    		  {text: "政府抽检",value: "政府抽检"}];
        }
 
     $("#tri_testType").kendoDropDownList({
