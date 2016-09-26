@@ -563,7 +563,7 @@ $(document).ready(function() {
             var img_a = "";
             //for(var i in imgData){
             for (var i = 0; i < imgData.length; i++) {
-                img_a += "<div style='float: left;margin-left:10px;'><img id='show_qs_img" + i + "' src='" + imgData[0].url + "' style='width: 128px;height:128px;' style='display:block;' onclick='fsn.business_unit.amplification(this.src)'></div>"
+                img_a += "<div style='float: left;margin-left:10px;'><img id='show_qs_img" + i + "' src='" + imgData[i].url + "' style='width: 128px;height:128px;' style='display:block;' onclick='fsn.business_unit.amplification(this.src)'></div>"
             }
             $("#upload_qs_files_img_s").show();
             $("#upload_qs_files_img").html(img_a);
