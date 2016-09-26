@@ -71,35 +71,29 @@ a
 <script>
 	$(function() {
 		/* 企业简介展示 */
+	    var $btn = $("#case");
 		var $case = $("#case a");
-		var $txt = $case.text();
+		var $btnCont = $case.text();
+		var $txt = $(".txt");
 		var k = "[展开]";
-		$case.click(function() {
-			if ($txt == k) {
-				var $btn = $("#case");
-				var $case = $("#case a");
-				var $btnCont = $case.text();
-				var $txt = $(".txt");
-				var k = "[展开]";
-				var h = $txt.height();
-				if (h >= 224) {
-					$btn.show();
-					$txt.addClass("caseT");
-				}
-				$case.click(function() {
-					if ($btnCont == k) {
-						$(this).parents("div").addClass("caseTxt");
-						k = "[关闭]";
-						$case.text(k);
-					} else {
-						$(this).parents("div").removeClass("caseTxt");
-						k = "[展开]";
-						$case.text(k);
-					}
-				})
-			}
-		})
-	})
+		var h = $txt.height(); 
+		if(h >= 224){
+			$btn.show();
+			$txt.addClass("caseT");
+		}
+		$case.click(function(){
+				if($btnCont == k){
+					$(this).parents("div").addClass("caseTxt");
+					k = "[关闭]";
+					$case.text(k);
+				}else{
+					$(this).parents("div").removeClass("caseTxt");
+					k = "[展开]";
+					$case.text(k);
+				}				
+			})			
+
+	});
 </script>
 </head>
 <body>
@@ -120,8 +114,8 @@ a
 					<span>企业LOGO</span> <img style="height: 228px" id="businessLogo" />
 				</div>
 				<div class="txt fl">
-					<span>企业简介：</span> <span id="case"><a
-						href="javascript:void(0)">[展开]</a></span>
+					<span id="case"><a	href="javascript:void(0)">[展开]</a></span>
+					<span>企业简介：</span>					 
 					<p id="businessAbout"></p>
 				</div>
 			</div>
