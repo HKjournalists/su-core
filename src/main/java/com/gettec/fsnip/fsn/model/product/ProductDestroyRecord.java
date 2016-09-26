@@ -1,28 +1,14 @@
 package com.gettec.fsnip.fsn.model.product;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Type;
-
 import com.gettec.fsnip.fsn.model.common.Model;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.recycle.Process_mode;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /*
  *销毁日志
@@ -247,10 +233,10 @@ public class ProductDestroyRecord extends Model{
 
 
 	public Long getOrganization() {
-		return Organization;
+		return organization;
 	}
 
-	public void setOrganization(Long Organization) {
-		this.Organization = Organization;
+	public void setOrganization(Long organization) {
+		this.organization = organization;
 	}
 }
