@@ -669,19 +669,23 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 	public List<ReturnProductVO> getSaleGoodsListToSC(Long curOrg, Long busId, int page,
 													  int pageSize, String name, String barcode) throws DaoException {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" SELECT pro.id,pro.name,pro.barcode,pro.format,qs.qs_no,pro.expiration_date,1 FROM product pro");
-		sb.append(" LEFT JOIN product_to_businessunit ptb ON ptb.PRODUCT_ID = pro.id");
-		sb.append(" LEFT JOIN production_license_info qs ON qs.id = ptb.qs_id");
-		sb.append(" WHERE pro.producer_id = ?1");
-		if (!"".equals(name)) {
-			sb.append(" AND pro.name like '%" + name + "%'");
+		sb.append(" SELECT p.id,p.name,p.barcode,p.format,p.qs_no,p.expiration_date,1 FROM ");
+		sb.append(" (SELECT pro.id,pro.name,pro.barcode,pro.format,qs.qs_no,pro.expiration_date FROM product pro ");
+		sb.append(" LEFT JOIN product_to_businessunit pb ON pb.PRODUCT_ID=pro.id ");
+		sb.append(" LEFT JOIN production_license_info qs ON qs.id=pb.qs_id ");
+		sb.append(" WHERE pro.organization = ?1");
+		if (!"".equals(name)&&!"".equals(barcode)) {
+			sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
 		}
-		if (!"".equals(barcode)) {
-			sb.append(" AND pro.barcode like '%" + barcode + "%'");
+		if (!"".equals(barcode)&&"".equals(name)) {
+			sb.append(" AND pro.barcode like '%" + barcode + "%' ");
 		}
-		sb.append(" GROUP BY pro.id,qs.qs_no");
+		if ("".equals(barcode)&&!"".equals(name)) {
+			sb.append(" AND pro.name like '%" + name + "%' ");
+		}
+		sb.append(" GROUP BY pro.id ) AS p ");
 		try {
-			Query query = entityManager.createNativeQuery(sb.toString()).setParameter(1, busId);
+			Query query = entityManager.createNativeQuery(sb.toString()).setParameter(1, curOrg);
 			if (page > 0 && pageSize > 0) {
 				query.setFirstResult((page - 1) * pageSize);
 				query.setMaxResults(pageSize);
@@ -701,19 +705,22 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 		
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append(" SELECT count(*) FROM (");
-			sb.append(" SELECT DISTINCT qs.qs_no,pro.id FROM product pro");
-			sb.append(" LEFT JOIN product_to_businessunit ptb ON ptb.PRODUCT_ID = pro.id");
-			sb.append(" LEFT JOIN production_license_info qs ON qs.id = ptb.qs_id");
-			sb.append(" WHERE pro.producer_id = ?1");
-			if (!"".equals(name)) {
-				sb.append(" AND pro.name like '%" + name + "%'");
+			sb.append(" SELECT count(*) FROM ");
+			sb.append(" (SELECT pro.id,pro.name,pro.barcode,pro.format,qs.qs_no,pro.expiration_date FROM product pro ");
+			sb.append(" LEFT JOIN product_to_businessunit pb ON pb.PRODUCT_ID=pro.id ");
+			sb.append(" LEFT JOIN production_license_info qs ON qs.id=pb.qs_id ");
+			sb.append(" WHERE pro.organization = ?1");
+			if (!"".equals(name)&&!"".equals(barcode)) {
+				sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
 			}
-			if (!"".equals(barcode)) {
-				sb.append(" AND pro.barcode like '%" + barcode + "%'");
+			if (!"".equals(barcode)&&"".equals(name)) {
+				sb.append(" AND pro.barcode like '%" + barcode + "%' ");
 			}
-			sb.append(") test");
-			Query query = entityManager.createNativeQuery(sb.toString()).setParameter(1, busId);
+			if ("".equals(barcode)&&!"".equals(name)) {
+				sb.append(" AND pro.name like '%" + name + "%' ");
+			}
+			sb.append(" GROUP BY pro.id ) AS p ");
+			Query query = entityManager.createNativeQuery(sb.toString()).setParameter(1, curOrg);
 			return Long.valueOf(query.getSingleResult().toString());
 		} catch (Exception e) {
 			throw new DaoException("TZAccountDAOImpl.getSaleGoodsListTotal()批发选择商品总数,出现异常！", e);
