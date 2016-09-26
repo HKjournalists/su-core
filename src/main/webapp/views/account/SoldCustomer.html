@@ -113,8 +113,8 @@ var typeName="产品销往客户";
   						<label id="label_name" for="name">Name</label><font color="red">*</font>
 						<input type="text" id="name" name="name" data-bind="value:name" class="my-textbox">
 						
-						<label id="label_license" style="margin-left:20px;" for="license">License</label>
-						<input type="text" class="k-input my-textbox" pattern="[A-Za-z0-9_]{15}|[A-Za-z0-9_]{13}|[A-Za-z0-9_]{18}" validationMessage="营业执照号为13,15或18位" id="license" name="license" data-bind="value:license">
+						<label id="label_license" style="margin-left:20px;" for="license">License</label><font color="red">*</font>
+						<input type="text" class="k-input my-textbox" pattern="[A-Za-z0-9_]{15}|[A-Za-z0-9_]{13}|[A-Za-z0-9_]{18}" required validationMessage="营业执照号为13,15或18位" id="license" name="license" data-bind="value:license">
 					</div>
 					
 				<!-- 	<div style="padding-top: 5px">
