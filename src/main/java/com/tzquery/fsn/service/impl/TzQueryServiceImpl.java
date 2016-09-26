@@ -3,20 +3,23 @@
  */
 package com.tzquery.fsn.service.impl;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import com.gettec.fsnip.fsn.exception.ServiceException;
+import com.gettec.fsnip.fsn.model.facility.FacilityInfo;
+import com.gettec.fsnip.fsn.model.facility.FacilityMaintenanceRecord;
+import com.gettec.fsnip.fsn.model.member.Member;
+import com.gettec.fsnip.fsn.model.operate.OperateInfo;
+import com.gettec.fsnip.fsn.model.procurement.ProcurementDispose;
+import com.gettec.fsnip.fsn.model.procurement.ProcurementInfo;
+import com.gettec.fsnip.fsn.model.procurement.ProcurementUsageRecord;
 import com.tzquery.fsn.dao.TzQueryDao;
 import com.tzquery.fsn.service.TzQueryService;
 import com.tzquery.fsn.util.StringUtil;
-import com.tzquery.fsn.vo.TzQueryRequestParamVO;
-import com.tzquery.fsn.vo.TzQueryResponseBusVO;
-import com.tzquery.fsn.vo.TzQueryResponseProInfoVO;
-import com.tzquery.fsn.vo.TzQueryResponseProListVO;
-import com.tzquery.fsn.vo.TzQueryResponseReportInfoVO;
-import com.tzquery.fsn.vo.TzQueryResponseTansDetailVO;
+import com.tzquery.fsn.vo.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import java.util.List;
 
 /**
  * @author ChenXiaolin 2015-11-30
@@ -213,8 +216,145 @@ public class TzQueryServiceImpl implements TzQueryService{
 		}
 	}
 
+	/**
+	 * 原材料信息接口--根据企业名称获取原材料信息列表
+	 * @param model
+	 * @param paramVO
+     * @return
+     */
+	@Override
+	public Model getRawMaterialInfo(Model model, TzQueryRequestParamVO paramVO,int type) throws ServiceException{
+		try {
+			List<ProcurementInfo> rawMaterial = tzQueryDao.getRawMaterialInfoList(paramVO,type);
+			Long total = total = tzQueryDao.getRawMaterialInfoTotal(paramVO,type);
+			model.addAttribute("data", rawMaterial);
+			model.addAttribute("total",total );
+			return model;
+		} catch (Exception e) {
+			throw new ServiceException("TzQueryServiceImpl-->getRawMaterialInfo()根据企业名称获取原材料信息列表,出现异常！", e);
+		}
+	}
 
-	
-	
-	
+	/**
+	 * 根据企业名称获取人员信息列表
+	 * @param model
+	 * @param paramVO
+	 * @return
+	 * @throws ServiceException
+     */
+	@Override
+	public Model getMemberInfo(Model model, TzQueryRequestParamVO paramVO) throws ServiceException {
+		try {
+			List<Member> member = tzQueryDao.getMemberInfoList(paramVO);
+			Long total = total = tzQueryDao.getMemberInfoTotal(paramVO);
+			model.addAttribute("data", member);
+			model.addAttribute("total",total );
+			return model;
+		} catch (Exception e) {
+			throw new ServiceException("TzQueryServiceImpl-->getMemberInfo()根据企业名称获取人员信息列表,出现异常！", e);
+		}
+	}
+
+	/**
+	 * 根据企业名称获取设备信息列表
+	 * @param model
+	 * @param paramVO
+	 * @return
+	 * @throws ServiceException
+     */
+	@Override
+	public Model getFacilityInfo(Model model, TzQueryRequestParamVO paramVO) throws ServiceException {
+		try {
+			List<FacilityInfo> facilityInfo = tzQueryDao.getFacilityInfoList(paramVO);
+			Long total = total = tzQueryDao.getFacilityInfoTotal(paramVO);
+			model.addAttribute("data", facilityInfo);
+			model.addAttribute("total",total );
+			return model;
+		} catch (Exception e) {
+			throw new ServiceException("TzQueryServiceImpl-->getFacilityInfo()根据企业名称获取设备信息列表,出现异常！", e);
+		}
+	}
+
+	/**
+	 * 根据企业名称获取规模信息列表
+	 * @param model
+	 * @param paramVO
+	 * @return
+	 * @throws ServiceException
+     */
+	@Override
+	public Model getOperateInfo(Model model, TzQueryRequestParamVO paramVO) throws ServiceException {
+		try {
+			OperateInfo operateInfo = tzQueryDao.getOperateInfo(paramVO);
+			model.addAttribute("data", operateInfo);
+			return model;
+		} catch (Exception e) {
+			throw new ServiceException("TzQueryServiceImpl-->getOperateInfo()根据企业名称获取规模信息列表,出现异常！", e);
+		}
+	}
+
+	/**
+	 * 根据id获取原材料使用记录信息列表
+	 * @param model
+	 * @param paramVO
+	 * @param rId
+	 * @return
+	 * @throws ServiceException
+     */
+	@Override
+	public Model getProcurementUsageRecordInfo(Model model, TzQueryRequestParamVO paramVO, Long rId) throws ServiceException {
+		try {
+			List<ProcurementUsageRecord> procurementUsageRecord = tzQueryDao.getProcurementUsageRecordList(paramVO,rId);
+			Long total = total = tzQueryDao.getProcurementUsageRecordTotal(paramVO,rId);
+			model.addAttribute("data", procurementUsageRecord);
+			model.addAttribute("total",total );
+			return model;
+		} catch (Exception e) {
+			throw new ServiceException("TzQueryServiceImpl-->getProcurementUsageRecordInfo()根据id获取原材料使用记录信息列表,出现异常！", e);
+		}
+	}
+
+	/**
+	 * 根据id获取原材料后续处理信息列表
+	 * @param model
+	 * @param paramVO
+	 * @param rId
+	 * @return
+	 * @throws ServiceException
+     */
+	@Override
+	public Model getProcurementDisposeInfo(Model model, TzQueryRequestParamVO paramVO,int type) throws ServiceException {
+		try {
+			List<ProcurementDispose> procurementDispose = tzQueryDao.getProcurementDisposeList(paramVO,type);
+			Long total = total = tzQueryDao.getProcurementDisposeTotal(paramVO,type);
+			model.addAttribute("data", procurementDispose);
+			model.addAttribute("total",total );
+			return model;
+		} catch (Exception e) {
+			throw new ServiceException("TzQueryServiceImpl-->getProcurementDisposeInfo()根据id获取原材料后续处理信息列表,出现异常！", e);
+		}
+	}
+
+	/**
+	 * 根据设备id获取设备养护记录信息列表
+	 * @param model
+	 * @param paramVO
+	 * @param fId
+	 * @return
+	 * @throws ServiceException
+     */
+	@Override
+	public Model getFacilityMaintenanceRecord(Model model, TzQueryRequestParamVO paramVO, Long fId) throws ServiceException {
+		try {
+			List<FacilityMaintenanceRecord> maintenanceRecords = tzQueryDao.getFacilityMaintenanceRecordList(paramVO,fId);
+			Long total = total = tzQueryDao.getFacilityMaintenanceRecordTotal(paramVO,fId);
+			model.addAttribute("data", maintenanceRecords);
+			model.addAttribute("total",total );
+			return model;
+		} catch (Exception e) {
+			throw new ServiceException("TzQueryServiceImpl-->getFacilityMaintenanceRecord()根据设备id获取设备养护记录信息列表,出现异常！", e);
+		}
+	}
+
+
 }
