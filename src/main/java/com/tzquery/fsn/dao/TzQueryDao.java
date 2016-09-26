@@ -3,14 +3,17 @@
  */
 package com.tzquery.fsn.dao;
 
-import java.util.List;
 import com.gettec.fsnip.fsn.exception.DaoException;
-import com.tzquery.fsn.vo.TzQueryRequestParamVO;
-import com.tzquery.fsn.vo.TzQueryResponseBusVO;
-import com.tzquery.fsn.vo.TzQueryResponseProInfoVO;
-import com.tzquery.fsn.vo.TzQueryResponseProListVO;
-import com.tzquery.fsn.vo.TzQueryResponseReportInfoVO;
-import com.tzquery.fsn.vo.TzQueryResponseTansDetailVO;
+import com.gettec.fsnip.fsn.model.facility.FacilityInfo;
+import com.gettec.fsnip.fsn.model.facility.FacilityMaintenanceRecord;
+import com.gettec.fsnip.fsn.model.member.Member;
+import com.gettec.fsnip.fsn.model.operate.OperateInfo;
+import com.gettec.fsnip.fsn.model.procurement.ProcurementDispose;
+import com.gettec.fsnip.fsn.model.procurement.ProcurementInfo;
+import com.gettec.fsnip.fsn.model.procurement.ProcurementUsageRecord;
+import com.tzquery.fsn.vo.*;
+
+import java.util.List;
 
 /**
  * @author ChenXiaolin 2015-11-30
@@ -147,4 +150,102 @@ public interface TzQueryDao {
 	 */
 	Long getBusQueryProListTotal(TzQueryRequestParamVO paramVO)throws DaoException;
 
+	/**
+	 * 根据企业名称获取原材料信息列表
+	 * @param paramVO
+	 * @return
+	 * @throws DaoException
+     */
+	List<ProcurementInfo> getRawMaterialInfoList(TzQueryRequestParamVO paramVO,int type)throws DaoException;
+
+	/**
+	 * 根据企业名称获取原材料信息数量
+	 * @param paramVO
+	 * @return
+	 * @throws DaoException
+     */
+	Long getRawMaterialInfoTotal(TzQueryRequestParamVO paramVO,int type)throws DaoException;
+
+	/**
+	 * 根据企业名称获取人员信息列表
+	 * @param paramVO
+	 * @return
+     */
+	List<Member> getMemberInfoList(TzQueryRequestParamVO paramVO)throws DaoException;
+
+	/**
+	 * 根据企业名称获取人员信息数量
+	 * @param paramVO
+	 * @return
+     */
+	Long getMemberInfoTotal(TzQueryRequestParamVO paramVO)throws DaoException;
+
+	/**
+	 * 根据企业名称获取设备信息列表
+	 * @param paramVO
+	 * @return
+     */
+	List<FacilityInfo> getFacilityInfoList(TzQueryRequestParamVO paramVO)throws DaoException;
+
+	/**
+	 * 根据企业名称获取设备信息数量
+	 * @param paramVO
+	 * @return
+     */
+	Long getFacilityInfoTotal(TzQueryRequestParamVO paramVO)throws DaoException;
+
+	/**
+	 * 根据企业名称获取规模信息列表
+	 * @param paramVO
+	 * @return
+     */
+	OperateInfo getOperateInfo(TzQueryRequestParamVO paramVO)throws DaoException;
+
+	/**
+	 * 根据id获取原材料使用记录信息列表
+	 * @param paramVO
+	 * @param rId
+     * @return
+     */
+	List<ProcurementUsageRecord> getProcurementUsageRecordList(TzQueryRequestParamVO paramVO, Long rId)throws DaoException;
+
+	/**
+	 * 根据id获取原材料使用记录信息数量
+	 * @param paramVO
+	 * @param rId
+     * @return
+     */
+	Long getProcurementUsageRecordTotal(TzQueryRequestParamVO paramVO, Long rId)throws DaoException;
+
+	/**
+	 * 根据id获取原材料后续处理信息列表
+	 * @param paramVO
+	 * @param rId
+	 * @return
+     */
+	List<ProcurementDispose> getProcurementDisposeList(TzQueryRequestParamVO paramVO, int type)throws DaoException;
+
+	/**
+	 * 根据id获取原材料后续处理信息数量
+	 * @param paramVO
+	 * @param rId
+     * @return
+     */
+	Long getProcurementDisposeTotal(TzQueryRequestParamVO paramVO, int type)throws DaoException;
+
+	/**
+	 * 根据设备id获取设备养护记录信息列表
+	 * @param paramVO
+	 * @param fId
+     * @return
+     */
+	List<FacilityMaintenanceRecord> getFacilityMaintenanceRecordList(TzQueryRequestParamVO paramVO, Long fId)throws DaoException;
+
+	/**
+	 * 根据设备id获取设备养护记录信息数量
+	 * @param paramVO
+	 * @param fId
+	 * @return
+     */
+	Long getFacilityMaintenanceRecordTotal(TzQueryRequestParamVO paramVO, Long fId)throws DaoException;
 }

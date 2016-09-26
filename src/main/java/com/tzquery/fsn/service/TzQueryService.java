@@ -83,6 +83,62 @@ public interface TzQueryService {
 	 */
 	Model getBusQueryProList(Model model, TzQueryRequestParamVO paramVO)throws ServiceException;
 
+	/**
+	 * 原材料信息接口--根据企业名称获取原材料信息列表
+	 * @param model
+	 * @param paramVO
+	 * @return
+     */
+	Model getRawMaterialInfo(Model model, TzQueryRequestParamVO paramVO,int type)throws ServiceException;
 
+	/**
+	 * 根据企业名称获取人员信息列表
+	 * @param model
+	 * @param paramVO
+     * @return
+     */
+	Model getMemberInfo(Model model, TzQueryRequestParamVO paramVO)throws ServiceException;
 
+	/**
+	 * 根据企业名称获取设备信息列表
+	 * @param model
+	 * @param paramVO
+     * @return
+     */
+	Model getFacilityInfo(Model model, TzQueryRequestParamVO paramVO)throws ServiceException;
+
+	/**
+	 * 根据企业名称获取规模信息列表
+	 * @param model
+	 * @param paramVO
+	 * @return
+     */
+	Model getOperateInfo(Model model, TzQueryRequestParamVO paramVO)throws ServiceException;
+
+	/**
+	 * 根据id获取原材料使用记录信息列表
+	 * @param model
+	 * @param paramVO
+	 * @param rId
+     * @return
+     */
+	Model getProcurementUsageRecordInfo(Model model, TzQueryRequestParamVO paramVO, Long rId)throws ServiceException;
+
+	/**
+	 * 根据id获取原材料后续处理信息列表
+	 * @param model
+	 * @param paramVO
+	 * @param rId
+     * @return
+     */
+	Model getProcurementDisposeInfo(Model model, TzQueryRequestParamVO paramVO,int type)throws ServiceException;
+
+	/**
+	 * 根据设备id获取设备养护记录信息列表
+	 * @param model
+	 * @param paramVO
+	 * @param fId
+     * @return
+     */
+	Model getFacilityMaintenanceRecord(Model model, TzQueryRequestParamVO paramVO, Long fId)throws ServiceException;
 }
