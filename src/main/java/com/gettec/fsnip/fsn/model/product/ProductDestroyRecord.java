@@ -88,6 +88,9 @@ public class ProductDestroyRecord extends Model{
 	@Column(name = "operation_user")
 	private String operation_user; // 操作者
 
+	@Column(name = "organization")
+	private Long organization; //所属企业组织机构ID
+
 	@Column(name = "remark")
 	private String remark; // 备注
 	
@@ -240,5 +243,14 @@ public class ProductDestroyRecord extends Model{
 
 	public void setFormat(String format) {
 		this.format = format;
+	}
+
+
+	public Long getOrganization() {
+		return Organization;
+	}
+
+	public void setOrganization(Long Organization) {
+		this.Organization = Organization;
 	}
 }
