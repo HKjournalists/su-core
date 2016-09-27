@@ -25,7 +25,7 @@
                 statusUploading: lims.l("uploading",'upload'),
                 uploadSelectedFiles: lims.l("Upload files",'upload'),
             },
-            multiple:true,
+            multiple:id=="upload_logo_files"?false:true,
             upload: function(e){
                   var files = e.files;
                   $.each(files, function () {
@@ -69,7 +69,34 @@
                 }else if(id=="upload_qs_files"){
                 	business_unit.aryQsAttachments.push(e.response.results[0]);
                 }else{
+					if(id=="upload_logo_files"){
+						attachments.length = 0 ;
+					}
                 	 attachments.push(e.response.results[0]);
+					var imgData = attachments;
+					var img = "";
+					for(var k=0;k<imgData.length;k++){
+						var url = imgData[k].url;
+						var  fileUrl = url;
+						if(url == null){
+							fileUrl = imgData[k].file;
+							url = "data:"+imgData[k].type.rtName+";base64,"+imgData[k].file+""
+						}
+						img+="<div id='"+id+"_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+						img+="<img id='"+id+"_"+k+"' src='"+url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+						img+="<div class=deleteBtn onclick=fsn.business_unit.delSelectMethodsImg('"+id+"_"+k+"','"+fileUrl+"','"+id+"')>x";
+						img+="</div>";
+						img+="</div>";
+					}
+					$("#"+id+"_img_e").show();
+					$("#"+id+"_img_s").show();
+					$("#"+id+"_img").html(img);
+
+					$("#"+id+"_div").find("ul").remove();
+					$("#"+id+"_div").find("em").remove();
+					$("#"+id+"_div").find("strong ").remove();
+
+
                 }
                 $("#"+msg).html("文件识别成功，可以保存!</br>(注意：为保证更流畅的体验，建议每次上传照片不超过1M!可支持文件格式：png .bmp .jpeg .jpg )");
              }else if(e.operation == "remove"){
@@ -136,7 +163,217 @@
     		return lims.l("upload_cert");
     	}
     };
-    
+
+	business_unit.delSelectMethodsImg = function(id,url,fileId){
+
+
+        if(fileId == "upload_logo_files"){
+			if(business_unit.aryLogoAttachments != null&&business_unit.aryLogoAttachments.length>0){
+				for(var s in business_unit.aryLogoAttachments){
+					if((business_unit.aryLogoAttachments[s].file == null && business_unit.aryLogoAttachments[s].url==url) || (business_unit.aryLogoAttachments[s].url==null && business_unit.aryLogoAttachments[s].file == url)){
+						$.extend(business_unit.aryLogoAttachments[s],business_unit.aryLogoAttachments[business_unit.aryLogoAttachments.length-1]);
+						business_unit.aryLogoAttachments.pop();
+						break;
+					}
+
+				}
+			}
+
+
+		}else if(fileId == "upload_orgnization_files"){
+			if(business_unit.aryOrgAttachments != null&&business_unit.aryOrgAttachments.length>0){
+				for(var s in business_unit.aryOrgAttachments){
+					if((business_unit.aryOrgAttachments[s].file == null && business_unit.aryOrgAttachments[s].url==url) || (business_unit.aryOrgAttachments[s].url==null && business_unit.aryOrgAttachments[s].file == url)){
+						$.extend(business_unit.aryOrgAttachments[s],business_unit.aryOrgAttachments[business_unit.aryOrgAttachments.length-1]);
+						business_unit.aryOrgAttachments.pop();
+						break;
+					}
+
+				}
+			}
+
+		}else if(fileId == "upload_license_files"){
+			if(business_unit.aryLicenseAttachments != null&&business_unit.aryLicenseAttachments.length>0){
+				for(var s in business_unit.aryLicenseAttachments){
+					if((business_unit.aryLicenseAttachments[s].file == null && business_unit.aryLicenseAttachments[s].url==url) || (business_unit.aryLicenseAttachments[s].url==null && business_unit.aryLicenseAttachments[s].file == url)){
+						$.extend(business_unit.aryLicenseAttachments[s],business_unit.aryLicenseAttachments[business_unit.aryLicenseAttachments.length-1]);
+						business_unit.aryLicenseAttachments.pop();
+						break;
+					}
+
+				}
+			}
+
+		}else if(fileId == "upload_distribution_files"){
+			if(business_unit.aryDisAttachments != null&&business_unit.aryDisAttachments.length>0){
+				for(var s in business_unit.aryDisAttachments){
+					if((business_unit.aryDisAttachments[s].file == null && business_unit.aryDisAttachments[s].url==url) || (business_unit.aryDisAttachments[s].url==null && business_unit.aryDisAttachments[s].file == url)){
+						$.extend(business_unit.aryDisAttachments[s],business_unit.aryDisAttachments[business_unit.aryDisAttachments.length-1]);
+						business_unit.aryDisAttachments.pop();
+						break;
+					}
+
+				}
+			}
+		}
+
+		$("img[id='"+id+"']").parent().remove();
+		//$("#"+fileId+"_img_s").hide();
+		//if(business_unit.aryPropagandaAttachments.length<3){
+		//	$("#upload_propaganda_files_img_e").show();
+		//	$("#upload_propaganda_files").removeAttr("disabled");
+		//	$("#upload_propaganda_div div.k-upload-button").removeClass("k-state-disabled");
+		//}
+		//if(business_unit.aryPropagandaAttachments.length==0){
+		//	$("#upload_propaganda_files_img_s").hide();
+		//}
+
+		return false;
+	};
+	business_unit.amplification = function(url){
+		window.open ( url, "_blank" );
+	};
+	/**
+	 * 初始化图片
+	 */
+	business_unit.setImgDate = function(data){
+
+		if(data.logoAttachments != null && data.logoAttachments.length>0){
+			var imgData  = data.logoAttachments;
+			//var img = "";
+			var imgs = "";
+			for(var k in imgData){
+
+				//img+="<div id='upload_orgnization_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				//img+="<img id='upload_orgnization_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				//img+="</div>";
+
+
+				imgs+="<div id='upload_logo_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				imgs+="<img id='upload_logo_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectMethodsImg('upload_logo_files_"+k+"','"+imgData[k].url+"','upload_logo_files')>x";
+				imgs+="</div>";
+				imgs+="</div>";
+			}
+			//$("#upload_orgnization_files_img_a").html(img);
+			$("#upload_logo_files_img").html(imgs);
+
+			$("#upload_logo_files_img_e").show();
+			$("#upload_logo_files_img_s").show();
+
+			$("#upload_logo_files_div").find("ul").remove();
+			$("#upload_logo_files_div").find("em").remove();
+			$("#upload_logo_files_div").find("strong ").remove();
+
+		} else {
+			$("#logo_img").attr("src", "../../resource/img/portal/tupian.jpg");
+			$("#upload_logo_files_img_e").show();
+			$("#upload_logo_files_img_s").hide();
+
+		}
+		if(data.orgAttachments != null && data.orgAttachments.length>0){
+			var imgData  = data.orgAttachments;
+
+			//var img = "";
+			var imgs = "";
+			for(var k in imgData){
+
+				//img+="<div id='upload_orgnization_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				//img+="<img id='upload_orgnization_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				//img+="</div>";
+
+
+				imgs+="<div id='upload_orgnization_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				imgs+="<img id='upload_orgnization_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectMethodsImg('upload_orgnization_files_"+k+"','"+imgData[k].url+"','upload_orgnization_files')>x";
+				imgs+="</div>";
+				imgs+="</div>";
+			}
+			//$("#upload_orgnization_files_img_a").html(img);
+			$("#upload_orgnization_files_img").html(imgs);
+
+			$("#upload_orgnization_files_img_e").show();
+			$("#upload_orgnization_files_img_s").show();
+
+			$("#upload_orgnization_files_div").find("ul").remove();
+			$("#upload_orgnization_files_div").find("em").remove();
+			$("#upload_orgnization_files_div").find("strong ").remove();
+		} else {
+			$("#bu_org_img").attr("src", "../../resource/img/portal/tupian.jpg");
+			$("#upload_orgnization_files_img_e").show();
+			$("#upload_orgnization_files_img_s").hide();
+		}
+		if(data.licAttachments != null && data.licAttachments.length>0){
+
+			var imgData  = data.licAttachments;
+			//var img = "";
+			var imgs = "";
+			for(var k in imgData){
+
+				//img+="<div id='upload_orgnization_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				//img+="<img id='upload_orgnization_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				//img+="</div>";
+
+
+				imgs+="<div id='upload_license_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				imgs+="<img id='upload_license_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectMethodsImg('upload_license_files_"+k+"','"+imgData[k].url+"','upload_license_files')>x";
+				imgs+="</div>";
+				imgs+="</div>";
+			}
+			//$("#upload_orgnization_files_img_a").html(img);
+			$("#upload_license_files_img").html(imgs);
+
+			$("#upload_license_files_img_e").show();
+			$("#upload_license_files_img_s").show();
+
+			$("#upload_license_files_div").find("ul").remove();
+			$("#upload_license_files_div").find("em").remove();
+			$("#upload_license_files_div").find("strong ").remove();
+
+		} else {
+			$("#bu_lic_img").attr("src", "../../resource/img/portal/tupian.jpg");
+			$("#upload_license_files_img_e").show();
+			$("#upload_license_files_img_s").hide();
+		}
+		if(data.disAttachments != null && data.disAttachments.length>0){
+
+			var imgData  = data.disAttachments;
+			//var img = "";
+			var imgs = "";
+			for(var k in imgData){
+
+				//img+="<div id='upload_orgnization_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				//img+="<img id='upload_orgnization_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				//img+="</div>";
+
+
+				imgs+="<div id='upload_distribution_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
+				imgs+="<img id='upload_distribution_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
+				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectMethodsImg('upload_distribution_files_"+k+"','"+imgData[k].url+"','upload_distribution_files')>x";
+				imgs+="</div>";
+				imgs+="</div>";
+			}
+			//$("#upload_orgnization_files_img_a").html(img);
+			$("#upload_distribution_files_img").html(imgs);
+
+			$("#upload_distribution_files_img_e").show();
+			$("#upload_distribution_files_img_s").show();
+
+			$("#upload_distribution_files_div").find("ul").remove();
+			$("#upload_distribution_files_div").find("em").remove();
+			$("#upload_distribution_files_div").find("strong ").remove();
+
+		} else {
+			$("#bu_dis_img").attr("src", "../../resource/img/portal/tupian.jpg");
+			$("#upload_distribution_files_img_e").show();
+			$("#upload_distribution_files_img_s").hide();
+		}
+
+
+
+	};
+
     /* 从页面删除已有资源 */
     business_unit.removeRes = function(resID){
     	 var isOrgRes = false;
@@ -359,19 +596,19 @@
 		 var dataSource = new kendo.data.DataSource();
 		 business_unit.aryOrgAttachments.length = 0;
 		 if(orgAttachments.length>0){
-			 $("#btn_clearOrgFiles").show();
+			 //$("#btn_clearOrgFiles").show();
 			 for(var i=0;i<orgAttachments.length;i++){
 				 business_unit.aryOrgAttachments.push(orgAttachments[i]);
 				 dataSource.add({attachments:orgAttachments[i]});
 			 }
 		 }
-		 $("#orgAttachmentsListView").kendoListView({
-            dataSource: dataSource,
-            template:kendo.template($("#uploadedFilesTemplate").html()),
-        });
-		if(orgAttachments.length>0)  $("#orgAttachmentsListView button").hide();
-		$("#upload_org_div").html("<input id='upload_orgnization_files' type='file' />");
-	    business_unit.buildUpload("upload_orgnization_files",business_unit.aryOrgAttachments,"proFileMsgOrg", "product");
+		// $("#orgAttachmentsListView").kendoListView({
+         //   dataSource: dataSource,
+         //   template:kendo.template($("#uploadedFilesTemplate").html()),
+        //});
+		//if(orgAttachments.length>0)  $("#orgAttachmentsListView button").hide();
+		$("#upload_orgnization_files_div").html("<input id='upload_orgnization_files' type='file' />");
+	    business_unit.buildUpload("upload_orgnization_files",business_unit.aryOrgAttachments,"upload_orgnization_files_log", "product");
 	 };
 	 
 	 /* 加载组织机构代码证件 */
@@ -384,12 +621,12 @@
 					 dataSource.add({attachments:logoAttachments[i]});
 				 }
 			}
-			$("#logoAttachmentsListView").kendoListView({
-	            dataSource: dataSource,
-	            template:kendo.template($("#uploadedFilesTemplate").html()),
-			});
-			$("#upload_logo_div").html("<input id='upload_logo_files' type='file' />");
-	    	business_unit.buildUpload("upload_logo_files",business_unit.aryLogoAttachments,"proFileMsgLogo", "product");
+			//$("#logoAttachmentsListView").kendoListView({
+	         //   dataSource: dataSource,
+	         //   template:kendo.template($("#uploadedFilesTemplate").html()),
+			//});
+			$("#upload_logo_files_div").html("<input id='upload_logo_files' type='file' />");
+	    	business_unit.buildUpload("upload_logo_files",business_unit.aryLogoAttachments,"upload_logo_files_log", "product");
 	 };
 	 
 	 /* 加载营业执照 */
@@ -397,19 +634,19 @@
 		 var dataSource = new kendo.data.DataSource();
 		 business_unit.aryLicenseAttachments.length = 0;
 		 if(licenseAttachments.length>0){
-			 $("#btn_clearLicenseFiles").show();
+			 //$("#btn_clearLicenseFiles").show();
 			 for(var i=0;i<licenseAttachments.length;i++){
 				 business_unit.aryLicenseAttachments.push(licenseAttachments[i]);
 				 dataSource.add({attachments:licenseAttachments[i]});
 			 }
 		 }
-		 $("#licenseAttachmentsListView").kendoListView({
-            dataSource: dataSource,
-            template:kendo.template($("#uploadedFilesTemplate").html()),
-        });
-		if(licenseAttachments.length>0) $("#licenseAttachmentsListView button").hide();
-		$("#upload_license_div").html("<input id='upload_license_files' type='file' />");
-	    business_unit.buildUpload("upload_license_files",business_unit.aryLicenseAttachments,"proFileMsgLicense", "product");
+		// $("#licenseAttachmentsListView").kendoListView({
+         //   dataSource: dataSource,
+         //   template:kendo.template($("#uploadedFilesTemplate").html()),
+        //});
+		//if(licenseAttachments.length>0) $("#licenseAttachmentsListView button").hide();
+		$("#upload_license_files_div").html("<input id='upload_license_files' type='file' />");
+	    business_unit.buildUpload("upload_license_files",business_unit.aryLicenseAttachments,"upload_license_files_log", "product");
 	};
 	
 	/* 加载流通许可证图片 */
@@ -417,18 +654,18 @@
 		 var dataSource = new kendo.data.DataSource();
 		 business_unit.aryDisAttachments.length = 0;
 		 if(disAttachments.length>0){
-			 $("#btn_clearDisFiles").show();
+			 //$("#btn_clearDisFiles").show();
 			 for(var i=0;i<disAttachments.length;i++){
 				 business_unit.aryDisAttachments.push(disAttachments[i]);
 				 dataSource.add({attachments:disAttachments[i]});
 			 }
 		 }
-		 $("#disAttachmentsListView").kendoListView({
-           dataSource: dataSource,
-           template:kendo.template($("#uploadedFilesTemplate").html()),
-        });
-		$("#upload_distribution_div").html("<input id='upload_distribution_files' type='file' />");
-	    business_unit.buildUpload("upload_distribution_files",business_unit.aryDisAttachments,"proFileMsgDistribution");
+		 //$("#disAttachmentsListView").kendoListView({
+        //   dataSource: dataSource,
+        //   template:kendo.template($("#uploadedFilesTemplate").html()),
+        //});
+		$("#upload_distribution_files_div").html("<input id='upload_distribution_files' type='file' />");
+	    business_unit.buildUpload("upload_distribution_files",business_unit.aryDisAttachments,"upload_distribution_files_log");
 	};
 	
 	/* 加载生产许可证图片 */
@@ -567,8 +804,12 @@
         	$("#disLegalName").val(data.personInCharge);
         	setAddressValue(data.address,data.otherAddress,"dis_mainAddr","dis_streetAddress","input");
         }
+
+		business_unit.setImgDate(data);
+		//======================================================================
     };
-    
+
+
     /*验证某个字段时，添加或取消输入框的样式
      * formId:输入框的id，msg：提示信息，valiResult：验证结果，true或false 
      */
@@ -774,50 +1015,57 @@
     };
     
     /* 验证数据有效性 */
-    business_unit.validateCommon = function(){
+    business_unit.validateCommon = function(status){
     	/* 基本数据 */
-        if (!business_unit.validateCommonData()){ return false; }
+        if (!business_unit.validateCommonData(status)){ return false; }
         /* 日期 */
-        if(!business_unit.validateCommonDate()){ return false; }
+        if(!business_unit.validateCommonDate(status)){ return false; }
         /* 图片 */
-        if(!business_unit.validateCommonPhoto()){ return false; }
+        if(!business_unit.validateCommonPhoto(status)){ return false; }
         return true;
     };
     
     /* 验证图片 */
-    business_unit.validateCommonPhoto = function(){
-    	if(business_unit.aryLogoAttachments.length<1){
-        	lims.initNotificationMes('请上传企业logo图片！',false);
-			business_unit.wrong("upload_logo_files","select");
-        	return false;
-        }
-        if(business_unit.aryLicenseAttachments.length<1){
-        	lims.initNotificationMes('请上传营业执照证件图片！',false);
-			business_unit.wrong("upload_license_files","select");
-        	return false;
-        }
-        if(business_unit.aryOrgAttachments.length<1){
-        	lims.initNotificationMes('请上传组织机构代码证件图片！',false);
-			business_unit.wrong("upload_orgnization_files","select");
-        	return false;
-        }
+    business_unit.validateCommonPhoto = function(status){
+		if(status == undefined || status == 0){
+			if(business_unit.aryLogoAttachments.length<1){
+				lims.initNotificationMes('请上传企业logo图片！',false);
+				business_unit.wrong("upload_logo_files","select");
+				return false;
+			}
+		}
+		if(status == undefined || status == 1) {
+			if (business_unit.aryLicenseAttachments.length < 1) {
+				lims.initNotificationMes('请上传营业执照证件图片！', false);
+				business_unit.wrong("upload_license_files", "select");
+				return false;
+			}
+			if (business_unit.aryOrgAttachments.length < 1) {
+				lims.initNotificationMes('请上传组织机构代码证件图片！', false);
+				business_unit.wrong("upload_orgnization_files", "select");
+				return false;
+			}
+		}
         return true;
     };
     
     /* 验证日期 */
-    business_unit.validateCommonDate = function(){
-    	if(!fsn.validateMustDate("licenseStartTime","营业执照的起始日期")){return false;}
-    	if(!fsn.validateMustDate("licenseEndTime","营业执照的截止日期")){return false;}
+    business_unit.validateCommonDate = function(status){
+		if(status == undefined || status == 1){
+
+			if(!fsn.validateMustDate("licenseStartTime","营业执照的起始日期")){return false;}
+			if(!fsn.validateMustDate("licenseEndTime","营业执照的截止日期")){return false;}
 //    	if(!fsn.validateMustDate("orgStartTime","组织机构证件的起始日期")){return false;}
 //    	if(!fsn.validateMustDate("orgEndTime","组织机构证件的截止日期")){return false;}
-    	if(!fsn.validateDateFormat("registrationTime","营业执照的注册日期")){return false;} // 非必填项
-    	
-        var startDate=$("#licenseStartTime").data("kendoDatePicker").value();
-        var endDate=$("#licenseEndTime").data("kendoDatePicker").value();
-        if((endDate-startDate)<0){
-        	lims.initNotificationMes('营业执照的起始日期不能大于截止日期！',false);
-        	return false;
-        }
+			if(!fsn.validateDateFormat("registrationTime","营业执照的注册日期")){return false;} // 非必填项
+
+			var startDate=$("#licenseStartTime").data("kendoDatePicker").value();
+			var endDate=$("#licenseEndTime").data("kendoDatePicker").value();
+			if((endDate-startDate)<0){
+				lims.initNotificationMes('营业执照的起始日期不能大于截止日期！',false);
+				return false;
+			}
+		}
 //        startDate=$("#orgStartTime").data("kendoDatePicker").value();
 //        endDate=$("#orgEndTime").data("kendoDatePicker").value();
 //        if((endDate-startDate)<0){
@@ -827,57 +1075,95 @@
     	return true;
     };
     
-    business_unit.validateCommonData = function(){
-    	if(!$("#name").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的企业名称不能为空！',false);
-			business_unit.wrong("name","text");
-    		return false;
-    	}
-    	if(!$("#personInCharge").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的法定代表人不能为空！',false);	
-			business_unit.wrong("personInCharge","text");	
-    		return false;
-    	}
-    	if(!$("#bus_mainAddr").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的企业地址不能为空！',false);
-			business_unit.wrong("bus_mainAddr","text");	
-    		return false;
-    	}
-    	if(!$("#bus_streetAddress").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的企业地址的街道地址不能为空！',false);
-			business_unit.wrong("bus_streetAddress","text");	
-    		return false;
-    	}
-    	if(!$("#email").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【企业基本信息】中的邮箱不能为空！',false);
-			business_unit.wrong("email","text");
-    		return false;
-    	}
-    	if(!$("#licenseNo").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的营业执照注册号不能为空！',false);
-			business_unit.wrong("licenseNo","text");
-    		return false;
-    	}
-    	if(!$("#licenseName").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的经营主体名称不能为空！',false);
-			business_unit.wrong("licenseName","text");
-    		return false;
-    	}
-    	if(!$("#legalName").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的法人代表(负责人)不能为空！',false);
-			business_unit.wrong("legalName","text");
-    		return false;
-    	}
-    	if(!$("#license_mainAddr").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的经营场所(企业地址)不能为空！',false);
-			business_unit.wrong("license_mainAddr","text");
-    		return false;
-    	}
-    	if(!$("#license_streetAddress").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【营业执照信息】中的经营场所的街道地址不能为空！',false);
-			business_unit.wrong("license_streetAddress","text");
-    		return false;
-    	}
+    business_unit.validateCommonData = function(status){
+
+		if(status == undefined || status == 0){
+
+			if(!$("#name").kendoValidator().data("kendoValidator").validate()){
+				lims.initNotificationMes('【企业基本信息】中的企业名称不能为空！',false);
+				business_unit.wrong("name","text");
+				return false;
+			}
+			if(!$("#personInCharge").kendoValidator().data("kendoValidator").validate()){
+				lims.initNotificationMes('【企业基本信息】中的法定代表人不能为空！',false);
+				business_unit.wrong("personInCharge","text");
+				return false;
+			}
+			if(!$("#bus_mainAddr").kendoValidator().data("kendoValidator").validate()){
+				lims.initNotificationMes('【企业基本信息】中的企业地址不能为空！',false);
+				business_unit.wrong("bus_mainAddr","text");
+				return false;
+			}
+			if(!$("#bus_streetAddress").kendoValidator().data("kendoValidator").validate()){
+				lims.initNotificationMes('【企业基本信息】中的企业地址的街道地址不能为空！',false);
+				business_unit.wrong("bus_streetAddress","text");
+				return false;
+			}
+			if(!$("#email").kendoValidator().data("kendoValidator").validate()){
+				lims.initNotificationMes('【企业基本信息】中的邮箱不能为空！',false);
+				business_unit.wrong("email","text");
+				return false;
+			}
+
+			if(!business_unit.validaTetelephone()){
+				lims.initNotificationMes('联系电话无效！',false);
+				return false;
+			}
+			if(!business_unit.validaPostalCode()){
+				lims.initNotificationMes('邮政编码无效！',false);
+				return false;
+			}
+			if(!business_unit.validateEmail()){
+				lims.initNotificationMes('邮箱格式不正确！',false);
+				return false;
+			}
+			if(!business_unit.validateFax()){
+				lims.initNotificationMes("请输入正确的传真:传真号码格式为国家代码(2到3位)-区号(2到3位)-电话号码(7到8位)-分机号(3位)，" +
+				"例如:0851-1234567",false);
+				return false;
+			}
+			if(!business_unit.verificationName()){
+				lims.initNotificationMes('企业名称无效！',false);
+				return false;
+			}
+//		 if(!business_unit.validateOrgCode()){
+//        	lims.initNotificationMes("组织结构代码必须由8位数字(或大写字母)和一位数字(或者大写字母)组成！例如：1111AAAA-A",false);
+//        	return false;
+//        }
+			var about = $('#product_about').val().trim();
+			if(about.length>2000){
+				lims.initNotificationMes("企业简介请控制在2000字以内！",false);
+				return false;
+			}
+		}
+		if(status == undefined || status == 1) {
+
+				if (!$("#licenseNo").kendoValidator().data("kendoValidator").validate()) {
+					lims.initNotificationMes('【营业执照信息】中的营业执照注册号不能为空！', false);
+					business_unit.wrong("licenseNo", "text");
+					return false;
+				}
+				if (!$("#licenseName").kendoValidator().data("kendoValidator").validate()) {
+					lims.initNotificationMes('【营业执照信息】中的经营主体名称不能为空！', false);
+					business_unit.wrong("licenseName", "text");
+					return false;
+				}
+				if (!$("#legalName").kendoValidator().data("kendoValidator").validate()) {
+					lims.initNotificationMes('【营业执照信息】中的法人代表(负责人)不能为空！', false);
+					business_unit.wrong("legalName", "text");
+					return false;
+				}
+				if (!$("#license_mainAddr").kendoValidator().data("kendoValidator").validate()) {
+					lims.initNotificationMes('【营业执照信息】中的经营场所(企业地址)不能为空！', false);
+					business_unit.wrong("license_mainAddr", "text");
+					return false;
+				}
+				if (!$("#license_streetAddress").kendoValidator().data("kendoValidator").validate()) {
+					lims.initNotificationMes('【营业执照信息】中的经营场所的街道地址不能为空！', false);
+					business_unit.wrong("license_streetAddress", "text");
+					return false;
+				}
+		}
 //    	if(!$("#orgCode").kendoValidator().data("kendoValidator").validate()){
 //    		lims.initNotificationMes('【组织机构代码证件】中的组织机构代码不能为空！',false);
 //			business_unit.wrong("orgCode","text");
@@ -898,36 +1184,7 @@
 //			business_unit.wrong("org_streetAddress","text");
 //    		return false;
 //    	}
-    	if(!business_unit.validaTetelephone()){
-        	lims.initNotificationMes('联系电话无效！',false);
-        	return false;
-        }
-        if(!business_unit.validaPostalCode()){
-        	lims.initNotificationMes('邮政编码无效！',false);
-        	return false;
-        }
-        if(!business_unit.validateEmail()){
-        	lims.initNotificationMes('邮箱格式不正确！',false);
-        	return false;
-        }
-        if(!business_unit.validateFax()){
-        	lims.initNotificationMes("请输入正确的传真:传真号码格式为国家代码(2到3位)-区号(2到3位)-电话号码(7到8位)-分机号(3位)，" +
-        			"例如:0851-1234567",false);
-        	return false;
-        }
-        if(!business_unit.verificationName()){
-        	lims.initNotificationMes('企业名称无效！',false);
-        	return false;
-        }
-//		 if(!business_unit.validateOrgCode()){
-//        	lims.initNotificationMes("组织结构代码必须由8位数字(或大写字母)和一位数字(或者大写字母)组成！例如：1111AAAA-A",false);
-//        	return false;
-//        }
-        var about = $('#product_about').val().trim();
-        if(about.length>2000){
-        	lims.initNotificationMes("企业简介请控制在2000字以内！",false);
-        	return false;
-        }
+
     	return true;
     };
     
@@ -973,5 +1230,5 @@
 		var scrollTop=document.body.scrollTop||document.documentElement.scrollTop ;
 		document.documentElement.scrollTop = scrollTop - 150;
 	}
-    
+
 })(jQuery);

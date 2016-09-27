@@ -628,8 +628,7 @@ ResourceService {
 			EnterpriseRegiste orig_enterprise = enterpriseService
 					.findbyEnterpriteName(name);
 			/* 1.获取已删除的[流通许可证]资源列表 */
-			Set<Resource> removes = getListOfRemoves(
-					orig_enterprise.getDisAttachments(), disAttachments);
+			Set<Resource> removes = getListOfRemoves(orig_enterprise.getDisAttachments(), disAttachments);
 			/* 2.对图片集合进行循环 */
 			Set<Resource> adds = operationResources(disAttachments, "dis", null);
 			/* 3.保存资源 */
@@ -1964,6 +1963,25 @@ ResourceService {
 				}
 			}
 
+			Set<Resource> disAttachments=businessUnit.getDisAttachments();
+
+			if(disAttachments !=null && disAttachments.size() > 0){
+
+				/* 1.获取已删除的[流通许可证]资源列表 */
+				Set<Resource> removes = getListOfRemoves(orig_enterprise.getDisAttachments(), disAttachments);
+				/* 2.对图片集合进行循环 */
+				Set<Resource> adds = operationResources(disAttachments, "dis", null);
+				/* 3.保存资源 */
+				if (!CollectionUtils.isEmpty(removes)&&removes.size()>0) {
+					orig_enterprise.removeDisResources(removes);
+					for (Resource resource : removes) {
+						delete(resource);
+					}
+				}
+				if (!CollectionUtils.isEmpty(adds)&&adds.size()>0) {
+					orig_enterprise.addDisResources(adds);
+				}
+			}
 			enterpriseService.update(orig_enterprise);
 
 		} catch (ServiceException e) {

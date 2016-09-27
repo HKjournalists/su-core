@@ -2347,16 +2347,21 @@ public class BusinessUnitServiceImpl extends BaseServiceImpl<BusinessUnit, Busin
 			licenseService.save(businessUnit.getLicense());
 			/* 2.2 保存织机构代码信息  */
 			orgInstitutionService.save(businessUnit.getOrgInstitution(), true);
+
+			 /* 2.3 保存食品流通许可证信息 */
+			circulationPermitService.save(businessUnit.getDistribution());
+
 			/* 2.6 保存税务登记证信息 */
 			taxRegisterService.save(businessUnit.getTaxRegister());
 			
 			/* 2.5保存企业其他认证信息*/
 			businessCertificationService.save(businessUnit);
-			
-			
+
+
 			BusinessUnit orig_businessUnit = findById(businessUnit.getId());
 			
 			setBusinessUnitValue(orig_businessUnit, businessUnit);
+
 			if(businessUnit.getTaxRegister()!=null){
 				orig_businessUnit.setTaxRegister(taxRegisterService.findById(businessUnit.getTaxRegister().getId()));
 			}
@@ -2365,6 +2370,10 @@ public class BusinessUnitServiceImpl extends BaseServiceImpl<BusinessUnit, Busin
 			}
 			if(businessUnit.getOrgInstitution()!=null){
 				orig_businessUnit.setOrgInstitution(orgInstitutionService.findByOrgCode(businessUnit.getOrgInstitution().getOrgCode()));
+			}
+
+			if(businessUnit.getDistribution()!=null){
+				orig_businessUnit.setDistribution(circulationPermitService.findByDistributionNo(businessUnit.getDistribution().getDistributionNo()));
 			}
 			
 			update(orig_businessUnit);
