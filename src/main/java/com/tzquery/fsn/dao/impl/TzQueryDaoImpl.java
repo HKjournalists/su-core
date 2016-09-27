@@ -1243,7 +1243,7 @@ public class TzQueryDaoImpl implements TzQueryDao{
             sql.append("SELECT f.* FROM facility_info f LEFT JOIN business_unit b ON f.business_id=b.id ");
             sql.append("WHERE b.`name`=?1 ");
 			if(StringUtils.isNotBlank(paramVO.getProName())){
-				sql.append(" AND f.facilityName LIKE ?2 ");
+				sql.append(" AND f.facility_name LIKE ?2 ");
 			}
 			sql.append(" ORDER BY f.buying_time desc ");
             Query query = entityManager.createNativeQuery(sql.toString(),FacilityInfo.class);
@@ -1275,7 +1275,7 @@ public class TzQueryDaoImpl implements TzQueryDao{
             sql.append("SELECT count(*) FROM facility_info f LEFT JOIN business_unit b ON f.business_id=b.id ");
             sql.append("WHERE b.`name`=?1 ");
 			if(StringUtils.isNotBlank(paramVO.getProName())){
-				sql.append(" AND f.facilityName LIKE ?2 ");
+				sql.append(" AND f.facility_name LIKE ?2 ");
 			}
             Query query = entityManager.createNativeQuery(sql.toString());
             query.setParameter(1, paramVO.getBusName());
