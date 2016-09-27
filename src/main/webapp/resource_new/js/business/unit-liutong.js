@@ -92,6 +92,7 @@ $(document).ready(function(){
      	   if(orgCode=="") return;
      	   if(business_unit.editBusiness==null) business_unit.editBusiness={};
      	   var orgId = business_unit.organization;
+            if(orgId == undefined || orgId == null) return;
      	   business_unit.verificationOrgCode(orgCode,orgId);
 		});
 		
@@ -144,9 +145,11 @@ $(document).ready(function(){
             async:false,
             success: function(returnValue){
             	var busUnit = returnValue.data;
-            	business_unit.type=busUnit.type;
-                business_unit.setValue(busUnit, "liutong");
-                business_unit.setViewValue(busUnit);
+				if(busUnit != null){
+					business_unit.type=busUnit.type;
+					business_unit.setValue(busUnit, "liutong");
+					business_unit.setViewValue(busUnit);
+				}
                /* if(busUnit.address!=null&&busUnit.address.indexOf("贵州省")>-1){
                 	business_unit.isGZLTBus = true;
                 	business_unit.organization=busUnit.organization;
@@ -363,56 +366,66 @@ $(document).ready(function(){
         return true;
     };
     
-    business_unit.validateMyDate = function(){
-    	    	if(!$("#distributionNo").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【食品流通许可证信息】中的食品流通许可证编号不能为空！',false);
-			business_unit.wrong("distributionNo","text");
-    		return false;
-    	}
-    	var disbutNo=$("#distributionNo").val().trim().replace(/-/g,"");
-    	var vaddisbutNo = /^[A-Za-z0-9]{1,}$/.test(disbutNo);
-		 if(!vaddisbutNo){
-			 lims.initNotificationMes("【食品流通许可证信息】中的食品流通许可证编号包含中文！",false);		 
-			 return false;
+    business_unit.validateMyDate = function(status){
+		var mgs = "流通";
+		if(business_unit.type!=null&&business_unit.type!=''&&business_unit.type.indexOf("餐饮企业")!=-1){
+			mgs = "餐饮";
 		}
-    	if(!$("#licensingAuthority").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【食品流通许可证信息】中的许可机关不能为空！',false);
-			business_unit.wrong("licensingAuthority","text");
-    		return false;
-    	}
-    	if(!$("#distributionName").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【食品流通许可证信息】中的名称不能为空！',false);
-			business_unit.wrong("distributionName","text");
-    		return false;
-    	}
-    	if(!$("#dis_mainAddr").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【食品流通许可证信息】中的经营场所不能为空！',false);
-			business_unit.wrong("dis_mainAddr","text");
-    		return false;
-    	}
-    	if(!$("#dis_streetAddress").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【食品流通许可证信息】中的经营场所的街道地址不能为空！',false);
-			business_unit.wrong("dis_streetAddress","text");
-    		return false;
-    	}
-    	if(!$("#disLegalName").kendoValidator().data("kendoValidator").validate()){
-    		lims.initNotificationMes('【食品流通许可证信息】中的负责人不能为空！',false);
-			business_unit.wrong("disLegalName","text");
-    		return false;
-    	}
-    	if(!fsn.validateMustDate("disStartTime","食品流通许可证的起始日期")){return false;}
-    	if(!fsn.validateMustDate("disEndTime","食品流通许可证的截止日期")){return false;}
-    	var startDate = $("#disStartTime").data("kendoDatePicker").value();
-        var endDate = $("#disEndTime").data("kendoDatePicker").value();
-        if((endDate-startDate)<0){
-        	lims.initNotificationMes('食品流通许可证的起始日期不能大于截止日期！',false);
-        	return false;
-        }
-        if(business_unit.aryDisAttachments.length<1){
-        	lims.initNotificationMes('请上传食品流通许可证图片！',false);
-			business_unit.wrong("upload_distribution_files","select");
-        	return false;
-        }
+		if(status == undefined || status == 1) {
+			if (!$("#distributionNo").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes("【食品"+mgs+"许可证信息】中的食品"+mgs+"许可证编号不能为空！", false);
+				business_unit.wrong("distributionNo", "text");
+				return false;
+			}
+			var disbutNo = $("#distributionNo").val().trim().replace(/-/g, "");
+			var vaddisbutNo = /^[A-Za-z0-9]{1,}$/.test(disbutNo);
+			if (!vaddisbutNo) {
+				lims.initNotificationMes("【食品"+mgs+"许可证信息】中的食品"+mgs+"许可证编号包含中文！", false);
+				return false;
+			}
+			if (!$("#licensingAuthority").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes("【食品"+mgs+"许可证信息】中的许可机关不能为空！", false);
+				business_unit.wrong("licensingAuthority", "text");
+				return false;
+			}
+			if (!$("#distributionName").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes("【食品"+mgs+"许可证信息】中的名称不能为空！", false);
+				business_unit.wrong("distributionName", "text");
+				return false;
+			}
+			if (!$("#dis_mainAddr").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes("【食品"+mgs+"许可证信息】中的经营场所不能为空！", false);
+				business_unit.wrong("dis_mainAddr", "text");
+				return false;
+			}
+			if (!$("#dis_streetAddress").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes("【食品"+mgs+"许可证信息】中的经营场所的街道地址不能为空！", false);
+				business_unit.wrong("dis_streetAddress", "text");
+				return false;
+			}
+			if (!$("#disLegalName").kendoValidator().data("kendoValidator").validate()) {
+				lims.initNotificationMes("【食品"+mgs+"许可证信息】中的负责人不能为空！", false);
+				business_unit.wrong("disLegalName", "text");
+				return false;
+			}
+			if (!fsn.validateMustDate("disStartTime", "食品"+mgs+"许可证的起始日期")) {
+				return false;
+			}
+			if (!fsn.validateMustDate("disEndTime", "食品"+mgs+"许可证的截止日期")) {
+				return false;
+			}
+			var startDate = $("#disStartTime").data("kendoDatePicker").value();
+			var endDate = $("#disEndTime").data("kendoDatePicker").value();
+			if ((endDate - startDate) < 0) {
+				lims.initNotificationMes("食品"+mgs+"许可证的起始日期不能大于截止日期！", false);
+				return false;
+			}
+			if (business_unit.aryDisAttachments.length < 1) {
+				lims.initNotificationMes("请上传食品"+mgs+"许可证图片！", false);
+				business_unit.wrong("upload_distribution_files", "select");
+				return false;
+			}
+		}
         return true;
     };
     
@@ -825,21 +838,21 @@ $(document).ready(function(){
         		$("#bu_dis_code_title").html("流通许可证：");
 				str = 2;
         	}
-        	if(data.liquorAttachments.length>0){
-        		if(data.liquorAttachments.length>0){
-	        		$("#bu_dis_img").attr("src",data.liquorAttachments[0].url);
-	         		//$("#bu_dis_a").attr("href",data.liquorAttachments[0].url);
-					$("#bu_dis_img").attr("onclick","fsn.business_unit.seefacilityImg('dis"+str+"')");
-        		}
-        		$("#bu_dis_code").html(data.liquorCode);
-        	}else{
+        	//if(data.liquorAttachments.length>0){
+        	//	if(data.liquorAttachments.length>0){
+	        //		$("#bu_dis_img").attr("src",data.liquorAttachments[0].url);
+	        // 		//$("#bu_dis_a").attr("href",data.liquorAttachments[0].url);
+				//	$("#bu_dis_img").attr("onclick","fsn.business_unit.seefacilityImg('dis"+str+"')");
+        	//	}
+        	//	$("#bu_dis_code").html(data.liquorCode);
+        	//}else{
 	        	 if(data.disAttachments.length>0){
 	         		$("#bu_dis_img").attr("src",data.disAttachments[0].url);
 	         		//$("#bu_dis_a").attr("href",data.disAttachments[0].url);
 					 $("#bu_dis_img").attr("onclick","fsn.business_unit.seefacilityImg('dis"+str+"')");
 	         	}
 	        	 $("#bu_dis_code").html(data.distribution.distributionNo);
-        	}
+        	//}
         	$("#bu_dis_name").html(data.distribution.licenseName==null?"":data.distribution.licenseName);
         	$("#bu_dis_disLegalName").html(data.distribution.legalName==null?"":data.distribution.legalName);
              if(data.distribution.startTime){
