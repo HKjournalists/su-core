@@ -39,14 +39,14 @@ $(document).ready(function(){
     
     business_unit.initialize = function(){
     	/* 初始化上传控件 */
-    	$("#upload_logo_div").html("<input id='upload_logo_files' type='file' />");
-    	business_unit.buildUpload("upload_logo_files",business_unit.aryLogoAttachments,"proFileMsgLogo");
-    	$("#upload_org_div").html("<input id='upload_orgnization_files' type='file' />");
-    	business_unit.buildUpload("upload_orgnization_files",business_unit.aryOrgAttachments,"proFileMsgOrg");
-    	$("#upload_license_div").html("<input id='upload_license_files' type='file' />");
-    	business_unit.buildUpload("upload_license_files",business_unit.aryLicenseAttachments,"proFileMsgLicense");
-    	$("#upload_distribution_div").html("<input id='upload_distribution_files' type='file' />");
-    	business_unit.buildUpload("upload_distribution_files",business_unit.aryDisAttachments,"proFileMsgDistribution");
+    	$("#upload_logo_files_div").html("<input id='upload_logo_files' type='file' />");
+    	business_unit.buildUpload("upload_logo_files",business_unit.aryLogoAttachments,"upload_logo_files_log");
+    	$("#upload_orgnization_files_div").html("<input id='upload_orgnization_files' type='file' />");
+    	business_unit.buildUpload("upload_orgnization_files",business_unit.aryOrgAttachments,"upload_orgnization_files_log");
+    	$("#upload_license_files_div").html("<input id='upload_license_files' type='file' />");
+    	business_unit.buildUpload("upload_license_files",business_unit.aryLicenseAttachments,"upload_license_files_log");
+    	$("#upload_distribution_files_div").html("<input id='upload_distribution_files' type='file' />");
+    	business_unit.buildUpload("upload_distribution_files",business_unit.aryDisAttachments,"upload_distribution_files_log");
     	$("#btn_clearOrgFiles").bind("click",business_unit.clearOrgFiles);
 		$("#btn_clearLicenseFiles").bind("click",business_unit.clearLicenseFiles);
 		$("#btn_clearDisFiles").bind("click",business_unit.clearDisFiles);
@@ -71,7 +71,8 @@ $(document).ready(function(){
 			business_unit.initView();
 		}
 		
-        $("#save").bind("click", business_unit.save);
+        $("#saveBasic").bind("click", business_unit.saveBusinessbasBasic);
+        $("#saveLicense").bind("click", business_unit.saveBusinessbasCert);
         $("#reset").bind("click", business_unit.reset);
         $("#upload").bind("click",business_unit.upload);
         
@@ -104,14 +105,17 @@ $(document).ready(function(){
 			}
 		});*/
 		$("#editBtn").bind("click",function(event){
-			$("#Swi_A").removeClass('none');
-			$("#Swi_B").addClass("none");
+
+			$("#Swi_B").hide();
+			$("#Swi_A").show();
 		});
 		$("#backBtn").bind("click",function(event){
-			history.go(-1);
+			$("#Swi_B").show();
+			$("#Swi_A").hide();
 		});
-		
-		
+
+		business_unit.initTabStrip();
+
     };
     
     business_unit.hideComponentOfView = function(){
@@ -256,12 +260,22 @@ $(document).ready(function(){
             };
         return subBusiness;
     };
-    
+
+	business_unit.saveBusinessbasBasic = function(){
+		var url = portal.HTTP_PREFIX + "/business/saveBusinessbasBasic";
+		business_unit.save(url,0);
+
+	};
+	business_unit.saveBusinessbasCert = function(){
+		var url = portal.HTTP_PREFIX + "/business/saveBusinessbasCert";
+		business_unit.save(url,1);
+	};
+
     /* 保存 */
-    business_unit.save = function(){
+    business_unit.save = function(url,status){
         // 1.校验数据的有效性
     	fsn.clearErrorStyle();
-        if(!business_unit.validateFormat()) return;
+        if(!business_unit.validateFormat(status)) return;
         /*if(business_unit.isGZLTBus!=null && business_unit.isGZLTBus){
     		if(!business_unit.validateGZLiutongField()) return;
     	}*/
@@ -282,7 +296,7 @@ $(document).ready(function(){
         $("#winMsg").html("正在修改数据，请稍候....");
         $("#k_window").data("kendoWindow").open().center();
         $.ajax({
-            url: portal.HTTP_PREFIX + "/business/business-unit",
+            url: url,
             type: "PUT",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
@@ -290,12 +304,17 @@ $(document).ready(function(){
             success: function(returnVal){
             	$("#k_window").data("kendoWindow").close();
             	if(returnVal.result.status == "true"){
-			 		lims.initNotificationMes("企业信息修改成功", true);
-         		    business_unit.setOrgAttachments(returnVal.data.orgAttachments);
-                    business_unit.setLicenseAttachments(returnVal.data.licAttachments);
-                    business_unit.setDisAttachments(returnVal.data.disAttachments);
-                    business_unit.setLogoAttachments(returnVal.data.logoAttachments);
-                    business_unit.setViewValue(returnVal.data);
+					if(status==0){
+						lims.initNotificationMes("企业信息修改成功", true);
+					}else{
+						lims.initNotificationMes("证照信息修改成功", true);
+					}
+         		    //business_unit.setOrgAttachments(returnVal.data.orgAttachments);
+                    //business_unit.setLicenseAttachments(returnVal.data.licAttachments);
+                    //business_unit.setDisAttachments(returnVal.data.disAttachments);
+                    //business_unit.setLogoAttachments(returnVal.data.logoAttachments);
+                    //business_unit.setViewValue(returnVal.data);
+					business_unit.initView();
                     $("#Swi_B").removeClass('none');
         			$("#Swi_A").addClass("none");
         			scrollTo(0,0);
@@ -338,9 +357,9 @@ $(document).ready(function(){
     };
     
     /* 校验数据的有效性 */
-    business_unit.validateFormat = function() {
-    	if(!business_unit.validateCommon()){ return false; }
-    	if(!business_unit.validateMyDate()){ return false; }
+    business_unit.validateFormat = function(status) {
+    	if(!business_unit.validateCommon(status)){ return false; }
+    	if(!business_unit.validateMyDate(status)){ return false; }
         return true;
     };
     
@@ -646,7 +665,6 @@ $(document).ready(function(){
 	
 	business_unit.testFun=function(){
 		var hhh = $(this);
-		alert(hhh);
 	};
 	
 	/*验证贵州流通企业扩展必填字段*/
@@ -771,7 +789,8 @@ $(document).ready(function(){
         if(data.license!=null){
         	if(data.licAttachments.length>0){
         		$("#bu_lic_img").attr("src",data.licAttachments[0].url);
-        		$("#bu_lic_a").attr("href",data.licAttachments[0].url);
+        		$("#bu_lic_img").attr("onclick","fsn.business_unit.seefacilityImg('lic')");
+        		//$("#bu_lic_a").attr("href",data.licAttachments[0].url);
         	}
         	$("#bu_lic_no").html(data.license.licenseNo);
         	$("#bu_lic_disLegalName").html(data.license.legalName==null?"":data.license.legalName);
@@ -783,7 +802,9 @@ $(document).ready(function(){
         if(data.orgInstitution!=null){
         	if(data.orgAttachments.length>0){
         		$("#bu_org_img").attr("src",data.orgAttachments[0].url);
-        		$("#bu_org_a").attr("href",data.orgAttachments[0].url);
+        		//$("#bu_org_a").attr("href",data.orgAttachments[0].url);
+
+				$("#bu_org_img").attr("onclick","fsn.business_unit.seefacilityImg('org')");
         	}
             $("#bu_org_code").html(data.orgInstitution.orgCode);
             $("#bu_org_name").html(data.orgInstitution.orgName==null?"":data.orgInstitution.orgName);
@@ -796,21 +817,26 @@ $(document).ready(function(){
 			$("#dis").addClass("none");
         }else{
         	$("#dis").removeClass('none');
+			var str = '';
         	if(data.type!=null&&data.type!=''&&data.type.indexOf("餐饮企业")!=-1){
         		$("#bu_dis_code_title").html("餐饮许可：");
+				str = 1;
         	}else{
         		$("#bu_dis_code_title").html("流通许可证：");
+				str = 2;
         	}
         	if(data.liquorAttachments.length>0){
         		if(data.liquorAttachments.length>0){
 	        		$("#bu_dis_img").attr("src",data.liquorAttachments[0].url);
-	         		$("#bu_dis_a").attr("href",data.liquorAttachments[0].url);
+	         		//$("#bu_dis_a").attr("href",data.liquorAttachments[0].url);
+					$("#bu_dis_img").attr("onclick","fsn.business_unit.seefacilityImg('dis"+str+"')");
         		}
         		$("#bu_dis_code").html(data.liquorCode);
         	}else{
 	        	 if(data.disAttachments.length>0){
 	         		$("#bu_dis_img").attr("src",data.disAttachments[0].url);
-	         		$("#bu_dis_a").attr("href",data.disAttachments[0].url);
+	         		//$("#bu_dis_a").attr("href",data.disAttachments[0].url);
+					 $("#bu_dis_img").attr("onclick","fsn.business_unit.seefacilityImg('dis"+str+"')");
 	         	}
 	        	 $("#bu_dis_code").html(data.distribution.distributionNo);
         	}
@@ -847,5 +873,66 @@ $(document).ready(function(){
         }
         return realLength;
     };
-    business_unit.initialize();
+	business_unit.initTabStrip = function(){
+		business_unit.tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
+		business_unit.tabStrip.select(0);        // Select by jQuery selector
+		// tabStrip.select(1);
+		/**
+		 * 初始化
+		 //      */
+		var g = $("#tabstrip").data("kendoTabStrip");
+		if(!g){
+			g =  $("#tabstrip").kendoTabStrip({
+				animation:  {
+					open: {
+						effects: "fadeIn"
+					}
+				}
+			});
+		};
+	};
+	business_unit.initWindowImg = function(title){
+		$('#DIV_IMG_WIN_wnd_title').html(title);
+		$("#DIV_IMG_WIN").kendoWindow({
+			width: "900",
+			height:"700",
+			title: title,
+			visible: true, //是否可见
+			resizable: false,//尺寸是否可调
+			draggable:true,//是否可以拖动
+			modal: true
+		});
+	};
+	business_unit.seefacilityImg = function(id){
+		var imgs = null;
+		var title = "";
+		if(id == 'lic'){
+			imgs = business_unit.aryLicenseAttachments;
+			title = "营业执照";
+		}else if(id == 'org'){
+			imgs = business_unit.aryOrgAttachments;
+			title = "组织机构代码证照";
+		}else if(id == "dis1"){
+			imgs = business_unit.aryDisAttachments;
+			title = "餐饮许可证照";
+		}else if(id == "dis2"){
+			imgs = business_unit.aryDisAttachments;
+			title = "流通许可证照";
+		}
+		if(imgs != null && imgs.length > 0){
+			business_unit.initWindowImg(title);
+		}
+		var slides = $("#slides");
+		var img ="<div class=\"slides_container\">";
+		for(var i=0;i<imgs.length; i++)
+		{
+			img =img+ '<div class="slide"><img style="width: 849px;height: 638px" src="'+imgs[i].url+'"/></div>';
+		}
+		img =img+ '</div><a href="#" class="prev"><img src="../../resource/js/slides/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>'+
+		'<a href="#" class="next"><img src="../../resource/js/slides/img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>';
+		slides.html(img);
+		$('#slides').slides();
+		$("#DIV_IMG_WIN").data("kendoWindow").open().center();
+	};
+	business_unit.initialize();
 })

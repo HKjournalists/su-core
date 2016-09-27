@@ -1058,14 +1058,12 @@
 			var imgData  = data.licAttachments;
 
 			var img = "";
+			var imgs = "";
 			for(var k in imgData){
 				img+="<div id='upload_license_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
 				img+="<img id='upload_license_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
 				img+="</div>";
-			}
 
-			var imgs = "";
-			for(var k in imgData){
 				imgs+="<div id='upload_license_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
 				imgs+="<img id='upload_license_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
 				imgs+="<div class=deleteBtn onclick=fsn.business_unit.delSelectLicenseImg('upload_license_files_"+k+"','"+imgData[k].url+"')>x";
@@ -1092,11 +1090,9 @@
 			var img = "";
 			var imgs = "";
 			for(var k in imgData){
-
 				img+="<div id='upload_orgnization_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
 				img+="<img id='upload_orgnization_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
 				img+="</div>";
-
 
 				imgs+="<div id='upload_orgnization_files_img_"+k+"'  style='position: relative;width: 128px;height: 128px;float: left;display: inline'>";
 				imgs+="<img id='upload_orgnization_files_"+k+"' src='"+imgData[k].url+"' style='width: 128px;height:128px;' onclick='fsn.business_unit.amplification(this.src)'>";
@@ -1304,6 +1300,7 @@
 			}
 
 		};
+
 
 	business_unit.amplification = function(url){
 		//window.location.href = url;
