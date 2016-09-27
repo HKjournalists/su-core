@@ -3,22 +3,40 @@ var eWidget = fsn.eWidget = fsn.eWidget||{};
 var common = fsn.common = fsn.common || {};
 var st_customer = fsn.st_customer = fsn.st_customer || {};
 
-st_customer.SIMPLE_TYPE = parseInt(window.location.search.substr(6));
-st_customer.SIMPLE_MODEL_NAME = decodeURIComponent(window.location.search.substr(13));
-if(isNaN(st_customer.SIMPLE_TYPE)){
+st_customer.SIMPLE_TYPE = 2;
+st_customer.SIMPLE_MODEL_NAME = "客户";
+var typeId=parseInt(window.location.search.substr(8));
+
+var typeName=null;
+/*if(isNaN(st_customer.SIMPLE_TYPE)){
 	st_customer.SIMPLE_TYPE = 3;
 }
 if(st_customer.SIMPLE_MODEL_NAME==''){
-	st_customer.SIMPLE_MODEL_NAME="客户";
+	st_customer.SIMPLE_MODEL_NAME="供应商";
 }
 if(st_customer.SIMPLE_MODEL_NAME.substring(0, 1) == "=") {
 	st_customer.SIMPLE_MODEL_NAME = st_customer.SIMPLE_MODEL_NAME.substr(1);
-}
+}*/
 
 /**
  * 页面初始化
  */
 st_customer.initailize_common = function(){
+   var currentBusiness =getCurrentBusiness().type;
+   if(typeId==2){
+        if(currentBusiness=="生产企业"){
+        typeName="原材料来源客户";
+        $(".title").html(typeName);
+        $("#licno").hide();
+        }else if(currentBusiness=="流通企业.供应商"){
+        typeName="产品来源客户";
+         $(".title").html(typeName);
+         $("#license").attr("required","required");
+         }
+   }else if(typeId==1){
+        typeName="产品销往客户";
+        $(".title").html(typeName);
+   }
 	this.initComponent(st_customer);
 	$("#label_no").html(st_customer.SIMPLE_MODEL_NAME + "编号");
 	$("#label_name").html(st_customer.SIMPLE_MODEL_NAME + "名称");
@@ -274,7 +292,6 @@ st_customer.flag = false;
  * 新增客户信息
  */
 st_customer.windowSaveConfrim = function(zone,_type){
-	
 	// validation
 	st_customer.flag = st_customer.verifyCustomer();
 	
