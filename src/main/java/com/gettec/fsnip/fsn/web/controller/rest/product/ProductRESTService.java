@@ -1376,8 +1376,9 @@ public class ProductRESTService extends BaseRESTService{
 		@RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT},value = "/savedestroy")
 		public View save(Model model,@RequestBody ProductDestroyRecordVo productDestroyRecordVo){
 			try {
-				
+
 				ProductDestroyRecord productDestroyRecord=new ProductDestroyRecord();
+				productDestroyRecord.setOrganization(Long.parseLong(AccessUtils.getUserRealOrg().toString()));
 				productDestroyRecord.setHandle_name(AccessUtils.getUserOrgName().toString());
 				productDestroyRecord.setOperation_user(AccessUtils.getUserName().toString());
 				productDestroyRecord.setNumber(productDestroyRecordVo.getNumber());

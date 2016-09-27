@@ -4,9 +4,17 @@
 package com.tzquery.fsn.dao.impl;
 
 import com.gettec.fsnip.fsn.exception.DaoException;
+import com.gettec.fsnip.fsn.model.facility.FacilityInfo;
+import com.gettec.fsnip.fsn.model.facility.FacilityMaintenanceRecord;
+import com.gettec.fsnip.fsn.model.member.Member;
+import com.gettec.fsnip.fsn.model.operate.OperateInfo;
+import com.gettec.fsnip.fsn.model.procurement.ProcurementDispose;
+import com.gettec.fsnip.fsn.model.procurement.ProcurementInfo;
+import com.gettec.fsnip.fsn.model.procurement.ProcurementUsageRecord;
 import com.tzquery.fsn.dao.TzQueryDao;
 import com.tzquery.fsn.util.StringUtil;
 import com.tzquery.fsn.vo.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -1094,5 +1102,366 @@ public class TzQueryDaoImpl implements TzQueryDao{
 			throw new DaoException("TzQueryDaoImpl-->getBusQueryProListTotal()根据企业名称获取该企业销售的产品列表总记录数,出现异常！",e);
 		}
 	}
+
+	/**
+	 * 根据企业名称获取原材料信息列表
+	 * @param paramVO
+	 * @return
+	 * @throws DaoException
+     */
+	@Override
+	public List<ProcurementInfo> getRawMaterialInfoList(TzQueryRequestParamVO paramVO,int type) throws DaoException {
+		try {
+			List<ProcurementInfo> list = new ArrayList<ProcurementInfo>();
+			StringBuffer sql = new StringBuffer();
+			sql.append("SELECT p.* FROM procurement_info p ");
+			sql.append("LEFT JOIN business_unit b ON b.organization=p.organization_id ");
+			sql.append("WHERE b.`name`=?1 AND p.type=?2  ");
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				sql.append(" AND  p.name LIKE ?3  ");
+			}
+			sql.append(" ORDER BY p.procurement_date desc ");
+			Query query = entityManager.createNativeQuery(sql.toString(),ProcurementInfo.class);
+			query.setParameter(1, paramVO.getBusName());
+			query.setParameter(2, type);
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				query.setParameter(3, "%"+paramVO.getProName()+"%");
+			}
+			if(paramVO.getPage()>0&&paramVO.getPageSize()>0){
+				query.setFirstResult((paramVO.getPage()-1)*paramVO.getPageSize());
+				query.setMaxResults(paramVO.getPageSize());
+			}
+			list=query.getResultList();
+			return list;
+		} catch (Exception e) {
+			throw new DaoException("TzQueryDaoImpl-->getRawMaterialInfoList()根据企业名称获取原材料信息列表！",e);
+		}
+	}
+
+	/**
+	 * 根据企业名称获取原材料信息数量
+	 * @param paramVO
+	 * @return
+	 * @throws DaoException
+     */
+	@Override
+	public Long getRawMaterialInfoTotal(TzQueryRequestParamVO paramVO,int type) throws DaoException {
+		try {
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT count(*) FROM procurement_info p ");
+            sql.append("LEFT JOIN business_unit b ON b.organization=p.organization_id ");
+            sql.append("WHERE b.`name`=?1 AND p.type=?2 ");
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				sql.append(" AND  p.name LIKE ?3  ");
+			}
+			Query query = entityManager.createNativeQuery(sql.toString());
+            query.setParameter(1, paramVO.getBusName());
+			query.setParameter(2, type);
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				query.setParameter(3, "%"+paramVO.getProName()+"%");
+			}
+			return Long.parseLong(query.getSingleResult().toString());
+		} catch (Exception e) {
+			throw new DaoException("TzQueryDaoImpl-->getRawMaterialInfoTotal()根据企业名称获取原材料信息数量！",e);
+		}
+	}
+
+    /**
+     * 根据企业名称获取人员信息列表
+     * @param paramVO
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public List<Member> getMemberInfoList(TzQueryRequestParamVO paramVO) throws DaoException {
+        try {
+            List<Member> list = new ArrayList<Member>();
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT m.* FROM member m LEFT JOIN business_unit b ON m.orgId=b.id ");
+            sql.append("WHERE b.`name`=?1  ");
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				sql.append(" AND ( m.name LIKE ?2 OR m.position LIKE ?3 OR m.identificationNo LIKE ?4 )");
+			}
+			sql.append(" ORDER BY m.id desc  ");
+            Query query = entityManager.createNativeQuery(sql.toString(),Member.class);
+            query.setParameter(1, paramVO.getBusName());
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				query.setParameter(2, "%"+paramVO.getProName()+"%");
+				query.setParameter(3, "%"+paramVO.getProName()+"%");
+				query.setParameter(4, "%"+paramVO.getProName()+"%");
+			}
+            if(paramVO.getPage()>0&&paramVO.getPageSize()>0){
+                query.setFirstResult((paramVO.getPage()-1)*paramVO.getPageSize());
+                query.setMaxResults(paramVO.getPageSize());
+            }
+            list=query.getResultList();
+            return list;
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getMemberInfoList()根据企业名称获取人员信息列表！",e);
+        }
+    }
+
+    /**
+     * 根据企业名称获取人员信息数量
+     * @param paramVO
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public Long getMemberInfoTotal(TzQueryRequestParamVO paramVO) throws DaoException {
+        try {
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT count(*) FROM member m LEFT JOIN business_unit b ON m.orgId=b.id ");
+            sql.append("WHERE b.`name`=?1 ");
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				sql.append(" AND ( m.name LIKE ?2 OR m.position LIKE ?3 OR m.identificationNo LIKE ?4 )");
+			}
+            Query query = entityManager.createNativeQuery(sql.toString());
+            query.setParameter(1, paramVO.getBusName());
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				query.setParameter(2, "%"+paramVO.getProName()+"%");
+				query.setParameter(3, "%"+paramVO.getProName()+"%");
+				query.setParameter(4, "%"+paramVO.getProName()+"%");
+			}
+            return Long.parseLong(query.getSingleResult().toString());
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getMemberInfoTotal()根据企业名称获取人员信息数量！",e);
+        }
+    }
+
+    /**
+     * 根据企业名称获取设备信息列表
+     * @param paramVO
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public List<FacilityInfo> getFacilityInfoList(TzQueryRequestParamVO paramVO) throws DaoException {
+        try {
+            List<FacilityInfo> list = new ArrayList<FacilityInfo>();
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT f.* FROM facility_info f LEFT JOIN business_unit b ON f.business_id=b.id ");
+            sql.append("WHERE b.`name`=?1 ");
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				sql.append(" AND f.facility_name LIKE ?2 ");
+			}
+			sql.append(" ORDER BY f.buying_time desc ");
+            Query query = entityManager.createNativeQuery(sql.toString(),FacilityInfo.class);
+            query.setParameter(1, paramVO.getBusName());
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				query.setParameter(2, "%"+paramVO.getProName()+"%");
+			}
+            if(paramVO.getPage()>0&&paramVO.getPageSize()>0){
+                query.setFirstResult((paramVO.getPage()-1)*paramVO.getPageSize());
+                query.setMaxResults(paramVO.getPageSize());
+            }
+            list=query.getResultList();
+            return list;
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getFacilityInfoList()根据企业名称获取设备信息列表！",e);
+        }
+    }
+
+    /**
+     * 根据企业名称获取设备信息数量
+     * @param paramVO
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public Long getFacilityInfoTotal(TzQueryRequestParamVO paramVO) throws DaoException {
+        try {
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT count(*) FROM facility_info f LEFT JOIN business_unit b ON f.business_id=b.id ");
+            sql.append("WHERE b.`name`=?1 ");
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				sql.append(" AND f.facility_name LIKE ?2 ");
+			}
+            Query query = entityManager.createNativeQuery(sql.toString());
+            query.setParameter(1, paramVO.getBusName());
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				query.setParameter(2, "%"+paramVO.getProName()+"%");
+			}
+            return Long.parseLong(query.getSingleResult().toString());
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getFacilityInfoTotal()根据企业名称获取设备信息数量！",e);
+        }
+    }
+
+    /**
+     * 根据企业名称获取规模信息列表
+     * @param paramVO
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public OperateInfo getOperateInfo(TzQueryRequestParamVO paramVO) throws DaoException {
+        try {
+            List<OperateInfo> list = new ArrayList<OperateInfo>();
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT * FROM operate_info o LEFT JOIN business_unit b ON o.business_id=b.id ");
+            sql.append("WHERE b.`name`=?1 ");
+            Query query = entityManager.createNativeQuery(sql.toString(),OperateInfo.class);
+            query.setParameter(1, paramVO.getBusName());
+            list=query.getResultList();
+            if(list!=null&&list.size()>0){
+                return list.get(0);
+            }
+            return null;
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getOperateInfo()根据企业名称获取规模信息列表！",e);
+        }
+    }
+
+    /**
+     * 根据id获取原材料使用记录信息列表
+     * @param paramVO
+     * @param rId
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public List<ProcurementUsageRecord> getProcurementUsageRecordList(TzQueryRequestParamVO paramVO, Long rId) throws DaoException {
+        try {
+            List<ProcurementUsageRecord> list = new ArrayList<ProcurementUsageRecord>();
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT * FROM procurement_usage_record WHERE procurement_id=?1 ORDER BY use_date desc");
+            Query query = entityManager.createNativeQuery(sql.toString(),ProcurementUsageRecord.class);
+            query.setParameter(1, rId);
+            if(paramVO.getPage()>0&&paramVO.getPageSize()>0){
+                query.setFirstResult((paramVO.getPage()-1)*paramVO.getPageSize());
+                query.setMaxResults(paramVO.getPageSize());
+            }
+            list=query.getResultList();
+            return list;
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getProcurementUsageRecordList()根据id获取原材料使用记录信息列表！",e);
+        }
+    }
+
+    /**
+     * 根据id获取原材料使用记录信息数量
+     * @param paramVO
+     * @param rId
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public Long getProcurementUsageRecordTotal(TzQueryRequestParamVO paramVO, Long rId) throws DaoException {
+        try {
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT count(*) FROM procurement_usage_record WHERE procurement_id=?1 ");
+            Query query = entityManager.createNativeQuery(sql.toString());
+            query.setParameter(1, rId);
+            return Long.parseLong(query.getSingleResult().toString());
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getProcurementUsageRecordTotal()根据id获取原材料使用记录信息数量！",e);
+        }
+    }
+
+    /**
+     * 根据id获取原材料后续处理信息列表
+     * @param paramVO
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public List<ProcurementDispose> getProcurementDisposeList(TzQueryRequestParamVO paramVO, int type) throws DaoException {
+        try {
+            List<ProcurementDispose> list = new ArrayList<ProcurementDispose>();
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT p.* FROM procurement_dispose p LEFT JOIN business_unit b ON b.organization=p.organization_id  WHERE b.name=?1 AND p.type=?2 ");
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				sql.append(" AND  p.procurement_name LIKE ?3  ");
+			}
+			sql.append(" ORDER BY dispose_date desc ");
+            Query query = entityManager.createNativeQuery(sql.toString(),ProcurementDispose.class);
+            query.setParameter(1, paramVO.getBusName());
+			query.setParameter(2, type);
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				query.setParameter(3, "%"+paramVO.getProName()+"%");
+			}
+            if(paramVO.getPage()>0&&paramVO.getPageSize()>0){
+                query.setFirstResult((paramVO.getPage()-1)*paramVO.getPageSize());
+                query.setMaxResults(paramVO.getPageSize());
+            }
+            list=query.getResultList();
+            return list;
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getProcurementDisposeList()根据id获取原材料后续处理信息列表！",e);
+        }
+    }
+
+    /**
+     * 根据id获取原材料后续处理信息数量
+     * @param paramVO
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public Long getProcurementDisposeTotal(TzQueryRequestParamVO paramVO, int type) throws DaoException {
+        try {
+            StringBuffer sql = new StringBuffer();
+			sql.append("SELECT count(*) FROM procurement_dispose p LEFT JOIN business_unit b ON b.organization=p.organization_id  WHERE b.name=?1 AND p.type=?2 ");
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				sql.append(" AND  p.procurement_name LIKE ?3  ");
+			}
+            Query query = entityManager.createNativeQuery(sql.toString());
+			query.setParameter(1, paramVO.getBusName());
+			query.setParameter(2, type);
+			if(StringUtils.isNotBlank(paramVO.getProName())){
+				query.setParameter(3, "%"+paramVO.getProName()+"%");
+			}
+            return Long.parseLong(query.getSingleResult().toString());
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getProcurementDisposeTotal()根据id获取原材料后续处理信息数量！",e);
+        }
+    }
+
+    /**
+     * 根据设备id获取设备养护记录信息列表
+     * @param paramVO
+     * @param fId
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public List<FacilityMaintenanceRecord> getFacilityMaintenanceRecordList(TzQueryRequestParamVO paramVO, Long fId) throws DaoException {
+        try {
+            List<FacilityMaintenanceRecord> list = new ArrayList<FacilityMaintenanceRecord>();
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT * FROM facility_maintenance_record WHERE facility_id=?1 ORDER BY maintenance_time desc");
+            Query query = entityManager.createNativeQuery(sql.toString(),FacilityMaintenanceRecord.class);
+            query.setParameter(1, fId);
+            if(paramVO.getPage()>0&&paramVO.getPageSize()>0){
+                query.setFirstResult((paramVO.getPage()-1)*paramVO.getPageSize());
+                query.setMaxResults(paramVO.getPageSize());
+            }
+            list=query.getResultList();
+            return list;
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getFacilityMaintenanceRecordList()根据设备id获取设备养护记录信息列表！",e);
+        }
+    }
+
+    /**
+     * 根据设备id获取设备养护记录信息数量
+     * @param paramVO
+     * @param fId
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public Long getFacilityMaintenanceRecordTotal(TzQueryRequestParamVO paramVO, Long fId) throws DaoException {
+        try {
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT count(*) FROM facility_maintenance_record WHERE facility_id=?1 ");
+            Query query = entityManager.createNativeQuery(sql.toString());
+            query.setParameter(1, fId);
+            return Long.parseLong(query.getSingleResult().toString());
+        } catch (Exception e) {
+            throw new DaoException("TzQueryDaoImpl-->getFacilityMaintenanceRecordTotal()根据设备id获取设备养护记录信息数量！",e);
+        }
+    }
 
 }

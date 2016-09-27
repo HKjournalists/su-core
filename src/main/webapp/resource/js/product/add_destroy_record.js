@@ -4,6 +4,8 @@ $(document).ready(function(){
 	var root = window.lims.root = window.lims.root || {};
 	var upload = fsn.upload = fsn.upload || {};
 	var proname;
+	var _dataSource=null;
+	var  _businessType=null;
 	portal.codeFlag = true;
 	/*var describe = [ { text: "国家强制召回", Value: "compulsory_recall" },   
 	                  { text: "产品临期", Value: "advent" },  
@@ -41,9 +43,21 @@ $(document).ready(function(){
 		portal.initPopup("addConfirmPopup","确认");
       //  portal.initPopup("addConfirmDisposePopup","确认");
 		fsn.initKendoWindow("k_window","保存状态","300px","60px",false,'[]');
+		var currentBusiness =getCurrentBusiness().type;
+		 if(currentBusiness=="流通企业.商超"){
+		     _businessType="商超"
+            _dataSource=lims.getAutoLoadDsByUrl("/product/getAllBarCode");
+         }else{
+         if(currentBusiness=="流通企业.供应商"){
+         _businessType="经销商"
+         }else if(currentBusiness=="生产企业"){
+         _businessType= "生产企业"
+         }
+           _dataSource= lims.getAutoLoadDsByUrl("/product/getAllBarCode?businessType=生产企业");
+         }
 		root.bindClick_dealer();
 		 $("#barcode").kendoAutoComplete({
-	            dataSource: lims.getAutoLoadDsByUrl("/product/getAllBarCode?businessType=生产企业"),
+	            dataSource:_dataSource,
 	            filter: "startswith",
 	            placeholder: "搜索...",
 	            select: root.onSelectBarcode,
@@ -223,7 +237,25 @@ $(document).ready(function(){
 	         }
 	     });
 	},
-	
+		/**
+    	 * 根据条形码查找产品id
+    	 * @author ZhangHui 2015/4/14
+    	 */
+    	root.countInitialProduct = function(productId){
+    	 	var count = "";
+    	  	$.ajax({
+    	          url: fsn.getHttpPrefix() + "/erp/initializeProduct/countInitialProduct/" + productId,
+    	          type: "GET",
+    	          dataType: "json",
+    	          async: false,
+    	          success: function(returnValue) {
+    	              if (returnValue.result.status == "true") {
+    	            	  count = returnValue.counts;
+    	              }
+    	          }
+    	      });
+    	  	 return count;
+    	};
 	/**
 	 * 判断该条形码对应的产品,是否是系统中已存在，或者是否已引进
 	 * @author ZhangHui 2015/4/30
@@ -236,17 +268,30 @@ $(document).ready(function(){
 		root.queryCheckByBarcode(barcode);
 		/* 1 验证产品条形码是否为系统已存在产品 */
         var productId = root.queryProductIdByBarcode(barcode);
-        console.log(productId);
         if(productId==null){
         	/* 1.1 系统中不存在 */
         	fsn.initNotificationMes("系统中不存在该产品！", false);
 			return;
         }
-    	else{
+    	else if(_businessType=="生产企业"){
     		/* 1.2.2 是引进产品或者是自己新增的产品，则进行正常录报告流程 */
     	//	root.current_barcode_can_use = true;
     		root.initPageData(productId);
-    	}
+    	}else if(_businessType=="经销商"){
+    	var count = root.countInitialProduct(productId);
+    	if(count == 0){
+            		/* 1.2.1 系统中存在，但是列表中没有*/
+            		fsn.initNotificationMes("您的列表中没有该产品！", false);
+
+            	}else{
+            		/* 1.2.2 是引进产品或者是自己新增的产品，则进行正常录报告流程 */
+                    root.current_barcode_can_use = true;
+            		root.initPageDataGY(productId);
+            	}
+    	}else if(_businessType=="商超"){
+    	root.current_barcode_can_use = true;
+        root.initPageDataSC(productId);
+             	}
 	};
 
     root.bindClick_dealer = function(){
@@ -284,6 +329,18 @@ $(document).ready(function(){
     	
         
     };
+    root.initPageDataGY = function(productId){
+          //  root.initBarcode = barcode;
+    		$.ajax({
+    	         url: fsn.getHttpPrefix() + "/product/" + productId,
+    	         type: "GET",
+    	         dataType: "json",
+    	         success: function(returnValue) {
+    	        	 $("#name").val(returnValue.data.name);
+    	        	 $("#format").val(returnValue.data.format);
+    	         }
+    	     });
+    };
 	/**
 	 * 初始化页面数据
 	 * @author ZhangHui 2015/4/30
@@ -312,7 +369,28 @@ $(document).ready(function(){
   	     
 	     });
 };
-	
+
+	root.initPageDataSC = function(productId){
+            //  root.initBarcode = barcode;
+      		$.ajax({
+      	         url: fsn.getHttpPrefix() + "/report/getProductById?proId=" + productId,
+      	         type: "GET",
+      	         dataType: "json",
+      	         success: function(returnValue) {
+      	             	var name = returnValue.product;
+      	             	var format=returnValue.format;
+      	             	if(name == null){
+      	                	/* 1.1 该条形码系统不存在，则引导用户跳转至产品新增界面 */
+      	             		fsn.initNotificationMes("您的列表中不存在该产品！", false);
+      	        			return;
+      	                }
+      	             	else{
+      	             		$("#name").val(name);
+      	             		$("#format").val(format);
+      	            	}
+      	         }
+      	     });
+      };
 	removeRes=function(){
 		$("#repAttachmentsListView").remove();
 		$("#upload-other-img").data("kendoUpload").enable();
