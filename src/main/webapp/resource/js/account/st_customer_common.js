@@ -36,6 +36,7 @@ st_customer.initailize_common = function(){
    }else if(typeId==1){
         typeName="产品销往客户";
         $(".title").html(typeName);
+        $("#license").attr("required","required");
    }
 	this.initComponent(st_customer);
 	$("#label_no").html(st_customer.SIMPLE_MODEL_NAME + "编号");

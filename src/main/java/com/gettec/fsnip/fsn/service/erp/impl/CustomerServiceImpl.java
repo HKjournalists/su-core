@@ -329,11 +329,11 @@ public class CustomerServiceImpl extends BaseServiceImpl<BusinessUnit, CustomerD
 	public boolean remove(BusinessUnit customer,Long organization) throws ServiceException {
 		try {
 			/* 1. 判断该客户是否被使用 */
-			String condition = " WHERE e.customer.id = ?1";
+			/*String condition = " WHERE e.customer.id = ?1";
 			long count = outOfBillDAO.count(condition, new Object[]{customer.getId()});
 			if(count > 0) {
 				return false; // 客户已经被使用
-			}
+			}*/
 			/* 2. 删除客户与联系人的关系 */
 			customerToContactinfoService.deleteByCIdAndOrgId(customer.getId(),organization);
 			/*List<CustomerToContactinfo> orig_customToContacts = customerToContactinfoService.getListByIdAndType(customer.getId(), 1);
@@ -350,8 +350,8 @@ public class CustomerServiceImpl extends BaseServiceImpl<BusinessUnit, CustomerD
 			orig_busunit.removeCustomer(businessUnitService.findById(customer.getId()));
 			update(orig_busunit);
 			return true;
-		} catch (JPAException jpae) {
-			throw new ServiceException("[JPAException]CustomerServiceImpl.remove()-->", jpae.getException());
+		/*} catch (JPAException jpae) {
+			throw new ServiceException("[JPAException]CustomerServiceImpl.remove()-->", jpae.getException());*/
 		} catch (DaoException dex) {
 			throw new ServiceException("[DaoException]CustomerServiceImpl.remove()-->", dex.getException());
 		} catch (ServiceException sex) {
