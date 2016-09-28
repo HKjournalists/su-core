@@ -1,5 +1,6 @@
 package com.gettec.fsnip.fsn.service.business.impl;
 
+import com.gettec.fsnip.fsn.model.business.LicenseInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -75,6 +76,29 @@ public class CirculationPermitServiceImpl extends BaseServiceImpl<CirculationPer
 			}
 		} catch (JPAException jpae) {
 			throw new ServiceException("CirculationPermitServiceImpl.save()-->" + jpae.getMessage(), jpae.getException());
+		}
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public CirculationPermitInfo save(String passNo) throws ServiceException {
+		try {
+			if(passNo==null || "".equals(passNo)){
+				return null;
+			}
+			passNo.replace(" ", "");
+
+			CirculationPermitInfo orig_lic = circulationPermitDAO.findById(passNo);   //findByLic(passNo);
+
+			if(orig_lic != null){
+				return orig_lic;
+			}
+
+			CirculationPermitInfo lic = new CirculationPermitInfo(passNo);
+			create(lic);
+			return lic;
+		} catch (Exception e) {
+			throw new ServiceException("CirculationPermitServiceImpl.save()-->" + e.getMessage(), e);
 		}
 	}
 
