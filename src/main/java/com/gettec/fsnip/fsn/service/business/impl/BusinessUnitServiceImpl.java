@@ -2360,7 +2360,7 @@ public class BusinessUnitServiceImpl extends BaseServiceImpl<BusinessUnit, Busin
 
 			BusinessUnit orig_businessUnit = findById(businessUnit.getId());
 			
-			setBusinessUnitValue(orig_businessUnit, businessUnit);
+			//setBusinessUnitValue(orig_businessUnit, businessUnit);
 
 			if(businessUnit.getTaxRegister()!=null){
 				orig_businessUnit.setTaxRegister(taxRegisterService.findById(businessUnit.getTaxRegister().getId()));

@@ -52,7 +52,7 @@ $(function() {
                 	var status = item.nutriStatus;
                 	return  (status == "2" ? "失败" : (status == "1" ? "成功" : "未计算"));
                 }},
-                {width:55,title: fsn.l("Operation"),
+                {width:60,title: fsn.l("Operation"),
 				      template:function(e){
 						ids = e.id;
 						var tag="<a  onclick='return fsn.upload.product.edit("+e.id+","+e.packageFlag+")' class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> </span>" + fsn.l('Edit') + "</a>";
