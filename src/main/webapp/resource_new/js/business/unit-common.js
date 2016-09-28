@@ -88,7 +88,11 @@
 						img+="</div>";
 						img+="</div>";
 					}
-					$("#"+id+"_img_e").show();
+					if(id == "upload_logo_files"){
+						$("#"+id+"_img_e").hide();
+					}else{
+						$("#"+id+"_img_e").show();
+					}
 					$("#"+id+"_img_s").show();
 					$("#"+id+"_img").html(img);
 
@@ -178,8 +182,8 @@
 
 				}
 			}
-
-
+			$("#"+fileId+"_img_e").show();
+			$("#upload_logo_files_log").html("建议不超过1M,支持png,bmp,jpeg,jpg格式.");
 		}else if(fileId == "upload_orgnization_files"){
 			if(business_unit.aryOrgAttachments != null&&business_unit.aryOrgAttachments.length>0){
 				for(var s in business_unit.aryOrgAttachments){
@@ -258,13 +262,13 @@
 			//$("#upload_orgnization_files_img_a").html(img);
 			$("#upload_logo_files_img").html(imgs);
 
-			$("#upload_logo_files_img_e").show();
+			$("#upload_logo_files_img_e").hide();
 			$("#upload_logo_files_img_s").show();
 
 			$("#upload_logo_files_div").find("ul").remove();
 			$("#upload_logo_files_div").find("em").remove();
 			$("#upload_logo_files_div").find("strong ").remove();
-
+			$("#upload_logo_files_log").html("建议不超过1M,支持png,bmp,jpeg,jpg格式.");
 		} else {
 			$("#logo_img").attr("src", "../../resource/img/portal/tupian.jpg");
 			$("#upload_logo_files_img_e").show();
@@ -626,7 +630,8 @@
 	         //   template:kendo.template($("#uploadedFilesTemplate").html()),
 			//});
 			$("#upload_logo_files_div").html("<input id='upload_logo_files' type='file' />");
-	    	business_unit.buildUpload("upload_logo_files",business_unit.aryLogoAttachments,"upload_logo_files_log", "product");
+            business_unit.buildUpload("upload_logo_files",business_unit.aryLogoAttachments,"upload_logo_files_log", "product");
+
 	 };
 	 
 	 /* 加载营业执照 */
@@ -1040,11 +1045,11 @@
 				business_unit.wrong("upload_license_files", "select");
 				return false;
 			}
-			if (business_unit.aryOrgAttachments.length < 1) {
-				lims.initNotificationMes('请上传组织机构代码证件图片！', false);
-				business_unit.wrong("upload_orgnization_files", "select");
-				return false;
-			}
+			//if (business_unit.aryOrgAttachments.length < 1) {
+			//	lims.initNotificationMes('请上传组织机构代码证件图片！', false);
+			//	business_unit.wrong("upload_orgnization_files", "select");
+			//	return false;
+			//}
 		}
         return true;
     };
