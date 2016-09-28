@@ -517,6 +517,10 @@ public class BusinessUnitServiceImpl extends BaseServiceImpl<BusinessUnit, Busin
 			LicenseInfo orig_liceInfo = licenseService.save(orig_enRegiste.getLicenseNo());
 			/* 4. 处理组织机构代码 */
 			OrganizingInstitution orig_orgIns = orgInstitutionService.save(orig_enRegiste.getOrganizationNo());
+
+			/* 4. 处理流通许可证 */
+			CirculationPermitInfo orig_criculation = circulationPermitService.save(orig_enRegiste.getPassNo());
+
 			/* 5. 处理企业BusinessUnit信息 */
 			BusinessUnit orig_business = getDAO().findByName(orig_enRegiste.getEnterpriteName());
 			if(orig_business==null){
@@ -524,6 +528,7 @@ public class BusinessUnitServiceImpl extends BaseServiceImpl<BusinessUnit, Busin
 				BusinessUnit business = getBusinessByEnregiste(orig_enRegiste, orgId);
 				business.setLicense(orig_liceInfo);
 				business.setOrgInstitution(orig_orgIns);
+				business.setDistribution(orig_criculation);
 				business.setSignFlag(signFlag);
 				create(business);
 				orig_business = business;

@@ -12,5 +12,6 @@ public interface CirculationPermitService extends BaseService<CirculationPermitI
 	void save(CirculationPermitInfo distribution, boolean isNew) throws ServiceException;
 
 	void save(CirculationPermitInfo circulationPermitInfo) throws ServiceException;
-	
+
+	CirculationPermitInfo save(String passNo)throws ServiceException;
 }
