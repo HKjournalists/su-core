@@ -295,8 +295,7 @@ st_customer.flag = false;
 st_customer.windowSaveConfrim = function(zone,_type){
 	// validation
 	st_customer.flag = st_customer.verifyCustomer();
-	
-	if(st_customer.flag&&st_customer.validator.validate()){
+	if(st_customer.flag&&st_customer.validator.validate()&&st_customer.validator.validateInput($("input[name='license']"))){
 		st_customer.checkFlag = false;
 		st_customer.flag = false;
 		// fsn.showNotificationMes("Sucess",true);
