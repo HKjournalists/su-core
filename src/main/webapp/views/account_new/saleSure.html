@@ -67,14 +67,19 @@
 </div>
 <div id="CONFIRM_COMMON" style="display:none;">
 			<div id="">
-				<div style="text-align: center;">您确定要删除吗?</div>
+				<div style="text-align: center;">您要确认销售吗?</div>
 				<br/>
-				<div style="text-align: right;">
-					<a onclick="return fsn.purchase.deleteRow('save')" id="save"  class="k-button"><span class="k-icon k-update"></span>确定</a> &nbsp;&nbsp;&nbsp;&nbsp;
-           		    <a onclick="return fsn.purchase.deleteRow('cancel')" id="cancel" class="k-button"><span class="k-icon k-update"></span>取消</a> &nbsp;&nbsp;&nbsp;&nbsp;
+				<div style="text-align: center;">
+					<a onclick="return fsn.saleSure.confirmSale('save')" id="save"  class="k-button"><span class="k-button inputbtn">确定</span></a> &nbsp;&nbsp;&nbsp;&nbsp;
+					<a onclick="return fsn.saleSure.confirmSale('cancel')" id="cancel" class="k-button"><span class="k-button inputbtn">取消</span></a> &nbsp;&nbsp;&nbsp;&nbsp;
 				</div>
+				<!--<div style="text-align: right;">
+					<a onclick="return fsn.saleSure.confirmSale('save')" id="save"  class="k-button"><span class="k-button inputbtn"></span>确定</a> &nbsp;&nbsp;&nbsp;&nbsp;
+           		    <a onclick="return fsn.saleSure.confirmSale('cancel')" id="cancel" class="k-button"><span class="k-button inputbtn"></span>取消</a> &nbsp;&nbsp;&nbsp;&nbsp;
+				</div>-->
 			</div>
 	</div>
+
 	<div class="push"></div>
 	<!-- 页面提示信息框 -->
 <span id="RETURN_MES" style="display:none;"></span>

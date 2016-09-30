@@ -6,7 +6,16 @@ $(function(){
 	var PURCHASE_GRID = null;
 	var TZID = null;
 	var CONFIRM = null;
+
+    var addUrl="addpurchase.html";
+	var currentBusiness=getCurrentBusiness();
+	if(currentBusiness.type.indexOf("供应商")>-1){
+		addUrl="addpurchase_gys.html";
+	}
+
 	 function initialize(){
+
+
 		 	CONFIRM = initKendoWindow("CONFIRM_COMMON","300px", "100px", "删除提示！", false,true,false,["Close"],null,"");
 	        buildGridWioutToolBar("Purchase_Grid",purchase.columns,getStoreDS("",""),"400");//已确认批发的商品
 	        PURCHASE_GRID = $("#Purchase_Grid").data("kendoGrid");
@@ -74,7 +83,7 @@ $(function(){
 	
 	 /*新增 */
 	 purchase.add = function(){
-    	window.location.href = "addpurchase.html";
+    	window.location.href = addUrl;
     };
     
     //查询
@@ -89,7 +98,7 @@ $(function(){
     
     /* 查看 */
     purchase.checkUrl = function(id){
-	    	window.location.href = "addpurchase.html?id=" + id;
+	    	window.location.href = addUrl+"?id=" + id;
 	 };
 	 
 	//初始化弹出框
@@ -147,7 +156,7 @@ $(function(){
 	               {field: "licNo", title: "供应商执照号", width:"20%",filterable: false},
 	               {field: "createDate", title: "交易时间", width:"20%",filterable: false},
 				   {field: "inBusName", title: "购货商名称", width:"20%",filterable: false},
-				   {field:"",title:fsn.l("状态"), width: "20%",template:function(dataItem){
+				   {field:"",title:fsn.l("状态"), width: "18%",template:function(dataItem){
 	               		var status=dataItem.inStatus;
 	                   	 if(status==1){
 	                   		 return "<span >已确认</span>";
@@ -156,7 +165,7 @@ $(function(){
 	                      	 }
 					   	}
 					 },
-				   {field:"",title:fsn.l("操作"), width: "20%",template:function(dataItem){
+				   {field:"",title:fsn.l("操作"), width: "25%",template:function(dataItem){
 	               		var status=dataItem.inStatus;
 	                   	 if(status==1){
 	                   	  return "<a class='k-button k-button-icontext k-grid-ViewDetail' onclick='fsn.purchase.checkUrl("+dataItem.id+");'><span class='k-icon k-edit' ></span>查看</a>";

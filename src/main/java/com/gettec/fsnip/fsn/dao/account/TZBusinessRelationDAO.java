@@ -1,12 +1,12 @@
 package com.gettec.fsnip.fsn.dao.account;
 
-import java.util.List;
-
 import com.gettec.fsnip.fsn.dao.common.BaseDAO;
 import com.gettec.fsnip.fsn.exception.DaoException;
 import com.gettec.fsnip.fsn.model.account.TZBusinessRelation;
 import com.gettec.fsnip.fsn.vo.account.BusRelationVO;
 import com.gettec.fsnip.fsn.vo.account.ReturnProductVO;
+
+import java.util.List;
 
 /**
  * 台账系统
@@ -28,4 +28,8 @@ public interface TZBusinessRelationDAO extends BaseDAO<TZBusinessRelation> {
     List<ReturnProductVO> loadTZReturnProductByOutId(Long outId,Integer page,Integer pageSize)throws DaoException;
 
     Long loadTZReturnProductTotalsById(Long outId)throws DaoException;
+
+    List<BusRelationVO> getProBusList(Long myOrg, String busName, String busLic, int page, int pageSize)throws DaoException;
+
+    Long getProBusToatl(Long myOrg, String busName, String busLic)throws DaoException;
 }

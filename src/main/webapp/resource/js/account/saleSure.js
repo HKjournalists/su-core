@@ -7,7 +7,7 @@ $(function(){
 	var TZID = null;
 	var CONFIRM = null;
 	 function initialize(){
-		 	CONFIRM = initKendoWindow("CONFIRM_COMMON","300px", "100px", "删除提示！", false,true,false,["Close"],null,"");
+		 	CONFIRM = initKendoWindow("CONFIRM_COMMON","300px", "100px", "确认提示！", false,true,false,["Close"],null,"");
 	        buildGridWioutToolBar("SALESURE_GRID",saleSure.columns,getStoreDS("",""),"400");//已确认销售的商品数量
 		    SALESURE_GRID = $("#SALESURE_GRID").data("kendoGrid");
 	  };
@@ -75,7 +75,7 @@ $(function(){
 	
 	 /*新增 */
 	saleSure.add = function(){
-    	window.location.href = "addpurchase.html";
+    	window.location.href = "addpurchase_gys.html";
     };
     
     //查询
@@ -90,28 +90,15 @@ $(function(){
     
     /* 查看 */
 	saleSure.checkUrl = function(id){
-	    	window.location.href = "addpurchase.html?id=" + id;
+	    	window.location.href = "addpurchase_gys.html?id=" + id;
 	 };
 	 
 	 /**
 	  * 生产商确认供应商进货台账
 	  */
 	 saleSure.sure = function(id){
-		 $.ajax({
-				url:HTTPPREFIX + "/tzAccount/saleSure/"+id,
-				type:"GET",
-				dataType: "json",
-				async:false,
-				success:function(returnValue){
-					if (returnValue.result== true) {
-						fsn.initNotificationMes("确认成功！", true);
-						initialize();
-					} else {
-						fsn.initNotificationMes("确认失败", false);
-						initialize();
-					}
-				}
-			});
+		 TZID = id;
+		 CONFIRM.open().center();
 	 };
 	 
 	 
@@ -139,23 +126,23 @@ $(function(){
 		};
 	 
 	 /* 删除提交  */
-	saleSure.deleteRow = function(status){
+	saleSure.confirmSale = function(status){
 		 if(status=="save"){
-				$.ajax({
-					url:HTTPPREFIX + "/tzAccount/deleteRow/"+TZID+"/buyGoods",
-					type:"GET",
-					dataType: "json",
-					async:false,
-					success:function(returnValue){
-						if (returnValue.result.status == "true") {
-							fsn.initNotificationMes("已成功删除！", true);
-							initialize();
-						} else {
-							fsn.initNotificationMes("删除失败", false);
-							initialize();
-						}
-					}
-				});
+			 $.ajax({
+				 url:HTTPPREFIX + "/tzAccount/saleSure/"+TZID,
+				 type:"GET",
+				 dataType: "json",
+				 async:false,
+				 success:function(returnValue){
+					 if (returnValue.result== true) {
+						 fsn.initNotificationMes("确认成功！", true);
+						 initialize();
+					 } else {
+						 fsn.initNotificationMes("确认失败", false);
+						 initialize();
+					 }
+				 }
+			 });
 				CONFIRM.close();
 			}else{
 				CONFIRM.close();

@@ -18,11 +18,26 @@ $(function() {
     var busUnit = {id:null};
     var AccountID = 0;
     var CONFIRM = null;
+    var CONFIRM_SC=null;
     var LOADING = null;
+
+    var returnUrl="purchase.html";
+    var currentBusiness=getCurrentBusiness();
+    if(currentBusiness.type.indexOf("生产企业")>-1){
+        returnUrl="saleSure.html";
+        $("#submit").hide();
+        $("#submit_sc").show();
+        $("#showName").html("查看台账");
+    }else{
+        $("#submit").show();
+        $("#submit_sc").hide();
+        $("#showName").html("进货台账");
+    }
     
     function initialize(){
     	lookLoadOutBusInfo();
     	CONFIRM = initKendoWindow("CONFIRM_COMMON","300px", "100px", "进货提示！", false,true,false,["Close"],null,"");
+        CONFIRM_SC = initKendoWindow("CONFIRM_COMMONSC","300px", "100px", "确认提示！", false,true,false,["Close"],null,"");
     	LOADING = initKendoWindow("toSaveWindow","300px", "80px", "提示！", false,true,false,["Close"],null,"");
         BUS_WIN = initKendoWindow("BUS_WIN","1000px", "350", "选择供销关系", false,true,false,["Close"],null,"");
         PRODUCT_WIN = initKendoWindow("OPEN_PRODUCT_WIN","800px", "450px", "选择商品", false,true,false,["Close"],null,"");
@@ -36,6 +51,12 @@ $(function() {
     function lookLoadOutBusInfo(){
     	var haveId = window.location.href;
     	if(haveId.indexOf("id=")>0){
+
+            $("#selectBus").css("display","none");
+            $("#selectPro").css("display","none");
+            $("#return_time").attr("disabled","disabled");
+            $("#submit").css("display","none");
+
     		var id = haveId.split("id=")[1];
     		busUnit.id = AccountID = id;
     		$.ajax({
@@ -50,14 +71,9 @@ $(function() {
 		    				$("#return_time").val(returnValue.outBusInfo.createDate);
 		    				$("#add_barcode").val(returnValue.outBusInfo.barcode);
 		    				busUnit.outBusId = returnValue.outBusInfo.outBusId;
-		    				//判断是否已确认
-		    				if(returnValue.outBusInfo.inStatus==1){
-		    					$("#selectBus").css("display","none");
-		    					$("#selectPro").css("display","none");
-		    					$("#return_time").attr("disabled","disabled");
-		    					$("#save").css("display","none");
-		    					$("#submit").css("display","none");
-		    				}
+                            if(returnValue.outBusInfo.inStatus==1){
+                                $("#submit_sc").hide();
+                            }
 	    				}else{
 	    					fsn.initNotificationMes(fsn.l("进货信息加载失败!"), false);
 	    				}
@@ -263,7 +279,7 @@ $(function() {
          	for(var x= 0;x<pArr.length;x++){
          		var prodate = pArr[x].productionDate;
          		if(prodate == null){
-         			fsn.initNotificationMes("无报告不能进货，请从新添加！",false);
+         			fsn.initNotificationMes("产品"+pArr[x].name+"无报告不能进货，请先添加报告！",false);
           			return false;
           			break;
          		}
@@ -352,7 +368,7 @@ $(function() {
     
     /* 返回 */
     relation.goBack = function(){
-    	window.location.href = "purchase.html";
+    	window.location.href = returnUrl;
     };
     
     //商品查询
@@ -611,15 +627,14 @@ $(function() {
 	                                             name: "Delete",
 	                                             text: "<span class='k-button inputbtn'>"+fsn.l("Delete")+"</span>",
 	                                             click: function (e) {
-	                                            	 
-	                                            	 $("#warn").html("");
-	                                            	 $("#warn").css("display","none");
-	                                            	 
 	                                                 e.preventDefault();
-	                                                 var delItem = this.dataItema($(e.currentTarget).closest("tr"));
-	                                                 $("#prodcut_detail").data("kendoGrid").dataSource.remove(delItem);
+                                                     var NutriGrid = $("#prodcut_detail").data("kendoGrid");
+                                                     var delItem = NutriGrid.dataItem($(e.currentTarget).closest("tr"));
+                                                     NutriGrid.dataSource.remove(delItem);
+	                                               /*  var delItem = this.dataItema($(e.currentTarget).closest("tr"));
+	                                                 $("#prodcut_detail").data("kendoGrid").dataSource.remove(delItem);*/
 	                                             }
-	                                         },
+	                                         }
 	                                     ],
 	                                     title: fsn.l("操作"),
 	                                     width: 70
@@ -636,7 +651,7 @@ $(function() {
     		transport: {
     			read: {
     				url : function(options){
-    					return HTTPPREFIX + "/account/relation/returnBus/2/" + options.page + "/" + options.pageSize+
+    					return HTTPPREFIX + "/account/relation/getProBus/" + options.page + "/" + options.pageSize+
     					"?name="+busname+"&lic="+lic;
     				},
     				dataType : "json",
@@ -768,6 +783,35 @@ $(function() {
             serverFiltering : true,
             serverSorting : true
         });
+
+    /**
+     *
+     */
+    relation.validateSC = function(){
+        CONFIRM_SC.open().center();
+    };
+
+    relation.submitAllSC=function (type) {
+        if(type=="submit"){
+            $.ajax({
+                url:HTTPPREFIX + "/tzAccount/saleSure/"+AccountID,
+                type:"GET",
+                dataType: "json",
+                async:false,
+                success:function(returnValue){
+                    if (returnValue.result== true) {
+                        fsn.initNotificationMes("确认成功！", true);
+                        window.location.href = returnUrl;
+                    } else {
+                        fsn.initNotificationMes("确认失败", false);
+                    }
+                }
+            });
+            CONFIRM_SC.close();
+        }else{
+            CONFIRM_SC.close();
+        }
+    } ;
 
 	initialize();
 });

@@ -64,7 +64,7 @@
 		<div class="container" >
 			<div class="row show-area">
 				<div class="column12">
-					<div class="fullview page_title mt50 wper100 line" id="status_bar">当前位置：台账管理  >> 进货台账 </div>
+					<div class="fullview page_title mt50 wper100 line" id="status_bar">当前位置：台账管理  >> <span id="showName">进货台账 </span></div>
 				</div>
 			</div>
 		</div>
@@ -156,6 +156,7 @@
         <div style="text-align: right;margin-top: 10px;">
              <!-- <a onclick="return fsn.relation.validate('save')" id="save"  class="k-button"><span class="k-button inputbtn">保存信息</span></a> &nbsp;&nbsp;&nbsp;&nbsp; --> 
             <a onclick="return fsn.relation.validate('submit')" id="submit" class="k-button"><span class="k-button inputbtn">确认进货</span></a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a onclick="return fsn.relation.validateSC()" id="submit_sc" class="k-button"><span class="k-button inputbtn">确认销售</span></a> &nbsp;&nbsp;&nbsp;&nbsp;
             <a onclick="return fsn.relation.goBack()" class="k-button"><span class="k-button inputbtn">返回</span></a>&nbsp;&nbsp;
         </div>
 	</div>
@@ -197,6 +198,17 @@
 				</div>
 			</div>
 	</div>
+
+<div id="CONFIRM_COMMONSC" style="display:none;">
+    <div id="">
+        <div style="text-align: center;">您要确认销售吗?</div>
+        <br/>
+        <div style="text-align: center;">
+            <a onclick="return fsn.relation.submitAllSC('submit')" id="save"  class="k-button"><span class="k-button inputbtn">确定</span></a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a onclick="return fsn.relation.submitAllSC('cancel')" id="cancel" class="k-button"><span class="k-button inputbtn">取消</span></a> &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+</div>
 	<div class="push"></div>
 <!-- 页面提示信息框 -->
 <div id="toSaveWindow">
