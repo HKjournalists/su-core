@@ -8,12 +8,8 @@ import com.gettec.fsnip.fsn.vo.ResultVO;
 import com.gettec.fsnip.fsn.vo.account.AccountOutVO;
 import com.gettec.fsnip.fsn.web.controller.rest.BaseRESTService;
 import com.gettec.fsnip.sso.client.util.AccessUtils;
-import com.gettec.fsnip.sso.client.util.SSOClientUtil;
-import com.gettec.fsnip.sso.client.vo.AuthenticateInfo;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +18,6 @@ import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -282,6 +277,31 @@ public class TZBusRelationRESTService extends BaseRESTService{
     	}
         model.addAttribute("flg", true);
         model.addAttribute("recycle_reason", result_ja.toString());
+        return JSON;
+    }
+
+    /**
+     * 获取当前登录企业的来源客户，只查询生产企业
+     * Create Author lxz Date 2015-05-17
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/getProBus/{page}/{pageSize}")
+    public View loadTZBusRelation( Model model,
+                                  @PathVariable(value="page") int page,
+                                  @PathVariable(value="pageSize") int pageSize,
+                                  @RequestParam(value = "name",required = false) String busName,
+                                  @RequestParam(value = "lic",required = false) String busLic,
+                                  HttpServletRequest req,HttpServletResponse resp) {
+        ResultVO resultVO = new ResultVO();
+        try {
+            Long myOrg = Long.valueOf(AccessUtils.getUserRealOrg().toString());
+            model = tzBusRelationService.getProBus(myOrg, busName, busLic, page, pageSize, model);
+        }catch(ServiceException sex){
+            resultVO.setStatus(SERVER_STATUS_FAILED);
+            resultVO.setSuccess(false);
+            resultVO.setErrorMessage(sex.getMessage());
+            ((Throwable) sex.getException()).printStackTrace();
+        }
+        model.addAttribute("result", resultVO);
         return JSON;
     }
 }

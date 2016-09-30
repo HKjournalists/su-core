@@ -1494,9 +1494,9 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 	 * @throws ParseException
 	 */
 	private List<ReturnProductVO> setSaleGoodsVO(List<Object[]> result, int type) throws ParseException {
-		List<ReturnProductVO> lists = null;
+		List<ReturnProductVO> lists = new ArrayList<ReturnProductVO>();
 		if (result != null && result.size() > 0) {
-			lists = new ArrayList<ReturnProductVO>();
+			//lists = new ArrayList<ReturnProductVO>();
 			for (int i = 0; i < result.size(); i++) {
 				Object[] objs = result.get(i);
 				ReturnProductVO vo = new ReturnProductVO();

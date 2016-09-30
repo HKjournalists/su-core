@@ -381,4 +381,52 @@ public class TZBusinessRelationDAOImpl extends
         return lists;
     }
 
+    @Override
+    public List<BusRelationVO> getProBusList(Long myOrg, String busName, String busLic, int page, int pageSize) throws DaoException {
+
+        String sql="SELECT b.id,b.name,b.license_no,t.type,b.contact,b.telephone,b.address FROM t_meta_business_diy_type t " +
+                " LEFT JOIN business_unit b ON b.id=t.business_id " +
+                " WHERE t.organization=?1 AND t.type=2 AND b.type LIKE '%生产企业%' " ;
+        if(busName != null && !"".equals(busName)){
+            sql+=" AND b.name LIKE '%"+busName+"%' " ;
+        }
+        if(busLic != null && !"".equals(busLic)){
+            sql+=" AND b.license_no LIKE '%"+busLic+"%' " ;
+        }
+        try {
+            Query  query = entityManager.createNativeQuery(sql.toString());
+            query.setParameter(1,myOrg);
+            if(page > 0) {
+                query.setFirstResult((page - 1) * pageSize);
+                query.setMaxResults(pageSize);
+            }
+            List<Object[]> result = query.getResultList();
+            return encapsulationResultToBusRelationVO(result);
+        } catch (Exception e) {
+            throw new DaoException("TZBusinessRelationDAOImpl.loadTZBusRelation() 根据企业关系加载对应的企业信息,出现异常！", e);
+        }
+    }
+
+    @Override
+    public Long getProBusToatl(Long myOrg, String busName, String busLic) throws DaoException {
+        String sql="SELECT count(*) FROM t_meta_business_diy_type t " +
+                " LEFT JOIN business_unit b ON b.id=t.business_id " +
+                " WHERE t.organization=?1 AND t.type=2 AND b.type LIKE '%生产企业%' " ;
+        if(busName != null && !"".equals(busName)){
+            sql+=" AND b.name LIKE '%"+busName+"%' " ;
+        }
+        if(busLic != null && !"".equals(busLic)){
+            sql+=" AND b.license_no LIKE '%"+busLic+"%' " ;
+        }
+        try {
+            Query  query = entityManager.createNativeQuery(sql.toString());
+            query.setParameter(1,myOrg);
+            Object rtn = query.getSingleResult();
+            return rtn == null ? 0 : Long.parseLong(rtn.toString());
+        } catch (Exception jpae) {
+            throw new DaoException("TZBusinessRelationDAOImpl.loadTZBusRelation() 根据企业关系加载对应的企业信息的总条数,出现异常！", jpae);
+        }
+    }
+
+
 }
