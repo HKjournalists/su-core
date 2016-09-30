@@ -10,6 +10,8 @@ import com.gettec.fsnip.fsn.model.account.*;
 import com.gettec.fsnip.fsn.service.account.*;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.vo.account.*;
+import com.gettec.fsnip.sso.client.util.AccessUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -99,6 +101,7 @@ public class TZAccountServiceImpl extends
 		}
 		return model;
 	}
+	
 
 	/**
 	 * 添加批发信息主表
@@ -346,6 +349,11 @@ public class TZAccountServiceImpl extends
 		orig_stock.setQsNo(tzInfo.getQsNo());
 		orig_stock.setReportStatus(1);//1表示有报告
 		if(tzaccount.getType() == 1){ //进货
+//			if (tzaccount.getOutStatus() == 0) {
+//				orig_stock.setProductNum(0l);
+//			}else {
+//				orig_stock.setProductNum((orig_stock.getProductNum()!=null?orig_stock.getProductNum():0)+(tzInfo.getProductNum()!= null ? tzInfo.getProductNum() : 0));
+//			}
 			orig_stock.setBusinessId(tzaccount.getInBusinessId());// 当前企业ID
 			orig_stock.setProductNum((orig_stock.getProductNum()!=null?orig_stock.getProductNum():0)+(tzInfo.getProductNum()!= null ? tzInfo.getProductNum() : 0));
 		}else{ //批发
@@ -894,8 +902,177 @@ public class TZAccountServiceImpl extends
 					tZStockInfoService.deleteListByStockId(tzId);
 				}
 			}
-
 		}
+	}
+//====================================================销往客户台账修改=========================================================
+
+	/**
+	 * 供应商进货商品列表
+	 */
+	@Override
+	public Model selectBuyGoodsById(Long orgId, String name, String barcode,
+			int page, int pageSize, Model model)throws ServiceException {
+		try {
+			List<ReturnProductVO> productList = new ArrayList<ReturnProductVO>();
+			Long total = 0l;
+			productList = tZAccountDAO.getSaleGoodsListToSC(orgId,0L, page, pageSize,name,barcode);
+			total = tZAccountDAO.getSaleGoodsListToSCTotal(orgId,0L,name,barcode);
+			model.addAttribute("data", productList);
+			model.addAttribute("total", total);
+		} catch (DaoException daoe) {
+			model.addAttribute("data", "");
+			model.addAttribute("total", 0);
+			throw new ServiceException(daoe.getMessage(), daoe.getException());
+		}
+		return model;
+	}
+	
+	/**
+	 * 供应商主动进货
+	 */
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Model submitTZWholeSaleProductGYS(Long organization,AccountOutVO accountOut, Model model, String status,Integer type)throws ServiceException {
+		model.addAttribute("save", false);
+		try {
+			List<ReturnProductVO> pVOs = accountOut.getProList();// 获取商品列表
+			/* 添加主表 */
+			TZAccount tzOral = null;
+			TZAccount tZAccount = null;
+			if (accountOut.getId() != null) {// 更新
+				tzOral = tZAccountDAO.findById(accountOut.getId());
+				tZAccount = setTZAccountSaleGYS(accountOut, tzOral,type);
+				this.update(tZAccount);
+				tZAccountInfoService.deleteInfoByaccountId(tZAccount.getId());
+			} else {// 新增
+				tZAccount = setTZAccountSaleGYS(accountOut, tzOral,type);
+				this.create(tZAccount);
+			}
+			/* 添加进货产品详细信息 */
+			for (ReturnProductVO voNew : pVOs) {
+				TZAccountInfo tzInfo = setTZAccountInfo(voNew, null);
+				tzInfo.setBusAccountId(tZAccount.getId());
+				tZAccountInfoService.create(tzInfo);
+			}
+			model.addAttribute("save", true);
+			model.addAttribute("tzId", tZAccount.getId());
+			return model;
+		} catch (Exception daoe) {
+			throw new ServiceException(daoe.getMessage(), daoe);
+		}
+	}
+	
+	/**
+	 * 供应商主动进货台账信息
+	 * @param vo
+	 * @param tz
+	 * @param type
+	 * @return
+	 */
+	private TZAccount setTZAccountSaleGYS(AccountOutVO vo, TZAccount tz,Integer type) {
+		if (tz == null) {
+			tz = new TZAccount();
+		}
+		tz.setType(1);
+		tz.setInDate(vo.getInDate());// 批发日期
+		tz.setInStatus(0);// 批发状态 0：保存 1：确认
+		tz.setOutStatus(0);
+		
+		tz.setOutBusinessId(vo.getOutBusId());// 供应商ID
+		tz.setInBusinessId(vo.getInBusId());// 购货商ID
+		tz.setCreateTime(SDF.format(new Date()));// 创建日期
+		return tz;
+	}
+
+	/**
+	 * 生产商销售确认列表
+	 */
+	@Override
+	public Model viewWholeSaleGYS(Long myOrg, int page, int pageSize,
+			String number, String licOrName, Model model, int status) throws ServiceException {
+		try {
+			List<PurchaseAccountVO> purchaseAccountList = tZAccountDAO.loadTZWholeSaleProductGYS(myOrg, page, pageSize, number,licOrName,status);
+			Long total = tZAccountDAO.getTZWholeSaleProductTotalGYS(myOrg, number,licOrName,status);
+			model.addAttribute("data",purchaseAccountList != null ? purchaseAccountList : "");
+			model.addAttribute("total", total);
+		} catch (DaoException daoe) {
+			model.addAttribute("data", "");
+			model.addAttribute("total", 0);
+			throw new ServiceException(daoe.getMessage(), daoe.getException());
+		}
+		return model;
+	}
+
+	/**
+	 * 生产商确认供应商主动进货
+	 */
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public TZAccount saleSure(long id) {
+		try {
+			TZAccount account = tZAccountDAO.findById(id);
+			account.setInStatus(1);
+			account.setOutStatus(1);
+			List<TZAccountInfo> listByAccountId = tZAccountInfoService.getListByAccountId(id);
+			for (TZAccountInfo tzInfo : listByAccountId) {
+				TZStock orig_stock = tZStockService.findByProIdAndQsNo(account.getInBusinessId(),tzInfo.getQsNo(), tzInfo.getProductId());
+				if (orig_stock instanceof TZStock) {
+					/* 更新库存主表 */
+					setTzStock(tzInfo,orig_stock,account);
+					orig_stock.setBusinessId(orig_stock.getBusinessId());// 设置当前企业ID
+					tZStockService.update(orig_stock);
+				} else {
+					/* 新增库存主表 */
+					orig_stock = orig_stock !=null ? orig_stock:new TZStock();
+					setTzStock(tzInfo,orig_stock,account);
+					tZStockService.create(orig_stock);
+				}
+				/* 新增库存详情表 */
+				TZStockInfo tzStockInfoNew = setStockInfo(tzInfo, orig_stock, account);
+				tZStockInfoService.create(tzStockInfoNew);
+				/* 新增商品轨迹数据 */
+				addTZProductTrail(tzInfo,account);
+				
+			}
+			return account;
+		} catch (JPAException e) {
+			e.printStackTrace();
+		} catch (DaoException e) {
+			e.printStackTrace();
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 生产商确认供应商主动进货后，才给供应商添加库存
+	 * @param voNew
+	 * @param orig_stock
+	 * @param account
+	 * @return
+	 */
+	private TZStockInfo setStockInfo(TZAccountInfo voNew, TZStock orig_stock,TZAccount account) {
+		TZStockInfo info= null;
+		if(orig_stock!=null){
+			info= new TZStockInfo();
+			info.setBusinessId(orig_stock.getBusinessId());
+			info.setCreateType(1);
+			info.setInDate(SDF.format(new Date()));
+			info.setProductBatch(voNew.getProductBatch());
+			info.setProductId(orig_stock.getProductId());
+			info.setProductNum(voNew.getProductNum());
+			info.setQsNo(voNew.getQsNo());
+			info.setStockId(orig_stock.getId());
+			info.setAccountId(account.getId());
+			if(account.getType()==1){
+				info.setType(0);
+			}else{
+				info.setType(1);
+			}
+		}
+		return info;
 	}
 
 }

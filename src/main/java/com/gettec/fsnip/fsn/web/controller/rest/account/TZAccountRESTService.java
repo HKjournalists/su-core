@@ -1,11 +1,14 @@
 package com.gettec.fsnip.fsn.web.controller.rest.account;
 
 import com.gettec.fsnip.fsn.exception.ServiceException;
+import com.gettec.fsnip.fsn.model.account.TZAccount;
 import com.gettec.fsnip.fsn.service.account.TZAccountService;
+import com.gettec.fsnip.fsn.service.business.BusinessUnitService;
 import com.gettec.fsnip.fsn.vo.ResultVO;
 import com.gettec.fsnip.fsn.vo.account.AccountOutVO;
 import com.gettec.fsnip.fsn.web.controller.rest.BaseRESTService;
 import com.gettec.fsnip.sso.client.util.AccessUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +34,7 @@ import static com.gettec.fsnip.fsn.web.IWebUtils.SERVER_STATUS_FAILED;
 public class TZAccountRESTService extends BaseRESTService{
 	
 	@Autowired TZAccountService tZAccountService;
-	
+	@Autowired private BusinessUnitService businessUnitService;
 	/**********************************************************进货台账**************************************************************/
     /**
      *查询进货台账首页列表 
@@ -461,4 +465,107 @@ public class TZAccountRESTService extends BaseRESTService{
         return JSON;
     }
 
+/*********************************************************生产商销售确认台账************************************************************************/
+    /**
+     * 新增进货时根据企业选择商品
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/selectBuyGoodsById/{page}/{pageSize}/{outId}")
+    public View selectBuyGoodsById(Model model,@PathVariable(value="page") int page,
+            @PathVariable(value="pageSize") int pageSize,
+            @RequestParam(value="name",required=false) String name,
+            @RequestParam(value="barcode",required=false) String barcode,
+            @PathVariable(value="outId") Long outId,
+            HttpServletRequest req,HttpServletResponse resp) {
+        ResultVO resultVO = new ResultVO();
+        try {
+        	Long orgId = businessUnitService.findOrgById(outId);
+            model = tZAccountService.selectBuyGoodsById(orgId,name,barcode,page, pageSize, model);
+        }catch(ServiceException sex){
+            resultVO.setStatus(SERVER_STATUS_FAILED);
+            resultVO.setSuccess(false);
+            resultVO.setErrorMessage(sex.getMessage());
+            ((Throwable) sex.getException()).printStackTrace();
+        }
+        model.addAttribute("result", resultVO);
+        return JSON;    
+    }
+   
+     
+     /**
+      * 供应商主动向生产商进货
+      * type 1进货，0批发
+      * status subimt 确定提交，save 保存
+      */
+     @RequestMapping(method = RequestMethod.POST, value = "/addwholesale/submitGYS/{status}/{type}")
+     public View submitTZWholeSaleProductGYS(@RequestBody AccountOutVO accountOut,
+     		@PathVariable(value="status") String status,Model model,
+     		@PathVariable(value="type") Integer type,
+     HttpServletRequest req,HttpServletResponse resp) {
+         ResultVO resultVO = new ResultVO();
+         try {
+             if(accountOut.getInBusId()!=null){
+             	Long myOrg = Long.valueOf(AccessUtils.getUserRealOrg().toString());
+                 model = tZAccountService.submitTZWholeSaleProductGYS(myOrg,accountOut,model,status,type);
+             }
+         }catch(ServiceException sex){
+             resultVO.setStatus(SERVER_STATUS_FAILED);
+             resultVO.setSuccess(false);
+             resultVO.setErrorMessage(sex.getMessage());
+             ((Throwable) sex.getException()).printStackTrace();
+         }
+         model.addAttribute("result", resultVO);
+         return JSON;
+     }
+     
+     /**
+      * 生产商销售确认列表
+      * @param model
+      * @param page
+      * @param pageSize
+      * @param number
+      * @param licOrName
+      * @param status
+      * @param req
+      * @param resp
+      * @return
+      */
+     @RequestMapping(method = RequestMethod.GET, value = "/viewGYS/list/{page}/{pageSize}")
+     public View viewWholeSaleGYS(Model model,@PathVariable(value="page") int page,
+             @PathVariable(value="pageSize") int pageSize,
+             @RequestParam(value = "number", required = false) String number,
+             @RequestParam(value = "licOrName", required = false) String licOrName,
+             @RequestParam(value = "status", required = false) int status,
+             HttpServletRequest req,HttpServletResponse resp) {
+         ResultVO resultVO = new ResultVO();
+         try {
+         	Long myOrg = Long.valueOf(AccessUtils.getUserRealOrg().toString());
+              model = tZAccountService.viewWholeSaleGYS(myOrg, page, pageSize,number,licOrName, model,status);
+         }catch(ServiceException sex){
+             resultVO.setStatus(SERVER_STATUS_FAILED);
+             resultVO.setSuccess(false);
+             resultVO.setErrorMessage(sex.getMessage());
+             ((Throwable) sex.getException()).printStackTrace();
+         }
+         model.addAttribute("result", resultVO);
+         return JSON;    
+     }
+
+     /**
+      * 生产商确认供应商进货台账
+      * @param id
+      * @param model
+      * @return
+      */
+     @RequestMapping(method = RequestMethod.GET, value = "/saleSure/{id}")
+     public View saleSure(@PathVariable(value="id") long id,Model model){
+    	try {
+			TZAccount account = tZAccountService.saleSure(id);
+			model.addAttribute("result", true);
+		} catch (Exception e) {
+			model.addAttribute("result", false);
+			e.printStackTrace();
+		}
+    	 return JSON;
+     }
+     
 }
