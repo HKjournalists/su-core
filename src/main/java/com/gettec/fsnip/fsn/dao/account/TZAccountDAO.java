@@ -7,6 +7,8 @@ import com.gettec.fsnip.fsn.vo.account.*;
 
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.ui.Model;
 /**
  * 
  * @author chenxiaolin
@@ -110,6 +112,12 @@ public interface TZAccountDAO extends BaseDAO<TZAccount>{
 	 */
 	Long getSaleGoodsListByReportBatchTotal(Long busId, String name, String barcode)throws DaoException;
 
-
 	String checkReport(String prodate,Long proId)throws DaoException;
+
+	List<PurchaseAccountVO> loadTZWholeSaleProductGYS(Long myOrg, int page,
+			int pageSize, String number, String licOrName, int status) throws DaoException;
+
+	Long getTZWholeSaleProductTotalGYS(Long myOrg, String number,
+			String licOrName, int status) throws DaoException;
+
 }
