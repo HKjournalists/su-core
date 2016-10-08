@@ -383,10 +383,14 @@ public class TZBusinessRelationDAOImpl extends
 
     @Override
     public List<BusRelationVO> getProBusList(Long myOrg, String busName, String busLic, int page, int pageSize) throws DaoException {
-
-        String sql="SELECT b.id,b.name,b.license_no,t.type,b.contact,b.telephone,b.address FROM t_meta_business_diy_type t " +
+        String sql="SELECT b.id,b.name,b.license_no,bt.type,b.contact,b.telephone,b.address FROM t_meta_enterprise_to_customer ec " +
+                "INNER JOIN business_unit u ON u.id=ec.business_id " +
+                "INNER JOIN t_meta_business_diy_type bt ON bt.organization=u.organization AND bt.business_id=ec.customer_id " +
+                "INNER JOIN business_unit b ON b.id=ec.customer_id " +
+                "WHERE u.organization=?1 AND bt.type=2 AND b.type LIKE '%生产企业%' ";
+       /* String sql="SELECT b.id,b.name,b.license_no,t.type,b.contact,b.telephone,b.address FROM t_meta_business_diy_type t " +
                 " LEFT JOIN business_unit b ON b.id=t.business_id " +
-                " WHERE t.organization=?1 AND t.type=2 AND b.type LIKE '%生产企业%' " ;
+                " WHERE t.organization=?1 AND t.type=2 AND b.type LIKE '%生产企业%' " ;*/
         if(busName != null && !"".equals(busName)){
             sql+=" AND b.name LIKE '%"+busName+"%' " ;
         }
@@ -409,9 +413,11 @@ public class TZBusinessRelationDAOImpl extends
 
     @Override
     public Long getProBusToatl(Long myOrg, String busName, String busLic) throws DaoException {
-        String sql="SELECT count(*) FROM t_meta_business_diy_type t " +
-                " LEFT JOIN business_unit b ON b.id=t.business_id " +
-                " WHERE t.organization=?1 AND t.type=2 AND b.type LIKE '%生产企业%' " ;
+        String sql="SELECT count(*) FROM t_meta_enterprise_to_customer ec " +
+                "INNER JOIN business_unit u ON u.id=ec.business_id " +
+                "INNER JOIN t_meta_business_diy_type bt ON bt.organization=u.organization AND bt.business_id=ec.customer_id " +
+                "INNER JOIN business_unit b ON b.id=ec.customer_id " +
+                "WHERE u.organization=?1 AND bt.type=2 AND b.type LIKE '%生产企业%' ";
         if(busName != null && !"".equals(busName)){
             sql+=" AND b.name LIKE '%"+busName+"%' " ;
         }
