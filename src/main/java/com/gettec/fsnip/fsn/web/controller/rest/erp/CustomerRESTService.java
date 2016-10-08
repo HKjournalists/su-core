@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gettec.fsnip.fsn.vo.business.AccountBusinessVO;
+import com.lhfs.fsn.vo.business.LightBusUnitVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -141,6 +143,16 @@ public class CustomerRESTService {
 		try {
 			switch (getType(type)) {
 			case CUSTOMER_TYPE:  // 更新客户
+				BusinessUnit businessUnit=businessUnitService.findById(vo.getBusinessUnit().getId());
+				if(businessUnit!=null){
+					if(vo.getBusinessUnit().getTelephone()!=null&&!vo.getBusinessUnit().getTelephone().equals("")){
+						businessUnit.setTelephone(vo.getBusinessUnit().getTelephone());
+					}
+					if(vo.getBusinessUnit().getAddress()!=null&&!vo.getBusinessUnit().getAddress().equals("")){
+						businessUnit.setAddress(vo.getBusinessUnit().getAddress());
+					}
+				}
+				businessUnitService.update(businessUnit);
 				vo.getBusinessUnit().setOrganization(currentUserOrganization);
 				vo.getBusinessUnit().getDiyType().setOrganization(currentUserOrganization);
 				resultVO.setObject(vo.getBusinessUnit());
@@ -579,7 +591,7 @@ public class CustomerRESTService {
 			HttpServletRequest req, HttpServletResponse resp, Model model) {
 		try {
 			Integer pageSize = 20;
-			String busType = "流通企业%"; //企业类型
+			String busType = ""; //企业类型
 			model.addAttribute("result",businessUnitService.getAllBusUnitName(page,pageSize,keyword,busType));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -600,6 +612,8 @@ public class CustomerRESTService {
 			@RequestParam(value = "businessUnitName") String businessUnitName, Model model) {
 		try {
 			model.addAttribute("result",businessUnitService.findLicenseByName(businessUnitName));
+			LightBusUnitVO buVo = businessUnitService.findVOByName(businessUnitName);
+			model.addAttribute("business",buVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
