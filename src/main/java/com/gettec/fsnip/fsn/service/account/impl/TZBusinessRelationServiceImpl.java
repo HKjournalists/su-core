@@ -5,8 +5,6 @@ import com.gettec.fsnip.fsn.exception.DaoException;
 import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.account.TZBusAccountOut;
 import com.gettec.fsnip.fsn.model.account.TZBusinessRelation;
-import com.gettec.fsnip.fsn.model.account.TZStock;
-import com.gettec.fsnip.fsn.model.account.TZStockInfo;
 import com.gettec.fsnip.fsn.model.business.BusinessUnit;
 import com.gettec.fsnip.fsn.model.business.LicenseInfo;
 import com.gettec.fsnip.fsn.service.account.*;
@@ -17,8 +15,6 @@ import com.gettec.fsnip.fsn.vo.account.BusRelationVO;
 import com.gettec.fsnip.fsn.vo.account.ReturnProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -161,6 +157,20 @@ public class TZBusinessRelationServiceImpl extends BaseServiceImpl<TZBusinessRel
             return tzBusinessRelationDAO.loadTZReturnProductTotalsById(outId);
         } catch (DaoException daoe) {
             throw new ServiceException(daoe.getMessage(),daoe.getException());
+        }
+    }
+
+    @Override
+    public Model getProBus(Long myOrg, String busName, String busLic, int page, int pageSize, Model model) throws ServiceException {
+        try {
+            /* 获取与该企业对应的供销关系企业信息 */
+            List<BusRelationVO> busRelations = tzBusinessRelationDAO.getProBusList(myOrg, busName, busLic,page,pageSize);
+            Long total = tzBusinessRelationDAO.getProBusToatl(myOrg, busName, busLic);
+            model.addAttribute("data", busRelations);
+            model.addAttribute("total", total);
+            return model;
+        } catch (DaoException daoe) {
+            throw new ServiceException(daoe.getMessage(), daoe.getException());
         }
     }
 

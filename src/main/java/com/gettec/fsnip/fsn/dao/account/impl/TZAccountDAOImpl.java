@@ -7,9 +7,11 @@ import com.gettec.fsnip.fsn.exception.JPAException;
 import com.gettec.fsnip.fsn.model.account.TZAccount;
 import com.gettec.fsnip.fsn.util.sales.SalesUtil;
 import com.gettec.fsnip.fsn.vo.account.*;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -317,6 +319,28 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 		return list;
 	}
 
+	private List<PurchaseAccountVO> receiptVO3(List<Object[]> result) throws ParseException {
+		List<PurchaseAccountVO> list = null;
+		if (result != null && result.size() > 0) {
+			list = new ArrayList<PurchaseAccountVO>();
+			for (int i = 0; i < result.size(); i++) {
+				Object[] objs = result.get(i);
+				PurchaseAccountVO vo = new PurchaseAccountVO();
+				vo.setId(Long.valueOf(objs[0].toString()));
+				vo.setNum(new Date().getTime() + "");
+				vo.setInBusName(objs[2] != null ? objs[2].toString() : "");
+				vo.setLicNo(objs[3] != null ? objs[3].toString() : "");
+				vo.setCreateDate(objs[4] != null ? SDFTIME.format(SDFTIME.parse(objs[4].toString())) : "");
+				vo.setOutBusName(objs[5] != null ? objs[5].toString() : "");
+				vo.setOutStatus(objs[6] != null ? Integer.parseInt((objs[6].toString())) : 0);
+				vo.setBuylicNo(objs[7] != null ? objs[7].toString() : "");
+				vo.setInStatus(objs[8] != null ? Integer.parseInt((objs[8].toString())) : 0);
+				vo.setReturnStatus(objs[9] != null ? Integer.parseInt((objs[9].toString())) : 0);
+				list.add(vo);
+			}
+		}
+		return list;
+	}
 	/**
 	 * 获取批发台账首页总记录数
 	 */
@@ -1470,9 +1494,9 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 	 * @throws ParseException
 	 */
 	private List<ReturnProductVO> setSaleGoodsVO(List<Object[]> result, int type) throws ParseException {
-		List<ReturnProductVO> lists = null;
+		List<ReturnProductVO> lists = new ArrayList<ReturnProductVO>();
 		if (result != null && result.size() > 0) {
-			lists = new ArrayList<ReturnProductVO>();
+			//lists = new ArrayList<ReturnProductVO>();
 			for (int i = 0; i < result.size(); i++) {
 				Object[] objs = result.get(i);
 				ReturnProductVO vo = new ReturnProductVO();
@@ -1496,14 +1520,14 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 					vo.setBusType(0);
 					vo.setCount(objs[6] != null ? Long.valueOf(objs[6].toString()) : new Long(0));//数量
 				}
-				/*List<ProductionDateVO> birthDateList = getBirthDateAndReportByProductId(vo.getProductId(), expDay, type);
+				List<ProductionDateVO> birthDateList = getBirthDateAndReportByProductId(vo.getProductId(), vo.getExpday()+"", type);
 				if (birthDateList != null && birthDateList.size() > 0) {
 					vo.setProductionDate(birthDateList.get(0).getBirthDate());
 					vo.setBatch(birthDateList.get(0).getBatch());
 					vo.setOverDate(birthDateList.get(0).getOverDate());
 					vo.setReportId(birthDateList.get(0).getReportId()!=null ? Long.parseLong(birthDateList.get(0).getReportId()):0L);
 				}
-				vo.setBirthDateList(birthDateList);*/
+				vo.setBirthDateList(birthDateList);
 				lists.add(vo);
 			}
 		}
@@ -1587,5 +1611,63 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 		}
 
 	}
+	
+	//====================================================销往客户台账修改=========================================================
+
+
+		@Override
+		public List<PurchaseAccountVO> loadTZWholeSaleProductGYS(Long myOrg,
+				int page, int pageSize, String number, String licOrName,
+				int status) throws DaoException {
+			try {
+				StringBuilder sql = new StringBuilder();
+				
+				String sqlStr =" select temp.* from ( SELECT tz.id id,tz.account_no no,inBus.name inName,inBus.license_no licNo,tz.create_time time,"
+						+ " outBus.name outName,tz.out_status outstatus,outBus.license_no,tz.in_status instatus,tz.return_status FROM tz_business_account tz" 
+						+ " LEFT JOIN business_unit inBus ON inBus.id=tz.in_business_id "
+						+ " LEFT JOIN business_unit outBus ON outBus.id=tz.out_business_id "
+						+ " WHERE tz.type=1 AND outBus.organization=?1 ) temp where 1=1 ";
+				
+				sql.append(sqlStr);
+				if (!licOrName.equals("")) {
+					sql.append(" and (temp.inName like '%" + licOrName + "%' or temp.licNo like '%" + licOrName + "%')");
+				}
+					sql.append(" order by temp.instatus asc,temp.id desc ");
+				Query query = entityManager.createNativeQuery(sql.toString());
+				query.setParameter(1, myOrg);
+				if (page > 0 && pageSize > 0) {
+					query.setFirstResult((page - 1) * pageSize);
+					query.setMaxResults(pageSize);
+				}
+				List<Object[]> result = query.getResultList();
+				return receiptVO3(result);
+			} catch (Exception jpae) {
+				throw new DaoException("TZAccountDAOImpl.loadTZWholeSaleProduct  按照当前企业Id获取批发台账时, 出现异常！", jpae);
+			}
+		}
+
+		@Override
+		public Long getTZWholeSaleProductTotalGYS(Long myOrg, String number,
+				String licOrName, int status) throws DaoException {
+			try {
+				StringBuilder sql = new StringBuilder();
+				String sqlStr =" select count(*) from ( SELECT tz.id id,tz.account_no no,inBus.name inName,inBus.license_no licNo,tz.create_time time,"
+						+ " outBus.name outName,tz.out_status outstatus,outBus.license_no,tz.in_status instatus,tz.return_status FROM tz_business_account tz" 
+						+ " LEFT JOIN business_unit inBus ON inBus.id=tz.in_business_id "
+						+ " LEFT JOIN business_unit outBus ON outBus.id=tz.out_business_id "
+						+ " WHERE tz.type=1 AND outBus.organization=?1 ) temp where 1=1 ";
+				
+				sql.append(sqlStr);
+				if (!licOrName.equals("")) {
+					sql.append(" and (temp.inName like '%" + licOrName + "%' or temp.licNo like '%" + licOrName + "%')");
+				}
+				Query query = entityManager.createNativeQuery(sql.toString());
+				query.setParameter(1, myOrg);
+				return Long.valueOf(query.getSingleResult().toString());
+			} catch (Exception jpae) {
+				throw new DaoException("TZAccountDAOImpl.getTZReceiptGoodsTotal  按照当前企业Id获取批发台账总数时, 出现异常！", jpae);
+			}
+		}
+
 
 }

@@ -99,7 +99,7 @@
 	.div-td-full {width: 100%;}
 	.div-td textarea {width:440px; height:80px; max-width: 440px; min-width: 200px;}
 	.div-td-add {padding-right: 4px; width: 86%;}
-	.div-td-value input {width: 320px;}
+	.div-td-value input {width: 300px;}
 	.div-td-name { width:155px}
 	.div-td-name-s{ width:120px}
 	
@@ -153,7 +153,7 @@
         color: #05bf73;
     }
     span.k-datepicker{
-    	width:144px;
+    	width:138px;
     }
 	   .deleteBtn{
 		   position: absolute;
@@ -168,6 +168,10 @@
 		   text-align:center;
 		   color: red;
 	   }
+	div.div-td div,div.div-td1,#bu_dis_code_title{color:#00A878;}
+	div.div-td-value span,div.div-td1 span{color:#787878;}
+	#upload_logo_files_div span,#upload_license_files_div span,#upload_orgnization_files_div span,
+	#upload_distribution_files_div span{color:#fff;}
 </style>
 </head>
 <body id="home">
@@ -203,7 +207,7 @@
 												  <div class="div-td">
 													  <div class="div-td-shortname"><label for="name">企业简介：</label><font class="necessary"></font></div>
 													  <div class="div-td-value">
-														  <textarea id="product_about" name="product_about" class="my-textbox" style=" width:350px" placeholder="请限制在2000字以内"></textarea>
+														  <textarea id="product_about" name="product_about" class="my-textbox" style=" width:280px" placeholder="请限制在2000字以内"></textarea>
 													  </div>
 												  </div>
 												  <div class="div-td">
@@ -263,7 +267,7 @@
 														  <input id="bus_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:120px;"
 																 class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationMessage="不能为空"/>
 														  <label>街道地址</label>
-														  <input id="bus_streetAddress" type="text" class="my-textbox" style="width:120px;" required validationMessage="不能为空"/>
+														  <input id="bus_streetAddress" type="text" class="my-textbox" style="width:100px;" required validationMessage="不能为空"/>
 													  </div>
 												  </div>
 												  <div class="div-td">
@@ -375,7 +379,7 @@
 												  <input id="license_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:120px;"
 														 class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationMessage="不能为空"/>
 												  <label>街道地址</label>
-												  <input id="license_streetAddress" class="my-textbox" style="width:120px;" required validationMessage="不能为空"/>
+												  <input id="license_streetAddress" class="my-textbox" style="width:100px;" required validationMessage="不能为空"/>
 											  </div>
 										  </div>
 									  </div>
@@ -462,7 +466,7 @@
 											  <input id="org_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:120px;"
 													 class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2"/>
 											  <label>街道地址</label>
-											  <input id="org_streetAddress" class="my-textbox" style="width:120px;"/>
+											  <input id="org_streetAddress" class="my-textbox" style="width:100px;"/>
 										  </div>
 									  </div>
 									  <div id="upload_orgnization_files_img_e">
@@ -500,7 +504,7 @@
 									  <div class="div-tr">
 										  <div class="div-td">
 											  <div class="div-td-longname"><label for="distributionNo" id="distributionNo_title"></label><font class="necessary">*</font></div>
-											  <div class="div-td-shortvalue"><input type="text" id="distributionNo" class="my-textbox" style="width:305px;" required validationMessage="不能为空"/></div>
+											  <div class="div-td-shortvalue"><input type="text" id="distributionNo" class="my-textbox" style="width:285px;" required validationMessage="不能为空"/></div>
 										  </div>
 										  <div class="div-td">
 											  <div class="div-td-name-s"><label for="licensingAuthority">许可机关：</label></div>
@@ -530,7 +534,7 @@
 												  <input id="dis_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:120px;"
 														 class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationMessage="不能为空"/>
 												  <label>街道地址</label>
-												  <input id="dis_streetAddress" class="my-textbox" style="width:120px;" required validationMessage="不能为空"/>
+												  <input id="dis_streetAddress" class="my-textbox" style="width:100px;" required validationMessage="不能为空"/>
 											  </div>
 										  </div>
 									  </div>
@@ -652,7 +656,7 @@
                   <div class="row ml20">
                       <div class=" wper100 last">
                         <div class="ml20">
-                        <div><span id ="buName" style="color:#000000;font-size:20px" ></span>
+                        <div><span id ="buName" style="color:#00A878;font-size:20px" ></span>
                         	<div style="float:right">
                         	<button id="editBtn" class="k-button inputbtn"><span class="k-icon k-save"></span><span class="ui-button-text">编辑信息</span></button>
 							</div>
@@ -667,7 +671,7 @@
 								<img id="logo_img" width="100px" height="100px" src="">
 							</div>
 							<div class=" w686 in-block fl ml30" id="bu_about" style="word-warp:break-word;word-break:break-all">
-								<!-- <div class="color_title f20 fontFzzd"><span style="color:#000000;font-size:18px" >企业简介</span></div>
+								<!-- <div class="color_title f20 fontFzzd"><span style="color:#00A878;font-size:18px" >企业简介</span></div>
 								<div class="mt10 fl6 line25">
 								<span id="bu_about_part" class="fl6 line25 color444" style="font-size:15px">贵州老掌柜酿酒（集团）有限公司座落在茅台镇杨柳湾，杨柳湾是国酒茅台的发源地，有“茅酒之源”的美称。公司继承传统工艺，以弘扬古老的茅台酿酒文化为己任，经过30多年的艰苦奋斗，已发展成为占地面积5万多平方米，年产白酒5000吨，拥有员工400多人的知名酿酒企业，现已通过ISO9001</span>
 								<a class="in-block folder" style="font-size:15px">[查看更多]</a>
@@ -691,7 +695,7 @@
 									地    址：
 								</div> -->
 								<div class="div-td-value">
-									<div>地    址：<span id="bu_address" style="line-height:18px"></span></div>
+									<div>地    址：<span id="bu_address"></span></div>
 								</div>
 							</div>
 							<div class="div-td" style="line-height:9px;font-size:14px;">
@@ -751,15 +755,15 @@
 							</div>
 						</div>
 						<div class="div-tr">
-						<div><span id ="buName" style="color:#000000;font-size:20px" >证件信息</span></div>
+						<div><span id ="buName" style="color:#00A878;font-size:20px" >证件信息</span></div>
 						</div>
 						<div class="">
-							<div style="width:33%;margin:1px auto;float:left">
-								<div style="height:120px">
+							<div style="width:33%;margin:1px auto;float:left">								
+								<div style="height:120px;margin-bottom:15px;">
 									<!--<a id="bu_lic_a" target="_blank" href="#">-->
 										<img id="bu_lic_img" style="height:120px;vertical-align:middle;text-align:center;" src="">
 									<!--</a>-->
-								</div>
+								</div>								
 								<div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
 									<div class="div-td1" style="font-size:14px;word-warp:break-word;word-break:break-all">
 										营业执照注册号：<span id="bu_lic_no" style="line-height:16px"></span>
@@ -782,14 +786,14 @@
 								</div>
 							</div>
 							<div style="width:33%;margin:1px auto;float:left;">
-								<div style="height:120px">
+								<div style="height:120px;margin-bottom:15px;">
 									<!--<a  id="bu_org_a" target="_blank" href="#">-->
 										<img id="bu_org_img" style="height:120px;vertical-align:middle;text-align:center;" src="">
 									<!--</a>-->
 								</div>
 								<div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
 									<div class="div-td1" style="font-size:14px;">
-										组织机构代码：<span id="bu_org_code"></span>
+										组织机构代码：<span id="bu_org_code" style="line-height:16px;"></span>
 									</div>
 								</div>
 								<div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
@@ -809,7 +813,7 @@
 								</div>
 							</div>
 							<div style="width:33%;margin:1px auto;float:left;" id="dis">
-								<div style="height:120px">
+								<div style="height:120px;margin-bottom:15px;">
 									<!--<a  id="bu_dis_a" target="_blank" href="#">-->
 										<img id="bu_dis_img" style="height:120px;vertical-align:middle;" src="">
 									<!--</a>-->

@@ -5,6 +5,7 @@ import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.account.TZAccount;
 import com.gettec.fsnip.fsn.service.common.BaseService;
 import com.gettec.fsnip.fsn.vo.account.AccountOutVO;
+
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -59,4 +60,17 @@ public interface TZAccountService extends BaseService<TZAccount, TZAccountDAO>{
 	void returnOfGoods(long tZId, Long myOrg, String refuseReason)throws ServiceException;
 
 	Model checkReport(Model model, String prodate,Long proId)throws ServiceException;
+
+	Model selectBuyGoodsById(Long orgId, String name, String barcode, int page,
+			int pageSize, Model model)throws ServiceException;
+
+	Model submitTZWholeSaleProductGYS(Long organization, AccountOutVO accountOut,Model model,
+			String status,Integer type)throws ServiceException;
+
+	Model viewWholeSaleGYS(Long myOrg, int page, int pageSize, String number,
+			String licOrName, Model model, int status) throws ServiceException;
+
+	TZAccount saleSure(long id);
+
+
 }
