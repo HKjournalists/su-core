@@ -451,6 +451,7 @@ st_customer.nameComboxDs = function(page, keyword){
 
 st_customer.windowUpdateConfrim = function(zone,_type){
 	// validation
+	st_customer.initRequiredAreas();
 	if(validateCustomerType() && st_customer.validator.validate()){
 		var diyTypeFg = true;
 		if(st_customer.selectedData.diyType != null){
@@ -512,19 +513,20 @@ st_customer.windowUpdateConfrim = function(zone,_type){
 					success:function(data){
 						if(data.result.status=="true"){
 							fsn.initNotificationMes("编辑成功！", true);
-							 if(_type==0){
+							$("#purchaseContext").data("kendoGrid").dataSource.read();
+							/* if(_type==0){
 								 st_customer.initGridSearch();
 							 }else if(_type==1||_type==2){
 								 st_customer.getSourceCustomer(zone,_type);
-							 }
+							 }*/
 							$("#OPERATION_WIN").data("kendoWindow").close();
 						}else{
 							fsn.initNotificationMes("编辑失败", false);
 						}
 
-						if(!zone){
+						/*if(!zone){
 						st_customer.datasource.read();
-					   }
+					   }*/
 						$("#OPERATION_WIN").data("kendoWindow").close();
 					}
 				});
@@ -534,7 +536,7 @@ st_customer.windowUpdateConfrim = function(zone,_type){
 		}
 	}else{
 	}
-	location.reload();
+	//location.reload();
 }
 
 st_customer.windowDeleteConfrim = function(zone,type){
@@ -796,6 +798,7 @@ st_customer.cleanContactForm = function(){
 }
 
 st_customer.bindContactForm = function(e){
+st_customer.initRequiredAreas();
 	if(e.id){
 		$("#cid").val(e.id);
 	}
