@@ -1669,5 +1669,64 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			}
 		}
 
+	@Override
+	public List<ReturnProductVO> getSaleGoodsListToCS(Long orgId, int page, int pageSize, String name, String barcode) throws DaoException {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" SELECT p.id,p.name,p.barcode,p.format,p.qs_no,p.expiration_date,1 FROM ");
+		sb.append(" (SELECT pro.id,pro.name,pro.barcode,pro.format,qs.qs_no,pro.expiration_date FROM t_meta_initialize_product ip ");
+		sb.append(" INNER JOIN product pro ON ip.product_id=pro.id  ");
+		sb.append(" LEFT JOIN product_to_businessunit pb ON pb.PRODUCT_ID=pro.id ");
+		sb.append(" LEFT JOIN production_license_info qs ON qs.id=pb.qs_id ");
+		sb.append(" WHERE ip.organization = ?1 AND ip.del=0 ");
+		if (!"".equals(name)&&!"".equals(barcode)) {
+			sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
+		}
+		if (!"".equals(barcode)&&"".equals(name)) {
+			sb.append(" AND pro.barcode like '%" + barcode + "%' ");
+		}
+		if ("".equals(barcode)&&!"".equals(name)) {
+			sb.append(" AND pro.name like '%" + name + "%' ");
+		}
+		sb.append(" GROUP BY pro.id ) AS p ");
+		try {
+			Query query = entityManager.createNativeQuery(sb.toString()).setParameter(1, orgId);
+			if (page > 0 && pageSize > 0) {
+				query.setFirstResult((page - 1) * pageSize);
+				query.setMaxResults(pageSize);
+			}
+			List<Object[]> result = query.getResultList();
+			return setSaleGoodsVO(result, 1);//生产企业
+		} catch (Exception e) {
+			throw new DaoException("TZAccountDAOImpl.getselectBuyGoodsList()进货时选择商品时,出现异常！", e);
+		}
+	}
+
+	@Override
+	public Long getSaleGoodsListToCSTotal(Long orgId, String name, String barcode) throws DaoException {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append(" SELECT count(*) FROM ");
+			sb.append(" (SELECT pro.id,pro.name,pro.barcode,pro.format,qs.qs_no,pro.expiration_date FROM t_meta_initialize_product ip ");
+			sb.append(" INNER JOIN product pro ON ip.product_id=pro.id  ");
+			sb.append(" LEFT JOIN product_to_businessunit pb ON pb.PRODUCT_ID=pro.id ");
+			sb.append(" LEFT JOIN production_license_info qs ON qs.id=pb.qs_id ");
+			sb.append(" WHERE ip.organization = ?1 AND ip.del=0 ");
+			if (!"".equals(name)&&!"".equals(barcode)) {
+				sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
+			}
+			if (!"".equals(barcode)&&"".equals(name)) {
+				sb.append(" AND pro.barcode like '%" + barcode + "%' ");
+			}
+			if ("".equals(barcode)&&!"".equals(name)) {
+				sb.append(" AND pro.name like '%" + name + "%' ");
+			}
+			sb.append(" GROUP BY pro.id ) AS p ");
+			Query query = entityManager.createNativeQuery(sb.toString()).setParameter(1, orgId);
+			return Long.valueOf(query.getSingleResult().toString());
+		} catch (Exception e) {
+			throw new DaoException("TZAccountDAOImpl.getSaleGoodsListTotal()批发选择商品总数,出现异常！", e);
+		}
+	}
+
 
 }

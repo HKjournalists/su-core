@@ -304,4 +304,29 @@ public class TZBusRelationRESTService extends BaseRESTService{
         model.addAttribute("result", resultVO);
         return JSON;
     }
+
+    /**
+     * 根据企业关系加载对应的企业信息List
+     * Create Author lxz Date 2015-05-17
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/returnOwnBus//{page}/{pageSize}")
+    public View loadTZOwnBusRelation(Model model,
+                                  @PathVariable(value="page") int page,
+                                  @PathVariable(value="pageSize") int pageSize,
+                                  @RequestParam(value = "name",required = false) String busName,
+                                  @RequestParam(value = "lic",required = false) String busLic,
+                                  HttpServletRequest req,HttpServletResponse resp) {
+        ResultVO resultVO = new ResultVO();
+        try {
+            Long myOrg = Long.valueOf(AccessUtils.getUserRealOrg().toString());
+            model = tzBusRelationService.loadTZOwnBusRelation(myOrg, busName, busLic, page, pageSize, model);
+        }catch(ServiceException sex){
+            resultVO.setStatus(SERVER_STATUS_FAILED);
+            resultVO.setSuccess(false);
+            resultVO.setErrorMessage(sex.getMessage());
+            ((Throwable) sex.getException()).printStackTrace();
+        }
+        model.addAttribute("result", resultVO);
+        return JSON;
+    }
 }

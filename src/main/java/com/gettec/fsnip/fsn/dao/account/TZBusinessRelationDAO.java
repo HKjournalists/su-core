@@ -32,4 +32,8 @@ public interface TZBusinessRelationDAO extends BaseDAO<TZBusinessRelation> {
     List<BusRelationVO> getProBusList(Long myOrg, String busName, String busLic, int page, int pageSize)throws DaoException;
 
     Long getProBusToatl(Long myOrg, String busName, String busLic)throws DaoException;
+    Long loadTZOwnBusRelationToatl(Long myOrg, String busName, String busLic)throws DaoException;
+    List<BusRelationVO> loadTZOwnBusRelation(Long myOrg, String busName, String busLic, int page, int pageSize)throws DaoException;
+
+
 }

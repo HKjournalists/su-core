@@ -72,5 +72,16 @@ public interface TZAccountService extends BaseService<TZAccount, TZAccountDAO>{
 
 	TZAccount saleSure(long id);
 
-
+	/**
+	 * 超市进货时选择自己的产品
+	 * @param orgId
+	 * @param name
+	 * @param barcode
+	 * @param page
+	 * @param pageSize
+	 * @param model
+	 * @return
+     * @throws ServiceException
+     */
+	Model selectBuyGoodsOfCS(Long orgId, String name, String barcode, int page, int pageSize, Model model) throws ServiceException;
 }

@@ -50,7 +50,7 @@ $(document).ready(function() {
 </head>
 <body>
 <div class="fixfooter wi800 fl mt20 pr"> 
-     <div class="fullview page_title mt50 wper100 ml20" id="status_bar">当前位置：客户管理/自采供应商<input style="float:right"type="button" onclick="fsn.st_customer.addSearch()" class="k-button" value="新增"></div>
+     <div class="fullview page_title mt50 wper100 ml20" id="status_bar">当前位置：客户管理/自采供应商</div>
 
    <!-- ============================开始=========客户管理======================= -->
     <div class="wper100"> 
@@ -63,11 +63,16 @@ $(document).ready(function() {
 
 							 <input type="hidden" id ="typeStatus"/>
 						 	<div id = "searchContext" style="display:block;margin-top:20px;"></div>
+
     		 </div>
     		 </div>
+
 						<!-- 来源客户 -->
 			 <div id = "div_source_coustomer" >
-				<div id = "purchaseContext"></div>
+				 <div style="text-align:right;margin-bottom: 5px;">
+				 	<input  style="line-height: 1em;" type="button" onclick="fsn.st_customer.addSearch()" class="k-button" value="新增"/>
+				 </div>
+				 <div id = "purchaseContext"></div>
 			 </div>
 
 			

@@ -10,8 +10,6 @@ import com.gettec.fsnip.fsn.model.account.*;
 import com.gettec.fsnip.fsn.service.account.*;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.vo.account.*;
-import com.gettec.fsnip.sso.client.util.AccessUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -1045,7 +1043,7 @@ public class TZAccountServiceImpl extends
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 生产商确认供应商主动进货后，才给供应商添加库存
 	 * @param voNew
@@ -1073,6 +1071,35 @@ public class TZAccountServiceImpl extends
 			}
 		}
 		return info;
+	}
+
+	/**
+	 * 超市进货时选择自己的产品
+	 * @param orgId
+	 * @param name
+	 * @param barcode
+	 * @param page
+	 * @param pageSize
+	 * @param model
+	 * @return
+     * @throws ServiceException
+     */
+	@Override
+	public Model selectBuyGoodsOfCS(Long orgId, String name, String barcode, int page, int pageSize, Model model)
+			throws ServiceException {
+		try {
+			List<ReturnProductVO> productList = new ArrayList<ReturnProductVO>();
+			Long total = 0l;
+			productList = tZAccountDAO.getSaleGoodsListToCS(orgId,page, pageSize,name,barcode);
+			total = tZAccountDAO.getSaleGoodsListToCSTotal(orgId,name,barcode);
+			model.addAttribute("data", productList);
+			model.addAttribute("total", total);
+		} catch (DaoException daoe) {
+			model.addAttribute("data", "");
+			model.addAttribute("total", 0);
+			throw new ServiceException(daoe.getMessage(), daoe.getException());
+		}
+		return model;
 	}
 
 }
