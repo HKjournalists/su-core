@@ -270,6 +270,10 @@ st_customer.clearForm = function(){
 	$("#note").val("");
 	$("#name").val("");
 	$("#orgid").val("");
+
+	$("#address").val("");
+	$("#phone").val("");
+
 	//$("#type").data("kendoDropDownList").value(-1);
 
 
@@ -359,23 +363,24 @@ st_customer.windowSaveConfrim = function(zone,_type){
 			success:function(data){
 				if(data.result&&data.result.status=="true"){
 					fsn.initNotificationMes("新增成功！", true);
+					$("#purchaseContext").data("kendoGrid").dataSource.read();
 					// 添加信息成功后,刷新页面
-					if(_type==0){
+					/*if(_type==0){
 						 st_customer.initGridSearch();
 					 }else if(_type==1||_type==2){
 						 st_customer.getSourceCustomer(zone,_type);
-					 }
+					 }*/
 					// st_customer.initGridSearch();
 					$("#OPERATION_WIN").data("kendoWindow").close();
 				}else{
 					fsn.initNotificationMes(data.result.errorMessage, false);
 				}
-				if(!zone){
+				/*if(!zone){
 					st_customer.datasource.read();
 				   }
 				// st_customer.datasource.read();
 				$("#OPERATION_WIN").data("kendoWindow").close();
-				location.reload();
+				location.reload();*/
 			}
 		});
 	}else{

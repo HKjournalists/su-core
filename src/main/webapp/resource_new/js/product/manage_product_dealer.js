@@ -35,7 +35,7 @@ $(function() {
 			portal.currentBusiness = getCurrentBusiness();
 			var toolbar_template = "toolbar_template";
 			if(portal.currentBusiness!=undefined&&portal.currentBusiness!=null&&portal.currentBusiness.type.trim().indexOf("流通企业.商超")!=-1){
-				toolbar_template="";
+				//toolbar_template="";
 				portal.type = true;
 			}
 		upload.buildGridByBoolbar("my_product_grid",portal.mytemplatecolumns, portal.mytemplateDS, "460px", toolbar_template);
@@ -72,7 +72,11 @@ $(function() {
 			    		tag += "<a onclick='return portal.delProduct("+e.id+")' " +
 			    		"class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
 			    		"</span>删除</a>";
-			    	}
+			    	}else{
+						  tag += "<a onclick='return portal.delProduct("+e.id+")' " +
+							  "class='k-button k-button-icontext k-grid-ViewDetail '><span class='k-icon k-edit'> " +
+							  "</span>删除</a>";
+					  }
 					return tag;
 				}
 		    }];

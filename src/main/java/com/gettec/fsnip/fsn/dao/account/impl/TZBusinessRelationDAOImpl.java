@@ -388,9 +388,6 @@ public class TZBusinessRelationDAOImpl extends
                 "INNER JOIN t_meta_business_diy_type bt ON bt.organization=u.organization AND bt.business_id=ec.customer_id " +
                 "INNER JOIN business_unit b ON b.id=ec.customer_id " +
                 "WHERE u.organization=?1 AND bt.type=2 AND b.type LIKE '%生产企业%' ";
-       /* String sql="SELECT b.id,b.name,b.license_no,t.type,b.contact,b.telephone,b.address FROM t_meta_business_diy_type t " +
-                " LEFT JOIN business_unit b ON b.id=t.business_id " +
-                " WHERE t.organization=?1 AND t.type=2 AND b.type LIKE '%生产企业%' " ;*/
         if(busName != null && !"".equals(busName)){
             sql+=" AND b.name LIKE '%"+busName+"%' " ;
         }
@@ -431,6 +428,58 @@ public class TZBusinessRelationDAOImpl extends
             return rtn == null ? 0 : Long.parseLong(rtn.toString());
         } catch (Exception jpae) {
             throw new DaoException("TZBusinessRelationDAOImpl.loadTZBusRelation() 根据企业关系加载对应的企业信息的总条数,出现异常！", jpae);
+        }
+    }
+
+    @Override
+    public Long loadTZOwnBusRelationToatl(Long myOrg, String busName, String busLic) throws DaoException {
+        String sql="SELECT count(*) FROM t_meta_enterprise_to_customer ec " +
+                "INNER JOIN business_unit u ON u.id=ec.business_id " +
+                "INNER JOIN t_meta_business_diy_type bt ON bt.organization=u.organization AND bt.business_id=ec.customer_id " +
+                "INNER JOIN business_unit b ON b.id=ec.customer_id " +
+                "INNER JOIN t_meta_customer_and_provider_type tcp ON tcp.ID=bt.type_id "+
+                "WHERE u.organization=?1 AND bt.type=2  ";
+        if(busName != null && !"".equals(busName)){
+            sql+=" AND b.name LIKE '%"+busName+"%' " ;
+        }
+        if(busLic != null && !"".equals(busLic)){
+            sql+=" AND b.license_no LIKE '%"+busLic+"%' " ;
+        }
+        try {
+            Query  query = entityManager.createNativeQuery(sql.toString());
+            query.setParameter(1,myOrg);
+            Object rtn = query.getSingleResult();
+            return rtn == null ? 0 : Long.parseLong(rtn.toString());
+        } catch (Exception jpae) {
+            throw new DaoException("TZBusinessRelationDAOImpl.loadTZOwnBusRelationToatl() 根据企业关系加载对应的企业信息的总条数,出现异常！", jpae);
+        }
+    }
+
+    @Override
+    public List<BusRelationVO> loadTZOwnBusRelation(Long myOrg, String busName, String busLic, int page, int pageSize) throws DaoException {
+        String sql="SELECT b.id,b.name,b.license_no,bt.type,b.contact,b.telephone,b.address FROM t_meta_enterprise_to_customer ec " +
+                "INNER JOIN business_unit u ON u.id=ec.business_id " +
+                "INNER JOIN t_meta_business_diy_type bt ON bt.organization=u.organization AND bt.business_id=ec.customer_id " +
+                "INNER JOIN business_unit b ON b.id=ec.customer_id " +
+                "INNER JOIN t_meta_customer_and_provider_type tcp ON tcp.ID=bt.type_id "+
+                "WHERE u.organization=?1 AND tcp.type=3  ";
+        if(busName != null && !"".equals(busName)){
+            sql+=" AND b.name LIKE '%"+busName+"%' " ;
+        }
+        if(busLic != null && !"".equals(busLic)){
+            sql+=" AND b.license_no LIKE '%"+busLic+"%' " ;
+        }
+        try {
+            Query  query = entityManager.createNativeQuery(sql.toString());
+            query.setParameter(1,myOrg);
+            if(page > 0) {
+                query.setFirstResult((page - 1) * pageSize);
+                query.setMaxResults(pageSize);
+            }
+            List<Object[]> result = query.getResultList();
+            return encapsulationResultToBusRelationVO(result);
+        } catch (Exception e) {
+            throw new DaoException("TZBusinessRelationDAOImpl.loadTZOwnBusRelation() 根据企业关系加载对应的企业信息,出现异常！", e);
         }
     }
 
