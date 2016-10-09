@@ -235,6 +235,12 @@ st_customer.clearForm = function(){
 	$("#name").val("");
 	$("#orgid").val("");
 	$("#type").data("kendoDropDownList").value(-1);
+	if(st_customer.SIMPLE_TYPE == 3 && st_customer.SIMPLE_MODEL_NAME=="供应商"){
+		$("#type").data("kendoDropDownList").text("产品来源客户");
+		$("#type").data("kendoDropDownList").enable(false);
+	} else{
+		$("#type").data("kendoDropDownList").enable(true);
+	}
 	
 
 // fsn.st_customer.contactComboBox.value("");
