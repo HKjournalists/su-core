@@ -174,4 +174,29 @@ public class TZBusinessRelationServiceImpl extends BaseServiceImpl<TZBusinessRel
         }
     }
 
+    /**
+     * 获取商超自采供应商
+     * @param myOrg
+     * @param busName
+     * @param busLic
+     * @param page
+     * @param pageSize
+     * @param model
+     * @return
+     * @throws ServiceException
+     */
+    @Override
+    public Model loadTZOwnBusRelation(Long myOrg, String busName, String busLic, int page, int pageSize, Model model) throws ServiceException {
+        try {
+            /* 获取与该企业对应的供销关系企业信息 */
+            List<BusRelationVO> busRelations = tzBusinessRelationDAO.loadTZOwnBusRelation(myOrg, busName, busLic,page,pageSize);
+            Long total = tzBusinessRelationDAO.loadTZOwnBusRelationToatl(myOrg, busName, busLic);
+            model.addAttribute("data", busRelations);
+            model.addAttribute("total", total);
+            return model;
+        } catch (DaoException daoe) {
+            throw new ServiceException(daoe.getMessage(), daoe.getException());
+        }
+    }
+
 }

@@ -691,18 +691,18 @@ implements BusinessUnitDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object getAllBusUnitName(Integer page,Integer pageSize, String keyword,String busType)
+	public Object getAllBusUnitName(Integer page,Integer pageSize, String keyword,String buType)
 			throws DaoException {
 		try{
 			if(page-1 < 0){
 				return null;
 			}
-			String sql = "SELECT DISTINCT name,id FROM business_unit WHERE name IS NOT NULL AND name LIKE ?1 AND type LIKE ?2 LIMIT ?3,?4 ";
+			String sql = "SELECT DISTINCT name,id FROM business_unit WHERE name IS NOT NULL AND name LIKE '%"+keyword+"%' " ;//LIMIT ?3,?4 ";
 			Query query=entityManager.createNativeQuery(sql);
-			query.setParameter(1, "%"+keyword+"%");
-			query.setParameter(2, busType);
-			query.setParameter(3, (page-1)*20);
-			query.setParameter(4, pageSize);
+			if(page>0&&pageSize>0){
+                query.setFirstResult((page-1)*pageSize);
+                query.setMaxResults(pageSize);
+            }
 			List<Object[]> result = query.getResultList();
 			List<BusinessNameVO> lists = null;
 			if(result!=null && result.size()>0){

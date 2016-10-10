@@ -579,7 +579,7 @@ $(document).ready(function() {
 		}
 		if(portal.currentBusiness != undefined){
 		    if(portal.currentBusiness.type.trim().indexOf("流通企业.商超")!=-1){
-		    	$("#barcode").attr("readonly",true);
+		    	//$("#barcode").attr("readonly",true);
 				//销往客户给默认值
 				portal.setCustomerSelectInfo();
 		    }
@@ -664,6 +664,10 @@ $(document).ready(function() {
 		$("#customerSelectInfo").data("kendoMultiSelect").refresh();
 		$("#customerSelectInfo").data("kendoMultiSelect").value(portal.currentBusiness.id);
 		$("#customerSelect").val(portal.currentBusiness.name+";");
+
+		$("#customerSelect_lead").data("kendoMultiSelect").setDataSource(customerSelectInfo);
+		$("#customerSelect_lead").data("kendoMultiSelect").refresh();
+		$("#customerSelect_lead").data("kendoMultiSelect").value(portal.currentBusiness.id);
 	};
 	/**
 	 * 初始化营养报告

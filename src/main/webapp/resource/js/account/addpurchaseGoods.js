@@ -247,6 +247,11 @@ $(function() {
          if(pArr!=null&&pArr.length>0){
          	for(var x= 0;x<pArr.length;x++){
          		var prodate = pArr[x].productionDate;
+                if(prodate == null){
+                    fsn.initNotificationMes("产品"+pArr[x].name+"无报告不能进货，请先添加报告！",false);
+                    return false;
+                    break;
+                }
           		if(prodate.indexOf("选择")>-1){//判断是否选择生产日期
           			fsn.initNotificationMes("请选择生产日期！",false);
           			return false;
@@ -435,13 +440,10 @@ $(function() {
     BUS_COLUMNS = [  {field: "id",title: fsn.l("序号"),width: 15,filterable: false},
         {field: "busName",title: fsn.l("企业名称"),width: 70,filterable: false},
         {field: "licNo",title: fsn.l("营业执照号"),width: 50,filterable: false},
-        {field: "type",title: fsn.l("供销关系"),width: 20,filterable: false,template:
+        {field: "type",title: fsn.l("供销关系"),width: 30,filterable: false,template:
             function(item){
-                if (item.type == 1) {
-                    return "销往";
-                }else{
-                    return "来源";
-                }
+                 return "自采供应商";
+
             }},
         {field: "createDate",title: fsn.l("创建时间"),width: 40,filterable: false,template: function(item){
             return fsn.formatGridDate(item.createDate);
@@ -576,7 +578,24 @@ $(function() {
                                        var tag = "<label id='overDate"+e.productId+qs+"'>"+ fsn.formatGridDate(e.overDate)+"</label>";
                                        return tag;
                                    }
-                               }
+                               }, {
+                                    command: [
+                                        {
+                                            name: "Delete",
+                                            text: "<span class='k-button inputbtn'>"+fsn.l("Delete")+"</span>",
+                                            click: function (e) {
+                                                e.preventDefault();
+                                                var NutriGrid = $("#prodcut_detail").data("kendoGrid");
+                                                var delItem = NutriGrid.dataItem($(e.currentTarget).closest("tr"));
+                                                NutriGrid.dataSource.remove(delItem);
+                                                /*  var delItem = this.dataItema($(e.currentTarget).closest("tr"));
+                                                 $("#prodcut_detail").data("kendoGrid").dataSource.remove(delItem);*/
+                                            }
+                                        }
+                                    ],
+                                    title: fsn.l("操作"),
+                                    width: 70
+                                }
                            ];
 
 
@@ -589,7 +608,7 @@ $(function() {
     		transport: {
     			read: {
     				url : function(options){
-    					return HTTPPREFIX + "/account/relation/returnBus/2/" + options.page + "/" + options.pageSize+
+    					return HTTPPREFIX + "/account/relation/returnOwnBus/" + options.page + "/" + options.pageSize+
     					"?name="+busname+"&lic="+lic;
     				},
     				dataType : "json",
@@ -623,7 +642,7 @@ $(function() {
 	        transport: {
 	            read: {
 	                url : function(options){
-	                    return HTTPPREFIX + "/tzAccount/selectBuyGoods/" + options.page + "/" + options.pageSize+
+	                    return HTTPPREFIX + "/tzAccount/selectBuyGoodsOfCS/" + options.page + "/" + options.pageSize+
 	                    "?name="+name+"&barcode="+barcode;
 	                },
 	                dataType : "json",
