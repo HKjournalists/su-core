@@ -344,12 +344,9 @@ $(function(){
 			    typeId = 0;
 			    st_customer.windowSaveConfrim(zone,typeId);
 			   }else{
-				    zone = "searchContext";
-					if(typeId==3){
-						zone ="purchaseContext";
-					}else if(typeId==2){
-						zone ="sourceContext";
-					}
+				   typeId=3;
+				   zone ="purchaseContext";
+
 					st_customer.windowUpdateConfrim(zone,typeId);
 			   }
 
