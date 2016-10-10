@@ -489,6 +489,9 @@ public class CustomerServiceImpl extends BaseServiceImpl<BusinessUnit, CustomerD
 				if(ctype != null){
 					_type = (ctype.getType() != null ? ctype.getType() : 1);
 				}
+				if("自采供应商".equals(ctype.getName())){
+					_type=3;
+				}
 				List<ContactInfo> listContacts = contactInfoService.getListByBusIdAndType(1, 1, buvo.getId(), _type, organization);
 				if(listContacts!=null&&listContacts.size()>0){
 				buvo.setContact(listContacts.get(0).getName());

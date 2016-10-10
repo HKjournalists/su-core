@@ -22,35 +22,15 @@ if(st_customer.SIMPLE_MODEL_NAME.substring(0, 1) == "=") {
  * 页面初始化
  */
 st_customer.initailize_common = function(){
-  /* var currentBusiness =getCurrentBusiness().type;
-   if(typeId==2){
-        if(currentBusiness=="生产企业"){
-        typeName="原材料来源客户";
-        $(".title").html(typeName);
-        $("#licno").hide();
-        }else if(currentBusiness=="流通企业.供应商"){
-        typeName="产品来源客户";
-         $(".title").html(typeName);
-         $("#license").attr("required","required");
-         }
-   }else if(typeId==1){
-        typeName="产品销往客户";
-        $(".title").html(typeName);
-        $("#license").attr("required","required");
-   }*/
 	this.initComponent(st_customer);
 	$("#label_no").html(st_customer.SIMPLE_MODEL_NAME + "编号");
 	$("#label_name").html(st_customer.SIMPLE_MODEL_NAME + "名称");
 	$("#label_license").html("营业执照号");
-	$("#label_address").html(st_customer.SIMPLE_MODEL_NAME + "地址");
-    $("#label_phone").html(st_customer.SIMPLE_MODEL_NAME + "联系电话");
 	$("#label_type").html(st_customer.SIMPLE_MODEL_NAME + "类型");
 	$("#label_note").html(st_customer.SIMPLE_MODEL_NAME + "备注");
 	$("#detail_label_num_name").html(st_customer.SIMPLE_MODEL_NAME + "编号");
 	$("#detail_label_min_name").html(st_customer.SIMPLE_MODEL_NAME + "名称");
 	$("#detail_label_license_name").html(st_customer.SIMPLE_MODEL_NAME + "执照号");
-	$("#detail_label_address").html(st_customer.SIMPLE_MODEL_NAME + "地址");
-	$("#detail_label_phone").html(st_customer.SIMPLE_MODEL_NAME + "联系电话");
 	$("#detail_label_type_name").html(st_customer.SIMPLE_MODEL_NAME + "类型");
 	$("#detail_lable_base_remarks_name").html(st_customer.SIMPLE_MODEL_NAME + "备注");
 	st_customer.initRequiredComponents();
@@ -160,23 +140,10 @@ if(st_customer.SIMPLE_TYPE == 3 || isNaN(st_customer.SIMPLE_TYPE)) {
  *
  * @author Zhanghui 2015/4/10
  */
-st_customer.views = function(id, name, licenseno, diyTypeName, note,address,phone){
+st_customer.views = function(id, name, licenseno, diyTypeName, note){
   st_customer.initBusnessItemDS(id);
- /* var address=null;
-  var phone=null;
-  $.ajax({
-          url: fsn.getHttpPrefix() + "/erp/customer/" + st_customer.SIMPLE_TYPE + "/findContact/" + 1 + "/" + 5 + "/" + id,
-          type: "GET",
-          dataType: "json",
-          async: false,
-          contentType: "application/json; charset=utf-8",
-          success: function(returnValue) {
-              	address=returnValue.address;
-              	phone=returnValue.phone;
-          }
-      });*/
    $("#MERCHANDISE_INFO_GRID").data("kendoGrid").setDataSource(st_customer.busnessItemDS);
-   st_customer.PorCDetail(id, name, licenseno,address,phone, diyTypeName, note);// common.SIMPLE_MODEL_NAME,
+   st_customer.PorCDetail(id, name, licenseno,diyTypeName,note);// common.SIMPLE_MODEL_NAME,
    var addWin = eWidget.getWindow("PROVIDERORCUSTOMER_DETAIL_INFO","详细信息", common.realObj.win_width == null ? null:common.realObj.win_width);
    addWin.data("kendoWindow").open().center();
 };
@@ -340,8 +307,6 @@ st_customer.windowSaveConfrim = function(zone,_type){
 					name:$("#name").val().trim(),
 					license:{licenseNo:$("#license").val().trim()},
 					diyType:typeTem,
-					address:$("#address").val().trim(),
-					telephone:$("#phone").val().trim(),
 					note:$("#note").val().trim(),
 					contacts:contacts
 			};
@@ -454,9 +419,9 @@ st_customer.windowUpdateConfrim = function(zone,_type){
 	st_customer.initRequiredAreas();
 	if(validateCustomerType() && st_customer.validator.validate()){
 		var diyTypeFg = true;
-		if(st_customer.selectedData.diyType != null){
+		/*if(st_customer.selectedData.diyType != null){
 			diyTypeFg = (st_customer.selectedData.diyType.name != $("#type").data("kendoDropDownList").dataItem().name);
-		}
+		}*/
 		if(st_customer.selectedData.name != $("#name").val().trim()||
 				st_customer.selectedData.license.licenseNo != $("#license").val().trim() ||
 				diyTypeFg||
@@ -477,17 +442,17 @@ st_customer.windowUpdateConfrim = function(zone,_type){
 			};
 
 			var contacts = st_customer.contactGrid.data("kendoGrid").dataSource.data();
-			/*
-			 * if(contacts.length==0){ fsn.initNotificationMes("联系人不能为空！</br>编辑失败！",
-			 * false); return; }
-			 */
+
+			/*if(contacts.length==0){
+			    fsn.initNotificationMes("请至少填写一个联系人！",false);
+			    return;
+			}*/
+
 			if(st_customer.SIMPLE_TYPE == 2){
 				model.businessUnit = {
 						id:$("#id").val().trim(),
 						name:$("#name").val().trim(),
 						license:{licenseNo:$("#license").val().trim()},
-						address:$("#address").val().trim(),
-                        telephone:$("#phone").val().trim(),
 						diyType:typeTem,
 						note:$("#note").val().trim(),
 						contacts:contacts
@@ -497,8 +462,6 @@ st_customer.windowUpdateConfrim = function(zone,_type){
 						id:$("#id").val().trim(),
 						name:$("#name").val().trim(),
 						license:{licenseNo:$("#license").val().trim()},
-						address:$("#address").val().trim(),
-                        telephone:$("#phone").val().trim(),
 						diyType:typeTem,
 						note:$("#note").val().trim(),
 						contacts:contacts
@@ -527,7 +490,7 @@ st_customer.windowUpdateConfrim = function(zone,_type){
 						/*if(!zone){
 						st_customer.datasource.read();
 					   }*/
-						$("#OPERATION_WIN").data("kendoWindow").close();
+						//$("#OPERATION_WIN").data("kendoWindow").close();
 					}
 				});
 
@@ -536,7 +499,6 @@ st_customer.windowUpdateConfrim = function(zone,_type){
 		}
 	}else{
 	}
-	//location.reload();
 }
 
 st_customer.windowDeleteConfrim = function(zone,type){
@@ -594,7 +556,8 @@ st_customer.initRequiredComponents = function(){
 					             serverSorting : true
       							 }),
 					            height: 300,
-					            sortable: false,
+					            sortable: true,
+                                resizable: true,
 					            selectable:true,
 					            toolbar: [
 								          {template: kendo.template($("#CONTACT_DETAIL").html())}
@@ -604,17 +567,20 @@ st_customer.initRequiredComponents = function(){
 											 * {field: "id", title: "ID",
 											 * width:"auto"},
 											 */
-					                      {field: "name", title: "姓名", width:"auto"},
-					                      {field: "tel_1", title: "手机", width:"auto"},
-					                      {field: "im_account", title: "聊天账号", width:"auto"},
+					                      {field: "name", title: "姓名", width:"20%"},
+					                      {field: "tel_1", title: "手机", width:"20%"},
+					                      {field: "im_account", title: "聊天账号", width:"20%"},
 					                      /*
 											 * {field: "zipcode", title: "邮编",
 											 * width:"auto"},
 											 */
-					                      {field: "province", title: "省", width:"auto"},
+										  {field: "address", title: "所在企业地址", width:"60%",template:function(e){
+										       return e.province+"-"+e.city+"-"+ e.area+"-"+e.addr;
+										  }},
+					                     /* {field: "province", title: "省", width:"auto"},
 					                      {field: "city", title: "市", width:"auto"},
 					                      {field: "area", title: "区", width:"auto"},
-					                      {field: "addr", title: "街道地址", width:"auto"},
+					                      {field: "addr", title: "街道地址", width:"auto"},*/
 					                      ]
 					        });
 	st_customer.detailContactGrid = $("#MERCHANDISE_INFO_GRID").kendoGrid({
@@ -642,10 +608,14 @@ st_customer.initRequiredComponents = function(){
                  /* {field: "id", title: "ID", width:"100px"}, */
                   {field: "name", title: "姓名", width:"100px"},
                   {field: "tel_1", title: "手机", width:"150px"},
-                  {field: "province", title: "省", width:"100px"},
+
+                 /* {field: "province", title: "省", width:"100px"},
                   {field: "city", title: "市", width:"100px"},
                   {field: "area", title: "区", width:"100px"},
-                  {field: "addr", title: "街道地址", width:"200px"},
+                  {field: "addr", title: "街道地址", width:"200px"},*/
+                  {field: "address", title: "所在企业地址", width:"400px",template:function(e){
+                       return e.province+"-"+e.city+"-"+ e.area+"-"+e.addr;
+                  }},
                   {field: "im_account", title: "聊天账号", width:"200px"},
                   {field: "email", title: "电子邮箱", width:"200px"},
                   {field: "tel_2", title: "座机", width:"150px"},
@@ -1256,12 +1226,10 @@ st_customer.verifyContacts = function() {
 	return true;
 }
 
-st_customer.PorCDetail = function(id, name, licenseno,address,phone,diyTypeName, note){
+st_customer.PorCDetail = function(id, name, licenseno,diyTypeName, note){
 	$("#detail_label_num_content").html(id);
 	$("#detail_label_min_content").html(name);
 	$("#detail_label_license_content").html(licenseno);
-	$("#detail_label_address_content").html(address);
-	$("#detail_label_phone_content").html(phone);
 	$("#detail_label_type_content").html(diyTypeName);
 	$("#detail_lable_base_remarks_content").html(note=="null"||note==null?"":note);
 	// if(st_customer.SIMPLE_TYPE == 2) $(".t_hide").removeClass("t_hide");
@@ -1283,22 +1251,20 @@ st_customer.verifyCustomer = function() {
 		$("#license").focus();
 		return;
 	}*/
-	if($("#address").val().trim() == "") {
-    		fsn.initNotificationMes("请填写" + st_customer.SIMPLE_MODEL_NAME + "地址！",false);
-    		$("#address").focus();
-    		return;
-    	}
-    if($("#phone").val().trim() == "") {
-        		fsn.initNotificationMes("请填写" + st_customer.SIMPLE_MODEL_NAME + "联系电话！",false);
-        		$("#phone").focus();
-        		return;
-        	}
+
 	var type = typeId;
 	if(type == -1) {
 		fsn.initNotificationMes("请选择" + st_customer.SIMPLE_MODEL_NAME + "类型！",false);
 		$("#type").focus();
 		return;
 	}
+
+	var contacts=$("#CONTACT_INFO_GRID").data("kendoGrid").dataSource.data();
+	if(contacts.length<1){
+	       fsn.initNotificationMes("请至少填写一个联系人！",false);
+           return;
+	}
+
 	return true;
 }
 

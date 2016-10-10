@@ -1,50 +1,33 @@
 package com.gettec.fsnip.fsn.web.controller.rest.erp;
 
-import static com.gettec.fsnip.fsn.web.IWebUtils.JSON;
-import static com.gettec.fsnip.fsn.web.IWebUtils.SERVER_STATUS_FAILED;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.gettec.fsnip.fsn.vo.business.AccountBusinessVO;
-import com.lhfs.fsn.vo.business.LightBusUnitVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.View;
-
 import com.gettec.fsnip.fsn.enums.SimpleModelTypeEnums;
 import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.business.BusinessUnit;
 import com.gettec.fsnip.fsn.model.erp.base.PurchaseorderInfo;
 import com.gettec.fsnip.fsn.model.erp.base.ReceivingNote;
 import com.gettec.fsnip.fsn.service.business.BusinessUnitService;
-import com.gettec.fsnip.fsn.service.erp.AddressService;
-import com.gettec.fsnip.fsn.service.erp.ContactInfoService;
-import com.gettec.fsnip.fsn.service.erp.CustomerService;
-import com.gettec.fsnip.fsn.service.erp.FromToBussinessService;
-import com.gettec.fsnip.fsn.service.erp.OrderTypeService;
-import com.gettec.fsnip.fsn.service.erp.OutGoodsInfoService;
-import com.gettec.fsnip.fsn.service.erp.OutOfBillService;
-import com.gettec.fsnip.fsn.service.erp.ProviderService;
-import com.gettec.fsnip.fsn.service.erp.PurchaseorderInfoService;
-import com.gettec.fsnip.fsn.service.erp.ReceivingNoteService;
-import com.gettec.fsnip.fsn.service.erp.StorageInfoService;
+import com.gettec.fsnip.fsn.service.erp.*;
 import com.gettec.fsnip.fsn.vo.ResultVO;
 import com.gettec.fsnip.fsn.vo.erp.CustomerVO;
 import com.gettec.fsnip.fsn.vo.erp.PagingSimpleModelVO;
 import com.gettec.fsnip.sso.client.util.AccessUtils;
 import com.gettec.fsnip.sso.client.util.SSOClientUtil;
 import com.gettec.fsnip.sso.client.vo.AuthenticateInfo;
+import com.lhfs.fsn.vo.business.LightBusUnitVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.View;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.gettec.fsnip.fsn.web.IWebUtils.JSON;
+import static com.gettec.fsnip.fsn.web.IWebUtils.SERVER_STATUS_FAILED;
 
 @Controller
 @RequestMapping("/erp/customer/{type}")
@@ -143,16 +126,6 @@ public class CustomerRESTService {
 		try {
 			switch (getType(type)) {
 			case CUSTOMER_TYPE:  // 更新客户
-				BusinessUnit businessUnit=businessUnitService.findById(vo.getBusinessUnit().getId());
-				if(businessUnit!=null){
-					if(vo.getBusinessUnit().getTelephone()!=null&&!vo.getBusinessUnit().getTelephone().equals("")){
-						businessUnit.setTelephone(vo.getBusinessUnit().getTelephone());
-					}
-					if(vo.getBusinessUnit().getAddress()!=null&&!vo.getBusinessUnit().getAddress().equals("")){
-						businessUnit.setAddress(vo.getBusinessUnit().getAddress());
-					}
-				}
-				businessUnitService.update(businessUnit);
 				vo.getBusinessUnit().setOrganization(currentUserOrganization);
 				vo.getBusinessUnit().getDiyType().setOrganization(currentUserOrganization);
 				resultVO.setObject(vo.getBusinessUnit());
