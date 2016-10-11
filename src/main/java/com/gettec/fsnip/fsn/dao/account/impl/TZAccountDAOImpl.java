@@ -1626,7 +1626,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 						+ " outBus.name outName,tz.out_status outstatus,outBus.license_no,tz.in_status instatus,tz.return_status FROM tz_business_account tz" 
 						+ " LEFT JOIN business_unit inBus ON inBus.id=tz.in_business_id "
 						+ " LEFT JOIN business_unit outBus ON outBus.id=tz.out_business_id "
-						+ " WHERE tz.type=1 AND outBus.organization=?1 ) temp where 1=1 ";
+						+ " WHERE tz.type=1 AND outBus.organization=?1 AND tz.in_status=1 ) temp where 1=1 ";
 				
 				sql.append(sqlStr);
 				if (!licOrName.equals("")) {
@@ -1655,7 +1655,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 						+ " outBus.name outName,tz.out_status outstatus,outBus.license_no,tz.in_status instatus,tz.return_status FROM tz_business_account tz" 
 						+ " LEFT JOIN business_unit inBus ON inBus.id=tz.in_business_id "
 						+ " LEFT JOIN business_unit outBus ON outBus.id=tz.out_business_id "
-						+ " WHERE tz.type=1 AND outBus.organization=?1 ) temp where 1=1 ";
+						+ " WHERE tz.type=1 AND outBus.organization=?1 AND tz.in_status=1  ) temp where 1=1 ";
 				
 				sql.append(sqlStr);
 				if (!licOrName.equals("")) {

@@ -187,12 +187,14 @@ public class TZAccountServiceImpl extends
 				purchase.setOutBusId(tZAccount.getOutBusinessId());// 供应商Id
 				purchase.setCreateDate(tZAccount.getInDate());// 进货时间
 				purchase.setInStatus(tZAccount.getInStatus());
+				purchase.setOutStatus(tZAccount.getOutStatus());
 			} else {// 批发
 				String[] str = tZAccountDAO.getBusById(tZAccount.getInBusinessId());
 				purchase.setLicNo(str[1]);// 购货商执照号
 				purchase.setOutBusName(str[0]);// 购货商名称
 				purchase.setInBusId(tZAccount.getInBusinessId());// 购货商Id
 				purchase.setCreateDate(tZAccount.getOutDate());// 批发时间
+				purchase.setOutStatus(tZAccount.getOutStatus());
 				purchase.setOutStatus(tZAccount.getOutStatus());
 			}
 			model.addAttribute("outBusInfo", purchase);
@@ -975,11 +977,11 @@ public class TZAccountServiceImpl extends
 			TZAccount tZAccount = null;
 			if (accountOut.getId() != null) {// 更新
 				tzOral = tZAccountDAO.findById(accountOut.getId());
-				tZAccount = setTZAccountSaleGYS(accountOut, tzOral,type);
+				tZAccount = setTZAccountSaleGYS(accountOut, tzOral,type,status);
 				this.update(tZAccount);
 				tZAccountInfoService.deleteInfoByaccountId(tZAccount.getId());
 			} else {// 新增
-				tZAccount = setTZAccountSaleGYS(accountOut, tzOral,type);
+				tZAccount = setTZAccountSaleGYS(accountOut, tzOral,type,status);
 				this.create(tZAccount);
 			}
 			/* 添加进货产品详细信息 */
@@ -1023,7 +1025,7 @@ public class TZAccountServiceImpl extends
 	 * @param type
 	 * @return
 	 */
-	private TZAccount setTZAccountSaleGYS(AccountOutVO vo, TZAccount tz,Integer type) throws ServiceException {
+	private TZAccount setTZAccountSaleGYS(AccountOutVO vo, TZAccount tz,Integer type,String status) throws ServiceException {
 		if (tz == null) {
 			tz = new TZAccount();
 		}
@@ -1034,11 +1036,14 @@ public class TZAccountServiceImpl extends
 		tz.setType(1);
 		tz.setInDate(vo.getInDate());// 批发日期
 		if(outbu.getOrganization()!=null&&outbu.getType()!=null&&outbu.getType().contains("生产企业")) {
-			tz.setInStatus(0);// 批发状态 0：保存 1：确认
 			tz.setOutStatus(0);
 		}else{
-			tz.setInStatus(1);// 批发状态 0：保存 1：确认
 			tz.setOutStatus(1);
+		}
+		if("save".equals(status)) {
+			tz.setInStatus(0);// 批发状态 0：保存 1：确认
+		}else{
+			tz.setInStatus(1);// 批发状态 0：保存 1：确认
 		}
 		tz.setOutBusinessId(vo.getOutBusId());// 供应商ID
 		tz.setInBusinessId(vo.getInBusId());// 购货商ID
@@ -1073,7 +1078,7 @@ public class TZAccountServiceImpl extends
 	public TZAccount saleSure(long id) {
 		try {
 			TZAccount account = tZAccountDAO.findById(id);
-			account.setInStatus(1);
+			//account.setInStatus(1);
 			account.setOutStatus(1);
 			tZAccountDAO.merge(account);
 			/*List<TZAccountInfo> listByAccountId = tZAccountInfoService.getListByAccountId(id);
