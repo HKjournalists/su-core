@@ -478,8 +478,8 @@ public class TZAccountRESTService extends BaseRESTService{
             HttpServletRequest req,HttpServletResponse resp) {
         ResultVO resultVO = new ResultVO();
         try {
-        	Long orgId = businessUnitService.findOrgById(outId);
-            model = tZAccountService.selectBuyGoodsById(orgId,name,barcode,page, pageSize, model);
+        	//Long orgId = businessUnitService.findOrgById(outId);
+            model = tZAccountService.selectBuyGoodsById(outId,name,barcode,page, pageSize, model);
         }catch(ServiceException sex){
             resultVO.setStatus(SERVER_STATUS_FAILED);
             resultVO.setSuccess(false);
