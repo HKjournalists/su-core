@@ -116,13 +116,13 @@ $(document).ready(function(){
         });
 
         //business_unit.initTabStrip();
-        var operateType = $("#operateType").val();
-        if(operateType==undefined||operateType==null||operateType==''||operateType=='餐饮服务经营者'){
-            business_unit.changeCarering(0);
-        }else{
-            business_unit.changeCarering(1);
-
-        }
+        //var operateType = $("#operateType").val();
+        //if(operateType==undefined||operateType==null||operateType==''||operateType=='餐饮服务经营者'){
+        //    business_unit.changeCarering(0);
+        //}else{
+        //    business_unit.changeCarering(1);
+        //
+        //}
     };
 
     business_unit.hideComponentOfView = function(){
@@ -982,19 +982,19 @@ $(document).ready(function(){
         $('#slides').slides();
         $("#DIV_IMG_WIN").data("kendoWindow").open().center();
     };
-    business_unit.changeCarering = function(status){
-        if(status==0){
-            $("#operateScope_title").text("经营规模：");
-            $("#operateType_title").text("餐饮服务经营者");
-            $("#operateType").val("餐饮服务经营者");
-
-        }else{
-            $("#operateScope_title").text("食堂类型：");
-            $("#operateType_title").text("单位食堂");
-            $("#operateType").val("单位食堂");
-        }
-
-    };
+    //business_unit.changeCarering = function(status){
+    //    if(status==0){
+    //        $("#operateScope_title").text("经营规模：");
+    //        $("#operateType_title").text("餐饮服务经营者");
+    //        $("#operateType").val("餐饮服务经营者");
+    //
+    //    }else{
+    //        $("#operateScope_title").text("食堂类型：");
+    //        $("#operateType_title").text("单位食堂");
+    //        $("#operateType").val("单位食堂");
+    //    }
+    //
+    //};
 
     business_unit.initialize();
 })

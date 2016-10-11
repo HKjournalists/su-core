@@ -750,12 +750,13 @@ $(document).ready(function() {
         }
         $("#operate_id").val(data.id);
         $("#operateType").val(data.operateType);
-
+        if(data.operateType == null){
+            $("#operateType_title").text(data.operateType);
+        }
        var  operateScope = $("#operateScope1").val();
         if(operateScope == undefined){
             $("#operateScope").data("kendoComboBox").text(data.operateScope);
         }else if(data.operateScope != null){
-            $("#operateType_title").text(data.operateScope);
             $("#operateScope1").val(data.operateScope);
             $("#operateScope1_tit").text(data.operateScope);
         }
@@ -765,11 +766,6 @@ $(document).ready(function() {
         if(operateSeat != undefined){
             $("#operateSeat").val(data.operateSeat);
         }
-        //if(data.operateScope != null && data.operateScope=='单位食堂'){
-        //    business_unit.changeCarering(1)
-        //}else if(data.operateScope != null && data.operateScope=='餐饮服务经营者'){
-        //    business_unit.changeCarering(0)
-        //}
     };
     facility.cleanOperateInfo = function(){
         $("#operateType").val("");
@@ -832,10 +828,15 @@ $(document).ready(function() {
         if(operateSeat == undefined){
             operateSeat = null;
         }
+        var operateScope = $("#operateScope1").val();
+        if(operateScope == undefined){
+            operateScope = $("#operateScope").val();
+        }
+
         var operateInfo = {
             id:$("#operate_id").val(),
             operateType:$("#operateType").val(),
-            operateScope:$("#operateScope").val(),
+            operateScope:operateScope,
             personCount:$("#personCount").val(),
             floorArea:$("#floorArea").val(),
             operateSeat:operateSeat
