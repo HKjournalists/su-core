@@ -1412,6 +1412,16 @@ public class ProductController {
 		model.addAttribute("mapProduct",mapProduct);
 		return JSON;
 	}
+	/**
+	 * Portal 接口:查询拥有购买链接，认证及第三方检测的产品
+	 * @author xuetaoyang 2016/06/08
+	 */
+	@RequestMapping(method = RequestMethod.GET, value="/getListOfBuylink")
+	public View  getListOfBuylink( Model model){
+		model.addAttribute("productOfMarketVO",traceDataService.getListOfBuylink());
+		model.addAttribute("count",traceDataService.getListOfBuylink().size());
+		return JSON;
+	}
 /*	/**
 	* 团购产品，报告，溯源，营养 接口:根据productid查询产品接口
 	 * @author xuetaoyang 2016/08/09

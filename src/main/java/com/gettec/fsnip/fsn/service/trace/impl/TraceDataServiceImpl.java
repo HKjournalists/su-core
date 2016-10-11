@@ -1,20 +1,7 @@
 package com.gettec.fsnip.fsn.service.trace.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import net.sf.json.JSONArray;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.gettec.fsnip.fsn.dao.product.ProductDAO;
 import com.gettec.fsnip.fsn.dao.trace.TraceDataDao;
-import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.model.trace.TraceData;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
@@ -23,6 +10,17 @@ import com.gettec.fsnip.fsn.service.trace.TraceDataService;
 import com.gettec.fsnip.fsn.util.PropertiesUtil;
 import com.gettec.fsnip.fsn.util.SystemDefaultInterface;
 import com.gettec.fsnip.fsn.util.UploadUtil;
+import com.gettec.fsnip.fsn.vo.product.ProductOfMarketVO;
+import net.sf.json.JSONArray;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class TraceDataServiceImpl extends
@@ -30,7 +28,8 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 	@Autowired
 	private TraceDataDao traceDataDao;
 	@Autowired private ResourceService resourceService;
-
+	@Autowired
+	private ProductDAO productDAO;
 	@Override
 	public boolean checkbyproductIDandbatchCode(Long productID, String batchCode) {
 		return this.traceDataDao.check(productID, batchCode);
@@ -289,6 +288,18 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 		}
 		return traceData;
 	}
-
+	@Override
+	public List<ProductOfMarketVO> getListOfBuylink() {
+		List<ProductOfMarketVO> productlist = null;
+		try {
+			productlist = productDAO.getListOfBuylink();
+			if(productlist==null||productlist.size()<1){
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return productlist;
+	}
 	
 }
