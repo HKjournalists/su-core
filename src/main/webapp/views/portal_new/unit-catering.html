@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>食品安全营养信息平台</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=10">
+<link rel="stylesheet" href="../../resource_new/css/reset.css" />
+<link rel="stylesheet" href="../../resource_new/css/text.css" />
+<link rel="stylesheet" href="../../resource_new/css/grid.css" />
+<link href="../../resource_new/kendoui/styles/kendo.common.min.css"rel="stylesheet" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/kendoui/styles/kendo.metro.less" />
+<link rel="stylesheet/less" type="text/css" href="../../resource_new/css/style.less" />
+<link rel="stylesheet" href="../../resource_new/css/notification.css" />
+<link rel="stylesheet" href="../../resource_new/css/index_guid.css" />
+<link href="../../resource_new/css/city/cityLayout.css" rel="stylesheet"/>
+<link rel="stylesheet" href="../../resource_new/css/manngerUI.css" />
+<link rel="stylesheet" href="../../resource/js/slides/css/global.css" />
+
+<script src="../../resource_new/js/less.js" type="text/javascript"></script>
+<script src="../../resource_new/js/jquery-1.8.0.min.js"></script>
+<script src="../../resource_new/kendoui/js/kendo.web.min.js"></script>
+<script src="../../resource_new/js/jquery.cookie.js"></script>
+<script src="../../resource_new/js/portal/common.js"></script>
+<script src="../../resource/js/fsn.i18n.js"></script>
+<script src="../../resource_new/js/lims.i18n.js"></script>
+<script src="../../resource_new/js/fsn.js"></script>
+<script src="../../resource_new/js/lims.js"></script>
+<script src="../../resource_new/js/headerFooterTemplate.js"></script>
+<script src="../../resource_new/js/portal/jquery.form.js"></script>
+<script src="../../resource_new/js/upload/lims.js"></script>
+<script src="../../resource_new/js/util.js"></script>
+<script src="../../resource_new/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script src="../../resource_new/js/language/list_product_addQs_zh-cn.js"></script>
+<script src="../../resource_new/js/market/data_entry_zh_cn.js"></script>
+<script src="../../resource_new/js/language/unit_up_zh-cn.js"></script>
+<script src="../../resource_new/js/business/unit-common.js"></script>
+<script src="../../resource/js/facility/facilityInfo.js"></script>
+<script src="../../resource_new/js/business/unit-catering.js"></script>
+<script src="../../resource_new/js/guid/unit_guid.js"></script>
+<script src="../../resource_new/js/portal/brandCategoryTree.js"></script>
+<script src="../../resource/js/slides/js/slides.min.jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$("fieldset input").focus(function() {
+			$(this).parent().prev("label").hide();
+		});
+		$("fieldset input").blur(function() {
+			if ($(this).val().trim().length < 1) {
+				$(this).parent().prev("label").show();
+			}
+		});
+
+		/* tab背景 */
+		var $a = $("#tabstrip > ul > li > a.k-link");
+		var $a1 = $("#tab1 > a.k-link");
+		$a.css({"background-color":"#fff",
+			"color":"#00A878"});
+		$a1.css({"background-color":"#00A878",
+			"color":"#fff"});
+		$a.click(function(){
+			$(this).css({"background-color":"#00A878",
+				"color":"#fff"})
+					.parent("li").siblings("li").children("a.k-link")
+					.css({"background-color":"#fff",
+						"color":"#00A878"});
+		});
+
+//		/* tab背景 */
+//		var $a2 = $("#tabstrip2 > ul > li > a.k-link");
+//		var $a_2 = $("#tab2 > a.k-link");
+//		$a2.css({"background-color":"#fff",
+//			"color":"#00A878"});
+//		$a_2.css({"background-color":"#00A878",
+//			"color":"#fff"});
+//		$a2.click(function(){
+//			$(this).css({"background-color":"#00A878",
+//				"color":"#fff"})
+//					.parent("li").siblings("li").children("a.k-link")
+//					.css({"background-color":"#fff",
+//						"color":"#00A878"});
+//		})
+
+		/* 边框颜色改变 */
+		$("#A_show div").css({"border-color": "#00A878"});
+
+		/* 企业简介展示 */
+		var $btn = $("#case");
+		var $case = $("#case a");
+		var $btnCont = $case.text();
+		var $txt = $(".txt");
+		var k = "[展开]";
+		var h = $txt.height();
+		if(h >= 215){
+			$btn.show();
+			$txt.addClass("caseT");
+		}
+		$case.click(function(){
+			if($btnCont == k){
+				$(this).parents("div").addClass("caseTxt");
+				k = "[关闭]";
+				$case.text(k);
+			}else{
+				$(this).parents("div").removeClass("caseTxt");
+				k = "[展开]";
+				$case.text(k);
+			}
+		})
+	});
+	
+</script>
+<style>
+       .div-tr, .div-tr div {float: left;}
+	.div-tr {width: 100%; padding-bottom: 10px; margin-top:5px;}
+	.div-td {width: 50%; line-height: 30px;}
+	.div-tr1 {width: 100%; padding-bottom: 10px; margin-top:5px;}
+	.div-td1 {width: 80%; line-height: 9px;font-size:15px}
+	.div-td-full {width: 100%;}
+	.div-td textarea {width:440px; height:80px; max-width: 440px; min-width: 200px;}
+	.div-td-add {padding-right: 4px; width: 86%;}
+	.div-td-value input {width: 300px;}
+	.div-td-name { width:155px}
+	.div-td-name-s{ width:120px}
+	
+	.div-td-shortname { width:130px}
+	
+	.div-td-longname{
+		width:170px;
+	}
+	.div-td-shortvalue input{
+		width:300px;
+	}
+	.necessary{color:#f00}
+	.k-upload-button {
+    	width: 200px;
+		border-radius:4px;
+  	}
+  	
+  	/*.header{*/
+   	 	/*font-size: 15px;*/
+    	/*font-weight: bold;*/
+    	/*color:white;*/
+    	/*height:30px;*/
+    	/*width:100%;*/
+    	/*padding-left:20px;*/
+    	/*background:#05bf73;*/
+  	/*}*/
+	   .header{
+		   font-size: 16px;
+		   font-weight: bold;
+		   color:#00A878;
+		   height:30px;
+		   padding:0 10px;
+		   background-color: #f9fdf1;
+		   position: absolute;
+		   top:-15px;
+		   left: 40%;
+		   margin-left: -40px;
+		   width: 100px;
+	   }
+  	.k-grid-header .k-header {
+  		color: #47B139;
+    	font-weight: bold;
+  		background: none repeat scroll 0 0 #F5F5F5;
+  	}
+    ._previewFieldset legend span{
+      	font-size: 1.2em;
+      	font-weight: bolder;
+      	letter-spacing: 5px;
+      }
+      ._previewFieldset {
+        color: #05bf73;
+    }
+    span.k-datepicker{
+    	width:138px;
+    }
+	   .deleteBtn{
+		   position: absolute;
+		   width: 16px;
+		   height: 16px;
+		   line-height: 16px;
+		   font-size: 12px;
+		   cursor: pointer;
+		   top: 0;
+		   right: 0;
+		   border: 1px solid #ccc;
+		   text-align:center;
+		   color: red;
+	   }
+	div.div-td div,div.div-td1,#bu_dis_code_title{color:#00A878;}
+	div.div-td-value span,div.div-td1 span{color:#787878;}
+	#upload_logo_files_div span,#upload_license_files_div span,#upload_orgnization_files_div span,
+	#upload_distribution_files_div span{color:#fff;}
+</style>
+</head>
+<body id="home">
+			
+            <div class="fixfooter wi800 fl mt20"> 
+               <div class="fullview page_title mt50 wper100 ml20" id="status_bar"> 当前位置：<span id="fromFlag">我的企业 >> 基本信息</span></div>
+             <div id="Swi_A" class=" none ">
+             <div class="wper100 mt15">
+                <!--======row m120===开始====00A878====-->
+                  <div class="row ml20">
+
+					  <div>
+						  <div style="float:right" >
+							  <button id="backBtn" class="k-button inputbtn"><span class="k-icon k-save"></span><span class="ui-button-text">返回</span></button>
+						  </div>
+					  </div>
+
+                       <!--=========tabstrip=============开始==================-->
+					   <div id="tabstrip" style="border-color:#00A878;margin-bottom:100px;background-color: #f9fdf1;">
+						  <ul>
+							  <li id="tab1" style="background-color: #f9fdf1;border-top: 0px solid #00A878;border-right: 1px solid #ccc;border-left: 1px solid #00A878;"><strong><font  style="font-size:16px;">企业基本信息</font></strong></li>
+							  <li style="background-color: #f9fdf1;border-top: 0px solid #00A878;border-right: 1px solid #00A878;border-left: 1px solid #00A878;"><strong><font  style="font-size:16px;">证照信息</font></strong></li>
+							  <li style="background-color: #f9fdf1;border-top: 0px solid #00A878;border-right: 1px solid #00A878;border-left: 1px solid #00A878;"><strong><font  style="font-size:16px;">规模信息</font></strong></li>
+							  <li style="background-color: #f9fdf1;border-top: 0px solid #00A878;border-right: 1px solid #00A878;border-left: 1px solid #00A878;"><strong><font  style="font-size:16px;">设备信息</font></strong></li>
+						  </ul>
+
+                         <!--==================企业基本信息===========开始==================-->
+						   <div style="background-color: #f9fdf1;border: 1px solid #00A878;">
+							  <div  style="border: 1px solid #00A878;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;">
+								  <div class="header">
+									  <span>企业LOGO</span>
+								  </div>
+										  <fieldset class="_previewFieldset" style="padding: 0 10px">
+											  <div class="div-tr">
+												  <div class="div-td">
+													  <div class="div-td-shortname"><label for="name">企业简介：</label><font class="necessary"></font></div>
+													  <div class="div-td-value">
+														  <textarea id="product_about" name="product_about" class="my-textbox" style=" width:280px" placeholder="请限制在2000字以内"></textarea>
+													  </div>
+												  </div>
+												  <div class="div-td">
+													  <div class="div-td-shortname"><label for="website">企业官网：</label><font class="necessary"></font></div>
+													  <div class="div-td-value">
+														  <input type="text" id="website" name="official_website" class="my-textbox" />
+													  </div>
+												  </div>
+											  </div>
+
+											  <div id="upload_logo_files_img_e" style="display: none;">
+											  <div class="div-tr">
+												  <div class="div-td">
+													  <label id="upload_logo_files_log" style="font-size: 12px;color:red;">
+														  建议不超过1M,支持png,bmp,jpeg,jpg格式.
+													  </label>
+												  </div>
+											  </div>
+											  <div class="div-tr">
+												  <div class="div-td">
+													  <div id="upload_logo_files_div">
+														  <!-- <input type="file" id="upload_logo_files"/> -->
+													  </div>
+												  </div>
+											  </div>
+											  </div>
+											  <div id="upload_logo_files_img_s">
+												  <div id="upload_logo_files_img"></div>
+											  </div>
+										  </fieldset>
+							  </div>
+
+
+							  <div  style="border: 1px solid #00A878;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;">
+									  <div class="header"  style="width: 120px;"><span>企业基本信息</span></div>
+										  <fieldset class="_previewFieldset" style="padding: 0 10px">
+											  <div class="div-tr">
+												  <div class="div-td">
+													  <div class="div-td-name"><label for="name">企业名称：</label><font class="necessary">*</font></div>
+													  <div class="div-td-value">
+														  <input type="hidden" id="id" name="id" value=""/>
+														  <input type="text" id="name" name="name" class="my-textbox" value="" required validationMessage="不能为空"/>
+														  <span id = "isExist" class="necessary"></span>
+													  </div>
+												  </div>
+												  <div class="div-td">
+													  <div class="div-td-name"><label for="personInCharge">法定代表人：</label><font class="necessary">*</font></div>
+													  <div class="div-td-value">
+														  <input type="text" id="personInCharge" name="personInCharge" class="my-textbox" required validationMessage="不能为空"/>
+													  </div>
+												  </div>
+											  </div>
+											  <div class="div-tr">
+												  <div class="div-td">
+													  <div class="div-td-name"><label for="address">企业地址：</label><font class="necessary">*</font></div>
+													  <div class="div-td-value">
+														  <input id="bus_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:120px;"
+																 class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationMessage="不能为空"/>
+														  <label>街道地址</label>
+														  <input id="bus_streetAddress" type="text" class="my-textbox" style="width:100px;" required validationMessage="不能为空"/>
+													  </div>
+												  </div>
+												  <div class="div-td">
+													  <div class="div-td-name"><label for="email">邮箱：</label><font class="necessary">*</font></div>
+													  <div class="div-td-value"><input type="text" id="email" name="email" class="my-textbox" required validationMessage="不能为空"/></div>
+												  </div>
+											  </div>
+											  <div class="div-tr">
+												  <div class="div-td">
+													  <div class="div-td-name"><label for="contact">联系人：</label></div>
+													  <div class="div-td-value"><input type="text" id="contact" name="contact" class="my-textbox" /></div>
+												  </div>
+												  <div class="div-td">
+													  <div class="div-td-name"><label for="postalCode">邮政编码：</label></div>
+													  <div class="div-td-value"><input type="text" id="postalCode" name="postalCode" class="my-textbox" />
+													  </div>
+												  </div>
+											  </div>
+											  <div class="div-tr">
+												  <div class="div-td">
+													  <div class="div-td-name"><label for="telephone">联系电话：</label></div>
+													  <div class="div-td-value"><input type="text" id="telephone" name="telephone" class="my-textbox" />
+													  </div>
+												  </div>
+												  <div class="div-td">
+													  <div class="div-td-name"><label for="fax">传真：</label></div>
+													  <div class="div-td-value"><input type="text" id="fax" name="fax" class="my-textbox" /></div>
+												  </div>
+											  </div>
+										  </fieldset>
+							  </div>
+
+								  <!--</div>-->
+								  <!--</div>-->
+								  <div>
+									  <div  style="margin-bottom:5px; margin-top:10px;margin-left: 40%;">
+										  <div class="div-td">
+											  <button class="k-button inputbtn" id="saveBasic"><span class="k-icon k-save"></span><span class="ui-button-text" >保存</span></button>
+											  <!-- <button class="k-button gzlt-div inputbtn" id="upload"><span class="k-icon k-update"></span><span class="ui-button-text" >上传企业信息</span></button> -->
+										  </div>
+									  </div>
+									  <div id="msg_success" class="msg success"  style="margin-left: 0px; padding-top: 2%;"></div>
+								  </div>
+						   </div>
+						   <!--==================企业基本信息===========接受==================-->
+
+						  <!--===============证照信息=======================结束=======================-->
+						   <div style="background-color: #f9fdf1;border: 1px solid #00A878;">
+
+							   <div  style="border: 1px solid #00A878;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;">
+							    <div class="header border-radiustop4" style="width: 118px;">营业执照信息</div>
+								  <fieldset class="_previewFieldset" style="padding: 0 10px">
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="licenseNo">营业执照注册号：</label><font class="necessary">*</font></div>
+											  <div class="div-td-value">
+												  <input type="text" id="licenseNo" name="licenseNo" class="my-textbox"/>
+												  <span id = "isLicenseNo" class="necessary"></span>
+											  </div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="licenseName">经营主体名称：</label><font class="necessary">*</font></div>
+											  <div class="div-td-value">
+												  <input type="text" id="licenseName" class="my-textbox" required validationMessage="不能为空"/>
+											  </div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="legalName">法人代表(负责人)：</label><font class="necessary">*</font></div>
+											  <div class="div-td-value">
+												  <input type="text" id="legalName" class="my-textbox" required validationMessage="不能为空"/>
+											  </div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="licenseTime">有效期限：</label><font class="necessary">*</font></div>
+											  <div class="div-td-value">
+												  <input type="text" id="licenseStartTime" placeholder="如:2014-01-01" required validationMessage="不能为空"/>
+												  <input type="hidden" id="test_time_format" value="" style="display:none;"/>
+												  至
+												  <input type="text" id="licenseEndTime" placeholder="如:2014-01-01" required validationMessage="不能为空"/>
+											  </div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="registrationTime">注册时间：</label></div>
+											  <div class="div-td-value">
+												  <input type="text" id="registrationTime" placeholder="如:2014-01-01"/>
+											  </div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="issuingAuthority">发照机关：</label></div>
+											  <div class="div-td-value">
+												  <input type="text" id="issuingAuthority" class="my-textbox"/>
+											  </div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="subjectType">主体类型：</label></div>
+											  <div class="div-td-value">
+												  <input type="text" id="subjectType" class="my-textbox"/>
+											  </div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="businessAddress">经营场所：</label><font class="necessary">*</font></div>
+											  <div class="div-td-value">
+												  <input id="license_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:120px;"
+														 class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationMessage="不能为空"/>
+												  <label>街道地址</label>
+												  <input id="license_streetAddress" class="my-textbox" style="width:100px;" required validationMessage="不能为空"/>
+											  </div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="toleranceRange">许可范围：</label></div>
+											  <div class="div-td-value">
+												  <input type="text" id="toleranceRange" class="my-textbox"/>
+											  </div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="registeredCapital">注册资金：</label></div>
+											  <div class="div-td-value">
+												  <input type="text" id="registeredCapital" class="my-textbox"/>
+											  </div>
+										  </div>
+									  </div>
+
+									  <div id="upload_license_files_img_e">
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-value">
+												  <div class="div-tr">
+													  <label id="upload_license_files_log" style="font-size: 12px;color:red;">
+														  建议不超过1M,支持png,bmp,jpeg,jpg格式.
+													  </label>
+												  </div>
+												  <div id="upload_license_files_div">
+													  <!-- <input type="file" id="upload_license_files"/> -->
+												  </div>
+											  </div>
+										  </div>
+									  </div>
+									  <!--<div class="div-tr">-->
+										  <!--<div class="div-td">-->
+											  <!--<div class="div-td">-->
+												  <!--<div id="logListView">-->
+													  <!--<button id="btn_clearLicenseFiles" class='k-button'><span data-fsn-text="empty"></span></button>-->
+													  <!--<div id="licenseAttachmentsListView"></div>-->
+												  <!--</div>-->
+											  <!--</div>-->
+										  <!--</div>-->
+									  <!--</div>-->
+									  </div>
+									  <div id="upload_license_files_img_s">
+										  <div id="upload_license_files_img"></div>
+									  </div>
+								  </fieldset>
+							  </div>
+
+							   <div  style="border: 1px solid #00A878;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;">
+
+							    <div class="header border-radiustop4" style="width: 150px;">组织机构代码证件</div>
+								  <fieldset class="_previewFieldset" style="padding: 0 10px">
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="orgCode">组织机构代码：</label></div>
+											  <div class="div-td-value"><input type="text" id="orgCode" name="orgCode" class="my-textbox"/></div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="orgCode">有效期限：</label></div>
+											  <input type="text" id="orgStartTime" placeholder="如:2014-01-01" />
+											  至
+											  <input type="text" id="orgEndTime" placeholder="如:2014-01-01" />
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="orgName">组织机构名称：</label></div>
+											  <div class="div-td-value"><input type="text" id="orgName" class="my-textbox"/></div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="unitsAwarded">颁发单位：</label></div>
+											  <div class="div-td-value"><input type="text" id="unitsAwarded" class="my-textbox" /></div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="orgType">组织机构类型：</label></div>
+											  <div class="div-td-value"><input type="text" id="orgType" class="my-textbox" /></div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="orgAddress">组织机构地址：</label></div>
+											  <input id="org_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:120px;"
+													 class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2"/>
+											  <label>街道地址</label>
+											  <input id="org_streetAddress" class="my-textbox" style="width:100px;"/>
+										  </div>
+									  </div>
+									  <div id="upload_orgnization_files_img_e">
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-value">
+												  <div class="div-tr">
+													  <label id="upload_orgnization_files_log" style="font-size: 12px;color:red;">
+														  (注意:为保证更流畅的体验，建议每次上传照片不超过1M！ 可支持文件格式：png .bmp .jpeg .jpg )
+													  </label>
+												  </div>
+												  <div id="upload_orgnization_files_div">
+													  <!-- <input type="file" id="upload_orgnization_files"/> -->
+												  </div>
+											  </div>
+											  <!--<div class="div-td">-->
+												  <!--<div id="logListView">-->
+													  <!--<button id="btn_clearOrgFiles" class='k-button'><span data-fsn-text="empty"></span></button>-->
+													  <!--<div id="orgAttachmentsListView"></div>-->
+												  <!--</div>-->
+											  <!--</div>-->
+										  </div>
+									  </div>
+									  </div>
+									  <div id="upload_orgnization_files_img_s">
+										<div id="upload_orgnization_files_img"></div>
+									  </div>
+								  </fieldset>
+							  </div>
+
+							   <div  style="border: 1px solid #00A878;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;">
+
+							    <div class="header border-radiustop4" style="width: 165px;"><span id="header_dishs_title"></span></div>
+								  <fieldset class="_previewFieldset" style="padding: 0 10px; ">
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-longname"><label for="distributionNo" id="distributionNo_title"></label><font class="necessary">*</font></div>
+											  <div class="div-td-shortvalue"><input type="text" id="distributionNo" class="my-textbox" style="width:285px;" required validationMessage="不能为空"/></div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="licensingAuthority">许可机关：</label></div>
+											  <div class="div-td-value"><input type="text" id="licensingAuthority" class="my-textbox"/></div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="distributionName">名称：</label><font class="necessary">*</font></div>
+											  <div class="div-td-value"><input type="text" id="distributionName" class="my-textbox" required validationMessage="不能为空"/></div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="orgCode">有效期限：</label><font class="necessary">*</font></div>
+											  <input type="text" id="disStartTime" placeholder="如:2014-01-01" required validationMessage="不能为空"/>
+											  至
+											  <input type="text" id="disEndTime" placeholder="如:2014-01-01" required validationMessage="不能为空"/>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="disSubjectType">主体类型：</label></div>
+											  <div class="div-td-value"><input type="text" id="disSubjectType" class="my-textbox"/></div>
+										  </div>
+										  <div class="div-td">
+											  <div class="div-td-name-s"><label for="disAddress">经营场所：</label><font class="necessary">*</font></div>
+											  <div class="div-td-value">
+												  <input id="dis_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:120px;"
+														 class="my-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required validationMessage="不能为空"/>
+												  <label>街道地址</label>
+												  <input id="dis_streetAddress" class="my-textbox" style="width:100px;" required validationMessage="不能为空"/>
+											  </div>
+										  </div>
+									  </div>
+									  <!-- <div class="div-tr">
+                                        <div class="div-td disToleranceRange">
+                                            <div class="div-td-name"><label for="disToleranceRange">许可范围：</label></div>
+                                            <div class="div-td-value"><input type="text" id="disToleranceRange" class="my-textbox"/></div>
+                                        </div>
+                                        <div class="div-td gzlt-div">
+                                            <div class="div-td-name"><label>换证情况：</label><font class="necessary">*</font></div>
+                                            <div class="div-td-value"><input type="text" id="permitLicenseChange" class="my-textbox"/></div>
+                                        </div>
+                                    </div> -->
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-name"><label for="disLegalName">负责人：</label><font class="necessary">*</font></div>
+											  <div class="div-td-value"><input type="text" id="disLegalName" class="my-textbox" required validationMessage="不能为空"/></div>
+										  </div>
+										  <!--  <div class="div-td">
+                                                <div class="div-td-name-s"><label>许可时间:</label></div>
+                                                <div class="div-td-value"><input type="text" id="licenseDate" /></div>
+                                            </div> -->
+									  </div>
+									  <!-- <div class="div-tr gzlt-div">
+                                        <div class="div-td">
+                                            <div class="div-td-name"><label for="busRunType">经营方式：</label></div>
+                                            <div class="div-td-value"><input type="text" id="busRunType" class="my-textbox"/></div>
+                                        </div>
+                                        <div class="div-td">
+                                            <div class="div-td-name-s"><label for="busRunProject">经营项目：</label></div>
+                                            <div class="div-td-value"><input type="text" id="busRunProject" class="my-textbox" /></div>
+                                        </div>
+                                    </div> -->
+									  <div id="upload_distribution_files_img_e">
+									  <div class="div-tr">
+										  <div class="div-td">
+											  <div class="div-td-value">
+												  <div class="div-tr ">
+													  <label id="upload_distribution_files_log" style="font-size: 12px;color:red;">
+														  建议不超过1M,支持png,bmp,jpeg,jpg格式.
+													  </label>
+												  </div>
+												  <div id="upload_distribution_files_div">
+													  <!-- <input type="file" id="upload_distribution_files"/> -->
+												  </div>
+											  </div>
+										  </div>
+									  </div>
+									  <!--<div class="div-tr">-->
+										  <!--<div class="div-td">-->
+											  <!--<div id="disListView">-->
+												  <!--<button id="btn_clearDisFiles" class='k-button' style='display: flex;'><span data-fsn-text="empty"></span></button>-->
+												  <!--<div id="disAttachmentsListView"></div>-->
+											  <!--</div>-->
+										  <!--</div>-->
+									  <!--</div>-->
+									  </div>
+									  <div id="upload_distribution_files_img_s">
+										  <div id="upload_distribution_files_img"></div>
+									  </div>
+								  </fieldset>
+							  </div>
+
+							   <div>
+								   <div style="margin-bottom:5px; margin-top:10px;margin-left: 40%;">
+									   <div class="div-td">
+										   <button class="k-button inputbtn" id="saveLicense"><span class="k-icon k-save"></span><span class="ui-button-text" >保存</span></button>
+										   <!-- <button class="k-button gzlt-div inputbtn" id="upload"><span class="k-icon k-update"></span><span class="ui-button-text" >上传企业信息</span></button> -->
+									   </div>
+								   </div>
+								   <div id="msg_success" class="msg success"  style="margin-left: 0px; padding-top: 2%;"></div>
+							   </div>
+						   </div>
+						  <!--===============证照信息=======================结束=======================-->
+
+						   <div style="background-color: #f9fdf1;border: 1px solid #00A878;float: left;">
+
+							   <div style="border: 1px solid #00A878;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;">
+								   <div class="header">
+									   <span>规模信息</span>
+								   </div>
+								   <fieldset style="padding: 0 10px;position: relative">
+									   <div style="width: auto;padding-bottom:50px;">
+										   <input type="hidden" id="operate_id">
+
+										   <div class="div-tr">
+											   <div class="div-td">
+												   <div class="div-td-name" style="width: 140px;">
+													   <label for="operateType">经营类型：</label>
+													   <font class="necessary">*</font>
+												   </div>
+												   <div class="div-td-value">
+													   <label id="operateType_title"></label>
+													   <input type="hidden" id="operateType" name="operateType" class="k-textbox" />
+
+												   </div>
+											   </div>
+										   </div>
+
+
+										   <div class="div-tr">
+											   <div class="div-td">
+												   <div class="div-td-name" style="width: 140px;">
+													   <label id="operateScope_title">经营规模：</label>
+													   <font class="necessary">*</font>
+												   </div>
+												   <div class="div-td-value">
+													   <label id="operateScope1_tit"></label>
+													   <input type="hidden" id="operateScope1"/>
+													   <!--<select id ="operateScope" style="width:300px;"  placeholder="请选择...">-->
+													   <!--<option value="">请选择</option>-->
+													   <!--<option value="大型">大型</option>-->
+													   <!--<option value="中型">中型</option>-->
+													   <!--<option value="小型">小型</option>-->
+													   <!--</select>-->
+												   </div>
+											   </div>
+										   </div>
+										   <div class="div-tr">
+											   <div class="div-td">
+												   <div class="div-td-name" style="width: 140px;">
+													   <label for="personCount">企业人数：</label>
+													   <font class="necessary">*</font>
+												   </div>
+												   <div class="div-td-value">
+													   <input type="text" id="personCount" class="k-textbox" required="" validationmessage="不能为空"  onkeyup="value=value.replace(/[^\d]/g,'')" />
+												   </div>
+											   </div>
+										   </div>
+
+										   <div class="div-tr">
+											   <div class="div-td">
+												   <div class="div-td-name" style="width: 140px;">
+													   <label for="operateSeat">就餐座位数：</label>
+												   </div>
+												   <div class="div-td-value">
+													   <input type="text" id="operateSeat" name="operateType" class="k-textbox" />
+
+												   </div>
+											   </div>
+										   </div>
+										   <div class="div-tr">
+											   <div class="div-td">
+												   <div class="div-td-name" style="width: 140px;">
+													   <label for="floorArea">占地面积：</label>
+													   <font class="necessary">*</font>
+												   </div>
+												   <div class="div-td-value">
+													   <input type="text" id="floorArea" class="k-textbox" required="" validationmessage="不能为空" />
+												   </div>
+											   </div>
+										   </div>
+										   <div align="center">
+											   <button class="k-button inputbtn" id="submitOperateInfo">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
+											   <button class="k-button inputbtn" onclick="fsn.facility.cleanOperateInfo()">重置</button>
+										   </div>
+									   </div>
+									   <!--<div style="width:auto;height: auto;top: 0;right: 0;position: absolute;width: 52%;color:#787878;">-->
+										   <!--<button onclick="fsn.business_unit.changeCarering(0)" class="k-button k-button inputbtn">餐饮服务经营者 </button>-->
+										   <!--<button onclick="fsn.business_unit.changeCarering(1)" class="k-button k-button inputbtn">单位食堂</button>-->
+										   <!--<div style="border: 1px solid #ccc;border-radius: 5px;position: relative;padding-right: 2px;padding-top: 2px;margin-top: 2px;margin-right: 10px;">-->
+
+										   <!--<div class="header" style="padding: 0 10px;position: relative;width:450px;margin-left: -15px;left: 30px;font-size: 12px; color:#787878;">-->
+										   <!--<span>根据国家《统计上大中小型企业规分办法(暂行)》（国统字[2003]17号），工业企业规模划分标准为：</span>-->
+										   <!--</div>-->
+										   <!--<table cellpadding="1" cellspacing="1" border="1" style="text-align: center">-->
+										   <!--<tr style="height: 28px;">-->
+										   <!--<td style="width: 155px;">指标</td> <td style="width: 155px;">单位</td><td style="width: 155px;">大型</td><td style="width: 155px;">中型</td><td style="width: 155px;">小型</td>-->
+										   <!--</tr>-->
+										   <!--<tr style="height: 28px;">-->
+										   <!--<td>从业人数</td> <td>人</td><td>2000以上</td><td>300~2000</td><td >300以下</td>-->
+										   <!--</tr>-->
+										   <!--<tr style="height: 28px;">-->
+										   <!--<td >销售额</td> <td >万元</td><td >30000以上</td><td >3000~30000</td><td >3000以下</td>-->
+										   <!--</tr>-->
+										   <!--<tr style="height: 28px;">-->
+										   <!--<td >产值总数</td> <td >万元</td><td >40000以上</td><td >4000~40000</td><td >4000以下</td>-->
+										   <!--</tr>-->
+										   <!--<tr style="height: 28px;">-->
+										   <!--<td style="width:auto;" colspan="5">大型和中型企业须同时满足所列各项条件的下限指标，否则下划一档。</td>-->
+										   <!--</tr>-->
+
+										   <!--</table>-->
+										   <!--</div>-->
+
+									   <!--</div>-->
+								   </fieldset>
+							   </div>
+
+
+
+						   </div>
+
+
+
+						   <div style="background-color: #f9fdf1;border: 1px solid #00A878;float: left;">
+
+
+							   <div id="facility_id" style="border: 1px solid #00A878;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;display: none">
+								   <div class="header">
+									   设备信息
+								   </div>
+								   <fieldset style="margin: 0 20px 20px 20px;padding-top: 10px;text-indent: 2em;">
+									   <label for="facilityName">名称：</label>
+									   <input type="text" id="facilityName" class="k-textbox"/>
+									   <button class="k-button k-button inputbtn" onclick="fsn.facility.facility_dataSource()">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
+									   <button class="k-button k-button inputbtn" onclick="fsn.facility.cleanInfo()">重置</button>&nbsp;&nbsp;&nbsp;&nbsp;
+									   <button class="k-button k-button inputbtn" onclick="fsn.facility.addFacilityInfo(0,0)">新增</button>&nbsp;&nbsp;&nbsp;&nbsp;
+								   </fieldset>
+								   <div id="FACILITY_INVENTORY_GRID"></div>
+
+							   </div>
+
+							   <div id="maintenance_id" style="border: 1px solid #00A878;border-radius: 5px;position: relative;padding-top: 20px;margin-top: 40px;display: none">
+								   <div class="header">
+									   养护记录
+								   </div>
+								   <input id="m_facility_id" type="hidden"/>
+								   <fieldset style="margin: 20px 20px 20px 20px;padding-top: 10px;ext-indent: 2em;">
+
+									   <label for="maintenanceTime">&nbsp;&nbsp;&nbsp;&nbsp;养护时间：</label>
+									   <input id="date_temp" type="hidden" > <span id="date_temp_s" style="display: none" ></span>
+									   <input type="text" id="maintenanceTime"   placeholder="例如：2016-01-01"/>
+									   <button class="k-button inputbtn" onclick="fsn.facility.facility_dataSource($('#m_facility_id').val())">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
+									   <button class="k-button inputbtn" onclick="fsn.facility.addMaintenanceInfo(0,0)">新增</button>&nbsp;&nbsp;&nbsp;&nbsp;
+									   <button class="k-button inputbtn" onclick="fsn.facility.cleanInfo()">重置</button>&nbsp;&nbsp;&nbsp;&nbsp;
+									   <button class="k-button inputbtn" onclick="fsn.facility.back_FacilityInfo()">返回</button>&nbsp;&nbsp;&nbsp;&nbsp;
+								   </fieldset>
+								   <div id="MAINTENANCE_RECORD_GRID"></div>
+							   </div>
+
+
+
+						   </div>
+
+
+					   </div>
+					  <!--=========tabstrip=============结束==================-->
+
+    	          </div>
+				 <!--======row m120===结束========-->
+
+
+			</div>
+		</div>
+		
+		<div id="Swi_B" class="  " style="height:650px;">
+    		 <div class="wper100 mt15"> 
+                  <div class="row ml20">
+					  <!--<div id="tabstrip2" style="border-color:#00A878;margin-bottom:100px;background-color: #f9fdf1;float: left;">-->
+						  <!--<ul>-->
+							  <!--<li id="tab2">基本信息</li>-->
+							  <!--<li>规模信息</li>-->
+							  <!--<li>设备信息</li>-->
+						  <!--</ul>-->
+
+                          <!--<div style="background-color: #f9fdf1;border: 1px solid #00A878;float: left;">-->
+
+									  <div><span id ="buName" style="color:#00A878;font-size:20px" ></span>
+										  <div style="float:right">
+											  <button id="editBtn" class="k-button inputbtn"><span class="k-icon k-save"></span><span class="ui-button-text">编辑信息</span></button>
+										  </div>
+									  </div>
+									  <br/>
+                                     <div>
+									  <!--<div class="w mgn_center">-->
+										  <div class=" w146 h146 in-block fl">
+											  <img id="logo_img" width="100px" height="100px" src="">
+										  </div>
+										  <div class=" w686 in-block fl ml30" id="bu_about" style="word-warp:break-word;word-break:break-all"> </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td1">
+											  <div class="">
+
+											  </div>
+											  <div class="div-td-value">
+
+											  </div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td" style="line-height:9px;font-size:14px;">
+											  <!-- <div class="">
+                                                地    址：
+                                            </div> -->
+											  <div class="div-td-value">
+												  <div>地    址：<span id="bu_address"></span></div>
+											  </div>
+										  </div>
+										  <div class="div-td" style="line-height:9px;font-size:14px;">
+											  <div class="">
+												  法定代表人：
+											  </div>
+											  <div class="div-td-value">
+												  <div><span id="bu_legalName"></span></div>
+											  </div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td" style="line-height:9px;font-size:14px;">
+											  <div class="">
+												  邮    编：
+											  </div>
+											  <div class="div-td-value">
+												  <div><span id="bu_postcode"></span></div>
+											  </div>
+										  </div>
+										  <div class="div-td" style="line-height:9px;font-size:14px;">
+											  <div class="">
+												  传    真：
+											  </div>
+											  <div class="div-td-value">
+												  <div><span id="bu_fax"></span></div>
+											  </div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div class="div-td" style="line-height:9px;font-size:14px;">
+											  <div class="">
+												  电    话：
+											  </div>
+											  <div class="div-td-value">
+												  <div><span id="bu_phone"></span></div>
+											  </div>
+										  </div>
+										  <div class="div-td" style="line-height:9px;font-size:14px;">
+											  <div class="">
+												  企业官网：
+											  </div>
+											  <div class="div-td-value">
+												  <div><span id="bu_website"></span></div>
+											  </div>
+										  </div>
+									  </div>
+
+									  <div class="div-tr">
+										  <div class="div-td1">
+											  <div class="">
+
+											  </div>
+											  <div class="div-td-value">
+
+											  </div>
+										  </div>
+									  </div>
+									  <div class="div-tr">
+										  <div><span  style="color:#00A878;font-size:20px" >证件信息</span></div>
+									  </div>
+
+
+									  <!--<div class="">-->
+										  <div style="width:33%;margin:1px auto;float:left">
+											  <div style="height:120px;margin-bottom:15px;">
+												  <!--<a id="bu_lic_a" target="_blank" href="#">-->
+												  <img id="bu_lic_img" style="height:120px;vertical-align:middle;text-align:center;" src="">
+												  <!--</a>-->
+											  </div>
+											  <div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
+												  <div class="div-td1" style="font-size:14px;word-warp:break-word;word-break:break-all">
+													  营业执照注册号：<span id="bu_lic_no" style="line-height:16px"></span>
+												  </div>
+											  </div>
+											  <div class="div-tr1">
+												  <div class="div-td1" style="line-height:9px;font-size:14px;">
+													  法人代表：<span id="bu_lic_disLegalName"></span>
+												  </div>
+											  </div>
+											  <div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
+												  <div class="div-td1" style="font-size:14px;word-warp:break-word;word-break:break-all">
+													  经营场所：<span id="bu_lic_disAddress" style="line-height:15px"></span>
+												  </div>
+											  </div>
+											  <div class="div-tr1">
+												  <div class="div-td1" style="line-height:9px;font-size:14px;">
+													  有效期限：<span id="bu_lic_expiry"></span>
+												  </div>
+											  </div>
+										  </div>
+										  <div style="width:33%;margin:1px auto;float:left;">
+											  <div style="height:120px;margin-bottom:15px;">
+												  <!--<a  id="bu_org_a" target="_blank" href="#">-->
+												  <img id="bu_org_img" style="height:120px;vertical-align:middle;text-align:center;" src="">
+												  <!--</a>-->
+											  </div>
+											  <div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
+												  <div class="div-td1" style="font-size:14px;">
+													  组织机构代码：<span id="bu_org_code" style="line-height:16px;"></span>
+												  </div>
+											  </div>
+											  <div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
+												  <div class="div-td1" style="font-size:14px;word-warp:break-word;word-break:break-all">
+													  组织机构名称：<span id="bu_org_name" style="line-height:18px"></span>
+												  </div>
+											  </div>
+											  <div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
+												  <div class="div-td1" style="font-size:14px;word-warp:break-word;word-break:break-all">
+													  组织机构地址：<span id="bu_org_address" style="line-height:15px"></span>
+												  </div>
+											  </div>
+											  <div class="div-tr1">
+												  <div class="div-td1" style="line-height:9px;font-size:14px;">
+													  有效期限：<span id="bu_org_expiry"></span>
+												  </div>
+											  </div>
+										  </div>
+										  <div style="width:33%;margin:1px auto;float:left;" id="dis">
+											  <div style="height:120px;margin-bottom:15px;">
+												  <!--<a  id="bu_dis_a" target="_blank" href="#">-->
+												  <img id="bu_dis_img" style="height:120px;vertical-align:middle;" src="">
+												  <!--</a>-->
+											  </div>
+											  <div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
+												  <div class="div-td1" style="font-size:14px;word-warp:break-word;word-break:break-all">
+													  <span id="bu_dis_code_title" style="line-height:18px"></span><span id="bu_dis_code" style="line-height:18px"></span>
+												  </div>
+											  </div>
+											  <div class="div-tr1" style="padding-bottom: 4px; margin-top:2px;">
+												  <div class="div-td1" style="font-size:14px;">
+													  名称：<span id="bu_dis_name" style="line-height:15px"></span>
+												  </div>
+											  </div>
+											  <div class="div-tr1">
+												  <div class="div-td1" style="line-height:9px;font-size:14px;">
+													  负责人：<span id="bu_dis_disLegalName"></span>
+												  </div>
+											  </div>
+											  <div class="div-tr1">
+												  <div class="div-td1" style="line-height:9px;font-size:14px;">
+													  有效期限：<span id="bu_dis_expiry"></span>
+												  </div>
+											  </div>
+										  </div>
+									  <!--</div>-->
+							  <!--<br><br>-->
+							  <!--<br><br>-->
+						  <!--</div>-->
+
+
+
+					 <!--</div>-->
+
+
+					  <!-- ========新增设备信息=====开始======-->
+					  <div id ="ADDFACILITYINFO_WIN">
+						  <fieldset style="border:1px solid #05BF73;padding: 10px 10px">
+							  <input id="facilityInfo_id" type="hidden"/>
+							  <label for="facilityName">设备名称：</label>
+							  <font class="necessary">*</font>
+							  <input type="text" id="facility_Name" name="facilityName" class="k-textbox" />
+
+							  <label for="manufacturer">生产厂家：</label>
+							  <font class="necessary">*</font>
+							  <input type="text" id="manufacturer" name="manufacturer" class="k-textbox" /><br><br>
+
+							  <label for="facilityCount">设备数量：</label>
+							  <font class="necessary">*</font>
+							  <input type="text" id="facilityCount" name="facilityCount" class="k-textbox" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+
+							  <label for="facilityType">设备型号：</label>
+							  <font class="necessary">*</font>
+							  <input type="text" id="facilityType" name="facilityType" class="k-textbox" /><br><br>
+
+							  <label for="buyingTime" >采购时间：</label>
+							  <font class="necessary">*</font>
+							  <input type="text" id="buyingTime" name="buyingTime" class="k-textbox" placeholder="例如：2016-01-01"/>
+							  <input type="hidden" id="tri_proDate_format" value="" style="display: none;" />
+
+							  <label for="application">设备用途：</label>
+							  <font class="necessary">*</font>
+							  <input type="text" id="application" name="application" class="k-textbox" /><br><br>
+
+							  <label for="remark">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;</label>
+							  <textarea id="remark" name="remark"  cols="58" rows="3"></textarea><br><br>
+							  <div id="upload_facility_files_img_e">
+								  <div id="upload_facility_files_div">
+									  <input type="file" id="upload_facility_files">
+								  </div>
+							  </div>
+							  <div id="upload_facility_files_img_s" style="display: none">
+								  <!--<div style="position: relative;width: 128px;height: 128px;">-->
+								  <!--<img class="imgFiles" id="facilityImg" src="" style="width: 128px;height:128px;"  onclick="fsn.business_unit.amplification(this.src)">-->
+								  <!--<div class="deleteBtn" onclick="fsn.facility.facilityDelImg('facilityImg')">x</div>-->
+								  <!--</div>-->
+								  <br><br>
+							  </div>
+						  </fieldset>
+						  <div align="center">
+							  <button class="k-button inputbtn" id="submitFacilityInfo">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
+							  <button class="k-button inputbtn" onclick="fsn.facility.closeAddFacilityInfo(0)">取消</button>
+						  </div>
+					  </div>
+
+					  <!-- ========新增设备信息=====结束======-->
+
+					  <!-- ========新增养护信息=====开始======-->
+					  <div id ="MAINTENANCEINFO_WIN">
+
+						  <fieldset style="border:1px solid #05BF73;padding: 10px 10px">
+							  <input id="m_id" type="hidden"/>
+							  <label for="maintenanceName">养&nbsp;护&nbsp;人：</label>
+							  <font class="necessary">*</font>
+							  <input type="text" id="maintenanceName" name="maintenanceName" class="k-textbox" /><br><br>
+
+							  <label for="maintenanceTime">养护时间：</label>
+							  <font class="necessary">*</font>
+							  <input type="text" id="m_maintenanceTime" name="maintenanceTime" class="k-textbox" placeholder="例如：2016-01-01"/><br><br>
+
+							  <label for="maintenanceContent">养护内容：</label>
+							  <font class="necessary">*</font>
+							  <input type="text" id="maintenanceContent" name="maintenanceContent" class="k-textbox" /><br><br>
+
+							  <label for="remark">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;</label>
+							  <textarea id="m_remark" name="remark"  cols="30" rows="3"></textarea><br><br>
+
+
+							  <div align="center">
+								  <button class="k-button inputbtn" id="submitMaintenanceInfo">保存</button> &nbsp;&nbsp;&nbsp;&nbsp;
+								  <button class="k-button inputbtn" onclick="fsn.facility.closeAddFacilityInfo(1)">取消</button>
+							  </div>
+						  </fieldset>
+					  </div>
+					  <!-- ========新增养护信息=====结束======-->
+
+
+
+            </div>
+           </div>
+           
+    	</div>
+	</div>
+
+
+
+	<div id="DIV_IMG_WIN" style="display: none;width: 900px;height: 700px" >
+		<div id="slides">
+		</div>
+	</div>
+	<!-- 页面引导 start-->
+	<!--
+	<div style="position:fixed;right:-2em;bottom:50px;width:150px;">
+   		<div onclick="return fsn.startForwMeStep();"><img src="http://qa.fsnrec.com/portal/guid/unit/unit_newintroduce.png" /></div>
+  	</div>
+  	-->
+   <div id="followMeDiv"></div>
+   
+    <div class="stepContent" style="top:80px;">
+   	<div id="followMeStep" style="display:none;">
+   	   	<a name="stp1"></a>
+        <img id="imgs" class="noneStyle"/>
+       	<div style="position:relative;top:-2.7em;left:16.2em;width:73px;height:29px;">
+       		<a class="noneStyle" href="javascript:void(0);" onclick="return fsn.backStep();" title="上一页">
+        		<div style="width:35px;height:29px;color:red;"></div>
+       		</a>
+       </div>
+       <div style="position:relative;top:-4.5em;left:19em;width:73px;height:29px;">
+       		 <a class="noneStyle" href="javascript:void(0);" onclick="return fsn.nextStep();" title="下一页">
+        		<div style="width:35px;height:29px;color:red;"></div>
+       		</a>
+       </div>
+       <div style="position:relative;top:-6.4em;left:21.8em;width:25px;height:20px;">
+       		<a class="noneStyle" href="javascript:void(0);" onclick="return fsn.cancelStep();" title="关闭引导">
+        		<div style="width:35px;height:29px;color:red;"></div>
+       		</a>
+       </div>
+    </div>
+   </div>
+   <!-- 页面引导 end-->
+
+   <!--弹出省省市-->
+    <!-- 弹出地名选择控件 -->
+    <div class="provinceCityAll">
+	  <div class="tabs clearfix">
+	    <ul class="">
+	      <li><a href="javascript:" class="current" tb="hotCityAll">热门城市</a></li>
+	      <li><a href="javascript:" tb="provinceAll">省份</a></li>
+	      <li><a href="javascript:" tb="cityAll" id="cityAll">城市</a></li>
+	      <li><a href="javascript:" tb="countyAll" id="countyAll">区县</a></li>
+	    </ul>
+	  </div>
+	  <div class="con">
+	    <div class="hotCityAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul></ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	    <div class="provinceAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul></ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	    <div class="cityAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul></ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	    <div class="countyAll invis">
+	      <div class="pre"><a></a></div>
+	      <div class="list">
+	        <ul>
+	        </ul>
+	      </div>
+	      <div class="next"><a class="can"></a></div>
+	    </div>
+	  </div>
+	</div>
+
+			<script type="text/x-kendo-tmpl" id="uploadedFilesTemplate">
+												&nbsp;&nbsp;<a href="#= attachments.url #" target="_blank">#:attachments.fileName #</a>
+												<button class="k-button" onclick="return fsn.business_unit.removeRes(#=attachments.id#)">
+												<span class="k-icon k-cancel"></span>删除</button><br><br>
+                 </script>
+			<div id="k_window">
+				<span id="winMsg"></span>
+			</div>
+			<!-- <div id="areaAndOfficeWin">
+                <div id="areaTreeView"></div>
+                <div style="text-align: right;">
+                    <button id="areaOk"><span>确定</span></button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button id="areaCance"><span>取消</span></button>&nbsp;&nbsp;
+                </div>
+            </div> -->
+			<!-- Tree选择窗口 -->
+			<div class="treeWin_div"><div id="areaAndOfficeWin"><div id="listView"></div></div></div>
+			<span id="RETURN_MES" style="display:none;"></span>
+			<script id="errorTemplate" type="text/x-kendo-template">
+				<div class="wrong-pass">
+					<img src="../../resource_new/img/error-icon.png" />
+					<h3 style="width:240px;">#= message #</h3>
+				</div>
+			</script>
+			<script id="successTemplate" type="text/x-kendo-template">
+				<div class="upload-success">
+					<img src="../../resource_new/img/success-icon.png" />
+					<h3 style="width:240px;">#= message #</h3>
+				</div>
+			</script>
+
+</body>
+<script src="../../resource_new/js/city/citypublic.js"></script>
+</html>

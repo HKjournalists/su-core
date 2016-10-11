@@ -6,6 +6,7 @@
 	}
     
     $.extend(true,lims.zh,{
+        "upload_facility_files":"请上传设备信息图片",
     	"Business Unit" : "企业",
     	"Upload File:":"上传文件",
     	"Uploaded Attachments":"附件",
