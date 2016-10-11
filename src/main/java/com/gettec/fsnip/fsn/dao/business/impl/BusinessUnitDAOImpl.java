@@ -1,28 +1,10 @@
 package com.gettec.fsnip.fsn.dao.business.impl;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.persistence.Query;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Repository;
-
 import com.gettec.fsnip.fsn.dao.business.BusinessUnitDAO;
 import com.gettec.fsnip.fsn.dao.common.impl.BaseDAOImpl;
 import com.gettec.fsnip.fsn.exception.DaoException;
 import com.gettec.fsnip.fsn.exception.JPAException;
-import com.gettec.fsnip.fsn.model.business.BusinessUnit;
-import com.gettec.fsnip.fsn.model.business.CirculationPermitInfo;
-import com.gettec.fsnip.fsn.model.business.LicenseInfo;
-import com.gettec.fsnip.fsn.model.business.OrganizingInstitution;
-import com.gettec.fsnip.fsn.model.business.TaxRegisterInfo;
+import com.gettec.fsnip.fsn.model.business.*;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.model.market.ResourceType;
 import com.gettec.fsnip.fsn.util.DateUtil;
@@ -32,6 +14,12 @@ import com.gettec.fsnip.fsn.vo.business.BusinessTreeDetail;
 import com.gettec.fsnip.fsn.vo.erp.BusinessNameVO;
 import com.lhfs.fsn.vo.business.BussinessUnitVOToPortal;
 import com.lhfs.fsn.vo.business.LightBusUnitVO;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
+import java.math.BigInteger;
+import java.util.*;
 
 /**
  * BusinessUnit customized operation implementation
@@ -943,7 +931,7 @@ implements BusinessUnitDAO {
 				LightBusUnitVO vo = new LightBusUnitVO(((BigInteger)obj[0]).longValue(),
 						obj[1]==null?"":obj[1].toString(),obj[2]==null?"":obj[2].toString(),
 								obj[3]==null?"":obj[3].toString(),obj[4]==null?"":obj[4].toString(),
-										obj[5]==null?"":obj[5].toString(),((BigInteger)obj[6]).longValue(),
+										obj[5]==null?"":obj[5].toString(),obj[6]==null?null:((BigInteger)obj[6]).longValue(),
 												(obj[7]!=null||"1".equals(obj[7].toString()))?true:false);
 				return vo;
 			}

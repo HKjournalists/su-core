@@ -82,7 +82,6 @@ $(function(){
 				columns: [{field:"countNum",title:"序号",width:50},
 				          {field:"name",title:"客户名称",width:150},
 				          {field:"lincesNo",title:"营业执照号" ,width:100},
-				          { field:"address",title:"联系地址" ,width:200},
 				          { field:"signFlag",hidden:true, width:100},
 				          {title:"操作",width:100,
 	        			      template:function(e){
@@ -213,7 +212,7 @@ $(function(){
 		        },
 				columns: [{field:"name",title:"客户名称",width:300},
 				          {field:"lincesNo",title:"营业执照号" ,width:200},
-				         // { field:"contact",title:"联系人" ,width:100,filterable:false},
+				          { field:"contact",title:"联系人" ,width:100,filterable:false},
 				          { field:"telephone",title:"联系电话" ,width:100,filterable:false},
 				        {title:"操作",width:220,command:[{name:"ViewDetail",text:"预览",click:fsn.st_customer.views_},
 				                  {name:"edit",text:"编辑",click:fsn.st_customer.addCustomer},
@@ -258,6 +257,7 @@ $(function(){
 	             },
 				data:function(data) {
 					return data.result.listOfModel;
+
 				},
 				total:function(data){
 					var count = data.result.count;
@@ -277,19 +277,17 @@ $(function(){
 	st_customer.views_ = function(e){
 		var tr = $(e.target).closest("tr");
 		var data = this.dataItem(tr);
-		fsn.st_customer.views(data.id,data.name,data.lincesNo,data.diyType.name,data.note,data.address,data.telephone);
+		fsn.st_customer.views(data.id,data.name,data.lincesNo,data.diyType.name,data.note);
 	}
 	//添加或者修改
-	st_customer.addCustomer = function(e,name,lincesNo,address,telephone,typeId,typeName,note,status){
+	st_customer.addCustomer = function(e,name,lincesNo,typeId,typeName,note,status){
 		var addWin = eWidget.getWindow("OPERATION_WIN",st_customer.SIMPLE_MODEL_NAME, common.realObj.win_width == null ? null:common.realObj.win_width);
-		var _id,_name,_lincesNo,_address,_phone,_typeId,_typeName,_note,_type;
+		var _id,_name,_lincesNo,_typeId,_typeName,_note,_type;
 		if(status!=undefined && status == 0){
 			addWin.data("kendoWindow").title(typeName==null||typeName=='null'||typeName==''?"添加成为我的客户":typeName);
 			_id = e;
 			_name=name;
 			_lincesNo = lincesNo;
-			_address=address;
-			_phone=telephone;
 			_typeId = typeId;
 			_typeName = typeName;
 			_note=note;
@@ -301,8 +299,6 @@ $(function(){
 			_id = data.id;
 			_name=data.name;
 			_lincesNo = data.lincesNo;
-			_address=data.address;
-			_phone=data.telephone;
 			_typeId = typeId;
 			_typeName = typeName;
 			_note=data.note;
@@ -311,8 +307,6 @@ $(function(){
 		$("#id").val(_id);
 		$("#name").val(_name);
 		$("#license").val(_lincesNo);
-		$("#address").val(_address);
-		$("#phone").val(_phone);
 		$("#note").val(_note);
 		$("#name").attr("readonly",true);
 		$("#license").attr("readonly",true);
@@ -327,6 +321,12 @@ $(function(){
 
 
 		$("#confirm").bind("click",function(){
+
+            var contacts = st_customer.contactGrid.data("kendoGrid").dataSource.data();
+            if(contacts.length==0){
+                fsn.initNotificationMes("请至少填写一个联系人！",false);
+                return;
+            }
 			var title ="";
 			if(status!=undefined && status == 0){
 				title = "添加成为我的客户吗?";
@@ -355,7 +355,6 @@ $(function(){
 		$("#cancel").bind("click",function(){
 			if(addWin!=null){
 				addWin.data("kendoWindow").close();
-				location.reload();
 			}
 		});
 	};
@@ -407,8 +406,7 @@ $(function(){
 	 */
 
 
-	st_customer.datasource = new kendo.data.DataSource({
-
+	/*st_customer.datasource = new kendo.data.DataSource({
 		transport: {
 			read : {
                 type : "GET",
@@ -458,71 +456,7 @@ $(function(){
         serverPaging : true,
         serverFiltering : true,
         serverSorting : true
-	});
-
-	/**
-	 * 查看供销产品
-	 * @author Zhanghui 2015/4/10
-	 */
-	st_customer.viewproinfo = function(organization, fromBusId, providername){
-	   if(!organization || organization==""){
-		   fsn.initNotificationMes("该企业未注册！", false);
-		   return;
-	   }
-	   /* 校验该供应商下有无当前客户 */
-	   var isExist = st_customer.validatCustomer(fromBusId);
-	   if(!isExist){
-		   fsn.initNotificationMes("检测到您并不是该供应商的客户，无法查看供销产品，确认无误后可删除该供应商！", false);
-		   return;
-	   }
-	   /* 校验该供应商对当前客户有无供销产品 */
-	   isExist = st_customer.validateProduct(fromBusId);
-	   if(!isExist){
-		   fsn.initNotificationMes("检测到该供应商并未给您供应任何产品！", false);
-		   return;
-	   }
-	   /* 打开供销产品界面 */
-	   //window.location.href = "/fsn-core/views/product_new/manage_product_bussiness_super.html?" + fromBusId+"&"+providername;
-	   window.open("/fsn-core/views/product_new/manage_product_bussiness_super.html?" + fromBusId+"&"+providername);
-	};
-
-
-		/**
-	 * 查找当前商超的 总供应商数、总产品数、待处理报告数
-	 * @author ZhangHui 2015/5/1
-	 */
-	/*st_customer.queryCount = function(){
-		if(st_customer.SIMPLE_TYPE != 3){
-			return;
-		}
-
-		var totalOfProduct = 0;
-		var totalOfOnHandReports = 0;
-		var totalOfReports = 0;
-		$.ajax({
-	        url: fsn.getHttpPrefix() + "/report/getCountsOfReports",
-	        type: "GET",
-	        dataType: "json",
-	        async: false,
-	        contentType: "application/json; charset=utf-8",
-	        success: function(returnValue) {
-	            fsn.endTime = new Date();
-	            if (returnValue.result.status == "true") {
-	            	totalOfProduct = returnValue.totalOfProduct;
-	            	totalOfOnHandReports = returnValue.totalOfOnHandReports;
-	            	totalOfReports = returnValue.totalOfReports;
-	            }
-	        }
-	    });
-
-		$("#status_bar").html("当前位置：我的供应商&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-				"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-					"总供应商数：" + st_customer.totalOfDealer + "&nbsp;&nbsp;&nbsp;&nbsp;" +
-					"总产品数：" + totalOfProduct + "&nbsp;&nbsp;&nbsp;&nbsp;" +
-					"总报告数：" + totalOfReports + "&nbsp;&nbsp;&nbsp;&nbsp;" +
-					"待处理报告数：" + totalOfOnHandReports);
-	};*/
-
+	});*/
 	st_customer.initConfirmWindow = function(){
     	var confirmWin = $("#CONFIRM_COMMON_WIN").data("kendoWindow");
     	if(!confirmWin){
