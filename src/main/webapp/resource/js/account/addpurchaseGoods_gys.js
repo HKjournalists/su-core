@@ -726,7 +726,7 @@ $(function() {
     		transport: {
     			read: {
     				url : function(options){
-    					return HTTPPREFIX + "/tzAccount/selectBuyGoodsById/"+ options.page + "/" + options.pageSize + "/" + outId+"?name="+name+"&barcode="+barcode;;
+    					return HTTPPREFIX + "/tzAccount/selectBuyGoodsById/"+ options.page + "/" + options.pageSize + "/" + outId+"?name="+name+"&barcode="+barcode;
     				},
     				dataType : "json",
     				contentType : "application/json"

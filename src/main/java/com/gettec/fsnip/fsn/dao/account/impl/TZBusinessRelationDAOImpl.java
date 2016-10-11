@@ -387,7 +387,7 @@ public class TZBusinessRelationDAOImpl extends
                 "INNER JOIN business_unit u ON u.id=ec.business_id " +
                 "INNER JOIN t_meta_business_diy_type bt ON bt.organization=u.organization AND bt.business_id=ec.customer_id " +
                 "INNER JOIN business_unit b ON b.id=ec.customer_id " +
-                "WHERE u.organization=?1 AND bt.type=2 AND b.type LIKE '%生产企业%' ";
+                "WHERE u.organization=?1 AND bt.type=2  ";
         if(busName != null && !"".equals(busName)){
             sql+=" AND b.name LIKE '%"+busName+"%' " ;
         }
@@ -414,7 +414,7 @@ public class TZBusinessRelationDAOImpl extends
                 "INNER JOIN business_unit u ON u.id=ec.business_id " +
                 "INNER JOIN t_meta_business_diy_type bt ON bt.organization=u.organization AND bt.business_id=ec.customer_id " +
                 "INNER JOIN business_unit b ON b.id=ec.customer_id " +
-                "WHERE u.organization=?1 AND bt.type=2 AND b.type LIKE '%生产企业%' ";
+                "WHERE u.organization=?1 AND bt.type=2  ";
         if(busName != null && !"".equals(busName)){
             sql+=" AND b.name LIKE '%"+busName+"%' " ;
         }
