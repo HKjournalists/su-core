@@ -90,6 +90,17 @@ $(function() {
 			format : "n0",
 			placeholder : "保质期为天数只能为数字"
 		});
+		$("#barcode").kendoNumericTextBox({
+			spinners : false,
+			format : "n0",
+			placeholder : "条形码只能为数字"
+		});
+		//初始化采购数量NumericTextBox控件
+		 $("#procurementNum").kendoNumericTextBox({
+			 spinners: false,
+			 format: "n0",
+			 placeholder: "数量只能为数字"
+        });
 
 	};
 
@@ -285,7 +296,7 @@ $(function() {
 		$("#format").val("");
 		$("#batch").val("");
 		$("#productionName").val("");
-		$("#procurementNum").val();
+		$("#procurementNum").data("kendoNumericTextBox").value("");
 		$("#productionDate").data("kendoDatePicker").value("");
 		$("#procurementDate").data("kendoDatePicker").value("");
 		$("#expiration").data("kendoNumericTextBox").value("");
@@ -317,7 +328,7 @@ $(function() {
 			lims.initNotificationMes('规格不能为空!', false);
 			return;
 		}
-		if ("" == $("#barcode").val().trim()) {
+		if (!$("#barcode").data("kendoNumericTextBox").value()) {
 			lims.initNotificationMes('条形码不能为空', false);
 			return;
 		}
@@ -350,7 +361,7 @@ $(function() {
 			lims.initNotificationMes('保质期不能小于0', false);
 			return;
 		}
-		if ("" == $("#procurementNum").val().trim()) {
+		if (!$("#procurementNum").data("kendoNumericTextBox").value()) {
 			lims.initNotificationMes('数量不能为空!', false);
 			return;
 		}
@@ -378,14 +389,14 @@ $(function() {
 	procurement.openConfirmWin = function() {
 		$("#name_c").html($("#name").val());
 		$("#format_c").html($("#format").val());
-		$("#barcode_c").html($("#barcode").val());
+		$("#barcode_c").html($("#barcode").data("kendoNumericTextBox").value());
 		$("#unit_c").html($("#unit").val());
 		$("#batch_c").html($("#batch").val());
 		$("#productionDate_c").html($("#productionDate").val());
 		$("#procurementDate_c").html($("#procurementDate").val());
 		$("#expiration_c").html(
 				$("#expiration").data("kendoNumericTextBox").value() + "天");
-		$("#procurementNum_c").html($("#procurementNum").val());
+		$("#procurementNum_c").html($("#procurementNum").data("kendoNumericTextBox").value());
 		$("#productionName_c").html($("#productionName").val());
 		$("#foodType_c").html($("#foodType").val());
 		$("#standard_c").html($("#standard").val());
@@ -446,7 +457,7 @@ $(function() {
 		var vo = {
 			name : $("#name").val().trim(),
 			formate : $("#format").val().trim(),
-			barcode : $("#barcode").val().trim(),
+			barcode : $("#barcode").data("kendoNumericTextBox").value(),
 			unit : $("#unit").val().trim(),
 			batch : $("#batch").val().trim(),
 			productionDate : $("#productionDate").data("kendoDatePicker")
@@ -454,7 +465,7 @@ $(function() {
 			procurementDate : $("#procurementDate").data("kendoDatePicker")
 					.value(),
 			expiration : $("#expiration").val().trim(),
-			procurementNum : $("#procurementNum").val().trim(),
+			procurementNum : $("#procurementNum").data("kendoNumericTextBox").value(),
 			productionName : $("#productionName").val().trim(),
 			foodType : $("#foodType").val().trim(),
 			standard : $("#standard").val().trim(),

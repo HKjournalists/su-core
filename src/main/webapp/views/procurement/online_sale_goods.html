@@ -149,110 +149,159 @@
 
 <!-- popup windows definition -->
 	<div id="addPopup" style="display: none;">
-		<div class="k-edit-form-container">
-			<div class="k-edit-label user-edit_lable">
-				<label for="name" >名  称：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="name" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="format">规格：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="format" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="barcode" >条形码：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="barcode" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="unit" >单  位：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="unit" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="batch" >产品批次：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="batch" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="productionDate" >生产日期：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="productionDate" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="procurementDate" >采购日期：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="procurementDate" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="expiration" >保质期：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="expiration" type="text" />
-				天
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="procurementNum" >数   量：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="procurementNum" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="productionName">生产企业名称：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="productionName" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="foodType">食品分类：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="foodType" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="standard">执行标准：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<input class="k-input k-textbox lims-input" id="standard" type="text" />
-				<font class="necessary">*</font>
-			</div>
-			<div class="k-edit-label user-edit_lable">
-				<label for="remark" >备  注：</label>
-			</div>
-			<div class="k-edit-field" style="float: left;margin-left: 4px;">
-				<textarea class="k-input k-textbox lims-input" id="remark" ></textarea>
-			</div>
-			
-			<div id="qualifiedDiv" class="k-edit-field" style="float: left;margin-left: 16px;width:80%">
-				<input type="file" id="qualified" class="k-input k-textbox"  />
-			</div>
-			<div class="k-edit-field">
-				<a onclick="return fsn.procurement.saveOnlineProcurement()" class="k-button k-button-confirm" href="javascript:void(0)">
-					<span class="k-icon k-update"> </span> <span >确定</span>
-				</a> 
-				<a onclick="return fsn.procurement.cancelProcurement()" class="k-button k-button-cancel" href="javascript:void(0)">
-					<span class="k-icon k-cancel"> </span> <span>取消</span>
-				</a>
-			</div>
+		<!--<div class="k-edit-form-container">-->
+		<div class="borderfieldset border-radius4" style="width: 1000px;">
+			<div class="div-tr">
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="name" >名  称：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="name" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="format">规格：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="format" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+			</div><!--第一行结束-->
+
+			<div class="div-tr">
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="barcode" >条形码：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="barcode" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="unit" >单  位：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="unit" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+			</div><!--第2行结束-->
+
+			<div class="div-tr">
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="batch" >产品批次：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="batch" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="productionDate" >生产日期：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="productionDate" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+			</div><!--第3行结束-->
+
+			<div class="div-tr">
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="procurementDate" >采购日期：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="procurementDate" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="expiration" >保质期：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="expiration" type="text" />
+						天
+						<font class="necessary">*</font>
+					</div>
+				</div>
+			</div><!--第4行结束-->
+
+			<div class="div-tr">
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="procurementNum" >数   量：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="procurementNum" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="productionName">生产企业名称：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="productionName" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+			</div><!--第5行结束-->
+
+			<div class="div-tr">
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="foodType">食品分类：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="foodType" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="standard">执行标准：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<input class="k-input k-textbox lims-input" id="standard" type="text" />
+						<font class="necessary">*</font>
+					</div>
+				</div>
+			</div><!--第6行结束-->
+
+			<div class="div-tr">
+				<div class="div-td">
+					<div class="k-edit-label user-edit_lable">
+						<label for="remark" >备  注：</label>
+					</div>
+					<div class="k-edit-field" style="float: left;margin-left: 4px;">
+						<textarea class="k-input k-textbox lims-input" id="remark" ></textarea>
+					</div>
+				</div>
+				<div class="div-td">
+					<div id="qualifiedDiv" class="k-edit-field" style="float: left;margin-left: 202px;width:80%">
+						<input type="file" id="qualified" class="k-input k-textbox"/>
+					</div>
+				</div>
+			</div><!--第7行结束-->
+				<div class="k-edit-field">
+					<a onclick="return fsn.procurement.saveOnlineProcurement()" class="k-button k-button-confirm" href="javascript:void(0)">
+						<span class="k-icon k-update"> </span> <span >确定</span>
+					</a>
+					<a onclick="return fsn.procurement.cancelProcurement()" class="k-button k-button-cancel" href="javascript:void(0)">
+						<span class="k-icon k-cancel"> </span> <span>取消</span>
+					</a>
+				</div>
 		</div>
 	</div>
 	
