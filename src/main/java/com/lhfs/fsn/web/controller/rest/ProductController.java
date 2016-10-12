@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gettec.fsnip.fsn.vo.product.ProductOfMarketVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -1418,8 +1419,9 @@ public class ProductController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value="/getListOfBuylink")
 	public View  getListOfBuylink( Model model){
-		model.addAttribute("productOfMarketVO",traceDataService.getListOfBuylink());
-		model.addAttribute("count",traceDataService.getListOfBuylink().size());
+        List<ProductOfMarketVO> list = traceDataService.getListOfBuylink();
+		model.addAttribute("productOfMarketVO",list);
+		model.addAttribute("count",list.size());
 		return JSON;
 	}
 /*	/**
