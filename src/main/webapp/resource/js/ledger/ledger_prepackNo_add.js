@@ -36,7 +36,7 @@ $(function(){
     			if(status.indexOf("yes")!=-1){
     				status = "采购管理>>预包装台账列表";
     			}else{
-    				status = "采购管理>>非预包装台账列表";
+    				status = "采购管理>>添加/编辑原辅料";
     			}
     			$("#status_bar").html(status);
     			
