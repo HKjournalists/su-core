@@ -1,27 +1,5 @@
 package com.gettec.fsnip.fsn.dao.product.impl;
 
-import java.lang.reflect.Field;
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
-import bsh.This;
-import com.gettec.fsnip.fsn.model.trace.TraceData;
-import com.gettec.fsnip.fsn.vo.product.ProductOfMarketVO;
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.stereotype.Repository;
-
 import com.gettec.fsnip.fsn.dao.common.impl.BaseDAOImpl;
 import com.gettec.fsnip.fsn.dao.product.ProductDAO;
 import com.gettec.fsnip.fsn.exception.DaoException;
@@ -29,7 +7,9 @@ import com.gettec.fsnip.fsn.exception.JPAException;
 import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.business.BusinessBrand;
 import com.gettec.fsnip.fsn.model.business.BusinessUnit;
+import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.model.product.Product;
+import com.gettec.fsnip.fsn.service.market.ResourceService;
 import com.gettec.fsnip.fsn.transfer.ProductTransfer;
 import com.gettec.fsnip.fsn.util.ImgUtils;
 import com.gettec.fsnip.fsn.util.sales.SalesUtil;
@@ -37,6 +17,7 @@ import com.gettec.fsnip.fsn.vo.ProductStaVO;
 import com.gettec.fsnip.fsn.vo.business.BusinessLicenseLismVo;
 import com.gettec.fsnip.fsn.vo.product.ProductLismVo;
 import com.gettec.fsnip.fsn.vo.product.ProductManageViewVO;
+import com.gettec.fsnip.fsn.vo.product.ProductOfMarketVO;
 import com.gettec.fsnip.fsn.vo.sales.DetailAlbumVO;
 import com.gettec.fsnip.fsn.vo.sales.PhotoFieldVO;
 import com.lhfs.fsn.util.StringUtil;
@@ -44,6 +25,20 @@ import com.lhfs.fsn.vo.product.ProductBarcodeToQRcodeVO;
 import com.lhfs.fsn.vo.product.ProductListVo;
 import com.lhfs.fsn.vo.product.ProductNutritionVO;
 import com.lhfs.fsn.vo.product.ProductRiskVo;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -56,6 +51,8 @@ public class ProductDAOImpl extends BaseDAOImpl<Product>
 		implements ProductDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
+    @Autowired
+    private ResourceService resourceService;
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 	@SuppressWarnings("unchecked")
 	public List<Product> findProducts(String name, Long businessUnitId, Long businessBrandId,  List<Long> producerIds, Long productGroupId,int pageSize,int page) {
@@ -1687,12 +1684,19 @@ public class ProductDAOImpl extends BaseDAOImpl<Product>
 
 	@Override
 	public List<ProductOfMarketVO> getListOfBuylink() throws DaoException{
-		String sql1 = "SELECT DISTINCT(product.id),product.`name`,product.barcode FROM product INNER JOIN trace_data INNER JOIN test_result INNER JOIN product_instance WHERE  test_result.sample_id=product_instance.id AND product.id=trace_data.productID AND product_instance.product_id=product.id AND product.product_certification!=0 AND test_result.test_type='第三方检测'";
-		Query query1 = entityManager.createNativeQuery(sql1);
+        String sql1 ="SELECT DISTINCT(product.id),product.`name`,product.barcode FROM product " +
+                "INNER JOIN trace_data ON product.id=trace_data.productID " +
+                "INNER JOIN product_instance ON product.id=product_instance.product_id " +
+                "INNER JOIN test_result ON test_result.sample_id=product_instance.id " +
+                "WHERE trace_data.buyLink!='Null' AND product.product_certification!=0 AND test_result.test_type='第三方检测'";
+        Query query1 = entityManager.createNativeQuery(sql1);
 		List<Object[]> list = query1.getResultList();
 		String sql2="select * from trace_data where trace_data.productID=?1 order by trace_data.productDate desc  LIMIT 0,1 ";
         Query query2 = entityManager.createNativeQuery(sql2);
 		List<ProductOfMarketVO> listMarkertVo=new ArrayList<ProductOfMarketVO>();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		String prodate=null;
+		String zero="0000000000000000";
 		if(list.size()>0){
 			for (int i=0;i<list.size();i++) {
 				Long id=Long.parseLong(list.get(i)[0].toString());
@@ -1702,12 +1706,27 @@ public class ProductDAOImpl extends BaseDAOImpl<Product>
                 productOfMarketVO.setId(id);
                 productOfMarketVO.setName(list.get(i)[1]==null?"":list.get(i)[1].toString());
                 try {
-                    productOfMarketVO.setProAttachments(this.findByBarcode(list.get(i)[2]==null?"":list.get(i)[2].toString()).getProAttachments());
+                    /*处理产品图片*/
+                    List<Resource> imgList = new ArrayList<Resource>();
+                    Set<Resource> set=new HashSet<Resource>();
+                    productOfMarketVO.setProAttachments(set);
+                    imgList=resourceService.getProductImgListByproId(id);//查找产品图片集合
+                    if(imgList!=null&&imgList.size()>0){
+                        set.addAll(imgList);//给set填充
+                        imgList.clear();//清空list，不然下次把set元素加入此list的时候是在原来的基础上追加元素的
+                        productOfMarketVO.setProAttachments(set);
+                    }
+                    //this.findByBarcode(list.get(i)[2]==null?"":list.get(i)[2].toString()).getProAttachments());
                 }catch (Exception e) {
                     throw new DaoException(
                    "ProductDAOImpl.getListOfBuylink() 出现异常！", e);
                 }
-                productOfMarketVO.setProductionDate((Date) tracelist.get(0)[19]);
+				prodate=dateFormat.format((Date) tracelist.get(0)[19]);
+				if(id.toString().length()<=16){
+					int endindex=16-id.toString().length();
+					prodate=zero.substring(0,endindex)+id.toString()+prodate+zero.substring(0,8);
+				}
+                productOfMarketVO.setProductionDateStr(prodate);
                 listMarkertVo.add(productOfMarketVO);
 			}
             return listMarkertVo;
