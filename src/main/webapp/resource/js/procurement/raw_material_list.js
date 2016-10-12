@@ -5,6 +5,7 @@ $(function(){
 	procurement.disposeAttachments = new Array();//处理证明图片
 	procurement.dispose=null;
 
+	procurement.business=getCurrentBusiness();
 	/**
 	 * 初始化方法
 	 */
@@ -73,15 +74,22 @@ $(function(){
 	            }
 	        }
 	    });
-	    
-	    //初始化供应商下拉框
-		$("#provider").kendoComboBox({
-			dataTextField: "name",
-			dataValueField: "id",
-			optionLabel:"--请选择--",
-			dataSource: procurement.getDataSet(),
-			filter: "contains"
-		});
+
+		if(procurement.business.type.indexOf("生产企业")>-1){
+			$("#provider").show();
+			$("#provider_input").hide();
+			//初始化供应商下拉框
+			$("#provider").kendoComboBox({
+				dataTextField: "name",
+				dataValueField: "id",
+				optionLabel:"--请选择--",
+				dataSource: procurement.getDataSet(),
+				filter: "contains"
+			});
+		} else{
+			$("#provider").hide();
+			$("#provider_input").show();
+		}
 
 		//初始化采购数量NumericTextBox控件
 		 $("#procurementNum").kendoNumericTextBox({
@@ -240,7 +248,11 @@ $(function(){
 		$("#name").val("");
 		$("#format").val("");
 		$("#batch").val("");
-		$("#provider").data("kendoComboBox").text("");
+		if(procurement.business.type.indexOf("生产企业")>-1){
+			$("#provider").data("kendoComboBox").text("");
+		}else{
+			$("#provider_input").val("");
+		}
 		$("#procurementNum").data("kendoNumericTextBox").value("");
 		$("#procurementDate").data("kendoDatePicker").value("");
 		$("#productionDate").data("kendoDatePicker").value("");
@@ -271,14 +283,23 @@ $(function(){
 			 lims.initNotificationMes('名称不能为空!', false);
 			 return;
 		 }
-		 if(""==$("#provider").data("kendoComboBox").value()){
-			 lims.initNotificationMes('供应商不能为空!', false);
-			 return;
+
+		 if(procurement.business.type.indexOf("生产企业")>-1){
+			 if(""==$("#provider").data("kendoComboBox").value()){
+				 lims.initNotificationMes('供应商不能为空!', false);
+				 return;
+			 }
+			 if($("#provider").data("kendoComboBox").select()<0){
+				 lims.initNotificationMes('请选择供应商，不能手动输入!', false);
+				 return;
+			 }
+		 }else{
+			 if(""==$("#provider_input").val().trim()){
+				 lims.initNotificationMes('供应商不能为空!', false);
+				 return;
+			 }
 		 }
-		 if($("#provider").data("kendoComboBox").select()<0){
-			 lims.initNotificationMes('请选择供应商，不能手动输入!', false);
-			 return;
-		 }
+
 		 if(""==$("#format").val().trim()){
 			 lims.initNotificationMes('规格不能为空!', false);
 			 return;
@@ -330,7 +351,11 @@ $(function(){
 		$("#name_c").html($("#name").val());
 		$("#format_c").html($("#format").val());
 		$("#batch_c").html($("#batch").val());
-		$("#provider_c").html($("#provider").data("kendoComboBox").text());
+		if(procurement.business.type.indexOf("生产企业")>-1){
+			$("#provider_c").html($("#provider").data("kendoComboBox").text());
+		}else{
+			$("#provider_c").html($("#provider_input").val());
+		}
 		$("#procurementNum_c").html($("#procurementNum").data("kendoNumericTextBox").value());
 		$("#procurementDate_c").html($("#procurementDate").val());
 		$("#productionDate_c").html($("#productionDate").val());
@@ -357,8 +382,8 @@ $(function(){
 		$("#k_window").data("kendoWindow").open().center();
 		var vo={
 			name:$("#name").val().trim(),
-			providerId:$("#provider").data("kendoComboBox").value(),
-			providerName:$("#provider").data("kendoComboBox").text(),
+			/*providerId:$("#provider").data("kendoComboBox").value(),
+			providerName:$("#provider").data("kendoComboBox").text(),*/
 			format:$("#format").val().trim(),
 			batch:$("#batch").val().trim(),
 			procurementNum:$("#procurementNum").data("kendoNumericTextBox").value(),
@@ -368,6 +393,12 @@ $(function(){
 			remark:$("#remark").val().trim(),
 			hgAttachments:procurement.qualifiedAttachments
 		};
+		if(procurement.business.type.indexOf("生产企业")>-1){
+			vo.providerId= $("#provider").data("kendoComboBox").value();
+			vo.providerName= $("#provider").data("kendoComboBox").text();
+		}else{
+			vo.providerName= $("#provider_input").val().trim() ;
+		}
 		vo.type=procurement.type;
 		$.ajax({
 			url : fsn.getHttpPrefix() + "/procurement/add",
