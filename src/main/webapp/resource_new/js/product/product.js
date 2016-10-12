@@ -340,7 +340,7 @@ portal.validateBarcodeUnique = function(){
         		 /* 条形码已经存在 */
         		 if(returnValue.isLead){
         			 lims.initNotificationMes("条形码为" + curBarcode + "的产品已经引进，可前往产品管理界面查看详情！", true);
-        		 }else if(portal.currentBusiness.type=="流通企业" || portal.currentBusiness.type == "流通企业.供应商"|| portal.currentBusiness.type.indexOf("餐饮企业")!=-1){
+        		 }else if(portal.currentBusiness.type=="流通企业" || portal.currentBusiness.type == "流通企业.供应商"|| portal.currentBusiness.type.indexOf("餐饮企业")!=-1|| portal.currentBusiness.type.indexOf("流通企业.商超")!=-1){
         			 /* 弹出引进产品提示框 */
         			 portal.showLeadMsg();
         		 }else{
@@ -761,7 +761,7 @@ portal.setCustomerSelectValue = function(customerItems){
 portal.showLeadMsg = function(){
 	if(portal.currentBusiness.type == "生产企业"){
 		lims.initNotificationMes("产品条形码已经存在，请重新填写！", false);
-	}else if(portal.currentBusiness.type == "流通企业.供应商" || portal.currentBusiness.type.indexOf("餐饮企业")!=-1){
+	}else if(portal.currentBusiness.type == "流通企业.供应商" || portal.currentBusiness.type.indexOf("餐饮企业")!=-1||portal.currentBusiness.type.indexOf("流通企业.商超")!=-1){
 		$("#lead_dealer_window").data("kendoWindow").open().center();
 		$("#leadDealerMsg").html("该条形码已存在，可直接引用!");
 	}else if(portal.currentBusiness.type == "流通企业"){

@@ -30,6 +30,9 @@ public class OperateInfo extends Model {
     @Column(name = "person_count")
     private  int personCount = 0; //企业人数
 
+    @Column(name = "operate_seat")
+    private  String operateSeat; //餐饮规模座位数
+
     @Column(name = "floor_area")
     private String floorArea;  //占地面具
 
@@ -77,6 +80,14 @@ public class OperateInfo extends Model {
 
     public void setPersonCount(int personCount) {
         this.personCount = personCount;
+    }
+
+    public String getOperateSeat() {
+        return operateSeat;
+    }
+
+    public void setOperateSeat(String operateSeat) {
+        this.operateSeat = operateSeat;
     }
 
     public String getFloorArea() {

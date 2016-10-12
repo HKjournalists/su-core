@@ -478,8 +478,8 @@ public class TZAccountRESTService extends BaseRESTService{
             HttpServletRequest req,HttpServletResponse resp) {
         ResultVO resultVO = new ResultVO();
         try {
-        	Long orgId = businessUnitService.findOrgById(outId);
-            model = tZAccountService.selectBuyGoodsById(orgId,name,barcode,page, pageSize, model);
+        	//Long orgId = businessUnitService.findOrgById(outId);
+            model = tZAccountService.selectBuyGoodsById(outId,name,barcode,page, pageSize, model);
         }catch(ServiceException sex){
             resultVO.setStatus(SERVER_STATUS_FAILED);
             resultVO.setSuccess(false);
@@ -566,6 +566,30 @@ public class TZAccountRESTService extends BaseRESTService{
 			e.printStackTrace();
 		}
     	 return JSON;
+     }
+
+
+     /**
+      * 超市进货时选择自己的产品
+      */
+     @RequestMapping(method = RequestMethod.GET, value = "/selectBuyGoodsOfCS/{page}/{pageSize}")
+     public View selectBuyGoodsOfCS(Model model,@PathVariable(value="page") int page,
+                                    @PathVariable(value="pageSize") int pageSize,
+                                    @RequestParam(value="name",required=false) String name,
+                                    @RequestParam(value="barcode",required=false) String barcode,
+                                    HttpServletRequest req,HttpServletResponse resp) {
+         ResultVO resultVO = new ResultVO();
+         try {
+             Long orgId = Long.valueOf(AccessUtils.getUserRealOrg().toString());
+             model = tZAccountService.selectBuyGoodsOfCS(orgId,name,barcode,page, pageSize, model);
+         }catch(ServiceException sex){
+             resultVO.setStatus(SERVER_STATUS_FAILED);
+             resultVO.setSuccess(false);
+             resultVO.setErrorMessage(sex.getMessage());
+             ((Throwable) sex.getException()).printStackTrace();
+         }
+         model.addAttribute("result", resultVO);
+         return JSON;
      }
      
 }

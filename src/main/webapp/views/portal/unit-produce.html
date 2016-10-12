@@ -1212,29 +1212,27 @@
           <div class="div-td">
            <div class="div-td-name" style="width: 150px;">
             <label for="orgCode">组织机构代码：</label>
-            <font class="necessary">*</font>
            </div>
            <div class="div-td-value">
-            <input type="text" id="orgCode" name="orgCode" class="k-textbox" required="" validationmessage="不能为空" />
+            <input type="text" id="orgCode" name="orgCode" class="k-textbox" />
            </div>
           </div>
           <div class="div-td">
            <div class="div-td-name" style="width: 120px;">
             <label for="orgCode">有效期限：</label>
-            <font color="red">*</font>
            </div>
-           <input type="text" id="orgStartTime" placeholder="例如:2014-01-01" required="" validationmessage="不能为空" style="width:130px;"/> 至
-           <input type="text" id="orgEndTime" placeholder="例如:2014-01-01" required="" validationmessage="不能为空" style="width:130px;"/>
+           <input type="text" id="orgStartTime" placeholder="例如:2014-01-01"   style="width:130px;"/> 至
+           <input type="text" id="orgEndTime" placeholder="例如:2014-01-01"  style="width:130px;"/>
           </div>
          </div>
          <div class="div-tr">
           <div class="div-td">
            <div class="div-td-name" style="width: 160px;">
             <label for="orgName">组织机构名称：</label>
-            <font color="red">*</font>
+
            </div>
            <div class="div-td-value">
-            <input type="text" id="orgName" class="k-textbox" required="" validationmessage="不能为空" />
+            <input type="text" id="orgName" class="k-textbox"  />
            </div>
           </div>
           <div class="div-td">
@@ -1258,12 +1256,11 @@
           <div class="div-td">
            <div class="div-td-name" style="width: 160px;">
             <label for="orgAddress">组织机构地址：</label>
-            <font class="necessary">*</font>
            </div>
            <div class="div-td-value">
-            <input id="org_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:130px;" class="k-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2" required="" validationmessage="不能为空" />
+            <input id="org_mainAddr" autocomplete="off" type="text" placeholder="在这里选择省市县" style="width:130px;" class="k-textbox ipt norWidthIpt city_input inputFocus proCityQueryAll proCitySelAll current2"  />
             <label>街道地址:</label>
-            <input id="org_streetAddress" class="k-textbox" style="width:100px;" required="" validationmessage="不能为空" />
+            <input id="org_streetAddress" class="k-textbox" style="width:100px;"  />
            </div>
           </div>
          </div>
@@ -1496,7 +1493,7 @@
           </div>
         <table cellpadding="1" cellspacing="1" border="1" style="text-align: center">
          <tr style="height: 28px;">
-          <td style="width: 135px;">指标</td> <td style="width: 150px;">单位</td><td style="width: 150px;">大型</td><td style="width: 150px;">中型</td><td style="width: 155px;">小型</td>
+          <td style="width: 155px;">指标</td> <td style="width: 155px;">单位</td><td style="width: 155px;">大型</td><td style="width: 155px;">中型</td><td style="width: 155px;">小型</td>
          </tr>
          <tr style="height: 28px;">
           <td>从业人数</td> <td>人</td><td>2000以上</td><td>300~2000</td><td >300以下</td>
@@ -1508,7 +1505,7 @@
           <td >产值总数</td> <td >万元</td><td >40000以上</td><td >4000~40000</td><td >4000以下</td>
          </tr>
          <tr style="height: 28px;">
-          <td style="width: 150px;" colspan="5">大型和中型企业须同时满足所列各项条件的下限指标，否则下划一档。</td>
+          <td style="width:auto;" colspan="5">大型和中型企业须同时满足所列各项条件的下限指标，否则下划一档。</td>
          </tr>
 
         </table>
@@ -2042,5 +2039,6 @@
     </div>
    </div>
  </div>
+  <script src="../../resource/js/loading.js" type="text/javascript"></script>
  </body>
 </html>

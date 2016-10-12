@@ -35,4 +35,6 @@ public interface TZBusinessRelationService extends BaseService<TZBusinessRelatio
     Long loadTZReturnProductTotalsById(Long outId)throws ServiceException;
 
     Model getProBus(Long myOrg, String busName, String busLic, int page, int pageSize, Model model)throws ServiceException;
+
+    Model loadTZOwnBusRelation(Long myOrg, String busName, String busLic, int page, int pageSize, Model model)throws ServiceException;
 }

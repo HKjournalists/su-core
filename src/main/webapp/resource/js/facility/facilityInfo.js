@@ -750,10 +750,22 @@ $(document).ready(function() {
         }
         $("#operate_id").val(data.id);
         $("#operateType").val(data.operateType);
-        //$("#operateScope").val(data.operateScope);
-        $("#operateScope").data("kendoComboBox").text(data.operateScope);
+        if(data.operateType == null){
+            $("#operateType_title").text(data.operateType);
+        }
+       var  operateScope = $("#operateScope1").val();
+        if(operateScope == undefined){
+            $("#operateScope").data("kendoComboBox").text(data.operateScope);
+        }else if(data.operateScope != null){
+            $("#operateScope1").val(data.operateScope);
+            $("#operateScope1_tit").text(data.operateScope);
+        }
         $("#personCount").val(data.personCount);
         $("#floorArea").val(data.floorArea);
+        var  operateSeat = $("#operateSeat").val();
+        if(operateSeat != undefined){
+            $("#operateSeat").val(data.operateSeat);
+        }
     };
     facility.cleanOperateInfo = function(){
         $("#operateType").val("");
@@ -771,7 +783,10 @@ $(document).ready(function() {
             fsn.initNotificationMes("经营类型不能为空!", false);
             return;
         }
-        var operateScope = $("#operateScope").val();
+        var operateScope = $("#operateScope1").val();
+        if(operateScope == undefined){
+            operateScope = $("#operateScope").val();
+        }
         if(operateScope==null||operateScope==''){
             fsn.initNotificationMes("经营规模不能为空!", false);
             return;
@@ -809,12 +824,22 @@ $(document).ready(function() {
     facility.createOperateInfo = function(){
        var  operateScope = $("#operateScope").val();
        // var  operateScope =  $("#operateScope").find("option:selected").text();//选中的文本
+        var  operateSeat = $("#operateSeat").val();
+        if(operateSeat == undefined){
+            operateSeat = null;
+        }
+        var operateScope = $("#operateScope1").val();
+        if(operateScope == undefined){
+            operateScope = $("#operateScope").val();
+        }
+
         var operateInfo = {
             id:$("#operate_id").val(),
             operateType:$("#operateType").val(),
-            operateScope:$("#operateScope").val(),
+            operateScope:operateScope,
             personCount:$("#personCount").val(),
-            floorArea:$("#floorArea").val()
+            floorArea:$("#floorArea").val(),
+            operateSeat:operateSeat
         };
         return operateInfo;
     };

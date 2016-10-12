@@ -1900,7 +1900,8 @@ ResourceService {
 	public void saveBusinessCert(BusinessUnit businessUnit) throws ServiceException {
 		try {
 			EnterpriseRegiste orig_enterprise = enterpriseService.findbyEnterpriteName(businessUnit.getName());
-			Set<Resource> orgAttachments= businessUnit.getOrgAttachments();
+
+				Set<Resource> orgAttachments= businessUnit.getOrgAttachments();
 
 			if (!(orgAttachments == null || orgAttachments.size() < 1)) {
 				/* 1.获取已删除的[组织机构代码证件]资源列表 */
@@ -1918,6 +1919,16 @@ ResourceService {
 					orig_enterprise.addOrgResources(adds);
 				}
 
+			}else{
+				Set<Resource> oldremoves = orig_enterprise.getOrgAttachments();
+				Set<Resource> removes = new HashSet<Resource>();
+				removes.addAll(oldremoves);
+				if (!CollectionUtils.isEmpty(removes)) {
+					orig_enterprise.removeOrgResources(removes);
+					for (Resource resource : removes) {
+						delete(resource);
+					}
+				}
 			}
 
 			Set<Resource> licAttachments = businessUnit.getLicAttachments();

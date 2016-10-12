@@ -26,11 +26,13 @@ $(function() {
     if(currentBusiness.type.indexOf("生产企业")>-1){
         returnUrl="saleSure.html";
         $("#submit").hide();
+        $("#save").hide();
         $("#submit_sc").show();
         $("#showName").html("查看台账");
     }else{
         $("#submit").show();
         $("#submit_sc").hide();
+        $("#save").show();
         $("#showName").html("进货台账");
     }
     
@@ -71,8 +73,19 @@ $(function() {
 		    				$("#return_time").val(returnValue.outBusInfo.createDate);
 		    				$("#add_barcode").val(returnValue.outBusInfo.barcode);
 		    				busUnit.outBusId = returnValue.outBusInfo.outBusId;
-                            if(returnValue.outBusInfo.inStatus==1){
+                            if(currentBusiness.type.indexOf("生产企业")>-1&&returnValue.outBusInfo.outStatus==1){
                                 $("#submit_sc").hide();
+                            }
+                            if(currentBusiness.type.indexOf("生产企业")>-1&&returnValue.outBusInfo.outStatus==0){
+                                $("#submit_sc").show();
+                            }
+                            if(currentBusiness.type.indexOf("生产企业")==-1&&returnValue.outBusInfo.inStatus==1){
+                                $("#submit").hide();
+                                $("#save").hide();
+                            }
+                            if(currentBusiness.type.indexOf("生产企业")==-1&&(returnValue.outBusInfo.inStatus==0||returnValue.outBusInfo.inStatus==null)){
+                                $("#submit").show();
+                                $("#save").show();
                             }
 	    				}else{
 	    					fsn.initNotificationMes(fsn.l("进货信息加载失败!"), false);
@@ -84,7 +97,7 @@ $(function() {
 			$("#return_busname").val("");
 			$("#return_time").val("");
 			$("#add_barcode").val("");
-    	};
+    	}
     }
 
     function initMyBusUnitInfo(){
@@ -726,7 +739,7 @@ $(function() {
     		transport: {
     			read: {
     				url : function(options){
-    					return HTTPPREFIX + "/tzAccount/selectBuyGoodsById/"+ options.page + "/" + options.pageSize + "/" + outId+"?name="+name+"&barcode="+barcode;;
+    					return HTTPPREFIX + "/tzAccount/selectBuyGoodsById/"+ options.page + "/" + options.pageSize + "/" + outId+"?name="+name+"&barcode="+barcode;
     				},
     				dataType : "json",
     				contentType : "application/json"

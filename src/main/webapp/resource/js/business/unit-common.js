@@ -251,7 +251,6 @@
 	 * 删除企业宣传照
 	 */
 	business_unit.delSelectPropagandaImg = function(id,url){
-		//$("#upload_propaganda_files_img_e").show();
 		if(business_unit.aryPropagandaAttachments != null&&business_unit.aryPropagandaAttachments.length>0){
 			for(var s in business_unit.aryPropagandaAttachments){
 				if((business_unit.aryPropagandaAttachments[s].file == null && business_unit.aryPropagandaAttachments[s].url==url) || (business_unit.aryPropagandaAttachments[s].url==null && business_unit.aryPropagandaAttachments[s].file == url)){
@@ -278,7 +277,6 @@
 	 */
 	business_unit.delSelectQsImg = function(id,url){
 
-		//$("#upload_propaganda_files_img_e").show();
 		if(business_unit.aryQsAttachments != null&&business_unit.aryQsAttachments.length>0){
 			for(var s in business_unit.aryQsAttachments){
 				if((business_unit.aryQsAttachments[s].file == null && business_unit.aryQsAttachments[s].url==url) || (business_unit.aryQsAttachments[s].url==null && business_unit.aryQsAttachments[s].file == url)){
@@ -329,7 +327,6 @@
 	 */
 	business_unit.delSelectLicenseImg = function(id,url){
 
-		//$("#upload_propaganda_files_img_e").show();
 		if(business_unit.aryLicenseAttachments != null&&business_unit.aryLicenseAttachments.length>0){
 			for(var s in business_unit.aryLicenseAttachments){
 				if((business_unit.aryLicenseAttachments[s].file == null && business_unit.aryLicenseAttachments[s].url==url) || (business_unit.aryLicenseAttachments[s].url==null && business_unit.aryLicenseAttachments[s].file == url)){
@@ -348,7 +345,6 @@
 	 * 删除组织机构图片
 	 */
 	business_unit.delSelectOrgImg = function(id,url){
-		//$("#upload_propaganda_files_img_e").show();
 		if(business_unit.aryOrgAttachments != null&&business_unit.aryOrgAttachments.length>0){
 			for(var s in business_unit.aryOrgAttachments){
 				if((business_unit.aryOrgAttachments[s].file == null && business_unit.aryOrgAttachments[s].url==url) || (business_unit.aryOrgAttachments[s].url==null && business_unit.aryOrgAttachments[s].file == url)){
@@ -360,6 +356,9 @@
 			}
 		}
 		$("img[id='"+id+"']").parent().remove();
+		if(business_unit.aryOrgAttachments ==null || business_unit.aryOrgAttachments.length==0){
+			$("#upload_orgnization_files_img_s").hide();
+		}
 		return false;
 	};
 
@@ -367,7 +366,6 @@
 	 * 删除税务图片
 	 */
 	business_unit.delSelectTaxImg = function(id,url){
-		//$("#upload_propaganda_files_img_e").show();
 		if(business_unit.aryTaxAttachments != null&&business_unit.aryTaxAttachments.length>0){
 			for(var s in business_unit.aryTaxAttachments){
 				if((business_unit.aryTaxAttachments[s].file == null && business_unit.aryTaxAttachments[s].url==url) || (business_unit.aryTaxAttachments[s].url==null && business_unit.aryTaxAttachments[s].file == url)){
@@ -1100,6 +1098,7 @@
 				imgs+="</div>";
 				imgs+="</div>";
 			}
+
 			$("#upload_orgnization_files_img_a").html(img);
 			$("#upload_orgnization_files_img").html(imgs);
 
@@ -1120,7 +1119,8 @@
 			$("#upload_orgnization_files_img_e").hide();
 			$("#upload_orgnization_files_img_s").show();*/
 		} else {
-			$("#upload_orgnization_files_img_a").attr("src", "../../resource/img/portal/tupian.jpg");
+			var img ="<img id='upload_orgnization_files_0' src='../../resource/img/portal/tupian.jpg' style='width: 128px;height:128px;'>";
+			$("#upload_orgnization_files_img_a").html(img);
 			$("#upload_orgnization_files_img_e").show();
 			$("#upload_orgnization_files_img_s").hide();
 		}
@@ -1535,12 +1535,12 @@
 		if (!fsn.validateMustDate("licenseEndTime", "营业执照的截止日期")) {
 			return false;
 		}
-		if (!fsn.validateMustDate("orgStartTime", "组织机构证件的起始日期")) {
-			return false;
-		}
-		if (!fsn.validateMustDate("orgEndTime", "组织机构证件的截止日期")) {
-			return false;
-		}
+		//if (!fsn.validateMustDate("orgStartTime", "组织机构证件的起始日期")) {
+		//	return false;
+		//}
+		//if (!fsn.validateMustDate("orgEndTime", "组织机构证件的截止日期")) {
+		//	return false;
+		//}
 		if (!fsn.validateDateFormat("registrationTime", "营业执照的注册日期")) {
 			return false;
 		} // 非必填项
@@ -1557,11 +1557,11 @@
 			lims.initNotificationMes('组织机构证件的起始日期不能大于截止日期！', false);
 			return false;
 		}
-		if(!$("#orgCode").kendoValidator().data("kendoValidator").validate()){
-			lims.initNotificationMes('【组织机构代码证件】中的组织机构代码不能为空！',false);
-			business_unit.wrong("orgCode","text");
-			return false;
-		}
+		//if(!$("#orgCode").kendoValidator().data("kendoValidator").validate()){
+		//	lims.initNotificationMes('【组织机构代码证件】中的组织机构代码不能为空！',false);
+		//	business_unit.wrong("orgCode","text");
+		//	return false;
+		//}
 
 		if (!$("#licenseNo").kendoValidator().data("kendoValidator").validate()) {
 			lims.initNotificationMes('【营业执照信息】中的营业执照注册号不能为空！', false);
@@ -1589,32 +1589,32 @@
 			return false;
 		}
 
-		if(!$("#orgName").kendoValidator().data("kendoValidator").validate()){
-			lims.initNotificationMes('【组织机构代码证件】中的组织机构名称不能为空！',false);
-			business_unit.wrong("orgName","text");
-			return false;
-		}
-		if(!$("#org_mainAddr").kendoValidator().data("kendoValidator").validate()){
-			lims.initNotificationMes('【组织机构代码证件】中的组织机构地址不能为空！',false);
-			business_unit.wrong("org_mainAddr","text");
-			return false;
-		}
-		if(!$("#org_streetAddress").kendoValidator().data("kendoValidator").validate()){
-			lims.initNotificationMes('【组织机构代码证件】中的组织机构地址的街道地址不能为空！',false);
-			business_unit.wrong("org_streetAddress","text");
-			return false;
-		}
+		//if(!$("#orgName").kendoValidator().data("kendoValidator").validate()){
+		//	lims.initNotificationMes('【组织机构代码证件】中的组织机构名称不能为空！',false);
+		//	business_unit.wrong("orgName","text");
+		//	return false;
+		//}
+		//if(!$("#org_mainAddr").kendoValidator().data("kendoValidator").validate()){
+		//	lims.initNotificationMes('【组织机构代码证件】中的组织机构地址不能为空！',false);
+		//	business_unit.wrong("org_mainAddr","text");
+		//	return false;
+		//}
+		//if(!$("#org_streetAddress").kendoValidator().data("kendoValidator").validate()){
+		//	lims.initNotificationMes('【组织机构代码证件】中的组织机构地址的街道地址不能为空！',false);
+		//	business_unit.wrong("org_streetAddress","text");
+		//	return false;
+		//}
 
 		if(business_unit.aryLicenseAttachments.length<1){
 			lims.initNotificationMes('请上传营业执照证件图片！',false);
 			business_unit.wrong("upload_license_files","select");
 			return false;
 		}
-		if(business_unit.aryOrgAttachments.length<1){
-			lims.initNotificationMes('请上传组织机构代码证件图片！',false);
-			business_unit.wrong("upload_orgnization_files","select");
-			return false;
-		}
+		//if(business_unit.aryOrgAttachments.length<1){
+		//	lims.initNotificationMes('请上传组织机构代码证件图片！',false);
+		//	business_unit.wrong("upload_orgnization_files","select");
+		//	return false;
+		//}
 
 		// 纳税人名称
 		var taxName = $("#taxName").val().trim();

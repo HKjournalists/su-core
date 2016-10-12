@@ -18,6 +18,7 @@ $(function() {
     var isNew = false;
 
         function initialize(){
+            fsn.initKendoWindow("k_window","保存状态","300px","60px",false,'[]');
         ADD_STORE = initKendoWindow("ADD_STORE_PRODUCT","500px", "430px", "编辑/预览商品库存", false,true,false,["Close"],null,"");
         STORE_DETAIL = initKendoWindow("STORE_DETAIL_WIN","1100px", "380px", "库存明细", false,true,false,["Close"],null,"");
         CONFIRM_ADD = initKendoWindow("CONFIRM_ADD_WIN","480px", "120px", "确定添加库存", false,true,false,["Close"],null,"");
@@ -130,6 +131,7 @@ $(function() {
 
 
     store.yesStoreProduct = function(){
+        $("#k_window").data("kendoWindow").open().center();
         var barcode = $("#product_barcode").val().trim();
         var qs = $("#qs_no").data("kendoDropDownList").text();
         var num = $("#product_num").val().trim()!=null?$("#product_num").val().trim():0;
@@ -140,6 +142,7 @@ $(function() {
             dataType: "json",
             async: true,
             success: function(value){
+                $("#k_window").data("kendoWindow").close();
                 if (value.result.status == "true") {
                     if(value.success){
                         fsn.initNotificationMes("信息提交成功!",true);

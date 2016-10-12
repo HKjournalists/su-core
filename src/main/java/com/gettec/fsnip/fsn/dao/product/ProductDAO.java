@@ -11,6 +11,7 @@ import com.gettec.fsnip.fsn.model.product.Product;
 import com.gettec.fsnip.fsn.vo.ProductStaVO;
 import com.gettec.fsnip.fsn.vo.product.ProductLismVo;
 import com.gettec.fsnip.fsn.vo.product.ProductManageViewVO;
+import com.gettec.fsnip.fsn.vo.product.ProductOfMarketVO;
 import com.gettec.fsnip.fsn.vo.sales.DetailAlbumVO;
 import com.lhfs.fsn.vo.product.ProductBarcodeToQRcodeVO;
 import com.lhfs.fsn.vo.product.ProductListVo;
@@ -287,5 +288,12 @@ public interface ProductDAO extends BaseDAO<Product>{
 	    * @return
 	    */
 	public Long getByBarcodeProduct(String barcode);
+	/**
+	 * portal 获取拥有购买链接，认证及第三方检测的产品
+	 * @param barcode
+	 * @param model
+	 * @return
+	 */
+	public List<ProductOfMarketVO> getListOfBuylink()throws DaoException;
 }
 

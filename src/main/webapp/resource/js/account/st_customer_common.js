@@ -428,6 +428,7 @@ st_customer.nameComboxDs = function(page, keyword){
 	
 st_customer.windowUpdateConfrim = function(zone,_type){
 	// validation
+	st_customer.initRequiredAreas();
 	if(validateCustomerType() && st_customer.validator.validate()){
 		var diyTypeFg = true;
 		if(st_customer.selectedData.diyType != null){
@@ -762,6 +763,7 @@ st_customer.cleanContactForm = function(){
 }
 
 st_customer.bindContactForm = function(e){
+st_customer.initRequiredAreas();
 	if(e.id){
 		$("#cid").val(e.id);
 	}
