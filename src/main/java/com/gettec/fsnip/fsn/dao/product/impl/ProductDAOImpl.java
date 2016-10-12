@@ -1,9 +1,11 @@
 package com.gettec.fsnip.fsn.dao.product.impl;
 
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +13,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import bsh.This;
+import com.gettec.fsnip.fsn.model.trace.TraceData;
+import com.gettec.fsnip.fsn.vo.product.ProductOfMarketVO;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
@@ -1679,5 +1684,35 @@ public class ProductDAOImpl extends BaseDAOImpl<Product>
 				}
 		return id;
 	}
-	
+
+	@Override
+	public List<ProductOfMarketVO> getListOfBuylink() throws DaoException{
+		String sql1 = "SELECT DISTINCT(product.id),product.`name`,product.barcode FROM product INNER JOIN trace_data INNER JOIN test_result INNER JOIN product_instance WHERE  test_result.sample_id=product_instance.id AND product.id=trace_data.productID AND product_instance.product_id=product.id AND product.product_certification!=0 AND test_result.test_type='第三方检测'";
+		Query query1 = entityManager.createNativeQuery(sql1);
+		List<Object[]> list = query1.getResultList();
+		String sql2="select * from trace_data where trace_data.productID=?1 order by trace_data.productDate desc  LIMIT 0,1 ";
+        Query query2 = entityManager.createNativeQuery(sql2);
+		List<ProductOfMarketVO> listMarkertVo=new ArrayList<ProductOfMarketVO>();
+		if(list.size()>0){
+			for (int i=0;i<list.size();i++) {
+				Long id=Long.parseLong(list.get(i)[0].toString());
+                query2.setParameter(1, id);
+                List<Object[]> tracelist=query2.getResultList();
+                ProductOfMarketVO productOfMarketVO=new ProductOfMarketVO();
+                productOfMarketVO.setId(id);
+                productOfMarketVO.setName(list.get(i)[1]==null?"":list.get(i)[1].toString());
+                try {
+                    productOfMarketVO.setProAttachments(this.findByBarcode(list.get(i)[2]==null?"":list.get(i)[2].toString()).getProAttachments());
+                }catch (Exception e) {
+                    throw new DaoException(
+                   "ProductDAOImpl.getListOfBuylink() 出现异常！", e);
+                }
+                productOfMarketVO.setProductionDate((Date) tracelist.get(0)[19]);
+                listMarkertVo.add(productOfMarketVO);
+			}
+            return listMarkertVo;
+		}
+        return null;
+	}
+
 }
