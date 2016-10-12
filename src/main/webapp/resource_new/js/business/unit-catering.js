@@ -185,7 +185,7 @@ $(document).ready(function(){
     business_unit.preview = function(id){
         isNew = false;
         var model={
-            id:id,
+            id:id
         }
         $.ajax({
             url: fsn.getHttpPrefix() + "/business/market/verifyBusiness",
@@ -236,7 +236,7 @@ $(document).ready(function(){
             businessAddress: $("#license_mainAddr").val().trim().replace(/-/g,"")+$("#license_streetAddress").val().trim(),
             otherAddress:$("#license_mainAddr").val().trim()+"--"+$("#license_streetAddress").val().trim(),
             toleranceRange: $("#toleranceRange").val().trim(),
-            registeredCapital: $("#registeredCapital").val().trim(),
+            registeredCapital: $("#registeredCapital").val().trim()
         };
         var orgInstitution = {
             orgCode:$("#orgCode").val().trim(),
@@ -246,7 +246,7 @@ $(document).ready(function(){
             unitsAwarded: $("#unitsAwarded").val().trim(),
             orgType: $("#orgType").val().trim(),
             orgAddress: $("#org_mainAddr").val().trim().replace(/-/g,"")+$("#org_streetAddress").val().trim(),
-            otherAddress:$("#org_mainAddr").val().trim()+"--"+$("#org_streetAddress").val().trim(),
+            otherAddress:$("#org_mainAddr").val().trim()+"--"+$("#org_streetAddress").val().trim()
         };
         var distribution = {
             distributionNo: $("#distributionNo").val().trim(),
@@ -258,7 +258,7 @@ $(document).ready(function(){
             businessAddress: $("#dis_mainAddr").val().trim().replace(/-/g,"")+$("#dis_streetAddress").val().trim(),
             otherAddress:$("#dis_mainAddr").val().trim()+"--"+$("#dis_streetAddress").val().trim(),
 //        		toleranceRange: "",//$("#disToleranceRange").val().trim(),
-            legalName: $("#disLegalName").val().trim(),
+            legalName: $("#disLegalName").val().trim()
         };
         var subBusiness = {
             id: business_unit.id,
@@ -281,7 +281,7 @@ $(document).ready(function(){
             logoAttachments: business_unit.aryLogoAttachments,
             orgAttachments: business_unit.aryOrgAttachments,
             licAttachments: business_unit.aryLicenseAttachments,
-            disAttachments: business_unit.aryDisAttachments,
+            disAttachments: business_unit.aryDisAttachments
         };
         return subBusiness;
     };
@@ -532,7 +532,7 @@ $(document).ready(function(){
             optionLabel:"请选择...",
             dataTextField: textField,
             dataValueField: valueField,
-            dataSource:dataSource==null?[]:dataSource,
+            dataSource:dataSource==null?[]:dataSource
         });
     };
 
@@ -551,7 +551,7 @@ $(document).ready(function(){
             dataValueField: "organization",
             dataSource: lims.getAutoLoadDsByUrl("/business/market/getBusMarket"),
             filter: "contains",
-            minLength: 0,
+            minLength: 0
         });
     };
 
@@ -588,7 +588,7 @@ $(document).ready(function(){
         });
         $('input:radio:checked').each(function(i){
             if($(this).attr("id")!=null && $(this).attr("id").trim().length>0){
-                var district={id:$(this).attr("id").trim(),};
+                var district={id:$(this).attr("id").trim()};
                 districtAry.push(district);
             }
         });
