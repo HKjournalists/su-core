@@ -89,27 +89,27 @@
 
 
 
-#slides1,#slides2  {
+#slides1,#slides2,#slides3  {
 	position:absolute;
 	top:15px;
 	left:440px;
 	z-index:100;
 }
 
-#slides1 .slides_container,#slides2 .slides_container {
+#slides1 .slides_container,#slides2 .slides_container,#slides3 .slides_container {
 	width:340px;
 	overflow:hidden;
 	position:relative;
 	display:none;
 }
 
-#slides1 .slides_container div.slide,#slides2 .slides_container div.slide  {
+#slides1 .slides_container div.slide,#slides2 .slides_container div.slide,#slides3 .slides_container div.slide   {
 	width:340px;
 	height:360px;
 	display:block;
 }
 
-#slides1 .next,#slides1 .prev,#slides2 .next,#slides2 .prev  {
+#slides1 .next,#slides1 .prev,#slides2 .next,#slides2 .prev,#slides3 .next,#slides3 .prev  {
 	position:absolute;
 	top:180px;
 	left:-25px;
@@ -119,7 +119,7 @@
 	z-index:101;
 }
 
-#slides1 .next,#slides2 .next {
+#slides1 .next,#slides2 .next,#slides3 .next {
 	left:340px;
 }
 
