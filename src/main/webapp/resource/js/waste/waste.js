@@ -85,9 +85,17 @@ $(function(){
 	 wholesale.check = function(){
 	 	var handler = $.trim($("#handler").val());
 	 	WHOLESALE_GRID.setDataSource(getStoreDS(handler));
-	 	$("#handler").val("");
+	 	//$("#handler").val("");
 	 	WHOLESALE_GRID.refresh();
 	 };
+	//重置
+	wholesale.check1 = function(){
+		$("#handler").val("");
+		//var handler = $.trim($("#handler").val());
+		WHOLESALE_GRID.setDataSource(getStoreDS(""));
+		$("#handler").val("");
+		WHOLESALE_GRID.refresh();
+	};
 	 
 	 
 	//初始化弹出框
