@@ -1,5 +1,6 @@
 $(function() {
 	var fsn = window.fsn = window.fsn || {};
+	var portal = fsn.portal = fsn.portal || {}; // portal命名空间
 	var procurement = fsn.procurement = fsn.procurement || {};
 	procurement.qualifiedAttachments = new Array();// 合格证图片
 	procurement.disposeAttachments = new Array();// 处理证明图片
@@ -26,7 +27,7 @@ $(function() {
 		procurement.initPopup("addConfirmDisposePopup", "确认");
 
 		fsn.initKendoWindow("k_window", "保存状态", "300px", "60px", false, '[]');
-
+		fsn.initKendoWindow("addRegularity_window","选择执行标准","800px","430px",false,null);
 		// 初始化其他控件
 		procurement.initWidget();
 
@@ -37,6 +38,24 @@ $(function() {
 					effects : "fadeIn"
 				}
 			}
+		});
+		//=========================================
+		portal.initialCategorys();
+		
+		/* 点击执行标准，弹出执行标准选择框 */
+		$("#regularityDiv").click(portal.searchRegularity);
+		/* 执行标准保存按钮 */
+		$("#btn_regularity_save").click(function(){
+			$("#regularity").val($("#regularityList").text());
+			$("#addRegularity_window").data("kendoWindow").close();
+		});
+		/* 执行标准添加按钮 */
+		$("#btn_regularity_add").click(function(){
+		 	portal.addRegularity();
+		});
+		/* 执行标准选择取消按钮 */
+		$("#btn_regularity_cancel").click(function(){
+			 $("#addRegularity_window").data("kendoWindow").close();
 		});
 	};
 
@@ -293,13 +312,19 @@ $(function() {
 		procurement.buildUpload("qualified", procurement.qualifiedAttachments,
 				"IMG", true);
 		$("#name").val("");
+		$("#barcode").data("kendoNumericTextBox").value("");
+		$("#unit").val("");
 		$("#format").val("");
 		$("#batch").val("");
 		$("#productionName").val("");
 		$("#procurementNum").data("kendoNumericTextBox").value("");
 		$("#productionDate").data("kendoDatePicker").value("");
 		$("#procurementDate").data("kendoDatePicker").value("");
+		$("#category1").data("kendoComboBox").text("");
+		$("#category2").data("kendoComboBox").text("");
+		$("#category3").data("kendoComboBox").text("");
 		$("#expiration").data("kendoNumericTextBox").value("");
+		$("#regularity").val("");
 		$("#remark").val("");
 		procurement.qualifiedAttachments.length = 0;
 		$("#addPopup").data("kendoWindow").open();
@@ -365,18 +390,36 @@ $(function() {
 			lims.initNotificationMes('数量不能为空!', false);
 			return;
 		}
+		
+		var indexCategory1 =$("#category1").data("kendoComboBox").select();
+		if (indexCategory1==-1) {
+			$("#category1").focus();
+			lims.initNotificationMes("请选择产品所属的食品种类一级分类！", false);
+			return false;
+		}
+		var indexCategory2 =$("#category2").data("kendoComboBox").select();
+		if (indexCategory2==-1) {
+			$("#category2").focus();
+			lims.initNotificationMes("请选择产品所属的食品种类二级分类！", false);
+			return false;
+		}
+		var category3 =$("#category3").data("kendoComboBox").text().trim();
+		if ("" == category3 || category3 == "请选择...") {
+			$("#category3").focus();
+			lims.initNotificationMes("请选择产品所属的食品种类三级分类！", false);
+			return false;
+		}
+		
+		if ("" == $("#regularity").val().trim()) {
+			lims.initNotificationMes('执行标准不能为空!', false);
+			return;
+		}
+		
 		if ("" == $("#productionName").val().trim()) {
 			lims.initNotificationMes('生产企业名称不能为空!', false);
 			return;
 		}
-		if ("" == $("#foodType").val().trim()) {
-			lims.initNotificationMes('食品分类不能为空!', false);
-			return;
-		}
-		if ("" == $("#standard").val().trim()) {
-			lims.initNotificationMes('执行标准不能为空!', false);
-			return;
-		}
+		
 		if (procurement.qualifiedAttachments.length == 0) {
 			lims.initNotificationMes('请上传合格证图片!', false);
 			return;
@@ -398,8 +441,12 @@ $(function() {
 				$("#expiration").data("kendoNumericTextBox").value() + "天");
 		$("#procurementNum_c").html($("#procurementNum").data("kendoNumericTextBox").value());
 		$("#productionName_c").html($("#productionName").val());
-		$("#foodType_c").html($("#foodType").val());
-		$("#standard_c").html($("#standard").val());
+		var text1 = $("#category1").data("kendoComboBox").dataItem().name;
+		var text2 = $("#category2").data("kendoComboBox").dataItem().name;
+		var text3 = $("#category3").data("kendoComboBox").dataItem().name;
+		var foodType = text1  + "-" + text2 + "-" + text3;
+		$("#foodType_c").html(foodType);
+		$("#standard_c").html($("#regularity").val());
 		$("#remark_c").val($("#remark").val());
 
 		var slides = $("#slides1");
@@ -453,6 +500,10 @@ $(function() {
 	 * 新增在售商品
 	 */
 	procurement.saveConfirmProcurement = function() {
+		var text1 = $("#category1").data("kendoComboBox").dataItem().name;
+		var text2 = $("#category2").data("kendoComboBox").dataItem().name;
+		var text3 = $("#category3").data("kendoComboBox").dataItem().name;
+		var foodType = text1  + "-" + text2 + "-" + text3;
 		$("#k_window").data("kendoWindow").open().center();
 		var vo = {
 			name : $("#name").val().trim(),
@@ -467,8 +518,8 @@ $(function() {
 			expiration : $("#expiration").val().trim(),
 			procurementNum : $("#procurementNum").data("kendoNumericTextBox").value(),
 			productionName : $("#productionName").val().trim(),
-			foodType : $("#foodType").val().trim(),
-			standard : $("#standard").val().trim(),
+			foodType : foodType,
+			standard : $("#regularity").val().trim(),
 			remark : $("#remark").val().trim(),
 			hgAttachments : procurement.qualifiedAttachments
 		};
