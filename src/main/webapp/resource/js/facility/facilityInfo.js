@@ -768,10 +768,15 @@ $(document).ready(function() {
         }
     };
     facility.cleanOperateInfo = function(){
-        $("#operateType").val("");
-        $("#operateScope").val("");
+
+       var  operateScope =  $("#operateScope1").val();
+        if(operateScope == undefined){
+            $("#operateScope").data("kendoComboBox").text("");
+            $("#operateType").val("");
+        }
         $("#personCount").val("");
         $("#floorArea").val("");
+        $("#operateSeat").val("");
     };
     /**
      * 保存规模信息
@@ -785,7 +790,7 @@ $(document).ready(function() {
         }
         var operateScope = $("#operateScope1").val();
         if(operateScope == undefined){
-            operateScope = $("#operateScope").val();
+                operateScope =   $("#operateScope").data("kendoComboBox").text();
         }
         if(operateScope==null||operateScope==''){
             fsn.initNotificationMes("经营规模不能为空!", false);
