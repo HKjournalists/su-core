@@ -812,7 +812,7 @@ $(document).ready(function(){
             html += '<div class="mt10 fl6 line25 color444" style="word-warp:break-word;word-break:break-all"><span class="fl6 line25 color444">'+buAbout+'</span></div>';
         }else{
             html += '<div class="mt10 fl6 line25" style="word-warp:break-word;word-break:break-all"><span class="fl6 line25 color444">'+
-            data.about.substr(0,140)+'</span><a class="in-block folder">[查看更多]</a></div><div class="none hiddenword" style="word-warp:break-word;word-break:break-all">'+data.about+'</div>';
+            data.about.substr(0,140)+'</span><a class="in-block folder" style="color: #0000ff">[查看更多]</a></div><div class="none hiddenword" style="word-warp:break-word;word-break:break-all">'+data.about+'</div>';
         }
         $("#bu_about").html(html);
         $("#bu_legalName").html(data.personInCharge==null?"":data.personInCharge);
