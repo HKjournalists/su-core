@@ -1,20 +1,18 @@
 package com.gettec.fsnip.fsn.dao.trace.impl;
 
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Query;
-
-import org.springframework.stereotype.Repository;
-
 import com.gettec.fsnip.fsn.dao.common.impl.BaseDAOImpl;
 import com.gettec.fsnip.fsn.dao.trace.TraceDataDao;
 import com.gettec.fsnip.fsn.exception.JPAException;
 import com.gettec.fsnip.fsn.model.trace.TraceData;
 import com.lhfs.fsn.util.DateUtil;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 @Repository
 public class TraceDataDaoImpl extends BaseDAOImpl<TraceData> implements TraceDataDao {
 
@@ -154,5 +152,14 @@ public class TraceDataDaoImpl extends BaseDAOImpl<TraceData> implements TraceDat
 			return 0;
 		}
 	}
+
+    @Override
+    public void updataNameByproductId(Long productid,String name) {
+		String jpql = "UPDATE trace_data SET productName =?2 WHERE productID=?1";
+		Query query = entityManager.createQuery(jpql);
+		query.setParameter(1,productid);
+		query.setParameter(2,name);
+		query.executeUpdate();
+    }
 }
 

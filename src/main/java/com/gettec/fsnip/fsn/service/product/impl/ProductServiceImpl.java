@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.gettec.fsnip.fsn.model.trace.TraceData;
+import com.gettec.fsnip.fsn.service.trace.TraceDataService;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +92,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductDAO>
 	@Autowired private MkCategoryService categoryService;
 	@Autowired private ImportedProductService importedProductService;
 	@Autowired private ResourceService resourceService;
-	
+	@Autowired private TraceDataService traceDataService;
 	@Autowired private ProductRecommendUrlDAO recommendUrlDAO;
 	@Autowired private ProductRecommendUrlService recommendUrlService;
 	@Autowired private ProductBusinessLicenseService productBusinessLicenseService;
@@ -361,6 +363,9 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductDAO>
 				}
 				
 				Product orig_product = getDAO().findById(product.getId());
+				if(!orig_product.getName().equals(product.getName())){
+					traceDataService.updataNameByproductId(product.getId(),product.getName());
+				}
 				setProductValue(orig_product, product);
 				update(orig_product);
 				
