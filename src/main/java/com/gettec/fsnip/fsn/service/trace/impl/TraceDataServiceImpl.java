@@ -99,6 +99,11 @@ BaseServiceImpl<TraceData, TraceDataDao> implements TraceDataService {
 		return this.traceDataDao.countbyOrg(org);
 	}
 
+	@Override
+	public void updataNameByproductId(Long productID,String name) {
+		this.traceDataDao.updataNameByproductId(productID,name);
+	}
+
 	public Set<Resource> addResource(TraceData traceData){
 		
 				try {

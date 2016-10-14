@@ -19,7 +19,7 @@ public interface TraceDataService extends BaseService<TraceData, TraceDataDao> {
 	String CheckCode(String fsnCode);
 	List<TraceData> getbyOrgId(Long org,int page,int pageSize);
 	long countbyOrg(long org);
-	
+	void updataNameByproductId(Long productID,String name);
 	Set<Resource> addResource(TraceData traceData);
 	public List<ProductOfMarketVO> getListOfBuylink();
 	

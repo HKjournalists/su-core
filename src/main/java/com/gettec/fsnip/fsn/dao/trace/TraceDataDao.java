@@ -1,10 +1,10 @@
 package com.gettec.fsnip.fsn.dao.trace;
 
 
-import java.util.List;
-
 import com.gettec.fsnip.fsn.dao.common.BaseDAO;
 import com.gettec.fsnip.fsn.model.trace.TraceData;
+
+import java.util.List;
 
 public interface TraceDataDao extends BaseDAO<TraceData> {
 	public boolean check(Long productID,String batchCode);
@@ -14,4 +14,6 @@ public interface TraceDataDao extends BaseDAO<TraceData> {
 	TraceData findByKeyWord(String keyword);
 	List<TraceData> getbyOrgId(Long org,int page,int pageSize);
 	long countbyOrg(long org);
+
+    void updataNameByproductId(Long productID,String name);
 }
