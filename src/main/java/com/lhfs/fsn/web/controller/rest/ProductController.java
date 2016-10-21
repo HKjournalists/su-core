@@ -1222,6 +1222,7 @@ public class ProductController {
 			@RequestParam("code") String code,
 			@RequestParam(value="productdate",required=false) String productdate,
 			@RequestParam String type,
+			HttpServletRequest request,
 			@RequestParam(value="page",defaultValue="1",required=false) int page){
 	//	TraceData traceData=null;
 		long productId=0;
@@ -1264,14 +1265,17 @@ public class ProductController {
 			//是否为portal调用;是为ture；否则：false
 			boolean portalFlag = true;
 				if(result == null){
-					if(("企业自检").equals(type)){
+					/*if(("企业自检").equals(type)){
 						testRptJson = testReportService.getReportJsonByPreciseDate(productId, type,page, productDate,portalFlag);
 						count=testReportService.countByProductIdAndTestTypeWithProductdate(productId, type, productDate);
+
 					}
 					else{
 						testRptJson = testReportService.getReportJsonByDate(productId, type, page, productDate,portalFlag);
 						count=1;
-					}
+					}*/
+                    testRptJson = testReportService.getReportJsonByDate(productId, type, page, productDate,portalFlag);
+                    count=1;
 				}
 				else if(("企业自检").equals(type)){
 					EhCacheFactory.put(CACHE_REPORT_SELF + "_" + productId  + page + productDate, testRptJson);

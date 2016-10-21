@@ -1227,25 +1227,103 @@ st_customer.PorCDetail = function(id, name, licenseno, diyTypeName, note){
 	$("#detail_lable_base_remarks_content").html(note=="null"||note==null?"":note);
 	// if(st_customer.SIMPLE_TYPE == 2) $(".t_hide").removeClass("t_hide");
 }
-
+st_customer.verifyDataSource = function(keyword){
+var ds =null;
+	$.ajax({
+        url: fsn.getHttpPrefix() + "/erp/customer/" + st_customer.SIMPLE_TYPE + "/searchCustomer/" + 1 + "/" + 10 + "/"+keyword+"/"+Math.random(),
+        type: "GET",
+        dataType: "json",
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        success: function(returnValue) {
+        if(returnValue.result.count==0){
+                ds=null;
+        }else{
+            	ds=returnValue.result.listOfModel[0].name;
+        }
+        }
+    });
+	return ds;
+};
+/*st_customer.verifyDataSource = function(){
+		var ds = new kendo.data.DataSource({
+        			transport:{
+        				read:{
+        					type:"GET",
+        					dataType:"json",
+        					contentType:"application/json",
+        					url : function(options){
+        						var keyword = $("#license").val();
+        						return fsn.getHttpPrefix() + "/erp/customer/" + st_customer.SIMPLE_TYPE + "/searchCustomer/" + options.page + "/" + options.pageSize + "/"+keyword.trim()+"/"+Math.random();
+        					},
+        				}
+        			},
+        			schema:{
+        				fields: {
+        					id:{type:"number"},
+        					name:{type:"string"},
+        					diyType:{
+        						id:{type:"number"},
+        						name:{type:"string"}
+        					},
+        					note:{type:"string"}
+        				},
+        				data:function(data) {
+        				alert(data);
+        					return data.result.listOfModel;
+        				},
+        			},
+        			batch : true,
+        			page:1,
+        			pageSize : 10, //每页显示个数
+        			serverPaging : true,
+        			serverFiltering : true,
+        			serverSorting : true
+        		});
+		return ds;
+	}*/
 st_customer.verifyCustomer = function() {
+    var fl=null;
 	if($("#name").val().trim() == "") {
 		fsn.initNotificationMes("请填写" + st_customer.SIMPLE_MODEL_NAME + "名称！",false);
 		$("#name").focus();
 		return;
 	}
-	/*if($("#license").val().trim() == "") {
-		fsn.initNotificationMes("请填写" + st_customer.SIMPLE_MODEL_NAME + "执照号！",false);
-		$("#license").focus();
-		return;
+	if(typeName!="原材料来源客户"){
+	if($("#license").val().trim() == "") {
+    		fsn.initNotificationMes("请填写" + st_customer.SIMPLE_MODEL_NAME + "执照号！",false);
+    		$("#license").focus();
+    		return;
+    	}
+	var lickeyword=$("#license").val();
+	var namekeyword=$("#name").val();
+	var businessName=st_customer.verifyDataSource(lickeyword);
+	if(businessName!=null){
+	/*if(confirm("该营业执照号已注册，系统将自动匹配已注册的企业名称为"+businessName)){
+	   $("#name").val(businessName);
 	}*/
-	var type = typeId;
-	if(type == -1) {
-		fsn.initNotificationMes("请选择" + st_customer.SIMPLE_MODEL_NAME + "类型！",false);
-		$("#type").focus();
-		return;
+	if(namekeyword==businessName){
+	    fl=true;
+	}else{
+	    layer.open({
+              content: '该营业执照号'+lickeyword+'已注册，系统将自动匹配已注册的企业名称为'+businessName,
+              btn: ['确定', '取消'],
+              yes: function(index){
+              $("#name").val(businessName);
+              layer.close(index);
+              },
+              btn2: function(index, layero){
+                   //按钮【按钮二】的回调
+                 }
+            });
 	}
-	return true;
+	}else{
+	    fl=true;
+	}
+	}else{
+	    fl=true;
+	}
+	return fl;
 }
 
 
