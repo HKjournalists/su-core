@@ -28,6 +28,8 @@
 <script src="../../resource/js/account/st_customer_common.js"></script>
 <script src="../../resource_new/js/erp/common.js"></script>
 <script src="../../resource/js/account/st_customer.js"></script>
+<script src="../../resource/js/layer/layer/layer.js"></script>
+<script src="../../resource/js/layer/dialog.js"></script>
 	
 <script>
 $(document).ready(function() {
@@ -61,7 +63,7 @@ $(document).ready(function() {
 						  
 						     <input  type=text size="50" id="search_keyword" style="height: 30px;" placeholder="请输入查询条件，支持模糊查询客户名称/客户营业执照号等"  onKeyDown="fsn.st_customer.getEnterPress(event)" /> 
 							 <input type="button" onclick="fsn.st_customer.initGridSearch()" class="k-button" value="查询">
-							 <input type="button" onclick="fsn.st_customer.addSearch()" class="k-button" value="新增">
+							 <input type="button" onclick="fsn.st_customer.addSearch()" class="k-button" value="新增" id="xinzeng">
 							 <input type="button" onclick="location.reload()" id="but_back"style="float: right;display: none" class="k-button" value="返回">
 							 <input type="hidden" id ="typeStatus"/>
 						 	<div id = "searchContext" style="display:block;margin-top:20px;"></div>

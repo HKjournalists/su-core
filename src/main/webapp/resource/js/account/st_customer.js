@@ -16,6 +16,7 @@ $(function(){
 	 */
 	st_customer.initailize = function(){
 		st_customer.initailize_common();
+		$("#xinzeng").hide();
 		if(st_customer.SIMPLE_TYPE==2){
 			st_customer.initSearch();
 			$("#GRID_PROVIDER").hide();
@@ -110,7 +111,6 @@ $(function(){
 		}
 	};
 	st_customer.searchDataSource = function(){
-		
 		var ds = new kendo.data.DataSource({
 			transport:{
 				read:{
@@ -145,10 +145,10 @@ $(function(){
 				total:function(data){
 					var count = data.result.count;
 					if(count == 0){
-                          $("#telab").text("没有该企业的相关信息！");
-						$("#searchContext").hide();	
+						$("#searchContext").hide();
+						$("#xinzeng").show();
+						fsn.initNotificationMes("没有该企业的相关信息，请新增！", false);
 					}else{
-                        $("#telab").text("已经查询到"+count+"条信息！");
 						$("#searchContext").show();
 					}
                     $("#searchAdd").show();
