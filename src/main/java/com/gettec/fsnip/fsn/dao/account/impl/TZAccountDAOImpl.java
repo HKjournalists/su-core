@@ -1399,7 +1399,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 
 			StringBuffer sb = new StringBuffer();
 			sb.append(" SELECT MAX(result.id) FROM product_instance pinst");
-			sb.append(" INNER JOIN product pro ON pro.id = pinst.product_id");
+//			sb.append(" s");
 			sb.append(" INNER JOIN test_result result ON result.sample_id = pinst.id");
 			sb.append(" WHERE pinst.product_id = ?1");
 			sb.append(" AND DATE_FORMAT(pinst.production_date,'%Y-%m-%d') = ?2");
@@ -1410,7 +1410,8 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 				sb.append(" AND DATE_ADD(pinst.production_date,INTERVAL pro.expiration_date DAY) > NOW()");
 			}*/
 
-			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
+//			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
+			sb.append(" AND result.publish_flag=6 AND result.del = 0");
 			//sb.append(" AND result.test_type = '企业自检'");
 			Query query = entityManager.createNativeQuery(sb.toString());
 			query.setParameter(1,proId);
@@ -1449,7 +1450,8 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			sb.append(" AND pinst.production_date <= ?3");
 
 			sb.append(" AND (result.test_type = '企业送检' OR result.test_type = '政府抽检')");
-			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
+//			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
+			sb.append(" AND result.publish_flag=6 AND result.del = 0");
 			Query query = entityManager.createNativeQuery(sb.toString());
 			query.setParameter(1,proId);
 			query.setParameter(2,prodate);
