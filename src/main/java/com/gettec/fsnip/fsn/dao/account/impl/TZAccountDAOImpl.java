@@ -695,9 +695,11 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 		StringBuilder sb = new StringBuilder();
 		sb.append(" SELECT p.id,p.name,p.barcode,p.format,p.qs_no,p.expiration_date,1 FROM ");
 		sb.append(" (SELECT pro.id,pro.name,pro.barcode,pro.format,qs.qs_no,pro.expiration_date FROM product pro ");
+		sb.append(" INNER JOIN product_instance ip ON ip.product_id = pro.id " );
+		sb.append(" INNER JOIN test_result tr ON tr.sample_id = ip.id  ");
 		sb.append(" LEFT JOIN product_to_businessunit pb ON pb.PRODUCT_ID=pro.id ");
 		sb.append(" LEFT JOIN production_license_info qs ON qs.id=pb.qs_id ");
-		sb.append(" WHERE pro.organization = ?1");
+		sb.append(" WHERE tr.publish_flag = 1 and pro.organization = ?1");
 		if (!"".equals(name)&&!"".equals(barcode)) {
 			sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
 		}
@@ -710,6 +712,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 		sb.append(" GROUP BY pro.id ) AS p ");
 		try {
 			Query query = entityManager.createNativeQuery(sb.toString()).setParameter(1, curOrg);
+			System.out.println(sb.toString());
 			if (page > 0 && pageSize > 0) {
 				query.setFirstResult((page - 1) * pageSize);
 				query.setMaxResults(pageSize);
@@ -731,9 +734,11 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			StringBuilder sb = new StringBuilder();
 			sb.append(" SELECT count(*) FROM ");
 			sb.append(" (SELECT pro.id,pro.name,pro.barcode,pro.format,qs.qs_no,pro.expiration_date FROM product pro ");
+			sb.append(" INNER JOIN product_instance ip ON ip.product_id = pro.id " );
+			sb.append(" INNER JOIN test_result tr ON tr.sample_id = ip.id  ");
 			sb.append(" LEFT JOIN product_to_businessunit pb ON pb.PRODUCT_ID=pro.id ");
 			sb.append(" LEFT JOIN production_license_info qs ON qs.id=pb.qs_id ");
-			sb.append(" WHERE pro.organization = ?1");
+			sb.append(" WHERE  tr.publish_flag = 1 and pro.organization = ?1");
 			if (!"".equals(name)&&!"".equals(barcode)) {
 				sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
 			}
