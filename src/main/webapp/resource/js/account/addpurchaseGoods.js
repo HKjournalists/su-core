@@ -689,7 +689,7 @@ $(function() {
                                
                                {field: "batch",width: 75, title: fsn.l("批次"),filterable: false},
                                
-                               {width: 60, title: fsn.l("过期日期"),
+                               {width: 70, title: fsn.l("过期日期"),
                                    template: function (e) {
                                 	   var uuid = e.uuid;
                                 	   var qs = $.md5(e.qsNumber==undefined?"":e.qsNumber+uuid);

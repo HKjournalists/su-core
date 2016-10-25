@@ -1415,8 +1415,8 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 				sb.append(" AND DATE_ADD(pinst.production_date,INTERVAL pro.expiration_date DAY) > NOW()");
 			}*/
 
-//			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
-			sb.append(" AND result.publish_flag=6 AND result.del = 0");
+			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
+//			sb.append(" AND result.publish_flag=6 AND result.del = 0");
 			//sb.append(" AND result.test_type = '企业自检'");
 			Query query = entityManager.createNativeQuery(sb.toString());
 			query.setParameter(1,proId);
@@ -1451,12 +1451,12 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			sb.append(" INNER JOIN test_result result ON result.sample_id = pinst.id");
 			sb.append(" WHERE pinst.product_id = ?1");
 
-			sb.append(" AND pinst.production_date >= DATE_ADD(?2,INTERVAL -6 MONTH)");
+			sb.append(" AND pinst.production_date >= DATE_ADD(?2,INTERVAL-6 MONTH)");
 			sb.append(" AND pinst.production_date <= ?3");
 
 			sb.append(" AND (result.test_type = '企业送检' OR result.test_type = '政府抽检')");
-//			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
-			sb.append(" AND result.publish_flag=6 AND result.del = 0");
+			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
+//			sb.append(" AND result.publish_flag=6 AND result.del = 0");
 			Query query = entityManager.createNativeQuery(sb.toString());
 			query.setParameter(1,proId);
 			query.setParameter(2,prodate);
@@ -1682,9 +1682,15 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 		sb.append(" SELECT p.id,p.name,p.barcode,p.format,p.qs_no,p.expiration_date,1 FROM ");
 		sb.append(" (SELECT pro.id,pro.name,pro.barcode,pro.format,qs.qs_no,pro.expiration_date FROM t_meta_initialize_product ip ");
 		sb.append(" INNER JOIN product pro ON ip.product_id=pro.id  ");
+		
+		sb.append(" INNER JOIN product_instance pins ON pins.product_id = pro.id " );
+		sb.append(" INNER JOIN test_result tr ON tr.sample_id = pins.id  ");
+		
 		sb.append(" LEFT JOIN product_to_businessunit pb ON pb.PRODUCT_ID=pro.id ");
 		sb.append(" LEFT JOIN production_license_info qs ON qs.id=pb.qs_id ");
-		sb.append(" WHERE ip.organization = ?1 AND ip.del=0 ");
+//		sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
+		
+		sb.append(" WHERE ip.organization = ?1 AND ip.del=0 AND tr.publish_flag NOT IN(4,5,7) AND tr.del = 0");
 		if (!"".equals(name)&&!"".equals(barcode)) {
 			sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
 		}
@@ -1715,9 +1721,16 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			sb.append(" SELECT count(*) FROM ");
 			sb.append(" (SELECT pro.id,pro.name,pro.barcode,pro.format,qs.qs_no,pro.expiration_date FROM t_meta_initialize_product ip ");
 			sb.append(" INNER JOIN product pro ON ip.product_id=pro.id  ");
+			
+			sb.append(" INNER JOIN product_instance pins ON pins.product_id = pro.id " );
+			sb.append(" INNER JOIN test_result tr ON tr.sample_id = pins.id  ");
+			
 			sb.append(" LEFT JOIN product_to_businessunit pb ON pb.PRODUCT_ID=pro.id ");
 			sb.append(" LEFT JOIN production_license_info qs ON qs.id=pb.qs_id ");
-			sb.append(" WHERE ip.organization = ?1 AND ip.del=0 ");
+			
+//			sb.append(" WHERE ip.organization = ?1 AND ip.del=0 ");
+			
+			sb.append(" WHERE ip.organization = ?1 AND ip.del=0 AND tr.publish_flag NOT IN(4,5,7) AND tr.del = 0");
 			if (!"".equals(name)&&!"".equals(barcode)) {
 				sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
 			}

@@ -297,7 +297,7 @@ $(function() {
           			return false;
           			break;
          		}
-          		if(prodate.indexOf("选择")>-1){//判断是否选择生产日期
+          		if(prodate.indexOf("选择")>-1 || prodate == ""){//判断是否选择生产日期
           			fsn.initNotificationMes("请选择生产日期！",false);
           			return false;
           			break;
@@ -750,7 +750,7 @@ $(function() {
                                
                                {field: "batch",width: 75, title: fsn.l("批次"),filterable: false},
                                
-                               {width: 60, title: fsn.l("过期日期"),
+                               {width: 70, title: fsn.l("过期日期"),
                                    template: function (e) {
                                 	   var uuid = e.uuid;
                                 	   var qs = $.md5(e.qsNumber==undefined?"":e.qsNumber+uuid);
