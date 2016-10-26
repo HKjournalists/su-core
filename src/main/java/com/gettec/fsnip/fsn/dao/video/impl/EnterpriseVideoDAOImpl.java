@@ -45,9 +45,9 @@ implements EnterpriseVideoDAO {
                     Number result=(Number)query2.getSingleResult();
                     int count=result.intValue();
                     businessVo.setId(id);
-                    businessVo.setName(obj[1].toString());
-                    businessVo.setAddress(obj[2].toString());
-                    businessVo.setBusType(obj[4].toString());
+                    businessVo.setName(obj[1]==null?"":obj[1].toString());
+                    businessVo.setAddress(obj[2]==null?"":obj[2].toString());
+                    businessVo.setBusType(obj[4]==null?"":obj[4].toString());
                     businessVo.setCount(count);
                     businessVoList.add(businessVo);
                 }
@@ -90,15 +90,15 @@ implements EnterpriseVideoDAO {
                     Enterprise_video enterprise_video=new Enterprise_video();
                     enterprise_video.setId(obj[0].toString());
                     enterprise_video.setOrg_id(obj[1].toString());
-                    enterprise_video.setVideo_url(obj[2].toString());
-                    enterprise_video.setVideo_type(obj[3].toString());
-                    enterprise_video.setVideo_desc(obj[4].toString());
+                    enterprise_video.setVideo_url(obj[2]==null?"":obj[2].toString());
+                    enterprise_video.setVideo_type(obj[3]==null?"":obj[3].toString());
+                    enterprise_video.setVideo_desc(obj[4]==null?"":obj[4].toString());
                     enterprise_video.setSort(Integer.parseInt(obj[5].toString()));
-                    enterprise_video.setIs_show(obj[6].toString());
-                    enterprise_video.setCreate_user(obj[7].toString());
-                    enterprise_video.setCreate_time(obj[8].toString());
-                    enterprise_video.setLast_modify_user(obj[9].toString());
-                    enterprise_video.setLast_modify_time(obj[10].toString());
+                    enterprise_video.setIs_show(obj[6]==null?"":obj[6].toString());
+                    enterprise_video.setCreate_user(obj[7]==null?"":obj[7].toString());
+                    enterprise_video.setCreate_time(obj[8]==null?"":obj[8].toString());
+                    enterprise_video.setLast_modify_user(obj[9]==null?"":obj[9].toString());
+                    enterprise_video.setLast_modify_time(obj[10]==null?"":obj[10].toString());
                     enterpriseVideoList.add(enterprise_video);
                 }
             }

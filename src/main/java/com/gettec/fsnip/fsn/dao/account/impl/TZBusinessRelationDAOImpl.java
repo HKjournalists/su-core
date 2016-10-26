@@ -36,9 +36,19 @@ public class TZBusinessRelationDAOImpl extends
     @Autowired TZStockDAO tzStockDAO;
     @Autowired
     TZBusAccountOutService tzBusAccountOutService;
-    
     static SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    
+    /**
+     * 判断是否是蒸馏酒;因为包就包含其中，没有保质期，都默认为白酒
+     * @param proId
+     * @return
+     */
+    private boolean isJiuLei(Long proId){
+
+        String sql = " SELECT count(*) FROM product WHERE id = ?1 AND category='1501'";//二级分类为蒸馏酒
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter(1,proId);
+        return Long.parseLong(query.getSingleResult().toString())>0?true:false;
+    }
     /**
      * 根据企业关系加载对应的企业信息List
      * @param myOrg 本企业id
@@ -291,7 +301,12 @@ public class TZBusinessRelationDAOImpl extends
                 vo.setId(objs[4] != null && !"".equals(objs[4].toString()) ? Long.valueOf(objs[4].toString()) : -1);
                 vo.setQsNumber(objs[5] != null ? objs[5].toString() : "");
                 vo.setPrice(new BigDecimal(objs[7] != null && !"".equals(objs[7].toString()) ? objs[7].toString() : 0 + ""));
-                String expDay = objs[8] != null ? objs[8].toString(): "";
+                String expDay ="";
+                if(isJiuLei(vo.getProductId())){
+                    expDay="0";
+                }else{
+                    expDay=objs[8] != null ? objs[8].toString(): "";
+                }
                 List<ProductionDateVO> birthDateList = getBirthDateByProductId(vo.getProductId(),expDay);
                 vo.setBirthDateList(birthDateList);
                 if(outId!=null){
@@ -371,8 +386,8 @@ public class TZBusinessRelationDAOImpl extends
                 vo.setInstanceId(objs[0] != null ? objs[0].toString() : "");
                 vo.setBirthDate(objs[1] != null ? objs[1].toString().substring(0, 10) : "");
                 vo.setBatch(objs[2] != null ? objs[2].toString() : "");
-                vo.setOverDate(objs[3] != null ? objs[3].toString().substring(0, 10) : "");
-                if(day!=null&&!"".equals(day)){
+                vo.setOverDate("");
+                if(day!=null&&!"".equals(day) && !"0".equals(day)){
                     calculationOverDate(vo, Integer.parseInt(day));
                 }
                 lists.add(vo);
