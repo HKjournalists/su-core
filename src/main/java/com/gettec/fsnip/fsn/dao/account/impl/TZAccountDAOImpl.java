@@ -1578,7 +1578,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 				vo.setReportId(objs[4] != null ? objs[4].toString() : "-1");
 				/*判断该批次对应的报告是否已过期*/
 				calculationReportExpire(vo, objs[5]);
-				if (day != null && !"".equals(day)) {
+				if (day != null && !"".equals(day) && !"0".equals(day)) {
 					calculationOverDate(vo, Integer.parseInt(day));
 				}
 				lists.add(vo);

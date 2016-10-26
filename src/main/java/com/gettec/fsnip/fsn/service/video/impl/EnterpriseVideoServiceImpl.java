@@ -1,14 +1,17 @@
 package com.gettec.fsnip.fsn.service.video.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.gettec.fsnip.fsn.dao.video.EnterpriseVideoDAO;
 import com.gettec.fsnip.fsn.exception.JPAException;
 import com.gettec.fsnip.fsn.exception.ServiceException;
 import com.gettec.fsnip.fsn.model.video.Enterprise_video;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.service.video.EnterpriseVideoService;
+import com.gettec.fsnip.fsn.vo.business.BusinessVideoVo;
 import com.gettec.fsnip.fsn.vo.erp.PagingSimpleModelVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author litg
@@ -40,5 +43,21 @@ public class EnterpriseVideoServiceImpl extends BaseServiceImpl<Enterprise_video
 			throw new ServiceException("", jpae.getException());
 		}
 		return result;
+	}
+
+	@Override
+	public List<BusinessVideoVo> getbusinessByvideo(int page, int page_size, String name, String keyword) throws ServiceException {
+
+		return getDAO().getbusinessByvideo(page,page_size,name,keyword);
+	}
+
+	@Override
+	public String countbusinessByvideo(int page, int page_size, String name, String keyword) throws ServiceException {
+		return getDAO().countbusinessByvideo(page,page_size,name,keyword);
+	}
+
+	@Override
+	public List<Enterprise_video> getVideoByOrgid(int page, int page_size, Long orgid) throws ServiceException {
+		return getDAO().getVideoByOrgid(page,page_size,orgid);
 	}
 }
