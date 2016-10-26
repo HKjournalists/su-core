@@ -247,6 +247,7 @@ $(function() {
          if(pArr!=null&&pArr.length>0){
          	for(var x= 0;x<pArr.length;x++){
          		var prodate = pArr[x].productionDate;
+         		var batch = pArr[x].batch;
                 if(prodate == null){
                     fsn.initNotificationMes("产品"+pArr[x].name+"无报告不能进货，请先添加报告！",false);
                     return false;
@@ -257,8 +258,14 @@ $(function() {
           			return false;
           			break;
           		}
+                if(batch==null||batch==""){//判断是否输入了批次
+                    fsn.initNotificationMes("请输入批次！",false);
+                    return false;
+                    break;
+                }
          		var qs = $.md5(pArr[x].qsNumber+pArr[x].uuid);
-         		pArr[x].batch = $("#batch"+pArr[x].productId+qs).html();
+//         		pArr[x].batch = $("#batch"+pArr[x].productId+qs).html();
+//         		pArr[x].batch = batch;
          		pArr[x].overDate = $("#overDate"+pArr[x].productId+qs).html();
          		busUnit.proList.push(pArr[x]);
          	}
@@ -388,6 +395,37 @@ $(function() {
 
     };
 
+    
+    /*
+     * 格式化时间控件获取的时间*/
+    function FormatDate (strTime) {
+        var date = new Date(strTime);
+        var dateee = date.format("YYYY-MM-dd");
+        return dateee;//date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+    }
+    
+    
+    /**
+     * 生产日期+保质期=产品有效期
+     */
+    function getOverDate(dd,days){
+        var ttArr = dd.split("-");
+        var a = new Date(ttArr[0],ttArr[1]-1,ttArr[2],"","","");
+        a = a.valueOf();
+        a = a + days * 24 * 60 * 60 * 1000;
+        a = FormatDate(new Date(a));
+        return FormatDate(new Date(a));
+    };
+    
+    
+    function getDateByMonth(dd,month){
+    	var date = new Date(dd);
+	    date.setMonth(date.getMonth() + month);
+	    var month = date.getMonth();
+	    month = ((month==0)?(12):(month));
+	    var befD = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" +date.getDate();
+	    return befD;
+    };
 
     function editPrice(container, options){
         var input = $('<input min="0.00" value="0.00"/>');
@@ -533,45 +571,125 @@ $(function() {
                                {
                                    field: "productionDate", title: fsn.l("生产日期"), width: 80, filterable: false,
                                    editor:function(container, options) {
-                                       var item = options.model;
-                                       var tag = "<option selected='selected'>选择生产日期</option>";
-                                       var list = item.birthDateList;
-                                       if(list!=null && list.length > 0){
-                                           for(var x=0;x<list.length;x++){
-                                               tag += "<option id='"+ list[x].batch +"' title='"+ list[x].overDate +"' value='"+ list[x].instanceId +"'>"+list[x].birthDate+"</option>";
+//                                       var item = options.model;
+//                                       var tag = "<option selected='selected'>选择生产日期</option>";
+//                                       var list = item.birthDateList;
+//                                       if(list!=null && list.length > 0){
+//                                           for(var x=0;x<list.length;x++){
+//                                               tag += "<option id='"+ list[x].batch +"' title='"+ list[x].overDate +"' value='"+ list[x].instanceId +"'>"+list[x].birthDate+"</option>";
+//                                           }
+//                                       };
+//                                       var selectTag = $("<select class='k-select k-textbox' style='width: 120px;' onchange='return fsn.relation.selectDate(this)'>"+ tag+"</select>");
+//
+//                                       selectTag.appendTo(container);
+//
+//                                       relation.selectDate = function(obj){
+//                                           var index = obj.selectedIndex; // 选中索引
+//                                           var overDate = obj.options[index].title;
+//                                           var text = obj.options[index].text;
+//                                           var batch = obj.options[index].id;
+//                                           item.batch = batch;
+//                                           item.overDate = overDate;
+//                                           var uuid = options.model.uuid;
+//                                           var qs = options.model.qsNumber;
+//                                           qs = $.md5(qs==undefined?"":qs+uuid);
+//                                           options.model.productionDate = text;
+//                                           $("#batch"+options.model.productId+qs).html(batch);
+//                                           $("#overDate"+options.model.productId+qs).html(overDate);
+//                                       };
+                                	   
+                                	   /**
+                                	    * 商超和流通企业进货台账可以直接编辑生产日期，和批次
+                                	    */
+                                	   var input = $('<input type="text">');
+                                       input.attr("productionDate", options.field);
+                                       input.appendTo(container);
+                                       input.kendoDatePicker({
+                                           format: "yyyy-MM-dd",
+                                           height:30,
+                                           max: new Date(),
+                                           culture : "zh-CN",
+                                           animation: {
+                                               close: {
+                                                   effects: "fadeOut zoom:out",
+                                                   duration: 300
+                                               },
+                                               open: {
+                                                   effects: "fadeIn zoom:in",
+                                                   duration: 300
+                                               }
                                            }
-                                       };
-                                       var selectTag = $("<select class='k-select k-textbox' style='width: 120px;' onchange='return fsn.relation.selectDate(this)'>"+ tag+"</select>");
+                                       });
+                                       input.change(function(){
+                                           var vv = input.data("kendoDatePicker").value();
+                                           if(vv === null ||vv==="1970-1-1"||vv==="1970-1-01"||vv==="1970-01-1"||vv==="1970-01-01"){
+                                               fsn.initNotificationMes("请选择生产日期",false);
+                                               return;
+                                           }
+                                           var prodate = FormatDate(vv);
+                                           var haveReport = false;
+                                           var reportId = "";
+                                           var proId = options.model.productId;
+                                           $("#warn").html("根据您输入的生产日期，将为您查询<span style='color:red;'>"+getDateByMonth(prodate,-6)+"</span>到<span style='color:red;'>"+prodate+"</span>时间段内的送检报告和抽检报告或与您输入日期相对应的自检报告！");
+                                           $('#warn').css('display','');
+                                           //setTimeout("$('#warn').css('display','none')", 10000 );
+                                           $.ajax({
+                                               url:HTTPPREFIX + "/tzAccount/checkReport?prodate="+prodate+"&proId="+proId,
+                                               type:"GET",
+                                               dataType: "json",
+                                               async:false,
+                                               success:function(returnValue){
+                                                   if(returnValue.result.success){
+                                                       haveReport = returnValue.haveReport;
+                                                       reportId = returnValue.reportId;
+                                                   }else{
+                                                       fsn.initNotificationMes("系统异常,请稍后再试！",false);
+                                                   }
+                                               }
+                                           });
 
-                                       selectTag.appendTo(container);
-
-                                       relation.selectDate = function(obj){
-                                           var index = obj.selectedIndex; // 选中索引
-                                           var overDate = obj.options[index].title;
-                                           var text = obj.options[index].text;
-                                           var batch = obj.options[index].id;
-                                           item.batch = batch;
-                                           item.overDate = overDate;
                                            var uuid = options.model.uuid;
-                                           var qs = options.model.qsNumber;
-                                           qs = $.md5(qs==undefined?"":qs+uuid);
-                                           options.model.productionDate = text;
-                                           $("#batch"+options.model.productId+qs).html(batch);
-                                           $("#overDate"+options.model.productId+qs).html(overDate);
-                                       };
+                                           var qs = $.md5(options.model.qsNumber+uuid);
+
+                                           if(!haveReport){
+                                               fsn.initNotificationMes("该生产日期对应的报告不存在或未审核通过",false);
+                                               options.model.productionDate = "";
+                                               options.model.overDate = "";
+                                               $("#overDate"+options.model.productId+qs).html("");
+                                               return "";
+                                           }
+                                           options.model.productionDate = FormatDate(vv);
+
+                                           /*设置过期日期*/
+                                           //options.model.overDate = FormatDate(vv);
+                                           var od = "";
+                                           if(options.model.expday!=0){
+                                        	   od = getOverDate(FormatDate(vv),options.model.expday);
+                                           }
+                                           options.model.overDate = od;
+                                           $("#overDate"+options.model.productId+qs).html(od);
+                                           options.model.reportId = reportId;
+                                           $("#reportId").html(reportId);
+                                           //fsn.initNotificationMes("请填入批次号",false);
+                                       });
+                                       
                                    }
                                },
-                               {width: 70, title: fsn.l("批次"),
-                                   template: function (e) {
-                                       var batch = e.batch;
-                                       var uuid = e.uuid;
-                                       var qs = $.md5(e.qsNumber==undefined?"":e.qsNumber+uuid);
-                                       if(e.batch==null) batch="";
-                                       var tag = "<label id='batch"+ e.productId+qs+"'>"+ batch +"</label>";
-                                       return tag;
-                                   }
-                               },
-                               {width: 60, title: fsn.l("过期日期"),
+                               
+//                               {width: 70, title: fsn.l("批次"),
+//                                   template: function (e) {
+//                                       var batch = e.batch;
+//                                       var uuid = e.uuid;
+//                                       var qs = $.md5(e.qsNumber==undefined?"":e.qsNumber+uuid);
+//                                       if(e.batch==null) batch="";
+//                                       var tag = "<label id='batch"+ e.productId+qs+"'>"+ batch +"</label>";
+//                                       return tag;
+//                                   }
+//                               },
+                               
+                               {field: "batch",width: 75, title: fsn.l("批次"),filterable: false},
+                               
+                               {width: 70, title: fsn.l("过期日期"),
                                    template: function (e) {
                                 	   var uuid = e.uuid;
                                 	   var qs = $.md5(e.qsNumber==undefined?"":e.qsNumber+uuid);
@@ -662,7 +780,7 @@ $(function() {
 	        },
 	        pageable: {
 	            refresh: true,
-	            messages: fsn.gridPageMessage(),
+	            messages: fsn.gridPageMessage()
 	        },
 	        serverPaging : true,
 	        serverFiltering : true,
