@@ -3,13 +3,12 @@ package com.gettec.fsnip.fsn.web.controller.rest.wdn;
 import com.gettec.fsnip.fsn.model.wdn.WdnOrderInfo;
 import com.gettec.fsnip.fsn.service.wdn.WdnService;
 import com.gettec.fsnip.fsn.util.DataOpenPlatformUtils;
-import com.gettec.fsnip.fsn.web.util.SSOUtil;
 import com.gettec.fsnip.sso.client.util.AccessUtils;
 import com.gettec.fsnip.sso.client.util.SSOClientUtil;
 import com.gettec.fsnip.sso.client.vo.AuthenticateInfo;
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
+import org.elasticsearch.common.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,7 +29,6 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -148,10 +145,10 @@ public class WdnRestService {
 					+ "&dataSource=" + enCodeUTF8(dataSource);
 			String p_ = (str).replace("__", "/")
 					.split("&dataSource")[0];
-			result = connect(url + p_ + "&remark=''", "GET", "");
-			JSONObject obj = JSONObject.fromObject(result);
-			String orderId = obj.getString("orderId");
+			/*result = connect(url + p_ + "&remark=''", "GET", "");
+			JSONObject obj = JSONObject.fromObject(result);  */
 
+			String orderId = info.getUserOrgName() + "_"  +  info.getUserId() + "_" + LocalDate.now().toString();//obj.getString("orderId");
 			WdnOrderInfo order = new WdnOrderInfo();
 			order.setOrderId(orderId);
 			order.setTitle(URLDecoder.decode(title, "UTF-8"));
@@ -167,9 +164,11 @@ public class WdnRestService {
 			order.setPhone(applyPhone);
 			order.setEmail(applyMail);
 			order.setApplyDate(new Date());
-			order.setStatus("等待处理！");
+			order.setStatus("正在处理,请注意查收邮件!");
 			wdnService.saveWdnOrder(order);
-			model.addAttribute("status", obj.get("illReturn"));
+            //当前和国科图还在洽谈价格, 临时生成本地订单, 应用部通过测试院账号检索文件后发送给企业用户
+            model.addAttribute("status", true);
+//			model.addAttribute("status", obj.get("illReturn"));
 			boolean hasEmail = (null == applyMail ? false : true);
 			boolean hasPhone = (null == applyPhone ? false : true);
 			// 由于大部分用户不存在电话和邮箱, 程序反向推理
@@ -226,7 +225,11 @@ public class WdnRestService {
 
             if(list.size()>0){
                 for(WdnOrderInfo order:list){
-                    String url = "http://dds.las.ac.cn/Reader/guizhou_query_order.jsp?orderId=";
+
+                    if(null != order.getStatus() && order.getStatus().trim().equals("")){
+                        order.setStatus("正在处理,请注意查收邮件!");
+                    }
+                    /*String url = "http://dds.las.ac.cn/Reader/guizhou_query_order.jsp?orderId=";
                     url += order.getOrderId();
                     String results = connect(url, "GET", "");
                     if(!"null".equals(results)){
@@ -243,7 +246,7 @@ public class WdnRestService {
                         }else{
                             order.setStatus("未知状态");
                         }
-                    }
+                    }*/
                 }
             }
             model.addAttribute("results", list);
