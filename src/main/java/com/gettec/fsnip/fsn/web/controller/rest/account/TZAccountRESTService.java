@@ -450,11 +450,11 @@ public class TZAccountRESTService extends BaseRESTService{
       */
     @RequestMapping(method = RequestMethod.GET, value = "/checkReport")
     public View checkReport(Model model,@RequestParam(value = "prodate") String prodate,
-                                        @RequestParam(value = "proId") Long proId){
+                                        @RequestParam(value = "proId") Long proId,@RequestParam(value = "reportFlag",required = false,defaultValue = "false") boolean reportFlag){
 
         ResultVO resultVO = new ResultVO();
         try {
-            model = tZAccountService.checkReport(model,prodate,proId);
+            model = tZAccountService.checkReport(model,prodate,proId,reportFlag);
         }catch(ServiceException sex){
             resultVO.setStatus(SERVER_STATUS_FAILED);
             resultVO.setSuccess(false);

@@ -1363,7 +1363,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 	 * @throws DaoException
 	 */
 	@Override
-	public String checkReport(String prodate,Long proId) throws DaoException {
+	public String checkReport(String prodate,Long proId,boolean reportFlag) throws DaoException {
 
 		try {
 
@@ -1374,14 +1374,14 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			}
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			if(!"".equals(prodate)&&prodate!=null){
+			if(prodate!=null&&!"".equals(prodate)){
 				prodate = sdf.format(sdf.parse(prodate));
 			}
-			String reportId1 = checkReport1(prodate,proId,is);//第一种情况要考虑到是否是酒类
+			String reportId1 = checkReport1(prodate,proId,is,reportFlag);//第一种情况要考虑到是否是酒类
 			if(!"".equals(reportId1)){
 				return reportId1;
 			}
-			String reportId2 = checkReport2(prodate,proId,exday);
+			String reportId2 = checkReport2(prodate,proId,exday,reportFlag);
 			if(!"".equals(reportId2)){
 				return reportId2;
 			}
@@ -1399,7 +1399,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 	 * @throws DaoException
 	 */
 	@SuppressWarnings("unchecked")
-	private String checkReport1(String prodate,Long proId,boolean is) throws DaoException {
+	private String checkReport1(String prodate,Long proId,boolean is,boolean reportFlag) throws DaoException {
 		try {
 
 			StringBuffer sb = new StringBuffer();
@@ -1414,8 +1414,15 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			}else{
 				sb.append(" AND DATE_ADD(pinst.production_date,INTERVAL pro.expiration_date DAY) > NOW()");
 			}*/
+			/**
+			 *如果reprotFalg 为true表示生产企业，否则不是false
+			 */
+            if(reportFlag){
+				sb.append(" AND result.publish_flag = 1 AND result.del = 0");
+			}else{
+				sb.append(" AND result.publish_flag NOT IN(4,5,7,3) AND result.del = 0");
+			}
 
-			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
 //			sb.append(" AND result.publish_flag=6 AND result.del = 0");
 			//sb.append(" AND result.test_type = '企业自检'");
 			Query query = entityManager.createNativeQuery(sb.toString());
@@ -1442,7 +1449,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 	 * @throws DaoException
 	 */
 	@SuppressWarnings("unchecked")
-	private String checkReport2(String prodate,Long proId,Long exday) throws DaoException {
+	private String checkReport2(String prodate,Long proId,Long exday,boolean reportFlag) throws DaoException {
 		try {
 
 			StringBuffer sb = new StringBuffer();
@@ -1450,12 +1457,19 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			sb.append(" INNER JOIN product pro ON pro.id = pinst.product_id");
 			sb.append(" INNER JOIN test_result result ON result.sample_id = pinst.id");
 			sb.append(" WHERE pinst.product_id = ?1");
-
 			sb.append(" AND pinst.production_date >= DATE_ADD(?2,INTERVAL-6 MONTH)");
 			sb.append(" AND pinst.production_date <= ?3");
 
 			sb.append(" AND (result.test_type = '企业送检' OR result.test_type = '政府抽检')");
-			sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
+
+			/**
+			 *如果reprotFalg 为true表示生产企业，否则不是false
+			 */
+			if(reportFlag) {
+				sb.append(" AND result.publish_flag = 1 AND result.del = 0");
+			}else{
+				sb.append(" AND result.publish_flag NOT IN(4,5,7,3) AND result.del = 0");
+			}
 //			sb.append(" AND result.publish_flag=6 AND result.del = 0");
 			Query query = entityManager.createNativeQuery(sb.toString());
 			query.setParameter(1,proId);

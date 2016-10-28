@@ -110,7 +110,7 @@ public interface TZAccountDAO extends BaseDAO<TZAccount>{
 	 */
 	Long getSaleGoodsListByReportBatchTotal(Long busId, String name, String barcode)throws DaoException;
 
-	String checkReport(String prodate,Long proId)throws DaoException;
+	String checkReport(String prodate,Long proId,boolean reportFlag)throws DaoException;
 
 	List<PurchaseAccountVO> loadTZWholeSaleProductGYS(Long myOrg, int page,
 			int pageSize, String number, String licOrName, int status) throws DaoException;
