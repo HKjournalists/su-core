@@ -1704,7 +1704,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 		sb.append(" LEFT JOIN production_license_info qs ON qs.id=pb.qs_id ");
 //		sb.append(" AND result.publish_flag NOT IN(4,5,7) AND result.del = 0");
 		
-		sb.append(" WHERE ip.organization = ?1 AND ip.del=0 AND tr.publish_flag NOT IN(4,5,7) AND tr.del = 0");
+		sb.append(" WHERE ip.organization = ?1 AND ip.del=0 AND tr.publish_flag NOT IN(3,4,5,7) AND tr.del = 0");
 		if (!"".equals(name)&&!"".equals(barcode)) {
 			sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
 		}
@@ -1744,7 +1744,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			
 //			sb.append(" WHERE ip.organization = ?1 AND ip.del=0 ");
 			
-			sb.append(" WHERE ip.organization = ?1 AND ip.del=0 AND tr.publish_flag NOT IN(4,5,7) AND tr.del = 0");
+			sb.append(" WHERE ip.organization = ?1 AND ip.del=0 AND tr.publish_flag NOT IN(3,4,5,7) AND tr.del = 0");
 			if (!"".equals(name)&&!"".equals(barcode)) {
 				sb.append(" AND( pro.name like '%" + name + "%' OR pro.barcode like '%" + barcode + "%') ");
 			}
