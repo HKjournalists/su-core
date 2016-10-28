@@ -59,7 +59,7 @@ public interface TZAccountService extends BaseService<TZAccount, TZAccountDAO>{
 
 	void returnOfGoods(long tZId, Long myOrg, String refuseReason)throws ServiceException;
 
-	Model checkReport(Model model, String prodate,Long proId)throws ServiceException;
+	Model checkReport(Model model, String prodate,Long proId,boolean reportFlag)throws ServiceException;
 
 	Model selectBuyGoodsById(Long orgId, String name, String barcode, int page,
 			int pageSize, Model model)throws ServiceException;

@@ -599,7 +599,7 @@ $(function() {
                                            $('#warn').css('display','');
                                            //setTimeout("$('#warn').css('display','none')", 10000 );
                                            $.ajax({
-                                               url:HTTPPREFIX + "/tzAccount/checkReport?prodate="+prodate+"&proId="+proId,
+                                               url:HTTPPREFIX + "/tzAccount/checkReport?prodate="+prodate+"&proId="+proId+"&reportFlag=true",
                                                type:"GET",
                                                dataType: "json",
                                                async:false,

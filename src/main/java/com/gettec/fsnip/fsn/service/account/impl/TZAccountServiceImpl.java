@@ -538,9 +538,9 @@ public class TZAccountServiceImpl extends
 	 * @throws ServiceException
 	 */
 	@Override
-	public Model checkReport(Model model, String prodate,Long proId) throws ServiceException {
+	public Model checkReport(Model model, String prodate,Long proId,boolean reportFlag) throws ServiceException {
 		try {
-			String reportId = tZAccountDAO.checkReport(prodate,proId);
+			String reportId = tZAccountDAO.checkReport(prodate,proId,reportFlag);
 			if(!"".equals(reportId)){
 				model.addAttribute("haveReport",true);
 			}else{
