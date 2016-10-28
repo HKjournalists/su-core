@@ -247,7 +247,7 @@ st_customer.clearForm = function(){
 	$("#license").kendoValidator().data("kendoValidator").hideMessages();
 	$("#no").val("");
 	$("#no").removeAttr("disabled");
-	$("#name").val("");
+	$("#name").data("kendoAutoComplete").value("");
 	$("#name").removeAttr("readonly");
 	$("#license").val("");
 	$("#note").val("");
@@ -674,6 +674,7 @@ st_customer.initRequiredComponents = function(){
             st_customer.keyword = keyword;
             /* 关键字被更改后，将page设置为1 */
             st_customer.comboxPage = 1;
+
             var listItemDs = st_customer.nameComboxDs(st_customer.comboxPage, st_customer.keyword);
             $("#name").data("kendoAutoComplete").setDataSource(listItemDs);
             $("#name").data("kendoAutoComplete").search(st_customer.keyword);
