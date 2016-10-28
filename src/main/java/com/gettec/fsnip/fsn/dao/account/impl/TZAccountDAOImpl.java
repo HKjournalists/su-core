@@ -1420,7 +1420,8 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
             if(reportFlag){
 				sb.append(" AND result.publish_flag = 1 AND result.del = 0");
 			}else{
-				sb.append(" AND result.publish_flag NOT IN(4,5,7,3) AND result.del = 0");
+//				sb.append(" AND result.publish_flag NOT IN(4,5,7,3) AND result.del = 0");
+				sb.append(" AND result.publish_flag IN(1,6) AND result.del = 0");
 			}
 
 //			sb.append(" AND result.publish_flag=6 AND result.del = 0");
@@ -1468,7 +1469,8 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			if(reportFlag) {
 				sb.append(" AND result.publish_flag = 1 AND result.del = 0");
 			}else{
-				sb.append(" AND result.publish_flag NOT IN(4,5,7,3) AND result.del = 0");
+//				sb.append(" AND result.publish_flag NOT IN(4,5,7,3) AND result.del = 0");
+				sb.append(" AND result.publish_flag IN(1,6) AND result.del = 0");
 			}
 //			sb.append(" AND result.publish_flag=6 AND result.del = 0");
 			Query query = entityManager.createNativeQuery(sb.toString());
