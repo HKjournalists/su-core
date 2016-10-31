@@ -19,15 +19,29 @@ public class EnterpriseVideoDAOImpl extends BaseDAOImpl<Enterprise_video>
 implements EnterpriseVideoDAO {
 
     @Override
-    public List<BusinessVideoVo> getbusinessByvideo(int page, int page_size, String name, String keyword) throws ServiceException {
+    public List<BusinessVideoVo> getbusinessByvideo(int page, int page_size, String name, String province,String address,String type) throws ServiceException {
         String jpql = "SELECT * FROM business_unit b RIGHT JOIN enterprise_video e ON b.id=e.org_id ";
         if(name!=null&&!"".equals(name)){
             jpql+="WHERE b.name LIKE '%"+name+"%' ";
-            if(keyword!=null&&!"".equals(keyword)){
-                jpql+="AND b.address LIKE '"+keyword+"%' ";
+            if(province!=null&&!"".equals(province)){
+                jpql+="AND b.address LIKE '"+province+"%' ";
+                if(address!=null&&!"".equals(address)){
+                    jpql+="AND b.address LIKE '%"+address+"' ";
+                }
             }
-        }else if(keyword!=null&&!"".equals(keyword)){
-            jpql+="WHERE b.address LIKE '"+keyword+"%' ";
+            if(type!=null&&!"".equals(type)){
+                jpql+="AND b.type LIKE '"+type+"%' ";
+            }
+        }else if(province!=null&&!"".equals(province)){
+            jpql+="WHERE b.address LIKE '"+province+"%' ";
+            if(address!=null&&!"".equals(address)){
+                jpql+="AND b.address LIKE '%"+address+"' ";
+            }
+            if(type!=null&&!"".equals(type)){
+                jpql+="AND b.type LIKE '"+type+"%' ";
+            }
+        }else if(type!=null&&!"".equals(type)){
+                jpql+="WHERE b.type LIKE '"+type+"%' ";
         }
         jpql+="GROUP BY b.id";
         Query query = entityManager.createNativeQuery(jpql);
@@ -60,15 +74,29 @@ implements EnterpriseVideoDAO {
     }
 
     @Override
-    public String countbusinessByvideo(int page, int page_size, String name, String keyword) throws ServiceException {
+    public String countbusinessByvideo(int page, int page_size, String name,String province,String address,String type) throws ServiceException {
         String jpql="SELECT COUNT(DISTINCT (b.id)) FROM business_unit b INNER JOIN enterprise_video e ON b.id=e.org_id ";
         if(name!=null&&!"".equals(name)){
             jpql+="WHERE b.name LIKE '%"+name+"%' ";
-            if(keyword!=null&&!"".equals(keyword)){
-                jpql+="AND b.address LIKE '"+keyword+"%' ";
+            if(province!=null&&!"".equals(province)){
+                jpql+="AND b.address LIKE '"+province+"%' ";
+                if(address!=null&&!"".equals(address)){
+                    jpql+="AND b.address LIKE '%"+address+"' ";
+                }
             }
-        }else if(keyword!=null&&!"".equals(keyword)){
-            jpql+="WHERE b.address LIKE '"+keyword+"%' ";
+            if(type!=null&&!"".equals(type)){
+                jpql+="AND b.type LIKE '"+type+"%' ";
+            }
+        }else if(province!=null&&!"".equals(province)){
+            jpql+="WHERE b.address LIKE '"+province+"%' ";
+            if(address!=null&&!"".equals(address)){
+                jpql+="AND b.address LIKE '%"+address+"' ";
+            }
+            if(type!=null&&!"".equals(type)){
+                jpql+="AND b.type LIKE '"+type+"%' ";
+            }
+        }else if(type!=null&&!"".equals(type)){
+            jpql+="WHERE b.type LIKE '"+type+"%' ";
         }
         Query query = entityManager.createNativeQuery(jpql);
         String result=query.getSingleResult().toString();

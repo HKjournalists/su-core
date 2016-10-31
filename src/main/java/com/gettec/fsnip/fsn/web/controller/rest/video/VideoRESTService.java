@@ -35,13 +35,16 @@ public class VideoRESTService extends BaseRESTService {
     public View getBusinessByVideo(Model model, @PathVariable(value="page") int page,
                                    @PathVariable(value="pageSize") int pageSize,
                                    @RequestParam(value="name",required = false) String name,
-                                   @RequestParam (value="keyword",required = false) String keyword,
+                                   @RequestParam (value="province",required = false) String province,
+                                   @RequestParam (value="address",required = false) String address,
+                                   @RequestParam (value="type",required = false) String type,
+
                                    HttpServletRequest req, HttpServletResponse resp) {
         List<BusinessVideoVo> businessUnitList= null;
         String count="";
         try {
-            businessUnitList = enterpriseVideoService.getbusinessByvideo(page,pageSize,name,keyword);
-            count=enterpriseVideoService.countbusinessByvideo(page,pageSize,name,keyword);
+            businessUnitList = enterpriseVideoService.getbusinessByvideo(page,pageSize,name,province,address,type);
+            count=enterpriseVideoService.countbusinessByvideo(page,pageSize,name,province,address,type);
             model.addAttribute("businessUnitList",businessUnitList);
             model.addAttribute("count",count);
         } catch (ServiceException e) {
