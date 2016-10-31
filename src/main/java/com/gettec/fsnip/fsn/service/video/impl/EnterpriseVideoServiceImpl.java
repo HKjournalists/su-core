@@ -46,14 +46,14 @@ public class EnterpriseVideoServiceImpl extends BaseServiceImpl<Enterprise_video
 	}
 
 	@Override
-	public List<BusinessVideoVo> getbusinessByvideo(int page, int page_size, String name, String keyword) throws ServiceException {
+	public List<BusinessVideoVo> getbusinessByvideo(int page, int page_size, String name, String province,String address,String type) throws ServiceException {
 
-		return getDAO().getbusinessByvideo(page,page_size,name,keyword);
+		return getDAO().getbusinessByvideo(page,page_size,name,province,address,type);
 	}
 
 	@Override
-	public String countbusinessByvideo(int page, int page_size, String name, String keyword) throws ServiceException {
-		return getDAO().countbusinessByvideo(page,page_size,name,keyword);
+	public String countbusinessByvideo(int page, int page_size, String name, String province,String address,String type) throws ServiceException {
+		return getDAO().countbusinessByvideo(page,page_size,name,province,address,type);
 	}
 
 	@Override

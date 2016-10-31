@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface EnterpriseVideoService extends BaseService<Enterprise_video, EnterpriseVideoDAO>{
 	public PagingSimpleModelVO<Enterprise_video> getPage(int page, int page_size, String orgId) throws ServiceException;
-	public List<BusinessVideoVo> getbusinessByvideo(int page, int page_size, String name, String keyword) throws ServiceException;
-	public String countbusinessByvideo(int page, int page_size, String name,String keyword) throws ServiceException;
+	public List<BusinessVideoVo> getbusinessByvideo(int page, int page_size, String name, String province,String address,String type) throws ServiceException;
+	public String countbusinessByvideo(int page, int page_size, String name,String province,String address,String type) throws ServiceException;
 	public List<Enterprise_video> getVideoByOrgid(int page, int page_size, Long orgid) throws ServiceException;
 }
