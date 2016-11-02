@@ -240,7 +240,7 @@ $(function() {
 	};
 
 
-	remove = function(){
+	 navigation.remove=function(){
 		$.ajax({
 			url: portal.HTTP_PREFIX + "/business/deleteNavigation/" + deleteId,
 			type: "DELETE",
