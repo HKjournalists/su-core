@@ -22,28 +22,30 @@ implements EnterpriseVideoDAO {
     public List<BusinessVideoVo> getbusinessByvideo(int page, int page_size, String name, String province,String address,String type) throws ServiceException {
         String jpql = "SELECT * FROM business_unit b RIGHT JOIN enterprise_video e ON b.id=e.org_id ";
         if(name!=null&&!"".equals(name)){
-            jpql+="WHERE b.name LIKE '%"+name+"%' ";
+            jpql+="WHERE b.name LIKE '%"+name+"%' AND";
             if(province!=null&&!"".equals(province)){
-                jpql+="AND b.address LIKE '"+province+"%' ";
+                jpql+=" b.address LIKE '"+province+"%' AND";
                 if(address!=null&&!"".equals(address)){
-                    jpql+="AND b.address LIKE '%"+address+"' ";
+                    jpql+=" b.address LIKE '%"+address+"' AND";
                 }
             }
             if(type!=null&&!"".equals(type)){
-                jpql+="AND b.type LIKE '"+type+"%' ";
+                jpql+=" b.type LIKE '"+type+"%' AND";
             }
         }else if(province!=null&&!"".equals(province)){
-            jpql+="WHERE b.address LIKE '"+province+"%' ";
+            jpql+="WHERE b.address LIKE '"+province+"%' AND";
             if(address!=null&&!"".equals(address)){
-                jpql+="AND b.address LIKE '%"+address+"' ";
+                jpql+=" b.address LIKE '%"+address+"' AND";
             }
             if(type!=null&&!"".equals(type)){
-                jpql+="AND b.type LIKE '"+type+"%' ";
+                jpql+=" b.type LIKE '"+type+"%' AND";
             }
         }else if(type!=null&&!"".equals(type)){
-                jpql+="WHERE b.type LIKE '"+type+"%' ";
+                jpql+="WHERE b.type LIKE '"+type+"%' AND";
+        }else{
+            jpql+="WHERE";
         }
-        jpql+="GROUP BY b.id";
+        jpql+=" e.sort=1 GROUP BY b.id";
         Query query = entityManager.createNativeQuery(jpql);
         query.setFirstResult((page-1)*page_size);
         query.setMaxResults(page_size);
@@ -77,27 +79,30 @@ implements EnterpriseVideoDAO {
     public String countbusinessByvideo(int page, int page_size, String name,String province,String address,String type) throws ServiceException {
         String jpql="SELECT COUNT(DISTINCT (b.id)) FROM business_unit b INNER JOIN enterprise_video e ON b.id=e.org_id ";
         if(name!=null&&!"".equals(name)){
-            jpql+="WHERE b.name LIKE '%"+name+"%' ";
+            jpql+="WHERE b.name LIKE '%"+name+"%' AND";
             if(province!=null&&!"".equals(province)){
-                jpql+="AND b.address LIKE '"+province+"%' ";
+                jpql+=" b.address LIKE '"+province+"%' AND";
                 if(address!=null&&!"".equals(address)){
-                    jpql+="AND b.address LIKE '%"+address+"' ";
+                    jpql+=" b.address LIKE '%"+address+"' AND";
                 }
             }
             if(type!=null&&!"".equals(type)){
-                jpql+="AND b.type LIKE '"+type+"%' ";
+                jpql+=" b.type LIKE '"+type+"%' AND";
             }
         }else if(province!=null&&!"".equals(province)){
-            jpql+="WHERE b.address LIKE '"+province+"%' ";
+            jpql+="WHERE b.address LIKE '"+province+"%' AND";
             if(address!=null&&!"".equals(address)){
-                jpql+="AND b.address LIKE '%"+address+"' ";
+                jpql+=" b.address LIKE '%"+address+"' AND";
             }
             if(type!=null&&!"".equals(type)){
-                jpql+="AND b.type LIKE '"+type+"%' ";
+                jpql+=" b.type LIKE '"+type+"%' AND";
             }
         }else if(type!=null&&!"".equals(type)){
-            jpql+="WHERE b.type LIKE '"+type+"%' ";
+            jpql+="WHERE b.type LIKE '"+type+"%' AND";
+        }else {
+            jpql+="WHERE";
         }
+        jpql+=" e.sort=1";
         Query query = entityManager.createNativeQuery(jpql);
         String result=query.getSingleResult().toString();
         return result;
@@ -105,7 +110,7 @@ implements EnterpriseVideoDAO {
 
     @Override
     public List<Enterprise_video> getVideoByOrgid(int page, int page_size, Long orgid) throws ServiceException {
-        String jpql = "SELECT * FROM enterprise_video e RIGHT JOIN business_unit b ON b.id=e.org_id WHERE b.id=?1";
+        String jpql = "SELECT * FROM enterprise_video e RIGHT JOIN business_unit b ON b.id=e.org_id WHERE b.id=?1 AND e.sort=1";
         Query query = entityManager.createNativeQuery(jpql);
         query.setParameter(1,orgid);
         query.setFirstResult((page-1)* page_size);
