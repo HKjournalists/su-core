@@ -26,42 +26,24 @@
 <script src="resource/js/filter.js"></script>
 <script>
 	$(document).ready(function() {
-	//alert(window.location.href);
-		if (window.location.href.indexOf("/business_new/") > 1
-		||window.location.href.indexOf("/erp_new/") > 1
-		||window.location.href.indexOf("/market_new/") > 1
-		||window.location.href.indexOf("/portal_new/") > 1
-		||window.location.href.indexOf("/product_new/") > 1
-	    ||window.location.href.indexOf("/report_new/") > 1
-		  ) {
+
+		String.prototype.endWith=function(endStr){
+			var d=this.length-endStr.length;
+			return (d>=0&&this.lastIndexOf(endStr)==d)
+		};
 			$.get("menu_new.html", function(data){
 				$("#menu").hide();
 				$("#menu").html(data);
-				var href = $("ul li:eq(6) a").attr("href");
-				if (href != "#" && href != undefined) {
-					window.location.href = $("ul li:eq(6) a").attr("href");
-				} else{
-					window.location.href = $("ul li:eq(5) a").attr("href");
+				var href = $("#menu_list li:eq(0) a").attr("href");
+				var href1 = $("#menu_list li:eq(0) ul li:eq(0) a").attr("href");
+				if (href != "#" && href != undefined && href!=null && href.endWith(".html")) {
+					window.location.href =href;
+				} else if(href1 != "#" && href1 != undefined && href1!=null && href1.endWith(".html")){
+					window.location.href =href1;
+				}else{
+					window.location.href ="/fsn-core/views/business_new/navigation.html";
 				}
 			});
-		}
-		else {
-		
-			$.get("menu.html", function(data){
-				$("#menu").hide();
-				$("#nav_search_bar").hide();
-				$("#menu").html(data);
-				var href = $("ul li:eq(6) a").attr("href");
-				if (href != "#" && href != undefined) {
-					window.location.href = $("ul li:eq(6) a").attr("href");
-				} else{
-					window.location.href = $("ul li:eq(5) a").attr("href");
-				}
-			});
-		}
-
-
-		
 	});
 </script>
 <style type="text/css">
