@@ -17,6 +17,8 @@ $(function() {
     var STACK_ID = null;
     var isNew = false;
 
+    var storeNum=null;
+
         function initialize(){
             fsn.initKendoWindow("k_window","保存状态","300px","60px",false,'[]');
         ADD_STORE = initKendoWindow("ADD_STORE_PRODUCT","500px", "430px", "编辑/预览商品库存", false,true,false,["Close"],null,"");
@@ -106,16 +108,24 @@ $(function() {
              ADD_STORE.close();
              return;
     	}
+
+        var pcount = $("#product_num").val().trim();
+        if(pcount===null || pcount===""){
+            pcount = 0;
+        }
+
     	if(isNew){//新增时验证
     		/* 验证信息是否填写完整 */
     		if(!validate()){
     			return ;
     		}
-    	}
-    	var pcount = $("#product_num").val().trim();
-    	if(pcount===null || pcount===""){
-    		pcount = 0;
-    	}
+    	}else{
+            if(storeNum!=null&&pcount>storeNum){
+                fsn.initNotificationMes(fsn.l("修改库存时不能增加商品数量!"), false);
+                return ;
+            }
+        }
+
     	var tag = '<span>' +
     	'确定要添加数量为<label style="color: red;">'+"<strong> "+ pcount +" </strong>"+'</label> '+
     	'条形码为<label style="color: red;">'+"<strong> "+ $("#product_barcode").val().trim() +" </strong>"+'</label>的产品吗? '+
@@ -323,6 +333,7 @@ $(function() {
                         e.preventDefault();
                         var editRow = $(e.target).closest("tr");
                         var temp = this.dataItem(editRow);
+                        storeNum=temp.count;
                         viewStore(temp,"modify");
                     }
                 },{

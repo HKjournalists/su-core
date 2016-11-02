@@ -227,7 +227,7 @@ $(function() {
 	var createButton = function(smallOptionName,url,id){
 		var i = 1;
 		var btn = $("<div class='item' id='item_"+id+"'><ul  id='sortable'><li>" +
-		"<a id='"+id+"' sort='"+ i + 1 +"' href='"+url+"'>"+smallOptionName+"</a></li></ul>" +
+		"<a id='"+id+"'  target='_blank'  sort='"+ i + 1 +"' href='"+url+"'>"+smallOptionName+"</a></li></ul>" +
 		"<span class='close' id='remove' onclick='return deleteNavigation("+id+");'></span>" +
 		"</div>");
 
