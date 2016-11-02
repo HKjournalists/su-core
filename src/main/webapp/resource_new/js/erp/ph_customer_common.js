@@ -231,7 +231,7 @@ st_customer.clearForm = function(){
 	$("#license").kendoValidator().data("kendoValidator").hideMessages();
 	$("#no").val("");
 	$("#no").removeAttr("disabled");
-	$("#name").val("");
+	$("#name").data("kendoAutoComplete").value("");
 	$("#name").removeAttr("readonly");
 	$("#license").val("");
 	$("#note").val("");
@@ -639,12 +639,12 @@ st_customer.initRequiredComponents = function(){
 				async:false,
 				contentType: "application/json; charset=utf-8",
 				success:function(data){
-				    if(data.business != null&&data.business.organization!=null){
-				        fsn.initNotificationMes("该企业已入驻无法添加为自采供应商!", false);
+				   /* if(data.business != null&&data.business.organization!=null){
+				        //fsn.initNotificationMes("该企业已入驻无法添加为自采供应商!", false);
                       isExist=true;
                     }else{
                       isExist=false;
-                    }
+                    }*/
 					if(data.result != null){
 						$("#license").val(data.result);
 						$("#license").attr("readonly",true);
