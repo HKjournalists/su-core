@@ -48,6 +48,10 @@ $(function(){
     				$("#baching").val(returnValue.data.baching);
     				$("#alias").val(returnValue.data.alias);
     				$("#remark").val(returnValue.data.remark);
+    				$("#about").val(returnValue.data.about);
+    				$("#price").val(returnValue.data.price==0?'':returnValue.data.price);
+    				$("#characteristic").val(returnValue.data.characteristic);
+
 //    				var _showFlag = $("input[name='showFlag']");
 //    				for(var k in _showFlag){
 //    					if(_showFlag[k].value==returnValue.data.showFlag){
@@ -89,6 +93,10 @@ $(function(){
 //				break;
 //			}
 //		}
+		var price = $("#price").val().trim();
+		if(price == null|| price ==''){
+			price = 0;
+		}
    		var distribution = {
    			 id:ID,
    			 dishsName:$("#dishsName").val().trim(),
@@ -96,7 +104,10 @@ $(function(){
    			 alias:$("#alias").val().trim(),
    			 dishsnoFile:dishsno.dishsNofiles,
    			 qiyeId:qiyeId,
-   			 remark:$("#remark").val().trim()
+   			 remark:$("#remark").val().trim(),
+			 about:$("#about").val().trim(),
+			price:price,
+			characteristic:$("#characteristic").val().trim()
 //   		     showFlag:showValue
    		};
    		return distribution;
@@ -112,6 +123,7 @@ $(function(){
     	
     	// 2.数据封装
     	var subBusiness = dishsno.createInstance();
+
     	 // 3.保存
         $("#winMsg").html("正在保存数据，请稍候....");
         $("#k_window").data("kendoWindow").open().center();
@@ -141,30 +153,55 @@ $(function(){
     	if(!dishsno.validateMyDate()){ return false; }
         return true;
     };
-    dishsno.validateMyDate = function(){
-     	if(!$("#dishsName").kendoValidator().data("kendoValidator").validate()){
-    		fsn.initNotificationMes('菜品名称不能为空！',false);
-    		return false;
-    	}
-    	if(!$("#alias").kendoValidator().data("kendoValidator").validate()){
-    		fsn.initNotificationMes('别名不能为空！',false);
-    		return false;
-    	}
-    	if(!$("#baching").kendoValidator().data("kendoValidator").validate()){
-    		fsn.initNotificationMes('配料不能为空！',false);
-    		return false;
-    	}
-		if(dishsno.dishsNofiles.length<1){
-        	lims.initNotificationMes('请上传菜品图片！',false);
-			dishsno.wrong("upload_distribution_files","select");
-        	return false;
-        }
-        if(dishsno.dishsNofiles.length>3){
-        	lims.initNotificationMes('菜品图片最多只能上传3张！',false);
-			dishsno.wrong("upload_distribution_files","select");
-        	return false;
-        }
-    	return true;
+    dishsno.validateMyDate = function() {
+		if (!$("#dishsName").kendoValidator().data("kendoValidator").validate()) {
+			fsn.initNotificationMes('菜品名称不能为空！', false);
+			return false;
+		}
+		if (!$("#alias").kendoValidator().data("kendoValidator").validate()) {
+			fsn.initNotificationMes('别名不能为空！', false);
+			return false;
+		}
+		if (!$("#baching").kendoValidator().data("kendoValidator").validate()) {
+			fsn.initNotificationMes('配料不能为空！', false);
+			return false;
+		}
+		if (dishsno.dishsNofiles.length < 1) {
+			lims.initNotificationMes('请上传菜品图片！', false);
+			dishsno.wrong("upload_distribution_files", "select");
+			return false;
+		}
+		if (dishsno.dishsNofiles.length > 3) {
+			lims.initNotificationMes('菜品图片最多只能上传3张！', false);
+			dishsno.wrong("upload_distribution_files", "select");
+			return false;
+		}
+
+		var _keyword = $("#price").val().trim();
+		if (_keyword != undefined && _keyword != '') {
+
+		var index = _keyword.indexOf("0");
+		var length = _keyword.length;
+		if (index == 0 && length > 1) {/*0开头的数字串*/
+			var reg = /^[0]{1}[.]{1}[0-9]{1,2}$/;
+			if (!reg.test(_keyword)) {
+				lims.initNotificationMes('请输入正确的价格格式（如：9.99）！', false);
+				return false;
+			} else {
+				return true;
+			};
+		} else {/*非0开头的数字*/
+			var reg = /^[1-9]{1}[0-9]{0,10}[.]{0,1}[0-9]{0,2}$/;
+			if (!reg.test(_keyword)) {
+				lims.initNotificationMes('请输入正确的价格格式（如果：9.99）！', false);
+				return false;
+			} else {
+				return true;
+			};
+		};
+
+	   };
+		return true;
      };
      
      dishsno.wrong = function(id,type){

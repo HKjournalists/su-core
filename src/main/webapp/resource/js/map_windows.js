@@ -181,8 +181,17 @@ $(function(){
                       			}
                       		});*/
                       		$("#mapWindow").remove();
-                      		console.log(data);
-                      		return data;
+                              if( data.mapProductAddrList.length>0){
+                                  //经度
+                                  $("#longitude").val(data.mapProductAddrList[0].lng);
+                                  //纬度
+                                  $("#latitude").val(data.mapProductAddrList[0].lat);
+                                   //经度--纬度
+                                  $("#longOrlat").val(data.mapProductAddrList[0].lng+"--"+data.mapProductAddrList[0].lat);
+                                  //进度纬度位置地名
+                                  $("#placeName").val(data.mapProductAddrList[0].describe);
+                              }
+                          return data;
 
                       	};
                       	function  alertV(){

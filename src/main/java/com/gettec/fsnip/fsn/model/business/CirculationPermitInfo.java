@@ -1,17 +1,15 @@
 package com.gettec.fsnip.fsn.model.business;
 
-import java.util.Date;
+import com.gettec.fsnip.fsn.model.common.Model;
+import com.gettec.fsnip.fsn.web.controller.JsonDateDeserializer;
+import com.gettec.fsnip.fsn.web.controller.JsonDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-import com.gettec.fsnip.fsn.model.common.Model;
-import com.gettec.fsnip.fsn.web.controller.JsonDateDeserializer;
-import com.gettec.fsnip.fsn.web.controller.JsonDateSerializer;
+import java.util.Date;
 
 /**
  * License Entity<br>
@@ -64,6 +62,7 @@ public class CirculationPermitInfo extends Model{
 	
 	@Column(name="manage_project")
 	private String manageProject;
+
 
 	public String getDistributionNo() {
 		return distributionNo;
