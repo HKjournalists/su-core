@@ -68,7 +68,7 @@ public class VideoRESTService extends BaseRESTService {
         try {
             enterpriseVideoList = enterpriseVideoService.getVideoByOrgid(page,pageSize,orgid);
             model.addAttribute("enterpriseVideoList",enterpriseVideoList);
-            model.addAttribute("count",enterpriseVideoList.size());
+            model.addAttribute("count",enterpriseVideoService.countvideoBybuess(orgid));
         } catch (ServiceException e) {
             e.printStackTrace();
             model.addAttribute("status",false);

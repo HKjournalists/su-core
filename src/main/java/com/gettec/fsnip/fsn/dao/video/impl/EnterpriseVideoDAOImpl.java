@@ -45,7 +45,7 @@ implements EnterpriseVideoDAO {
         }else{
             jpql+="WHERE";
         }
-        jpql+=" e.sort=1 GROUP BY b.id";
+        jpql+=" e.is_show=1 GROUP BY b.id";
         Query query = entityManager.createNativeQuery(jpql);
         query.setFirstResult((page-1)*page_size);
         query.setMaxResults(page_size);
@@ -56,7 +56,7 @@ implements EnterpriseVideoDAO {
                 for(Object[] obj : objectList){
                     BusinessVideoVo businessVo=new BusinessVideoVo();
                     Long id=Long.valueOf(obj[0].toString());
-                    String sql="SELECT COUNT(*) FROM enterprise_video WHERE org_id="+id;
+                    String sql="SELECT COUNT(*) FROM enterprise_video WHERE is_show=1 AND org_id="+id;
                     Query query2 = entityManager.createNativeQuery(sql);
                     Number result=(Number)query2.getSingleResult();
                     int count=result.intValue();
@@ -102,7 +102,7 @@ implements EnterpriseVideoDAO {
         }else {
             jpql+="WHERE";
         }
-        jpql+=" e.sort=1";
+        jpql+=" e.is_show=1";
         Query query = entityManager.createNativeQuery(jpql);
         String result=query.getSingleResult().toString();
         return result;
@@ -110,7 +110,7 @@ implements EnterpriseVideoDAO {
 
     @Override
     public List<Enterprise_video> getVideoByOrgid(int page, int page_size, Long orgid) throws ServiceException {
-        String jpql = "SELECT * FROM enterprise_video e RIGHT JOIN business_unit b ON b.id=e.org_id WHERE b.id=?1 AND e.sort=1";
+        String jpql = "SELECT * FROM enterprise_video e RIGHT JOIN business_unit b ON b.id=e.org_id WHERE b.id=?1 AND e.is_show=1";
         Query query = entityManager.createNativeQuery(jpql);
         query.setParameter(1,orgid);
         query.setFirstResult((page-1)* page_size);
@@ -139,5 +139,14 @@ implements EnterpriseVideoDAO {
         }catch(Exception e){
             return null;
         }
+    }
+
+    @Override
+    public String countvideoBybuess(Long orgid) throws ServiceException {
+        String jpql = "SELECT COUNT(e.id) FROM enterprise_video e RIGHT JOIN business_unit b ON b.id=e.org_id WHERE b.id=?1 AND e.is_show=1";
+        Query query = entityManager.createNativeQuery(jpql);
+        query.setParameter(1,orgid);
+        String  result=query.getSingleResult().toString();
+        return result;
     }
 }

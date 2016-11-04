@@ -60,4 +60,9 @@ public class EnterpriseVideoServiceImpl extends BaseServiceImpl<Enterprise_video
 	public List<Enterprise_video> getVideoByOrgid(int page, int page_size, Long orgid) throws ServiceException {
 		return getDAO().getVideoByOrgid(page,page_size,orgid);
 	}
+
+	@Override
+	public String countvideoBybuess(Long orgid) throws ServiceException {
+		return getDAO().countvideoBybuess(orgid);
+	}
 }
