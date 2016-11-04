@@ -1,21 +1,11 @@
 package com.gettec.fsnip.fsn.model.dishs;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-
 import com.gettec.fsnip.fsn.model.common.Model;
 import com.gettec.fsnip.fsn.model.market.Resource;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 @Entity(name = "dishs_no")
 public class DishsNo extends Model{
 
@@ -40,7 +30,16 @@ public class DishsNo extends Model{
 	
 	@Column(name = "remark") //备注信息
 	private String remark;
-	
+
+	@Column(name = "about") //菜品简介
+	private String about;
+
+	@Column(name = "price") //菜品价格
+	private double price;
+
+	@Column(name = "characteristic") //味道特色
+	private String characteristic;
+
 	public Long getQiyeId() {
 		return qiyeId;
 	}
@@ -107,6 +106,30 @@ public class DishsNo extends Model{
 
 	public String getRemark() {
 		return remark;
+	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public String getCharacteristic() {
+		return characteristic;
+	}
+
+	public void setCharacteristic(String characteristic) {
+		this.characteristic = characteristic;
 	}
 
 	public void setRemark(String remark) {

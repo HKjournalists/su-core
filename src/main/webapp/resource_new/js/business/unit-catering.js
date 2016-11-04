@@ -56,6 +56,12 @@ $(document).ready(function(){
         business_unit.initKendoWindow("k_window","保存状态","300px","60px",false);
         //business_unit.bulidDropDownList("liuTongBusType","label","id","/sys/getListDistrictByDescription/主体性质");
 
+        var data = ["蛋糕", "烧烤","甜品","快餐","火锅","炒菜","自助","冷饮"];
+        $("#storeType").kendoMultiSelect({
+            width:"300px",
+            dataSource: data
+        });
+
         /* 在预览时，屏蔽页面操作 */
         if(business_unit.preview_id){
             business_unit.preview(business_unit.preview_id);
@@ -123,6 +129,7 @@ $(document).ready(function(){
         //    business_unit.changeCarering(1);
         //
         //}
+
     };
 
     business_unit.hideComponentOfView = function(){
@@ -155,6 +162,25 @@ $(document).ready(function(){
                     business_unit.type=busUnit.type;
                     business_unit.setValue(busUnit, "liutong");
                     business_unit.setViewValue(busUnit);
+
+                    //只针对餐饮企业
+                    var  catering = busUnit.catering;
+                    if(catering != null ){
+                        var  storeTypes = catering.storeType;
+                        var  storeType = [];
+                        if(storeTypes!=null&&storeTypes!=""){
+                            storeType = storeTypes.split(",");
+                        }
+                        var multiselect = $("#storeType").data("kendoMultiSelect");
+                        multiselect.value(storeType);
+                        console.log(multiselect)
+                        $("#catering_id").val(catering.id);
+                        $("#longitude").val(catering.longitude);
+                        $("#latitude").val(catering.latitude);
+                        $("#consume").val(catering.consume);
+                       $("#dtelephone").val(catering.telephone);
+
+                    }
 
                     var  a = business_unit.type;
                     var tArr = a.split(".");
@@ -248,6 +274,7 @@ $(document).ready(function(){
             orgAddress: $("#org_mainAddr").val().trim().replace(/-/g,"")+$("#org_streetAddress").val().trim(),
             otherAddress:$("#org_mainAddr").val().trim()+"--"+$("#org_streetAddress").val().trim()
         };
+
         var distribution = {
             distributionNo: $("#distributionNo").val().trim(),
             licensingAuthority: $("#licensingAuthority").val().trim(),
@@ -260,6 +287,35 @@ $(document).ready(function(){
 //        		toleranceRange: "",//$("#disToleranceRange").val().trim(),
             legalName: $("#disLegalName").val().trim()
         };
+        var multiselect = $("#storeType").data("kendoMultiSelect");
+        var value = multiselect.value();
+        var storeType = "";
+        var k = 0
+        for(var key in value){
+            storeType +=value[key];
+            if(k<value.length-1){
+                storeType+=",";
+            }
+            k ++;
+        }
+        var catering = {};
+        var catering_id = $("#catering_id").val().trim()
+        var longitude = $("#longitude").val().trim()
+        var  latitude = $("#latitude").val().trim()
+        var consume = $("#consume").val().trim();
+        var dtelephone = $("#dtelephone").val().trim()
+        if(catering_id != "" || longitude !="" || latitude !="" || consume !="" || dtelephone !="" || storeType !=""){
+            catering = {
+                id: catering_id==''?null:catering_id,
+                businessId:business_unit.id,
+                longitude: longitude,
+                latitude:latitude,
+                placeName:$("#placeName").val().trim(),
+                consume:consume,//平均消费
+                telephone: dtelephone,//点餐电话
+                storeType:storeType //商铺类型
+            }
+        }
         var subBusiness = {
             id: business_unit.id,
             name: $("#name").val().trim(),
@@ -274,6 +330,7 @@ $(document).ready(function(){
             about:$("#product_about").val().trim(),
             website:$("#website").val().trim(),
             license: license,
+            catering:catering, //餐饮企业部分信息（经度，纬度）
             //sysArea: sysArea,
             //office: office,
             orgInstitution: orgInstitution,
@@ -283,6 +340,7 @@ $(document).ready(function(){
             licAttachments: business_unit.aryLicenseAttachments,
             disAttachments: business_unit.aryDisAttachments
         };
+        console.log(subBusiness);
         return subBusiness;
     };
 
@@ -298,6 +356,7 @@ $(document).ready(function(){
 
     /* 保存 */
     business_unit.save = function(url,status){
+
         // 1.校验数据的有效性
         fsn.clearErrorStyle();
         if(!business_unit.validateFormat(status)) return;
@@ -383,6 +442,7 @@ $(document).ready(function(){
 
     /* 校验数据的有效性 */
     business_unit.validateFormat = function(status) {
+
         if(!business_unit.validateCommon(status)){ return false; }
         if(!business_unit.validateMyDate(status)){ return false; }
         return true;
@@ -392,6 +452,21 @@ $(document).ready(function(){
         var mgs = "流通";
         if(business_unit.type!=null&&business_unit.type!=''&&business_unit.type.indexOf("餐饮企业")!=-1){
             mgs = "餐饮";
+            if(mgs == "餐饮"){
+                var  dtelephone =$("#dtelephone").val().trim();
+                if(dtelephone != undefined&&dtelephone!=null&&dtelephone!=''){
+                   //"兼容格式: 国家代码(2到3位)-区号(2到3位)-电话号码(7到8位)-分机号(3位)"
+                   var reg1 = /^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+                   if(!reg1.test(dtelephone)){
+                       //手机号码验证
+                       var reg2 = /^(?:13\d|15[89])-?\d{5}(\d{3}|\*{3})$/;
+                       if(!reg2.test(dtelephone)) {
+                           lims.initNotificationMes("请输入正确的订餐电话号码！", false);
+                           return false;
+                       }
+                   }
+               }
+            }
         }
         if(status == undefined || status == 1) {
             if (!$("#distributionNo").kendoValidator().data("kendoValidator").validate()) {

@@ -16,6 +16,7 @@ import com.gettec.fsnip.fsn.service.base.DistrictService;
 import com.gettec.fsnip.fsn.service.base.OfficeService;
 import com.gettec.fsnip.fsn.service.base.SysAreaService;
 import com.gettec.fsnip.fsn.service.business.*;
+import com.gettec.fsnip.fsn.service.carering.CateringService;
 import com.gettec.fsnip.fsn.service.common.impl.BaseServiceImpl;
 import com.gettec.fsnip.fsn.service.market.ResourceService;
 import com.gettec.fsnip.fsn.service.product.BusinessCertificationService;
@@ -27,6 +28,7 @@ import com.gettec.fsnip.fsn.util.FilterUtils;
 import com.gettec.fsnip.fsn.util.HttpUtils;
 import com.gettec.fsnip.fsn.vo.business.*;
 import com.gettec.fsnip.fsn.vo.business.report.BusinessUnitOfReportVO;
+import com.gettec.fsnip.fsn.vo.catering.CateringVO;
 import com.gettec.fsnip.fsn.vo.common.OrganizationVO;
 import com.gettec.fsnip.fsn.vo.common.UserVO;
 import com.gettec.fsnip.sso.client.util.SSOClientUtil;
@@ -74,6 +76,7 @@ public class BusinessUnitServiceImpl extends BaseServiceImpl<BusinessUnit, Busin
 	@Autowired private BusinessMarketService businessMarketService;
 	@Autowired private MarketToBusinessPKService MarketToBusinessPKService;
 	@Autowired private BusinessSalesInfoService businessSalesInfoService;
+	@Autowired private CateringService cateringService;
 	@Autowired private ResourceService resourceService;
 
 	@Override
@@ -2254,6 +2257,12 @@ public class BusinessUnitServiceImpl extends BaseServiceImpl<BusinessUnit, Busin
 			CirculationPermitInfo cir = circulationPermitService.findByDistributionNo(businessUnit.getDistribution().getDistributionNo());
 			businessUnit.setDistribution(cir);
 			EnterpriseRegiste orig_enterprise = enterpriseService.findbyEnterpriteName(businessUnit.getName());
+			/**
+			 * 餐饮企业部分信息保存
+			 */
+			CateringVO cateringVO = cateringService.getCateringVOBusinessId(businessUnit.getId());
+			businessUnit.setCatering(cateringVO);
+
 			if(orig_enterprise != null){
 				/* 4. 各类证照图片  */
 				businessUnit.setOrgAttachments(orig_enterprise.getOrgAttachments());
@@ -2316,12 +2325,15 @@ public class BusinessUnitServiceImpl extends BaseServiceImpl<BusinessUnit, Busin
 			orig_businessUnit.setFax(businessUnit.getFax());
 			orig_businessUnit.setAbout(businessUnit.getAbout());
 			orig_businessUnit.setWebsite(businessUnit.getWebsite());
-			
+
 			update(orig_businessUnit);
-			
+
+			if(businessUnit.getCatering()!=null){
+				cateringService.saveOrUpdate(businessUnit.getCatering());
+			}
 			/* 5.企业Logo图片 */
 			testResourceService.saveLogoResource(businessUnit.getLogoAttachments(), businessUnit.getName());
-			
+
 			/* 保存销售系统中的 宣传片片和业业二码码*/
 			businessSalesInfoService.save(businessUnit,info);
 			

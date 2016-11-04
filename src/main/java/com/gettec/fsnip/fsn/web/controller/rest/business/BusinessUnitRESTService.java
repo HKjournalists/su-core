@@ -396,8 +396,8 @@ public class BusinessUnitRESTService extends BaseRESTService{
 
 	/**
 	 * 获得当前企业下的所有子企业集合有分页处理
-	 * @param name
-	 * @param type
+	 * @param page
+	 * @param pageSize
 	 * @param model
 	 * @return
 	 */

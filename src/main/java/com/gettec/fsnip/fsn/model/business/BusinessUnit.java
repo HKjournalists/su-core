@@ -1,39 +1,21 @@
 package com.gettec.fsnip.fsn.model.business;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.gettec.fsnip.fsn.model.base.District;
 import com.gettec.fsnip.fsn.model.base.Office;
 import com.gettec.fsnip.fsn.model.base.SysArea;
 import com.gettec.fsnip.fsn.model.common.Model;
-import com.gettec.fsnip.fsn.model.erp.base.BusinessUnitToType;
-import com.gettec.fsnip.fsn.model.erp.base.BusinessUnitToTypePK;
-import com.gettec.fsnip.fsn.model.erp.base.ContactInfo;
-import com.gettec.fsnip.fsn.model.erp.base.CustomerAndProviderType;
-import com.gettec.fsnip.fsn.model.erp.base.CustomerToContactinfo;
-import com.gettec.fsnip.fsn.model.erp.base.CustomerToContactinfoPK;
+import com.gettec.fsnip.fsn.model.erp.base.*;
 import com.gettec.fsnip.fsn.model.market.Resource;
 import com.gettec.fsnip.fsn.model.product.BusinessCertification;
+import com.gettec.fsnip.fsn.vo.catering.CateringVO;
 import com.gettec.fsnip.fsn.web.controller.JsonDateDeserializer;
 import com.gettec.fsnip.fsn.web.controller.JsonDateSerializer;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * BusinessUnits Entity<br>
@@ -176,7 +158,13 @@ public class BusinessUnit extends Model{
 	 */
 	@Column(name = "guid")
 	private String guid;
-	
+
+	/**
+	 * 餐饮企业部分信息保存
+	 */
+	@Transient
+	private CateringVO catering;
+
 	@Transient
 	private Set<BusinessUnit> customerlist = new HashSet<BusinessUnit>();  // 客户列表
 	
@@ -830,6 +818,14 @@ public class BusinessUnit extends Model{
 
 	public void setLiquorCode(String liquorCode) {
 		this.liquorCode = liquorCode;
+	}
+
+	public CateringVO getCatering() {
+		return catering;
+	}
+
+	public void setCatering(CateringVO catering) {
+		this.catering = catering;
 	}
 
 	@Override

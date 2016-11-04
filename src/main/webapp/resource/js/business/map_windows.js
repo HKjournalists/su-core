@@ -21,6 +21,7 @@ $(function(){
             +'<div id="allmap" style="width: 700px;height:400px;overflow: hidden;font-family:"微软雅黑";"></div>'
             +'</div>'
             +'</div>';
+       
         map_windows.openwidows=function(name){
             $("#map_windows").append(htm);
             function getQueryString(name) {
@@ -181,17 +182,15 @@ $(function(){
                       			}
                       		});*/
                       		$("#mapWindow").remove();
-                              if( data.mapProductAddrList.length>0){
-                                  //经度
-                                  $("#longitude").val(data.mapProductAddrList[0].lng);
-                                  //纬度
-                                  $("#latitude").val(data.mapProductAddrList[0].lat);
-                                   //经度--纬度
-                                  $("#longOrlat").val(data.mapProductAddrList[0].lng+"--"+data.mapProductAddrList[0].lat);
-                                  //进度纬度位置地名
-                                  $("#placeName").val(data.mapProductAddrList[0].describe);
-                              }
-                          return data;
+                          if( data.mapProductAddrList.length>0){
+                              //
+                              $("#longitude").val(data.mapProductAddrList[0].lng);
+                              $("#latitude").val(data.mapProductAddrList[0].lat);
+
+                              $("#longOrlat").val(data.mapProductAddrList[0].lng+"--"+data.mapProductAddrList[0].lat);
+                              $("#placeName").val(data.mapProductAddrList[0].describe);
+                          }
+                      		return data;
 
                       	};
                       	function  alertV(){
@@ -206,8 +205,7 @@ $(function(){
                     		var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
                     		var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角，仅包含平移和缩放按钮
                     		/*缩放控件type有四种类型:
-
-                    			BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+                    		BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
                     		// 百度地图API功能
                     		var map = new BMap.Map("allmap");
                     		var point = new BMap.Point(116.331398,39.897445);
@@ -339,8 +337,8 @@ $(function(){
                            setTimeout(alertV,500);
                 }
 
-		
-		
+
+
 		//初始化页面
 		product.initialize = function(){
 			$("#CONFIRM_COMMON_WIN").kendoWindow({
@@ -354,5 +352,5 @@ $(function(){
 			});
 		};
 		product.initialize();
-		
+
 });
