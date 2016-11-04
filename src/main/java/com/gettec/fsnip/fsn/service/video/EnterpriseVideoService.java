@@ -14,4 +14,5 @@ public interface EnterpriseVideoService extends BaseService<Enterprise_video, En
 	public List<BusinessVideoVo> getbusinessByvideo(int page, int page_size, String name, String province,String address,String type) throws ServiceException;
 	public String countbusinessByvideo(int page, int page_size, String name,String province,String address,String type) throws ServiceException;
 	public List<Enterprise_video> getVideoByOrgid(int page, int page_size, Long orgid) throws ServiceException;
+	public String countvideoBybuess(Long orgid) throws ServiceException;
 }
