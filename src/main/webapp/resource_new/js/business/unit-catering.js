@@ -298,7 +298,7 @@ $(document).ready(function(){
             }
             k ++;
         }
-        var catering = {};
+        var catering = null;
         var catering_id = $("#catering_id").val().trim()
         var longitude = $("#longitude").val().trim()
         var  latitude = $("#latitude").val().trim()
