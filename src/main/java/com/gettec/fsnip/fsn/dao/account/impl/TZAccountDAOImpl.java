@@ -1406,6 +1406,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			sb.append(" SELECT MAX(result.id) FROM product_instance pinst");
 //			sb.append(" s");
 			sb.append(" INNER JOIN test_result result ON result.sample_id = pinst.id");
+			sb.append(" INNER JOIN test_result_handler h ON h.test_result_id = result.id");
 			sb.append(" WHERE pinst.product_id = ?1");
 			sb.append(" AND DATE_FORMAT(pinst.production_date,'%Y-%m-%d') = ?2");
 
@@ -1421,7 +1422,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 				sb.append(" AND result.publish_flag = 1 AND result.del = 0");
 			}else{
 //				sb.append(" AND result.publish_flag NOT IN(4,5,7,3) AND result.del = 0");
-				sb.append(" AND result.publish_flag IN(1,6) AND result.del = 0");
+				sb.append(" AND (result.publish_flag IN(1,6) OR (result.publish_flag=2 AND h.status in(2,4))) AND result.del = 0");
 			}
 
 //			sb.append(" AND result.publish_flag=6 AND result.del = 0");
@@ -1457,6 +1458,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 			sb.append(" SELECT MAX(result.id) FROM product_instance pinst");
 			sb.append(" INNER JOIN product pro ON pro.id = pinst.product_id");
 			sb.append(" INNER JOIN test_result result ON result.sample_id = pinst.id");
+			sb.append(" INNER JOIN test_result_handler h ON h.test_result_id = result.id");
 			sb.append(" WHERE pinst.product_id = ?1");
 			sb.append(" AND pinst.production_date >= DATE_ADD(?2,INTERVAL-6 MONTH)");
 			sb.append(" AND pinst.production_date <= ?3");
@@ -1470,7 +1472,7 @@ public class TZAccountDAOImpl extends BaseDAOImpl<TZAccount> implements TZAccoun
 				sb.append(" AND result.publish_flag = 1 AND result.del = 0");
 			}else{
 //				sb.append(" AND result.publish_flag NOT IN(4,5,7,3) AND result.del = 0");
-				sb.append(" AND result.publish_flag IN(1,6) AND result.del = 0");
+				sb.append(" AND  (result.publish_flag IN(1,6) OR (result.publish_flag=2 AND h.status in(2,4))) AND result.del = 0");
 			}
 //			sb.append(" AND result.publish_flag=6 AND result.del = 0");
 			Query query = entityManager.createNativeQuery(sb.toString());
